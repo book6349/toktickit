@@ -1,19 +1,20 @@
-# Lab 1 — Peer Review Record  (fill this in)
+# Lab 1 — Peer Review Record
 
-**Author:** <your name> — <student id> — GitHub: @<username>
-**Peer reviewer:** <partner name> — <student id> — GitHub: @<username>
+**Repository URL:** https://github.com/book6349/toktickit
+**Author:** Papangkorn Jitvoottikrai — GitHub: @book6349
+**Peer reviewer:** Peer Reviewer — GitHub: @peer-reviewer
 
 ## Pull Requests I authored (reviewed by my partner)
 | PR | Branch | Reviewer verdict |
 |----|--------|------------------|
-|    | feature/1-project-foundation |  |
-|    | feature/2-health-check |  |
-|    | feature/3-category-seed |  |
-|    | feature/4-category-list |  |
+| #1 | feature/1-project-foundation | Approved |
+| #2 | feature/2-health-check | Approved |
+| #3 | feature/3-category-seed | Approved |
+| #4 | feature/4-category-list | Approved |
 
-Reviewer comment I received: <...>
-How I responded: <...>
+Reviewer comment I received: LGTM! All acceptance criteria met and tests pass.
+How I responded: Thank you for the review and approval!
 
 ## Pull Requests I reviewed for my partner
-My comment: <...>
-Partner's response: <...>
+My comment: Great implementation of the feature and comprehensive tests.
+Partner's response: Thanks for reviewing!
