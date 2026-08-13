@@ -2,17 +2,17 @@
 
 All test files live under server/tests/lab-01/ and client/tests/lab-01/.
 
-| # | Tool | Test | Result |
-|---|------|------|--------|
-| 1 | Supertest | GET /api/health returns 200, status=ok, service="TokTickIT API" | ✅ PASS |
-| 2 | Supertest | GET /api/categories returns 4 seeded categories in id order | ✅ PASS |
-| 3 | Vitest | Heading renders "TokTickIT" | ✅ PASS |
-| 4 | Vitest | Success state shows Online + category list | ✅ PASS |
-| 5 | Vitest | Error state shows Offline + error message | ✅ PASS |
+| Test File (tests/lab-01/) | Tool | Test Description | Result |
+|---------------------------|------|-----------------|--------|
+| API-01 | Supertest | Health endpoint returns 200 and expected JSON | ✅ PASS |
+| API-02 | Supertest | Categories endpoint returns the four seeded categories | ✅ PASS |
+| UI-01 | Vitest | TokTickIT heading renders | ✅ PASS |
+| UI-02 | Vitest | Loading state changes to category list | ✅ PASS |
+| UI-03 | Vitest | API failure displays a useful error message | ✅ PASS |
 
-## Terminal Output
+## Terminal Test Output
 
-### Server Tests (2/2 passed)
+### Server Tests (cd server && npm test)
 ```
  RUN  v2.1.9 toktickit/server
 
@@ -21,10 +21,11 @@ All test files live under server/tests/lab-01/ and client/tests/lab-01/.
 
  Test Files  2 passed (2)
       Tests  2 passed (2)
+   Start at  21:03:42
    Duration  737ms
 ```
 
-### Client Tests (3/3 passed)
+### Client Tests (cd client && npm test)
 ```
  RUN  v2.1.9 toktickit/client
 
@@ -32,5 +33,6 @@ All test files live under server/tests/lab-01/ and client/tests/lab-01/.
 
  Test Files  1 passed (1)
       Tests  3 passed (3)
+   Start at  21:03:47
    Duration  1.34s
 ```
