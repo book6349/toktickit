@@ -14,7 +14,7 @@ describe("Lab 2 ticket validation", () => {
     expect(result.categoryId).toBe(1);
     expect(result.relatedSystemId).toBe(2);
     expect(result.requestedPriority).toBe("MEDIUM");
-    expect(result.summary).toBe("Too short");
+    expect(result.summary).toBe("Tiny");
     expect(result.errors.summary).toContain("5 and 150");
     expect(result.errors.description).toContain("10 and 5000");
   });
