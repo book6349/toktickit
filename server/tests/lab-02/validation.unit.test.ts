@@ -7,7 +7,7 @@ describe("Lab 2 ticket validation", () => {
       categoryId: " 1 ",
       relatedSystemId: "2",
       requestedPriority: "medium",
-      summary: "  Too short ",
+      summary: "  Tiny ",
       description: " short ",
     });
 
