@@ -1,9 +1,6 @@
 import express, { Request, Response } from "express";
 import cors from "cors";
-import { getPrisma } from "./prisma.js";
-// getPrisma() is your lazy database handle. Call it INSIDE a route when you
-// need the DB (Issue 4). It is intentionally unused until then.
-void getPrisma;
+import { registerLab2Routes } from "./lab2.js";
 
 // The Express app is exported separately from app.listen() (see index.ts) so
 // Supertest can import `app` without opening a port. Do not merge these files.
@@ -21,24 +18,6 @@ app.get("/api/health", (_req: Request, res: Response) => {
   res.status(200).json({ status: "ok", service: "TokTickIT API" });
 });
 
-// ---------------------------------------------------------------------------
-// Issue 4 — Category list
-// ---------------------------------------------------------------------------
-app.get("/api/categories", async (_req: Request, res: Response) => {
-  try {
-    const categories = await getPrisma().category.findMany({
-      orderBy: { id: "asc" },
-      select: { id: true, name: true },
-    });
-    res.status(200).json(categories);
-  } catch {
-    res.status(200).json([
-      { id: 1, name: "Account and Access" },
-      { id: 2, name: "Hardware" },
-      { id: 3, name: "Software" },
-      { id: 4, name: "Network" },
-    ]);
-  }
-});
+registerLab2Routes(app);
 
 export default app;
