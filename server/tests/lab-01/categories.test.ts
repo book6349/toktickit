@@ -26,8 +26,8 @@ describe("GET /api/categories", () => {
 
     const res = await request(app).get("/api/categories");
     expect(res.status).toBe(200);
-    expect(res.body).toEqual(fakeCategories);
-    expect(res.body[0].name).toBe("Account and Access");
-    expect(res.body[3].name).toBe("Network");
+    expect(res.body).toEqual({ categories: fakeCategories });
+    expect(res.body.categories[0].name).toBe("Account and Access");
+    expect(res.body.categories[3].name).toBe("Network");
   });
 });
