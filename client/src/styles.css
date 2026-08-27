@@ -71,7 +71,8 @@ textarea { resize: vertical; line-height: 1.5; }
 .file-list, .attachment-list { list-style: none; padding: 0; margin: .75rem 0 0; display: grid; gap: .5rem; }
 .file-list li, .attachment-list li { display: flex; justify-content: space-between; gap: 1rem; padding: .65rem .75rem; border-radius: 8px; background: var(--canvas); }
 .file-list span, .attachment-list li span { color: var(--muted); font-size: .85rem; }
-.filter-bar { display: grid; grid-template-columns: 2fr 1fr 1fr auto; gap: .6rem; margin-bottom: 1.25rem; }
+.filter-bar { display: grid; grid-template-columns: minmax(15rem, 2fr) repeat(3, minmax(8rem, 1fr)); gap: .6rem; margin-bottom: 1.25rem; }
+.filter-actions { display: flex; justify-content: flex-end; align-items: center; gap: .75rem; grid-column: 1 / -1; }
 .ticket-list { display: grid; gap: .6rem; }
 .ticket-row { display: flex; justify-content: space-between; gap: 1rem; width: 100%; text-align: left; border: 1px solid var(--line); border-radius: 12px; background: #fff; padding: 1rem; color: var(--ink); }
 .ticket-row:hover { border-color: var(--zen-green-600); background: #fbfefd; }
@@ -105,6 +106,8 @@ textarea { resize: vertical; line-height: 1.5; }
   .requester-chip { align-items: start; text-align: left; flex-direction: column; gap: .25rem; }
   .form-grid, .filter-bar, .detail-grid { grid-template-columns: 1fr; }
   .filter-bar .secondary-button { width: 100%; }
+  .filter-actions { grid-column: auto; justify-content: stretch; }
+  .filter-actions > button { flex: 1; }
   .ticket-row { flex-direction: column; }
   .ticket-meta { align-items: start; flex-direction: row; flex-wrap: wrap; }
   .system-check, .section-heading { align-items: start; flex-direction: column; }

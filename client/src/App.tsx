@@ -19,6 +19,16 @@ import {
 type View = "list" | "create" | "detail";
 type AsyncStatus = "idle" | "loading" | "ready" | "error";
 type Priority = "LOW" | "MEDIUM" | "HIGH";
+type TicketSortField = "updatedAt" | "createdAt" | "ticketNumber" | "requestedPriority";
+type TicketFilters = {
+  search: string;
+  categoryId: string;
+  requestedPriority: string;
+  status: string;
+  sortBy: TicketSortField;
+  sortDirection: "asc" | "desc";
+  pageSize: number;
+};
 
 const REQUESTER_STORAGE_KEY = "toktickit.requesterId";
 const emptyForm = {
@@ -27,6 +37,16 @@ const emptyForm = {
   requestedPriority: "MEDIUM" as Priority,
   summary: "",
   description: "",
+};
+
+const defaultTicketFilters: TicketFilters = {
+  search: "",
+  categoryId: "",
+  requestedPriority: "",
+  status: "",
+  sortBy: "updatedAt",
+  sortDirection: "desc",
+  pageSize: 10,
 };
 
 function formatDate(value: string) {
@@ -434,12 +454,12 @@ function Field(props: { label: string; id: string; hint?: string; error?: string
 }
 
 function TicketListView(props: { requesterId: number; categories: Category[]; onOpenTicket: (id: number) => void }) {
-  const [filters, setFilters] = useState({ search: "", categoryId: "", requestedPriority: "", status: "NEW", sortBy: "updatedAt", sortDirection: "desc" as "asc" | "desc", pageSize: 10 });
+  const [filters, setFilters] = useState<TicketFilters>({ ...defaultTicketFilters });
   const [tickets, setTickets] = useState<Ticket[]>([]);
   const [pagination, setPagination] = useState({ page: 1, pageSize: 10, totalItems: 0, totalPages: 0, hasPrevious: false, hasNext: false });
   const [status, setStatus] = useState<AsyncStatus>("loading");
   const [error, setError] = useState("");
-  const [applied, setApplied] = useState(filters);
+  const [applied, setApplied] = useState<TicketFilters>({ ...defaultTicketFilters });
 
   async function load(page = 1) {
     setStatus("loading");
@@ -464,6 +484,14 @@ function TicketListView(props: { requesterId: number; categories: Category[]; on
     setApplied(filters);
   }
 
+  function clearFilters() {
+    const cleared = { ...defaultTicketFilters };
+    setFilters(cleared);
+    setApplied(cleared);
+  }
+
+  const hasActiveFilters = Boolean(applied.search || applied.categoryId || applied.requestedPriority || applied.status);
+
   return (
     <section className="content-card" aria-labelledby="tickets-heading">
       <div className="section-heading"><div><p className="eyebrow">REQUEST HISTORY</p><h2 id="tickets-heading">My tickets</h2></div><span className="muted">{pagination.totalItems} total</span></div>
@@ -474,11 +502,22 @@ function TicketListView(props: { requesterId: number; categories: Category[]; on
         <select id="ticket-category" value={filters.categoryId} onChange={(event) => setFilters({ ...filters, categoryId: event.target.value })}><option value="">All categories</option>{props.categories.map((category) => <option value={category.id} key={category.id}>{category.name}</option>)}</select>
         <label className="visually-hidden" htmlFor="ticket-priority">Priority</label>
         <select id="ticket-priority" value={filters.requestedPriority} onChange={(event) => setFilters({ ...filters, requestedPriority: event.target.value })}><option value="">All priorities</option><option value="LOW">Low</option><option value="MEDIUM">Medium</option><option value="HIGH">High</option></select>
-        <button className="secondary-button" type="submit">Apply</button>
+        <label className="visually-hidden" htmlFor="ticket-status">Status</label>
+        <select id="ticket-status" value={filters.status} onChange={(event) => setFilters({ ...filters, status: event.target.value })}><option value="">All statuses</option><option value="NEW">New</option></select>
+        <label className="visually-hidden" htmlFor="ticket-sort">Sort by</label>
+        <select id="ticket-sort" value={filters.sortBy} onChange={(event) => setFilters({ ...filters, sortBy: event.target.value as TicketSortField })}><option value="updatedAt">Recently updated</option><option value="createdAt">Date created</option><option value="ticketNumber">Ticket number</option><option value="requestedPriority">Priority</option></select>
+        <label className="visually-hidden" htmlFor="ticket-sort-direction">Sort direction</label>
+        <select id="ticket-sort-direction" value={filters.sortDirection} onChange={(event) => setFilters({ ...filters, sortDirection: event.target.value as "asc" | "desc" })}><option value="desc">Descending</option><option value="asc">Ascending</option></select>
+        <label className="visually-hidden" htmlFor="ticket-page-size">Tickets per page</label>
+        <select id="ticket-page-size" value={filters.pageSize} onChange={(event) => setFilters({ ...filters, pageSize: Number(event.target.value) })}><option value={10}>10 per page</option><option value={20}>20 per page</option><option value={50}>50 per page</option></select>
+        <div className="filter-actions">
+          <button className="secondary-button" type="submit">Apply filters</button>
+          <button className="link-button" type="button" onClick={clearFilters}>Clear filters</button>
+        </div>
       </form>
       {status === "loading" && <div className="loading-panel" role="status">Loading tickets…</div>}
       {status === "error" && <div className="notice error" role="alert">{error}<button className="link-button" type="button" onClick={() => void load(pagination.page)}>Retry</button></div>}
-      {status === "ready" && tickets.length === 0 && <div className="empty-panel"><strong>{applied.search || applied.categoryId || applied.requestedPriority ? "No matching tickets" : "No tickets yet"}</strong><p>{applied.search || applied.categoryId || applied.requestedPriority ? "Try a different filter." : "Create your first ticket to see it here."}</p></div>}
+      {status === "ready" && tickets.length === 0 && <div className="empty-panel"><strong>{hasActiveFilters ? "No matching tickets" : "No tickets yet"}</strong><p>{hasActiveFilters ? "Try a different filter." : "Create your first ticket to see it here."}</p></div>}
       {status === "ready" && tickets.length > 0 && <div className="ticket-list">{tickets.map((ticket) => <button type="button" className="ticket-row" key={ticket.id} onClick={() => props.onOpenTicket(ticket.id)}><span className="ticket-main"><strong>{ticket.ticketNumber}</strong><span>{ticket.summary}</span><small>{ticket.category?.name || "Category"} · Updated {formatDate(ticket.updatedAt)}</small></span><span className="ticket-meta"><span className={"priority " + ticket.requestedPriority.toLowerCase()}>{ticket.requestedPriority}</span><span className="status-pill">{ticket.status}</span></span></button>)}</div>}
       {status === "ready" && pagination.totalPages > 1 && <div className="pagination-controls"><button className="secondary-button" type="button" disabled={!pagination.hasPrevious} onClick={() => void load(pagination.page - 1)}>Previous</button><span>Page {pagination.page} of {pagination.totalPages}</span><button className="secondary-button" type="button" disabled={!pagination.hasNext} onClick={() => void load(pagination.page + 1)}>Next</button></div>}
     </section>
