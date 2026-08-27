@@ -13,15 +13,26 @@ is stored. A planned check is not a passing check.
    currently include a Playwright dependency, so installing/configuring it is
    an explicit setup step before the automated flow is run.
 
+## Execution note (2026-08-27)
+
+The released source tree was exercised with a temporary Playwright runner and
+a loopback fixture API. The fixture run passed the visible create/list/detail/
+attachment/requester-switch flow, recorded a five-control keyboard traversal,
+and captured all nine viewport screenshots with no horizontal overflow. This
+does not replace the real Express/Prisma E2E run: PostgreSQL was unavailable on
+the machine, so the database-backed result remains pending. See
+[`ui-smoke-evidence.md`](ui-smoke-evidence.md) for the exact SHA, command,
+measurements, screenshots, and limitation.
+
 ## E2E scenarios
 
 | ID | Flow | Evidence required | Status |
 |---|---|---|---|
-| E2E-01 | Select an active requester, create a valid ticket, and open My Tickets | Generated ticket number and list result | Pending |
-| E2E-02 | Switch to another requester and verify the first requester’s ticket is absent | Before/after requester views | Pending |
-| E2E-03 | Add an allowed attachment, download it, soft-remove it, and verify download is unavailable | Attachment metadata and removal state | Pending |
-| E2E-04 | Run the core flow at desktop, tablet, and mobile widths | Three viewport screenshots per screen | Pending |
-| E2E-05 | Complete selection, creation, filtering, pagination, detail, and attachment actions by keyboard | Focus and feedback observations | Pending |
+| E2E-01 | Select an active requester, create a valid ticket, and open My Tickets | Generated ticket number and list result | Fixture UI passed; DB-backed Pending |
+| E2E-02 | Switch to another requester and verify the first requester’s ticket is absent | Before/after requester views | Fixture UI passed; DB-backed Pending |
+| E2E-03 | Add an allowed attachment, download it, soft-remove it, and verify download is unavailable | Attachment metadata and removal state | Fixture UI passed; DB-backed Pending |
+| E2E-04 | Run the core flow at desktop, tablet, and mobile widths | Three viewport screenshots per screen | 9 fixture screenshots captured; real flow Pending |
+| E2E-05 | Complete selection, creation, filtering, pagination, detail, and attachment actions by keyboard | Focus and feedback observations | Fixture traversal recorded; full audit Pending |
 
 ## Responsive screenshot matrix
 
@@ -71,8 +82,8 @@ marked `Pending` or `Failed` and explain why.
 
 | Evidence | Location | Result |
 |---|---|---|
-| Unit/API/UI tests | Terminal output from documented commands | Pending |
-| E2E requester flow | `e2e/lab-02/requester-ticket-flow.spec.ts` output | Pending |
-| Responsive screenshots | `artifacts/lab-02/screenshots/` | Pending |
-| Accessibility/keyboard audit | Dated checklist notes | Pending |
-| Build verification | Server and client build output | Pending |
+| Unit/API/UI tests | Terminal output from documented commands | Passed on 2026-08-27; see release evidence |
+| E2E requester flow | `e2e/lab-02/requester-ticket-flow.spec.ts` output | Fixture smoke passed; database-backed run Pending |
+| Responsive screenshots | `artifacts/lab-02/screenshots/` | 9 fixture screenshots captured; no horizontal overflow |
+| Accessibility/keyboard audit | Dated checklist notes | Five-control traversal recorded; complete audit Pending |
+| Build verification | Server and client build output | Passed on 2026-08-27; see release evidence |
