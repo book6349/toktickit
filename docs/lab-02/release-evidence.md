@@ -3,8 +3,9 @@
 This is the release evidence register for Lab 2. It separates completed
 workflow events from checks that still need final-branch evidence. Do not mark
 a row complete without the exact command output, screenshot, or GitHub event.
-The release is now merged to `main`; the remaining pending item is the
-database-backed E2E run described below.
+The release is now merged to `main`; the Docker-backed E2E run is complete.
+The remaining follow-up is the full keyboard audit, and the migration-history
+baseline workaround is recorded in the UI evidence.
 
 ## Delivery map
 
@@ -37,8 +38,8 @@ excerpt for every command. The rows below use the released source tree (the
 | Server build | `cd server; npm run build` | `8e897963c715c76eebbd0cb75568393e5ec55cc7` | Passed | Terminal output from 2026-08-27 |
 | Client build | `cd client; npm run build` | `8e897963c715c76eebbd0cb75568393e5ec55cc7` | Passed | Terminal output from 2026-08-27 |
 | Prisma schema | `cd server; npx prisma validate` | `8e897963c715c76eebbd0cb75568393e5ec55cc7` | Passed | Terminal output from 2026-08-27 |
-| E2E | `npx playwright test e2e/lab-02/requester-ticket-flow.spec.ts` | `8e897963c715c76eebbd0cb75568393e5ec55cc7` | Database-backed Pending; fixture UI smoke passed | [`ui-smoke-evidence.md`](ui-smoke-evidence.md) |
-| Responsive | Playwright screenshots at required viewports | `8e897963c715c76eebbd0cb75568393e5ec55cc7` | 9 fixture screenshots captured; no horizontal overflow | `artifacts/lab-02/screenshots/` |
+| E2E | `cd LAB2; node .lab2-real-e2e.mjs` (temporary harness) | `docs/lab2-ui-smoke-evidence` at `6f2a682` (application tree matches `main` `8e897963c715c76eebbd0cb75568393e5ec55cc7`) | Passed against Docker PostgreSQL 18: create/list/detail, requester isolation, attachment upload/download/soft-remove | [`ui-smoke-evidence.md`](ui-smoke-evidence.md) and [`run-notes.json`](../../artifacts/lab-02/screenshots-real/run-notes.json) |
+| Responsive | Playwright screenshots at required viewports | `6f2a682` | 9 real screenshots captured; no horizontal overflow (fixture captures retained separately) | `artifacts/lab-02/screenshots-real/` |
 
 ## Acceptance-criterion evidence
 
@@ -62,9 +63,9 @@ artifacts/lab-02/screenshots/ticket-detail/
 For each screenshot, record viewport, date, branch/SHA, scenario, and the
 state shown. Include desktop (1280×900), tablet (900×900), and mobile
 (390×844) captures. The nine fixture-backed captures and their measurements
-are indexed in [`ui-smoke-evidence.md`](ui-smoke-evidence.md). Keep the
-database-backed E2E row pending until PostgreSQL and the real Express/Prisma
-API are available.
+are indexed in [`ui-smoke-evidence.md`](ui-smoke-evidence.md). The nine
+Docker-backed captures and their measurements are indexed in
+`artifacts/lab-02/screenshots-real/run-notes.json`.
 
 ## Peer-review and merge evidence
 
@@ -95,7 +96,6 @@ event without a URL.
 
 PR #34 is merged to `main` at `8e897963c715c76eebbd0cb75568393e5ec55cc7`, and
 all feature PRs and Issues #16–#24 are closed. Unit/API/UI tests, Prisma
-validation, and both builds passed on the released tree. The remaining release
-follow-up is the real database-backed E2E run and a complete keyboard audit;
-the fixture-backed UI and responsive evidence is recorded separately and must
-not be presented as persistence or full AC-01–AC-22 integration proof.
+validation, both builds, and the Docker-backed requester/attachment E2E flow
+passed. A complete keyboard audit is still a follow-up; neither the fixture nor
+the smoke run should be presented as full AC-01–AC-22 integration proof.

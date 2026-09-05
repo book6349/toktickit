@@ -19,19 +19,35 @@ The released source tree was exercised with a temporary Playwright runner and
 a loopback fixture API. The fixture run passed the visible create/list/detail/
 attachment/requester-switch flow, recorded a five-control keyboard traversal,
 and captured all nine viewport screenshots with no horizontal overflow. This
-does not replace the real Express/Prisma E2E run: PostgreSQL was unavailable on
-the machine, so the database-backed result remains pending. See
+was a fixture-only run because PostgreSQL was unavailable on the machine at
+that time. The later Docker-backed run is recorded below. See
 [`ui-smoke-evidence.md`](ui-smoke-evidence.md) for the exact SHA, command,
 measurements, screenshots, and limitation.
+
+## Real execution note (2026-09-05)
+
+Docker Desktop PostgreSQL 18 was started and seeded, then the released
+Express/Prisma API and Vite client were exercised with a temporary
+workspace-only Playwright harness. The real flow created ticket
+`TT-20260905-391070`, uploaded/downloaded/soft-removed attachments, verified
+requester isolation, and captured all nine required viewports without
+horizontal overflow. See [`ui-smoke-evidence.md`](ui-smoke-evidence.md) and
+`artifacts/lab-02/screenshots-real/run-notes.json` for the run identity and
+outputs.
+
+Because the repository has no committed Playwright spec, the prescribed
+`npx playwright test e2e/lab-02/requester-ticket-flow.spec.ts` command was not
+claimed; the temporary harness was removed after the run. The full keyboard
+audit remains pending.
 
 ## E2E scenarios
 
 | ID | Flow | Evidence required | Status |
 |---|---|---|---|
-| E2E-01 | Select an active requester, create a valid ticket, and open My Tickets | Generated ticket number and list result | Fixture UI passed; DB-backed Pending |
-| E2E-02 | Switch to another requester and verify the first requester’s ticket is absent | Before/after requester views | Fixture UI passed; DB-backed Pending |
-| E2E-03 | Add an allowed attachment, download it, soft-remove it, and verify download is unavailable | Attachment metadata and removal state | Fixture UI passed; DB-backed Pending |
-| E2E-04 | Run the core flow at desktop, tablet, and mobile widths | Three viewport screenshots per screen | 9 fixture screenshots captured; real flow Pending |
+| E2E-01 | Select an active requester, create a valid ticket, and open My Tickets | Generated ticket number and list result | Passed against Docker-backed API |
+| E2E-02 | Switch to another requester and verify the first requester’s ticket is absent | Before/after requester views | Passed against Docker-backed API |
+| E2E-03 | Add an allowed attachment, download it, soft-remove it, and verify download is unavailable | Attachment metadata and removal state | Passed against Docker-backed API |
+| E2E-04 | Run the core flow at desktop, tablet, and mobile widths | Three viewport screenshots per screen | 9 real screenshots captured; no horizontal overflow |
 | E2E-05 | Complete selection, creation, filtering, pagination, detail, and attachment actions by keyboard | Focus and feedback observations | Fixture traversal recorded; full audit Pending |
 
 ## Responsive screenshot matrix
@@ -83,7 +99,7 @@ marked `Pending` or `Failed` and explain why.
 | Evidence | Location | Result |
 |---|---|---|
 | Unit/API/UI tests | Terminal output from documented commands | Passed on 2026-08-27; see release evidence |
-| E2E requester flow | `e2e/lab-02/requester-ticket-flow.spec.ts` output | Fixture smoke passed; database-backed run Pending |
-| Responsive screenshots | `artifacts/lab-02/screenshots/` | 9 fixture screenshots captured; no horizontal overflow |
+| E2E requester flow | `artifacts/lab-02/screenshots-real/run-notes.json` | Docker-backed flow passed; temporary harness removed after run |
+| Responsive screenshots | `artifacts/lab-02/screenshots-real/` | 9 real screenshots captured; no horizontal overflow |
 | Accessibility/keyboard audit | Dated checklist notes | Five-control traversal recorded; complete audit Pending |
 | Build verification | Server and client build output | Passed on 2026-08-27; see release evidence |

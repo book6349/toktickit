@@ -1,9 +1,8 @@
 # Lab 2 UI smoke and responsive evidence
 
-This record captures the browser-visible checks that could be run after the
-release merge. It is intentionally separate from the database-backed E2E
-result: this run used a deterministic loopback fixture API because the machine
-had no PostgreSQL listener on port 5432.
+This record captures browser-visible checks after the release merge. It keeps
+the original deterministic fixture smoke run and the later Docker-backed run
+separate so that the evidence shows exactly which checks exercised persistence.
 
 ## Run identity
 
@@ -34,11 +33,53 @@ The run passed these browser assertions:
 The browser download event completed successfully; Chromium reported the blob
 download's suggested name as `attachment.png`.
 
+## Docker-backed E2E and responsive result (2026-09-05)
+
+The real Express/Prisma application was run against a local PostgreSQL 18
+container from Docker Desktop. The tested checkout was
+`docs/lab2-ui-smoke-evidence` at `6f2a682`; its application tree matches the
+released `main` tree at `8e897963c715c76eebbd0cb75568393e5ec55cc7`.
+
+Database setup for the disposable container was:
+
+```text
+npx prisma db push --accept-data-loss
+npx prisma migrate resolve --applied 20260824000000_lab2_foundation
+npm run prisma:seed
+```
+
+The direct `prisma migrate deploy` path currently cannot initialize a fresh
+database because the committed migration assumes a pre-existing Lab 1
+`Category` table. The commands above are a test-environment baseline only; no
+application source was changed.
+
+The temporary workspace-only command `cd LAB2; node .lab2-real-e2e.mjs`
+passed the real API flow:
+
+1. API health and active requester selection succeeded.
+2. A ticket (`TT-20260905-391070`) was created and opened from My Tickets.
+3. `initial.png` and `follow-up.png` were uploaded; download completed
+   (Chromium reported the blob fallback name `attachment.png`).
+4. `initial.png` was soft-removed with a valid reason and no longer exposed a
+   download action.
+5. Switching to requester 2 hid requester 1's ticket.
+6. Create Ticket, My Tickets, and Ticket Detail were captured at all nine
+   required viewports with no horizontal overflow.
+
+The exact check list and screenshot paths are in
+[`screenshots-real/run-notes.json`](../../artifacts/lab-02/screenshots-real/run-notes.json);
+the nine real captures are under
+`artifacts/lab-02/screenshots-real/`. The earlier fixture captures remain under
+`artifacts/lab-02/screenshots/` for comparison.
+
 ## Responsive screenshot matrix
 
-All nine screenshots were captured at the exact requested viewport sizes. The
-image dimensions and overflow measurements are also recorded in
-[`run-notes.json`](../../artifacts/lab-02/screenshots/run-notes.json).
+The fixture run's nine screenshots were captured at the exact requested
+viewport sizes. The image dimensions and overflow measurements are recorded in
+[`run-notes.json`](../../artifacts/lab-02/screenshots/run-notes.json). The
+Docker-backed run captured the same matrix under
+`../../artifacts/lab-02/screenshots-real/`; its measurements are in
+[`screenshots-real/run-notes.json`](../../artifacts/lab-02/screenshots-real/run-notes.json).
 
 | Screen | Desktop (1280×900) | Tablet (900×900) | Mobile (390×844) |
 |---|---|---|---|
@@ -48,15 +89,14 @@ image dimensions and overflow measurements are also recorded in
 
 ## Limitation and next step
 
-This is UI smoke evidence only. PostgreSQL was unavailable locally, so the
-actual Express/Prisma server was not started and the prescribed
-database-backed command remains pending:
+The real requester/ticket/attachment flow is now verified. The repository does
+not include the prescribed Playwright spec, so the run used a temporary
+workspace-only harness rather than claiming that this command was executed:
 
 ```text
 npx playwright test e2e/lab-02/requester-ticket-flow.spec.ts
 ```
 
-Do not use the fixture result to claim the real API, persistence, or AC-01–AC-22
-integration evidence passed. To close that gap, start PostgreSQL, apply the
-Lab 2 migration and seed, point the client at the real API, and rerun the same
-flow against the real server.
+The five-control keyboard traversal was recorded in the fixture run; a full
+keyboard audit covering every filter and attachment control is still pending.
+Do not infer complete AC-01–AC-22 integration coverage from this smoke run.

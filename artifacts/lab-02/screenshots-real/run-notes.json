@@ -1,0 +1,134 @@
+{
+  "generatedAt": "2026-09-05T08:19:14.345Z",
+  "appUrl": "http://127.0.0.1:5173/",
+  "apiUrl": "http://localhost:3000",
+  "checks": [
+    {
+      "name": "API health",
+      "passed": true,
+      "details": "{\"status\":\"ok\",\"service\":\"TokTickIT API\"}"
+    },
+    {
+      "name": "requester gate opens service desk",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "name": "ticket creation success",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "name": "ticket number returned",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "name": "created ticket detail opens",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "name": "initial attachment shown",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "name": "detail attachment upload",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "name": "attachment download",
+      "passed": true,
+      "details": "attachment.png"
+    },
+    {
+      "name": "attachment soft removal",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "name": "removed attachment has no download action",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "name": "created ticket listed",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "name": "create-ticket desktop-1280x900 no horizontal overflow",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "name": "create-ticket tablet-900x900 no horizontal overflow",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "name": "create-ticket mobile-390x844 no horizontal overflow",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "name": "my-tickets desktop-1280x900 no horizontal overflow",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "name": "my-tickets tablet-900x900 no horizontal overflow",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "name": "my-tickets mobile-390x844 no horizontal overflow",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "name": "ticket-detail desktop-1280x900 no horizontal overflow",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "name": "ticket-detail tablet-900x900 no horizontal overflow",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "name": "ticket-detail mobile-390x844 no horizontal overflow",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "name": "requester switch completes",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "name": "ticket is scoped to original requester",
+      "passed": true,
+      "details": ""
+    }
+  ],
+  "screenshots": [
+    "C:\\Users\\Jitvoottikrai\\OneDrive\\เดสก์ท็อป\\SoftwareEn\\LAB1\\Lab1_Starter_Scaffold\\toktickit\\artifacts\\lab-02\\screenshots-real\\create-ticket\\desktop-1280x900.png",
+    "C:\\Users\\Jitvoottikrai\\OneDrive\\เดสก์ท็อป\\SoftwareEn\\LAB1\\Lab1_Starter_Scaffold\\toktickit\\artifacts\\lab-02\\screenshots-real\\create-ticket\\tablet-900x900.png",
+    "C:\\Users\\Jitvoottikrai\\OneDrive\\เดสก์ท็อป\\SoftwareEn\\LAB1\\Lab1_Starter_Scaffold\\toktickit\\artifacts\\lab-02\\screenshots-real\\create-ticket\\mobile-390x844.png",
+    "C:\\Users\\Jitvoottikrai\\OneDrive\\เดสก์ท็อป\\SoftwareEn\\LAB1\\Lab1_Starter_Scaffold\\toktickit\\artifacts\\lab-02\\screenshots-real\\my-tickets\\desktop-1280x900.png",
+    "C:\\Users\\Jitvoottikrai\\OneDrive\\เดสก์ท็อป\\SoftwareEn\\LAB1\\Lab1_Starter_Scaffold\\toktickit\\artifacts\\lab-02\\screenshots-real\\my-tickets\\tablet-900x900.png",
+    "C:\\Users\\Jitvoottikrai\\OneDrive\\เดสก์ท็อป\\SoftwareEn\\LAB1\\Lab1_Starter_Scaffold\\toktickit\\artifacts\\lab-02\\screenshots-real\\my-tickets\\mobile-390x844.png",
+    "C:\\Users\\Jitvoottikrai\\OneDrive\\เดสก์ท็อป\\SoftwareEn\\LAB1\\Lab1_Starter_Scaffold\\toktickit\\artifacts\\lab-02\\screenshots-real\\ticket-detail\\desktop-1280x900.png",
+    "C:\\Users\\Jitvoottikrai\\OneDrive\\เดสก์ท็อป\\SoftwareEn\\LAB1\\Lab1_Starter_Scaffold\\toktickit\\artifacts\\lab-02\\screenshots-real\\ticket-detail\\tablet-900x900.png",
+    "C:\\Users\\Jitvoottikrai\\OneDrive\\เดสก์ท็อป\\SoftwareEn\\LAB1\\Lab1_Starter_Scaffold\\toktickit\\artifacts\\lab-02\\screenshots-real\\ticket-detail\\mobile-390x844.png"
+  ],
+  "ticketNumber": "TT-20260905-391070",
+  "attachmentNames": [
+    "initial.png",
+    "follow-up.png"
+  ],
+  "downloadedFilename": "attachment.png"
+}
