@@ -2,16 +2,17 @@
 
 This document defines the repeatable checks for Issue 12. Every result stays
 `Pending` until the exact command is run and its terminal output or screenshot
-is stored. A planned check is not a passing check.
+is stored. A planned check is not a passing check. The committed Playwright
+spec is now the repeatable source for the real run.
 
 ## Prerequisites
 
 1. Install dependencies in `server` and `client`.
 2. Start PostgreSQL, apply the Lab 2 migration, and run the idempotent seed.
 3. Start the API from `server` and the Vite client from `client`.
-4. Use a browser test runner with screenshot support. The repository does not
-   currently include a Playwright dependency, so installing/configuring it is
-   an explicit setup step before the automated flow is run.
+4. From the repository root, run `npm install` once; the committed
+   `package.json` and `playwright.config.ts` provide the Playwright runner and
+   start the client/API processes for the repeatable flow.
 
 ## Execution note (2026-08-27)
 
@@ -27,18 +28,20 @@ measurements, screenshots, and limitation.
 ## Real execution note (2026-09-05)
 
 Docker Desktop PostgreSQL 18 was started and seeded, then the released
-Express/Prisma API and Vite client were exercised with a temporary
-workspace-only Playwright harness. The real flow created ticket
-`TT-20260905-391070`, uploaded/downloaded/soft-removed attachments, verified
-requester isolation, and captured all nine required viewports without
-horizontal overflow. See [`ui-smoke-evidence.md`](ui-smoke-evidence.md) and
-`artifacts/lab-02/screenshots-real/run-notes.json` for the run identity and
-outputs.
+Express/Prisma API and Vite client were exercised with the committed
+`e2e/lab-02/requester-ticket-flow.spec.ts` Playwright spec. The run created a
+real ticket, uploaded/downloaded/soft-removed attachments, verified requester
+isolation, traversed the requester gate, create controls, list filters, detail,
+and attachment actions by keyboard, and captured all nine required viewports
+without horizontal overflow. The exact command was
+`npx playwright test e2e/lab-02/requester-ticket-flow.spec.ts`; two tests
+passed. See [`ui-smoke-evidence.md`](ui-smoke-evidence.md) and
+`artifacts/lab-02/screenshots/committed-playwright-run.json` for the run
+identity and outputs. The older `run-notes.json` is explicitly the fixture
+record.
 
-Because the repository has no committed Playwright spec, the prescribed
-`npx playwright test e2e/lab-02/requester-ticket-flow.spec.ts` command was not
-claimed; the temporary harness remains workspace-only and is not part of the
-application or evidence commit. The full keyboard audit remains pending.
+The earlier temporary harness remains workspace-only as historical comparison
+evidence; it is not the source for the committed test result.
 
 ## E2E scenarios
 
@@ -48,7 +51,7 @@ application or evidence commit. The full keyboard audit remains pending.
 | E2E-02 | Switch to another requester and verify the first requester’s ticket is absent | Before/after requester views | Passed against Docker-backed API |
 | E2E-03 | Add an allowed attachment, download it, soft-remove it, and verify download is unavailable | Attachment metadata and removal state | Passed against Docker-backed API |
 | E2E-04 | Run the core flow at desktop, tablet, and mobile widths | Three viewport screenshots per screen | 9 real screenshots captured; no horizontal overflow |
-| E2E-05 | Complete selection, creation, filtering, pagination, detail, and attachment actions by keyboard | Focus and feedback observations | Fixture traversal recorded; full audit Pending |
+| E2E-05 | Complete selection, creation, filtering, pagination, detail, and attachment actions by keyboard | Focus and feedback observations | Passed for all controls available in the single-page run; pagination is conditional and remains a manual check when multiple pages exist |
 
 ## Responsive screenshot matrix
 
@@ -98,8 +101,8 @@ marked `Pending` or `Failed` and explain why.
 
 | Evidence | Location | Result |
 |---|---|---|
-| Unit/API/UI tests | Terminal output from documented commands | Passed on 2026-08-27; see release evidence |
-| E2E requester flow | `artifacts/lab-02/screenshots-real/run-notes.json` | Docker-backed flow passed; temporary harness removed after run |
-| Responsive screenshots | `artifacts/lab-02/screenshots-real/` | 9 real screenshots captured; no horizontal overflow |
-| Accessibility/keyboard audit | Dated checklist notes | Five-control traversal recorded; complete audit Pending |
-| Build verification | Server and client build output | Passed on 2026-08-27; see release evidence |
+| Unit/API/UI tests | Terminal output from documented commands | Passed on 2026-09-05; see `tests.md` and release evidence |
+| E2E requester flow | `e2e/lab-02/requester-ticket-flow.spec.ts` and `artifacts/lab-02/screenshots/committed-playwright-run.json` | Committed Playwright flow passed against Docker-backed API |
+| Responsive screenshots | `artifacts/lab-02/screenshots/` | 9 real screenshots captured; no horizontal overflow |
+| Accessibility/keyboard audit | Committed Playwright keyboard test | Gate, create, filters, detail, and attachment controls passed; pagination is conditional |
+| Build verification | Server and client build output | Passed on 2026-09-05; see `tests.md` and release evidence |

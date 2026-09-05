@@ -3,9 +3,10 @@
 This is the release evidence register for Lab 2. It separates completed
 workflow events from checks that still need final-branch evidence. Do not mark
 a row complete without the exact command output, screenshot, or GitHub event.
-The release is now merged to `main`; the Docker-backed E2E run is complete.
-The remaining follow-up is the full keyboard audit, and the migration-history
-baseline workaround is recorded in the UI evidence.
+The release is now merged to `main`; the Docker-backed E2E run and the
+committed keyboard traversal spec are complete. Pagination remains a
+conditional manual accessibility check when the dataset spans multiple pages,
+and the migration-history baseline workaround is recorded in the UI evidence.
 
 ## Delivery map
 
@@ -33,13 +34,13 @@ excerpt for every command. The rows below use the released source tree (the
 
 | Level | Exact command | Branch/SHA | Result | Evidence location |
 |---|---|---|---|---|
-| Unit/API | `cd server; npm test -- --run` | `8e897963c715c76eebbd0cb75568393e5ec55cc7` | Passed: 10 files, 19 tests | Terminal output from 2026-08-27 |
-| UI/style | `cd client; npm test -- --run` | `8e897963c715c76eebbd0cb75568393e5ec55cc7` | Passed: 5 files, 9 tests (React act warnings) | Terminal output from 2026-08-27 |
-| Server build | `cd server; npm run build` | `8e897963c715c76eebbd0cb75568393e5ec55cc7` | Passed | Terminal output from 2026-08-27 |
-| Client build | `cd client; npm run build` | `8e897963c715c76eebbd0cb75568393e5ec55cc7` | Passed | Terminal output from 2026-08-27 |
-| Prisma schema | `cd server; npx prisma validate` | `8e897963c715c76eebbd0cb75568393e5ec55cc7` | Passed | Terminal output from 2026-08-27 |
-| E2E | `cd LAB2; node .lab2-real-e2e.mjs` (temporary harness) | `docs/lab2-ui-smoke-evidence` at `6f2a682` (application tree matches `main` `8e897963c715c76eebbd0cb75568393e5ec55cc7`) | Passed against Docker PostgreSQL 18: create/list/detail, requester isolation, attachment upload/download/soft-remove | [`ui-smoke-evidence.md`](ui-smoke-evidence.md) and [`run-notes.json`](../../artifacts/lab-02/screenshots-real/run-notes.json) |
-| Responsive | Playwright screenshots at required viewports | `6f2a682` | 9 real screenshots captured; no horizontal overflow (fixture captures retained separately) | `artifacts/lab-02/screenshots-real/` |
+| Unit/API | `cd server; npm test -- --run` | `docs/lab2-ui-smoke-evidence` (follow-up) | Passed: 10 files, 19 tests | Terminal output from 2026-09-05 |
+| UI/style | `cd client; npm test -- --run` | `docs/lab2-ui-smoke-evidence` (follow-up) | Passed: 7 files, 15 tests (React act warnings only) | Terminal output from 2026-09-05 |
+| Server build | `cd server; npm run build` | `docs/lab2-ui-smoke-evidence` (follow-up) | Passed | Terminal output from 2026-09-05 |
+| Client build | `cd client; npm run build` | `docs/lab2-ui-smoke-evidence` (follow-up) | Passed | Terminal output from 2026-09-05 |
+| Prisma schema | `cd server; npx prisma validate` | `docs/lab2-ui-smoke-evidence` (follow-up) | Passed | Terminal output from 2026-09-05 |
+| E2E | `npx playwright test e2e/lab-02/requester-ticket-flow.spec.ts` | `docs/lab2-ui-smoke-evidence` (follow-up) | Passed: 2 tests against Docker PostgreSQL 18, including create/list/detail, requester isolation, attachment lifecycle, and keyboard controls | [`ui-smoke-evidence.md`](ui-smoke-evidence.md) and [`committed-playwright-run.json`](../../artifacts/lab-02/screenshots/committed-playwright-run.json) |
+| Responsive | Playwright screenshots at required viewports | `docs/lab2-ui-smoke-evidence` (follow-up) | 9 real screenshots captured; no horizontal overflow (historical harness captures retained separately) | `artifacts/lab-02/screenshots/` |
 
 ## Acceptance-criterion evidence
 
@@ -62,10 +63,10 @@ artifacts/lab-02/screenshots/ticket-detail/
 
 For each screenshot, record viewport, date, branch/SHA, scenario, and the
 state shown. Include desktop (1280×900), tablet (900×900), and mobile
-(390×844) captures. The nine fixture-backed captures and their measurements
-are indexed in [`ui-smoke-evidence.md`](ui-smoke-evidence.md). The nine
-Docker-backed captures and their measurements are indexed in
-`artifacts/lab-02/screenshots-real/run-notes.json`.
+(390×844) captures. The nine committed Docker-backed captures and their
+measurements are indexed in [`ui-smoke-evidence.md`](ui-smoke-evidence.md) and
+`artifacts/lab-02/screenshots/committed-playwright-run.json`. The earlier temporary harness
+captures remain separately indexed under `artifacts/lab-02/screenshots-real/`.
 
 ## Peer-review and merge evidence
 
@@ -96,6 +97,8 @@ event without a URL.
 
 PR #34 is merged to `main` at `8e897963c715c76eebbd0cb75568393e5ec55cc7`, and
 all feature PRs and Issues #16–#24 are closed. Unit/API/UI tests, Prisma
-validation, both builds, and the Docker-backed requester/attachment E2E flow
-passed. A complete keyboard audit is still a follow-up; neither the fixture nor
-the smoke run should be presented as full AC-01–AC-22 integration proof.
+validation, both builds, and the committed Docker-backed requester/attachment
+E2E flow passed. The keyboard spec covers all controls rendered in the
+single-page run; pagination remains a conditional manual check. Neither the
+fixture nor this smoke run should be presented as proof of real authentication
+or as a substitute for AC-specific review of implementation and tests.

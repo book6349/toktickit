@@ -1,0 +1,41 @@
+{
+  "runDate": "2026-09-05",
+  "branch": "docs/lab2-ui-smoke-evidence",
+  "command": "npx playwright test e2e/lab-02/requester-ticket-flow.spec.ts",
+  "environment": {
+    "client": "http://127.0.0.1:5173",
+    "api": "http://localhost:3000",
+    "database": "Docker Desktop PostgreSQL 18",
+    "playwright": "1.55.0"
+  },
+  "result": {
+    "testsPassed": 2,
+    "workers": 1,
+    "exitCode": 0
+  },
+  "scenarios": [
+    "create, list, detail, attachment upload/download/soft removal, and requester isolation",
+    "keyboard focus through requester gate, create controls, list filters, detail, and attachment actions"
+  ],
+  "viewports": [
+    { "name": "desktop", "width": 1280, "height": 900 },
+    { "name": "tablet", "width": 900, "height": 900 },
+    { "name": "mobile", "width": 390, "height": 844 }
+  ],
+  "screenshots": [
+    "create-ticket/desktop-1280x900.png",
+    "create-ticket/tablet-900x900.png",
+    "create-ticket/mobile-390x844.png",
+    "my-tickets/desktop-1280x900.png",
+    "my-tickets/tablet-900x900.png",
+    "my-tickets/mobile-390x844.png",
+    "ticket-detail/desktop-1280x900.png",
+    "ticket-detail/tablet-900x900.png",
+    "ticket-detail/mobile-390x844.png"
+  ],
+  "overflowAssertion": "document.documentElement.scrollWidth <= document.documentElement.clientWidth",
+  "notes": [
+    "The tracked run-notes.json in this directory is the earlier 2026-08-27 loopback fixture record; it is not used as database evidence.",
+    "Chromium reported the observed download suggested filename attachment.png; the API metadata retains the original filename."
+  ]
+}
