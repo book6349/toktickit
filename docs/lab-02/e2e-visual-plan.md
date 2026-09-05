@@ -37,8 +37,8 @@ outputs.
 
 Because the repository has no committed Playwright spec, the prescribed
 `npx playwright test e2e/lab-02/requester-ticket-flow.spec.ts` command was not
-claimed; the temporary harness was removed after the run. The full keyboard
-audit remains pending.
+claimed; the temporary harness remains workspace-only and is not part of the
+application or evidence commit. The full keyboard audit remains pending.
 
 ## E2E scenarios
 
