@@ -1,0 +1,135 @@
+{
+  "generatedAt": "2026-08-27T05:14:15.723Z",
+  "baseUrl": "http://127.0.0.1:5173/",
+  "viewports": [
+    {
+      "name": "desktop",
+      "width": 1280,
+      "height": 900
+    },
+    {
+      "name": "tablet",
+      "width": 900,
+      "height": 900
+    },
+    {
+      "name": "mobile",
+      "width": 390,
+      "height": 844
+    }
+  ],
+  "notes": [
+    {
+      "flow": "fixture-backed UI smoke",
+      "generatedTicket": "Ticket TT-20260827-000002 was created.\nView ticket",
+      "attachmentDownload": "attachment.png",
+      "requesterSwitch": "requester 1 ticket absent for requester 2",
+      "focusOrder": [
+        "Change requester",
+        "My Tickets",
+        "Create Ticket",
+        "ticket-search",
+        "ticket-category"
+      ]
+    },
+    {
+      "screen": "my-tickets",
+      "viewport": "1280x900",
+      "path": "C:/Users/Jitvoottikrai/OneDrive/เดสก์ท็อป/SoftwareEn/LAB1/Lab1_Starter_Scaffold/toktickit/artifacts/lab-02/screenshots/my-tickets/desktop-1280x900.png",
+      "dimensions": {
+        "scrollWidth": 1280,
+        "clientWidth": 1280,
+        "scrollHeight": 900,
+        "clientHeight": 900
+      }
+    },
+    {
+      "screen": "create-ticket",
+      "viewport": "1280x900",
+      "path": "C:/Users/Jitvoottikrai/OneDrive/เดสก์ท็อป/SoftwareEn/LAB1/Lab1_Starter_Scaffold/toktickit/artifacts/lab-02/screenshots/create-ticket/desktop-1280x900.png",
+      "dimensions": {
+        "scrollWidth": 1280,
+        "clientWidth": 1280,
+        "scrollHeight": 1103,
+        "clientHeight": 900
+      }
+    },
+    {
+      "screen": "ticket-detail",
+      "viewport": "1280x900",
+      "path": "C:/Users/Jitvoottikrai/OneDrive/เดสก์ท็อป/SoftwareEn/LAB1/Lab1_Starter_Scaffold/toktickit/artifacts/lab-02/screenshots/ticket-detail/desktop-1280x900.png",
+      "dimensions": {
+        "scrollWidth": 1280,
+        "clientWidth": 1280,
+        "scrollHeight": 900,
+        "clientHeight": 900
+      }
+    },
+    {
+      "screen": "my-tickets",
+      "viewport": "900x900",
+      "path": "C:/Users/Jitvoottikrai/OneDrive/เดสก์ท็อป/SoftwareEn/LAB1/Lab1_Starter_Scaffold/toktickit/artifacts/lab-02/screenshots/my-tickets/tablet-900x900.png",
+      "dimensions": {
+        "scrollWidth": 900,
+        "clientWidth": 900,
+        "scrollHeight": 900,
+        "clientHeight": 900
+      }
+    },
+    {
+      "screen": "create-ticket",
+      "viewport": "900x900",
+      "path": "C:/Users/Jitvoottikrai/OneDrive/เดสก์ท็อป/SoftwareEn/LAB1/Lab1_Starter_Scaffold/toktickit/artifacts/lab-02/screenshots/create-ticket/tablet-900x900.png",
+      "dimensions": {
+        "scrollWidth": 900,
+        "clientWidth": 900,
+        "scrollHeight": 1041,
+        "clientHeight": 900
+      }
+    },
+    {
+      "screen": "ticket-detail",
+      "viewport": "900x900",
+      "path": "C:/Users/Jitvoottikrai/OneDrive/เดสก์ท็อป/SoftwareEn/LAB1/Lab1_Starter_Scaffold/toktickit/artifacts/lab-02/screenshots/ticket-detail/tablet-900x900.png",
+      "dimensions": {
+        "scrollWidth": 900,
+        "clientWidth": 900,
+        "scrollHeight": 900,
+        "clientHeight": 900
+      }
+    },
+    {
+      "screen": "my-tickets",
+      "viewport": "390x844",
+      "path": "C:/Users/Jitvoottikrai/OneDrive/เดสก์ท็อป/SoftwareEn/LAB1/Lab1_Starter_Scaffold/toktickit/artifacts/lab-02/screenshots/my-tickets/mobile-390x844.png",
+      "dimensions": {
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "scrollHeight": 1243,
+        "clientHeight": 844
+      }
+    },
+    {
+      "screen": "create-ticket",
+      "viewport": "390x844",
+      "path": "C:/Users/Jitvoottikrai/OneDrive/เดสก์ท็อป/SoftwareEn/LAB1/Lab1_Starter_Scaffold/toktickit/artifacts/lab-02/screenshots/create-ticket/mobile-390x844.png",
+      "dimensions": {
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "scrollHeight": 1304,
+        "clientHeight": 844
+      }
+    },
+    {
+      "screen": "ticket-detail",
+      "viewport": "390x844",
+      "path": "C:/Users/Jitvoottikrai/OneDrive/เดสก์ท็อป/SoftwareEn/LAB1/Lab1_Starter_Scaffold/toktickit/artifacts/lab-02/screenshots/ticket-detail/mobile-390x844.png",
+      "dimensions": {
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "scrollHeight": 1193,
+        "clientHeight": 844
+      }
+    }
+  ]
+}

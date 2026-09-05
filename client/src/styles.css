@@ -1,13 +1,13 @@
 :root {
-  --zen-green-950: #103d34;
-  --zen-green-800: #1e6657;
-  --zen-green-600: #2f8f77;
-  --zen-green-100: #e7f4ef;
+  --zen-green-950: #004c2a;
+  --zen-green-800: #006b3c;
+  --zen-green-600: #0b7a46;
+  --zen-green-100: #eaf6ef;
   --ink: #18332e;
   --muted: #637771;
   --line: #d8e5e0;
   --surface: #ffffff;
-  --canvas: #f4f8f6;
+  --canvas: #f5f7f6;
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   color: var(--ink);
   background: var(--canvas);
