@@ -48,7 +48,8 @@ Test DD. The other four PRs must not be opened now.
 
 - ISSUE-01 through ISSUE-05: copy-ready Issue bodies.
 - pr-01-body.md through pr-05-body.md: copy-ready PR bodies.
-- pr-01-review-comment.txt through pr-05-review-comment.txt: copy-ready substantive review comments.
+- pr-01-review-comment.txt through pr-04-review-comment.txt: copy-ready substantive review comments.
+- The PR-05 review comment is kept in the consolidated `Lab3_PR_Review_Comments.txt` packet at the LAB3 root.
 - pr-01-author-reply.txt through pr-05-author-reply.txt: copy-ready replies after each comment is addressed.
 - pr-01-approval.txt through pr-05-approval.txt: copy-ready approval text for the reviewer.
 
