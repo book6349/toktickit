@@ -1,0 +1,10 @@
+I reviewed the Lab 3 contract against ISSUE-01 and the Lab 3 handout. The
+requirements, API/UI decisions, acceptance criteria, and Test DD are clearly
+separated from implementation work.
+
+My question is about the two security-sensitive choices: how does the proposed
+User model preserve existing RequesterUser IDs and Ticket/Attachment ownership
+during migration, and how will the explicit Administrator Ticket Detail,
+Internal Note, and IT Priority permissions remain separate from the IT Staff
+Queue? Please point to the planned migration and authorization tests that will
+prove those boundaries.

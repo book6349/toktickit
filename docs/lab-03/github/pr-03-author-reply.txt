@@ -1,0 +1,10 @@
+Thanks for reviewing. The status endpoint evaluates the current status,
+target status, authenticated role, and confirmation requirement on the
+server; the UI transition selector is only presentation feedback. The direct
+staff-ticket-detail tests cover valid transitions, invalid transitions,
+missing confirmations, and forbidden Requester/Admin attempts.
+
+Internal Notes use separate routes and persistence/query paths from Public
+Comments. Requester Ticket responses never join or serialize Internal Notes.
+The UI uses separate headings, panels, labels, and submit actions, and the
+component tests verify that a Requester cannot see the note controls.

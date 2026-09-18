@@ -1,0 +1,10 @@
+Thanks for reviewing. The self-deactivation and last-active-Administrator
+checks are enforced in the service transaction after re-reading the target
+and current active-Administrator count. The API rejects the operation with the
+documented safe conflict/forbidden response; hiding or disabling the UI action
+is not the security control.
+
+The users-admin API tests cover self-deactivation, deactivating the last
+active Administrator, duplicate email, invalid role, and non-Administrator
+access. The UI tests verify the corresponding feedback and disabled
+presentation.

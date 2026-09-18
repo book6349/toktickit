@@ -1,0 +1,5 @@
+I reviewed the changed authentication, migration, authorization, and
+Requester-regression files against ISSUE-02. The author addressed the
+password-change-only session boundary and direct ownership-bypass question.
+The recorded tests and migration checks support the acceptance criteria, and
+the PR is ready to merge into lab3-staging. Approved.

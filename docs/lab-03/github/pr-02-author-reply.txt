@@ -1,0 +1,12 @@
+Thanks for reviewing. A password-change-only session is limited by the
+server middleware to current-user, CSRF, change-password, and logout
+operations. Normal Ticket, Attachment, Comment, and User Management routes
+reject it with the documented safe response until mustChangePassword is
+cleared.
+
+Requester ownership is derived from the authenticated session in every
+database query. Client requesterId values are ignored, and cross-owner
+Ticket/Attachment lookups use the same safe not-found response as a missing
+resource. The authorization and migration-regression tests send direct
+requests with altered IDs and verify the rejection and absence of protected
+data.
