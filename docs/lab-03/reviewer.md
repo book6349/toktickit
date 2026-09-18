@@ -31,16 +31,18 @@ must not remain in the final report.
 | Unit | Approved Issue | Feature branch | PR | Target | Board status |
 |---|---|---|---|---|---|
 | Lab 3 contract and Test DD | Pending | Pending | Pending | lab3-staging | Not created |
-| Authentication and data migration | Pending | Pending | Pending | lab3-staging | Not created |
-| Authorization and Requester regression | Pending | Pending | Pending | lab3-staging | Not created |
-| IT Staff Ticket Queue | Pending | Pending | Pending | lab3-staging | Not created |
-| IT Staff Ticket Detail and operations | Pending | Pending | Pending | lab3-staging | Not created |
+| Authentication, migration, authorization, and Requester regression | Pending | Pending | Pending | lab3-staging | Not created |
+| IT Staff Queue, Ticket Detail, and ticket operations | Pending | Pending | Pending | lab3-staging | Not created |
 | Administrator User Management | Pending | Pending | Pending | lab3-staging | Not created |
-| E2E, responsive, and visual evidence | Pending | Pending | Pending | lab3-staging | Not created |
-| Lab 3 release integration | Pending | Pending | Pending | main | Not created |
+| Integrated E2E/visual evidence and Lab 3 release integration | Pending | Pending | Pending | main | Not created |
 
 The final Issue names and count require explicit approval before GitHub
 creation. Do not silently split or combine units.
+
+The fifth unit consolidates final integrated verification, E2E and responsive
+evidence, visual inspection, and the reviewed release PR. Feature-level tests
+remain part of the unit that implements the behavior; the fifth unit records
+the final-main verification and submission evidence.
 
 ## 3. Required Review Record Per Feature PR
 
