@@ -1,16 +1,20 @@
 # PR-05 body — Integrated E2E/visual evidence and Lab 3 release integration
 
-Suggested title:
-    test: add Lab 3 integrated E2E and release evidence
+Suggested title (add the real PR number after GitHub creates it):
+    Lab 3 PR 5 — Integrated E2E, Visual Evidence and Lab 3 Release Integration
 
 Target branch for the evidence PR: `lab3-staging`
 
 Source branch: `feature/lab3-integration-evidence`
 
-Linked Issue: `ISSUE-05`; link it through the pull request Development section.
+Linked Issue: Lab 3 Issue 5 (`#40`); link it through the pull request
+Development section.
 
 The later release PR from `lab3-staging` to `main` is a separate documented
 release action, not an unplanned feature PR.
+
+This is a local copy-ready draft only. Do not replace the PR-number placeholder
+or mark evidence as Passed until the real PR and integrated checks exist.
 
 ## Summary
 
