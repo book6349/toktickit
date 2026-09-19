@@ -1,0 +1,7 @@
+I reviewed this PR against ISSUE-03. The Queue, Ticket Detail, ownership,
+priority, status, Public Comment, and Internal Note scope is present.
+
+My question is how the implementation proves that the backend—not only the
+UI—enforces the status transition matrix and Internal Note privacy. Please
+point to the direct API authorization/transition tests and explain how the
+responsive UI keeps Public Comments and Internal Notes from being confused.

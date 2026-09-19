@@ -1,0 +1,16 @@
+Thanks for reviewing. The contract keeps the existing RequesterUser SQL table
+through an explicit User mapping during this increment, preserves existing IDs
+and foreign-key values, converts existing rows to REQUESTER, and initializes
+the new authentication fields without copying or deleting Ticket or
+Attachment data. The planned migration-regression tests will check row counts,
+requester ownership, attachment relationships, and idempotent seed behavior.
+
+The authorization matrix intentionally gives IT Staff the shared Queue and
+status/ownership operations. Administrators receive only explicit direct
+Ticket Detail, Internal Note, and IT Priority permissions and do not receive
+Queue navigation. The planned authorization and staff-detail API tests will
+send direct requests for Requester, IT Staff, and Administrator roles and will
+verify both permitted and forbidden outcomes.
+
+I also kept every acceptance criterion mapped to a planned test and left all
+unexecuted results as Planned.

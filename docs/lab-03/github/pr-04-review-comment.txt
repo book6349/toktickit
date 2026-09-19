@@ -1,0 +1,8 @@
+I reviewed this PR against ISSUE-04. The User Management scope is intentionally
+minimal and covers the required list, search, create, edit, activation, and
+initial-password behavior.
+
+My question is how the backend prevents an Administrator from deactivating
+their own account or the last active Administrator, including when two
+administrative updates race. Please point to the conflict/safety tests and
+confirm that the UI restrictions are backed by the API.
