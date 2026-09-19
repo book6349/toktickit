@@ -3,6 +3,7 @@ import cors from "cors";
 import { registerLab2Routes } from "./lab2.js";
 import { registerAuthRoutes } from "./auth.js";
 import { registerRequesterRegressionRoutes } from "./requester-regression.js";
+import { registerStaffWorkflowRoutes } from "./staff-workflow.js";
 
 // The Express app is exported separately from app.listen() (see index.ts) so
 // Supertest can import `app` without opening a port. Do not merge these files.
@@ -24,5 +25,6 @@ app.get("/api/health", (_req: Request, res: Response) => {
 registerAuthRoutes(app);
 registerLab2Routes(app);
 registerRequesterRegressionRoutes(app);
+registerStaffWorkflowRoutes(app);
 
 export default app;
