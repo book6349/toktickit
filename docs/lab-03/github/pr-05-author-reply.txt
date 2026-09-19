@@ -1,0 +1,9 @@
+Thanks for reviewing. Each result is recorded with the branch, commit SHA,
+date, exact command, exit status, or screenshot index. Fixture-only runs are
+kept separate from real database runs, and the final evidence is repeated or
+confirmed after integration on the documented final branch.
+
+The evidence tables retain Planned, Passed, Failed, Deferred, Unavailable,
+and Partially evidenced labels. The screenshot index records viewport and
+scenario, and the complete PDF was rendered and inspected for clipping,
+figure numbering, readable screenshots, and working links before submission.

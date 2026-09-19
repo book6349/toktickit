@@ -1,0 +1,9 @@
+I reviewed this PR against ISSUE-02. The authentication and Requester
+regression scope is clear, and the PR keeps the Lab 2 Ticket and Attachment
+data in scope.
+
+My question is how the implementation prevents a user who has logged in with
+an initial password from calling normal Ticket APIs before changing it, and
+how direct requests that alter requester or Ticket IDs are prevented from
+crossing ownership boundaries. Please point to the middleware and the
+automated API/regression tests that demonstrate both behaviors.

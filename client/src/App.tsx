@@ -1,20 +1,27 @@
-import { FormEvent, useEffect, useMemo, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import {
   Attachment,
+  addComment,
+  changePassword,
   Category,
-  checkSystem,
   createTicket,
   downloadAttachment,
-  getActiveRequesters,
+  getComments,
+  getCurrentUser,
   getReferenceData,
   getTicket,
   listTickets,
+  login,
+  logout,
   RelatedSystem,
   removeAttachment,
-  Requester,
+  setResolution,
   Ticket,
+  User,
   uploadAttachments,
 } from "./api.js";
+import { AdminDirectDetail, StaffWorkspace } from "./staff.js";
+import { AdminWorkspace } from "./admin.js";
 
 type View = "list" | "create" | "detail";
 type AsyncStatus = "idle" | "loading" | "ready" | "error";
@@ -30,7 +37,6 @@ type TicketFilters = {
   pageSize: number;
 };
 
-const REQUESTER_STORAGE_KEY = "toktickit.requesterId";
 const emptyForm = {
   categoryId: "",
   relatedSystemId: "",
@@ -60,20 +66,10 @@ function formatSize(bytes: number) {
   return (bytes / (1024 * 1024)).toFixed(1) + " MB";
 }
 
-function savedRequesterId() {
-  if (typeof window === "undefined") return null;
-  const value = Number(window.sessionStorage.getItem(REQUESTER_STORAGE_KEY));
-  return Number.isSafeInteger(value) && value > 0 ? value : null;
-}
-
 function App() {
-  const [requesters, setRequesters] = useState<Requester[]>([]);
-  const [requesterId, setRequesterId] = useState<number | null>(savedRequesterId);
-  const [requesterStatus, setRequesterStatus] = useState<AsyncStatus>("loading");
-  const [requesterError, setRequesterError] = useState("");
-  const [selectedRequesterInput, setSelectedRequesterInput] = useState(
-    savedRequesterId ? String(savedRequesterId) : "",
-  );
+  const [user, setUser] = useState<User | null>(null);
+  const [authStatus, setAuthStatus] = useState<AsyncStatus>("loading");
+  const [authError, setAuthError] = useState("");
   const [references, setReferences] = useState<{ categories: Category[]; relatedSystems: RelatedSystem[] }>({
     categories: [],
     relatedSystems: [],
@@ -82,30 +78,6 @@ function App() {
   const [referenceError, setReferenceError] = useState("");
   const [view, setView] = useState<View>("list");
   const [detailId, setDetailId] = useState<number | null>(null);
-  const [legacyState, setLegacyState] = useState<"idle" | "loading" | "success" | "error">("idle");
-  const [legacyCategories, setLegacyCategories] = useState<Category[]>([]);
-  const [legacyError, setLegacyError] = useState("");
-
-  async function loadRequesters() {
-    setRequesterStatus("loading");
-    setRequesterError("");
-    try {
-      const result = await getActiveRequesters();
-      setRequesters(result);
-      setRequesterStatus("ready");
-      const stored = savedRequesterId();
-      if (stored && result.some((requester) => requester.id === stored)) {
-        setRequesterId(stored);
-        setSelectedRequesterInput(String(stored));
-      } else if (stored) {
-        window.sessionStorage.removeItem(REQUESTER_STORAGE_KEY);
-        setRequesterId(null);
-      }
-    } catch (error: any) {
-      setRequesterStatus("error");
-      setRequesterError(error?.message || "Unable to load active requesters.");
-    }
-  }
 
   async function loadReferences() {
     setReferenceStatus("loading");
@@ -120,63 +92,91 @@ function App() {
   }
 
   useEffect(() => {
-    void loadRequesters();
-  }, []);
+    if (user?.role === "REQUESTER" && !user.mustChangePassword) void loadReferences();
+  }, [user?.id, user?.role, user?.mustChangePassword]);
 
   useEffect(() => {
-    if (requesterId !== null) void loadReferences();
-  }, [requesterId]);
+    void getCurrentUser()
+      .then((result) => {
+        setUser(result.user);
+        setAuthStatus("ready");
+      })
+      .catch((error: any) => {
+        if (error?.status === 401) {
+          setAuthStatus("idle");
+          return;
+        }
+        setAuthError(error?.message || "Unable to restore your session.");
+        setAuthStatus("error");
+      });
+  }, []);
 
-  async function handleCheckSystem() {
-    setLegacyState("loading");
-    setLegacyError("");
+  async function handleLogin(email: string, password: string) {
+    setAuthStatus("loading");
+    setAuthError("");
     try {
-      const result = await checkSystem();
-      setLegacyCategories(result.categories);
-      setLegacyState("success");
+      const result = await login(email, password);
+      setUser(result.user);
+      setView("list");
+      setDetailId(null);
+      setAuthStatus("ready");
     } catch (error: any) {
-      setLegacyError(error?.message || "Unable to connect to TokTickIT API");
-      setLegacyState("error");
+      setAuthError(error?.message || "Unable to sign in.");
+      setAuthStatus("idle");
     }
   }
 
-  function chooseRequester(event: FormEvent) {
-    event.preventDefault();
-    const id = Number(selectedRequesterInput);
-    if (!requesters.some((requester) => requester.id === id)) return;
-    window.sessionStorage.setItem(REQUESTER_STORAGE_KEY, String(id));
-    setRequesterId(id);
-    setView("list");
+  async function handlePasswordChange(currentPassword: string, newPassword: string) {
+    setAuthStatus("loading");
+    setAuthError("");
+    try {
+      const result = await changePassword(currentPassword, newPassword);
+      setUser(result.user);
+      setAuthStatus("ready");
+    } catch (error: any) {
+      setAuthError(error?.message || "Unable to change the password.");
+      setAuthStatus("ready");
+    }
   }
 
-  function changeRequester() {
-    window.sessionStorage.removeItem(REQUESTER_STORAGE_KEY);
-    setRequesterId(null);
-    setSelectedRequesterInput("");
-    setDetailId(null);
+  async function handleLogout() {
+    try {
+      await logout();
+    } finally {
+      setUser(null);
+      setAuthStatus("idle");
+      setView("list");
+      setDetailId(null);
+    }
+  }
+
+  async function retrySession() {
+    setAuthStatus("loading");
+    setAuthError("");
+    try {
+      const result = await getCurrentUser();
+      setUser(result.user);
+      setAuthStatus("ready");
+    } catch (error: any) {
+      setAuthError(error?.message || "Unable to restore your session.");
+      setAuthStatus("error");
+    }
   }
 
   return (
     <main className="app-shell">
       <div className="container py-4 py-lg-5">
-        {requesterId === null ? (
-          <RequesterGate
-            requesters={requesters}
-            selectedRequesterInput={selectedRequesterInput}
-            setSelectedRequesterInput={setSelectedRequesterInput}
-            status={requesterStatus}
-            error={requesterError}
-            onSubmit={chooseRequester}
-            onRetry={() => void loadRequesters()}
-            legacyState={legacyState}
-            legacyCategories={legacyCategories}
-            legacyError={legacyError}
-            onCheckSystem={() => void handleCheckSystem()}
-          />
-        ) : (
+        {authStatus === "loading" && !user && <div className="loading-panel" role="status">Checking your session…</div>}
+        {authStatus === "error" && !user && (
+          <div className="gate-card"><div className="notice error" role="alert">{authError}<button type="button" className="link-button" onClick={() => void retrySession()}>Retry</button></div></div>
+        )}
+        {authStatus === "idle" && !user && <LoginView onSubmit={(email, password) => void handleLogin(email, password)} error={authError} busy={false} />}
+        {user?.mustChangePassword && (
+          <ChangePasswordView user={user} onSubmit={(current, next) => void handlePasswordChange(current, next)} onLogout={() => void handleLogout()} error={authError} busy={authStatus === "loading"} />
+        )}
+        {user && !user.mustChangePassword && user.role === "REQUESTER" && (
           <ServiceDesk
-            requesterId={requesterId}
-            requesters={requesters}
+            user={user}
             view={view}
             setView={setView}
             detailId={detailId}
@@ -185,89 +185,72 @@ function App() {
             referenceStatus={referenceStatus}
             referenceError={referenceError}
             onRetryReferences={() => void loadReferences()}
-            onChangeRequester={changeRequester}
+            onLogout={() => void handleLogout()}
           />
         )}
+        {user && !user.mustChangePassword && user.role === "IT_STAFF" && <StaffWorkspace user={user} onLogout={() => void handleLogout()} />}
+        {user && !user.mustChangePassword && user.role === "ADMINISTRATOR" && <AdminWorkspace user={user} onLogout={() => void handleLogout()} />}
       </div>
     </main>
   );
 }
 
-function RequesterGate(props: {
-  requesters: Requester[];
-  selectedRequesterInput: string;
-  setSelectedRequesterInput: (value: string) => void;
-  status: AsyncStatus;
-  error: string;
-  onSubmit: (event: FormEvent) => void;
-  onRetry: () => void;
-  legacyState: "idle" | "loading" | "success" | "error";
-  legacyCategories: Category[];
-  legacyError: string;
-  onCheckSystem: () => void;
-}) {
+function LoginView(props: { onSubmit: (email: string, password: string) => void; error: string; busy: boolean }) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   return (
-    <section className="gate-card" aria-labelledby="app-title">
+    <section className="gate-card" aria-labelledby="login-title">
       <p className="eyebrow">IT SERVICE DESK</p>
-      <h1 id="app-title">TokTickIT <span>IT Service Desk</span></h1>
-      <p className="lead-copy">
-        Choose your requester identity to create and track support tickets.
-      </p>
-      <form onSubmit={props.onSubmit} className="requester-form">
-        <label htmlFor="requester">Requester</label>
-        <select
-          id="requester"
-          value={props.selectedRequesterInput}
-          onChange={(event) => props.setSelectedRequesterInput(event.target.value)}
-          disabled={props.status === "loading" || props.requesters.length === 0}
-          required
-        >
-          <option value="">Select your name</option>
-          {props.requesters.map((requester) => (
-            <option value={requester.id} key={requester.id}>
-              {requester.name} ({requester.email})
-            </option>
-          ))}
-        </select>
-        {props.status === "loading" && <p className="field-help">Loading active requesters…</p>}
-        {props.status === "error" && (
-          <div className="notice error" role="alert">
-            <span>{props.error}</span>
-            <button type="button" className="link-button" onClick={props.onRetry}>Retry</button>
-          </div>
-        )}
-        <button className="primary-button" type="submit" disabled={!props.selectedRequesterInput}>
-          Continue
-        </button>
+      <h1 id="login-title">TokTickIT <span>Sign in</span></h1>
+      <p className="lead-copy">Sign in with your TokTickIT account to continue.</p>
+      {props.error && <div className="notice error" role="alert">{props.error}</div>}
+      <form className="requester-form" onSubmit={(event) => { event.preventDefault(); props.onSubmit(email.trim(), password); }}>
+        <div className="field"><label htmlFor="login-email">Email</label><input id="login-email" type="email" autoComplete="username" value={email} onChange={(event) => setEmail(event.target.value)} required /></div>
+        <div className="field"><label htmlFor="login-password">Password</label><input id="login-password" type="password" autoComplete="current-password" value={password} onChange={(event) => setPassword(event.target.value)} required /></div>
+        <button className="primary-button" type="submit" disabled={props.busy}>{props.busy ? "Signing in…" : "Sign in"}</button>
       </form>
-
-      <div className="system-check">
-        <div>
-          <strong>Connection check</strong>
-          <p className="field-help">Use this quick check if the service desk is not loading.</p>
-        </div>
-        <button className="secondary-button" type="button" onClick={props.onCheckSystem} disabled={props.legacyState === "loading"}>
-          {props.legacyState === "loading" ? "Checking…" : "Check System"}
-        </button>
-      </div>
-      {props.legacyState === "success" && (
-        <div className="notice success" role="status">
-          <strong>Online</strong>
-          {props.legacyCategories.length > 0 && (
-            <ul>
-              {props.legacyCategories.map((category) => <li key={category.id}>{category.name}</li>)}
-            </ul>
-          )}
-        </div>
-      )}
-      {props.legacyState === "error" && <div className="notice error" role="alert"><strong>Offline</strong><span>{props.legacyError}</span></div>}
     </section>
   );
 }
 
+function ChangePasswordView(props: { user: User; onSubmit: (current: string, next: string) => void; onLogout: () => void; error: string; busy: boolean }) {
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const mismatch = confirmPassword.length > 0 && newPassword !== confirmPassword;
+  const valid = newPassword.length >= 12 && newPassword.length <= 128 && /[A-Za-z]/.test(newPassword) && /\d/.test(newPassword) && newPassword === confirmPassword;
+  return (
+    <section className="gate-card" aria-labelledby="change-password-title">
+      <p className="eyebrow">ACCOUNT SECURITY</p>
+      <h1 id="change-password-title">Change your password</h1>
+      <p className="lead-copy">Your initial password must be replaced before you can open the service desk.</p>
+      <p className="field-help">Signed in as {props.user.email}. Use 12–128 characters with at least one letter and one number.</p>
+      {props.error && <div className="notice error" role="alert">{props.error}</div>}
+      <form className="requester-form" onSubmit={(event) => { event.preventDefault(); if (valid) props.onSubmit(currentPassword, newPassword); }}>
+        <div className="field"><label htmlFor="current-password">Current password</label><input id="current-password" type="password" autoComplete="current-password" value={currentPassword} onChange={(event) => setCurrentPassword(event.target.value)} required /></div>
+        <div className="field"><label htmlFor="new-password">New password</label><input id="new-password" type="password" autoComplete="new-password" value={newPassword} onChange={(event) => setNewPassword(event.target.value)} required aria-describedby="password-rules" /></div>
+        <p id="password-rules" className="field-help">12–128 characters; include a letter and a number.</p>
+        <div className="field"><label htmlFor="confirm-password">Confirm new password</label><input id="confirm-password" type="password" autoComplete="new-password" value={confirmPassword} onChange={(event) => setConfirmPassword(event.target.value)} required />{mismatch && <span className="field-error">Passwords do not match.</span>}</div>
+        <div className="form-actions"><button className="primary-button" type="submit" disabled={props.busy || !valid}>{props.busy ? "Saving…" : "Save password"}</button></div>
+      </form>
+      <button type="button" className="link-button" onClick={props.onLogout}>Log out</button>
+    </section>
+  );
+}
+
+function RolePlaceholder(props: { user: User; onLogout: () => void }) {
+  const label = props.user.role === "IT_STAFF" ? "Ticket Queue" : "User Management";
+  return (
+    <>
+      <header className="topbar"><div><p className="eyebrow">TOKTICKIT</p><h1>IT Service Desk</h1></div><div className="requester-chip"><span>{props.user.name} · {props.user.role}</span><button type="button" className="link-button" onClick={props.onLogout}>Log out</button></div></header>
+      <nav className="main-nav" aria-label="Main navigation"><span className="nav-link active">{label}</span></nav>
+      <section className="content-card"><h2>{label}</h2><p className="lead-copy">This role workspace is delivered in the next Lab 3 unit.</p></section>
+    </>
+  );
+}
+
 function ServiceDesk(props: {
-  requesterId: number;
-  requesters: Requester[];
+  user: User;
   view: View;
   setView: (view: View) => void;
   detailId: number | null;
@@ -276,9 +259,8 @@ function ServiceDesk(props: {
   referenceStatus: AsyncStatus;
   referenceError: string;
   onRetryReferences: () => void;
-  onChangeRequester: () => void;
+  onLogout: () => void;
 }) {
-  const requester = props.requesters.find((item) => item.id === props.requesterId);
   function openDetail(id: number) {
     props.setDetailId(id);
     props.setView("detail");
@@ -291,8 +273,8 @@ function ServiceDesk(props: {
           <h1>IT Service Desk</h1>
         </div>
         <div className="requester-chip">
-          <span>{requester?.name || "Requester"}</span>
-          <button type="button" className="link-button" onClick={props.onChangeRequester}>Change requester</button>
+          <span>{props.user.name} · {props.user.role}</span>
+          <button type="button" className="link-button" onClick={props.onLogout}>Log out</button>
         </div>
       </header>
       <nav className="main-nav" aria-label="Main navigation">
@@ -301,7 +283,6 @@ function ServiceDesk(props: {
       </nav>
       {props.view === "create" && (
         <CreateTicketView
-          requesterId={props.requesterId}
           categories={props.references.categories}
           relatedSystems={props.references.relatedSystems}
           referenceStatus={props.referenceStatus}
@@ -312,14 +293,12 @@ function ServiceDesk(props: {
       )}
       {props.view === "list" && (
         <TicketListView
-          requesterId={props.requesterId}
           categories={props.references.categories}
           onOpenTicket={openDetail}
         />
       )}
       {props.view === "detail" && props.detailId !== null && (
         <TicketDetailView
-          requesterId={props.requesterId}
           ticketId={props.detailId}
           onBack={() => props.setView("list")}
         />
@@ -329,7 +308,6 @@ function ServiceDesk(props: {
 }
 
 function CreateTicketView(props: {
-  requesterId: number;
   categories: Category[];
   relatedSystems: RelatedSystem[];
   referenceStatus: AsyncStatus;
@@ -376,7 +354,7 @@ function CreateTicketView(props: {
     setErrorMessage("");
     setSuccess("");
     try {
-      const ticket = await createTicket(props.requesterId, {
+      const ticket = await createTicket({
         categoryId: Number(form.categoryId),
         relatedSystemId: Number(form.relatedSystemId),
         requestedPriority: form.requestedPriority,
@@ -453,7 +431,7 @@ function Field(props: { label: string; id: string; hint?: string; error?: string
   );
 }
 
-function TicketListView(props: { requesterId: number; categories: Category[]; onOpenTicket: (id: number) => void }) {
+function TicketListView(props: { categories: Category[]; onOpenTicket: (id: number) => void }) {
   const [filters, setFilters] = useState<TicketFilters>({ ...defaultTicketFilters });
   const [tickets, setTickets] = useState<Ticket[]>([]);
   const [pagination, setPagination] = useState({ page: 1, pageSize: 10, totalItems: 0, totalPages: 0, hasPrevious: false, hasNext: false });
@@ -465,7 +443,7 @@ function TicketListView(props: { requesterId: number; categories: Category[]; on
     setStatus("loading");
     setError("");
     try {
-      const result = await listTickets(props.requesterId, { ...applied, categoryId: applied.categoryId ? Number(applied.categoryId) : "", page, pageSize: applied.pageSize });
+      const result = await listTickets({ ...applied, categoryId: applied.categoryId ? Number(applied.categoryId) : "", page, pageSize: applied.pageSize });
       setTickets(result.items);
       setPagination(result.pagination);
       setStatus("ready");
@@ -477,7 +455,7 @@ function TicketListView(props: { requesterId: number; categories: Category[]; on
 
   useEffect(() => {
     void load(1);
-  }, [props.requesterId, JSON.stringify(applied)]);
+  }, [JSON.stringify(applied)]);
 
   function applyFilters(event: FormEvent) {
     event.preventDefault();
@@ -524,7 +502,7 @@ function TicketListView(props: { requesterId: number; categories: Category[]; on
   );
 }
 
-function TicketDetailView(props: { requesterId: number; ticketId: number; onBack: () => void }) {
+function TicketDetailView(props: { ticketId: number; onBack: () => void }) {
   const [ticket, setTicket] = useState<Ticket | null>(null);
   const [status, setStatus] = useState<AsyncStatus>("loading");
   const [error, setError] = useState("");
@@ -532,11 +510,21 @@ function TicketDetailView(props: { requesterId: number; ticketId: number; onBack
   const [uploadError, setUploadError] = useState("");
   const [removeId, setRemoveId] = useState<number | null>(null);
   const [removeReason, setRemoveReason] = useState("");
+  const [comments, setComments] = useState<Awaited<ReturnType<typeof getComments>>>([]);
+  const [commentContent, setCommentContent] = useState("");
+  const [commentStatus, setCommentStatus] = useState<AsyncStatus>("idle");
+  const [resolvedStatus, setResolvedStatus] = useState(false);
 
   async function load() {
     setStatus("loading");
     try {
-      setTicket(await getTicket(props.requesterId, props.ticketId));
+      const [loadedTicket, loadedComments] = await Promise.all([
+        getTicket(props.ticketId),
+        getComments(props.ticketId),
+      ]);
+      setTicket(loadedTicket);
+      setComments(loadedComments);
+      setResolvedStatus(Boolean(loadedTicket.requesterResolutionIndicatedAt));
       setStatus("ready");
     } catch (error: any) {
       setStatus("error");
@@ -544,9 +532,34 @@ function TicketDetailView(props: { requesterId: number; ticketId: number; onBack
     }
   }
 
+  async function submitComment(event: FormEvent) {
+    event.preventDefault();
+    if (!commentContent.trim()) return;
+    setCommentStatus("loading");
+    try {
+      const comment = await addComment(props.ticketId, commentContent.trim());
+      setComments((current) => [...current, comment]);
+      setCommentContent("");
+      setCommentStatus("ready");
+    } catch (error: any) {
+      setUploadError(error?.message || "Unable to add the comment.");
+      setCommentStatus("error");
+    }
+  }
+
+  async function toggleResolution() {
+    try {
+      const result = await setResolution(props.ticketId, !resolvedStatus);
+      setResolvedStatus(result.appearsResolved);
+      setTicket((current) => current ? { ...current, requesterResolutionIndicatedAt: result.indicatedAt } : current);
+    } catch (error: any) {
+      setUploadError(error?.message || "Unable to update the resolution indication.");
+    }
+  }
+
   useEffect(() => {
     void load();
-  }, [props.requesterId, props.ticketId]);
+  }, [props.ticketId]);
 
   async function chooseUpload(event: React.ChangeEvent<HTMLInputElement>) {
     const files = Array.from(event.target.files ?? []);
@@ -554,7 +567,7 @@ function TicketDetailView(props: { requesterId: number; ticketId: number; onBack
     setUploadStatus("loading");
     setUploadError("");
     try {
-      const added = await uploadAttachments(props.requesterId, props.ticketId, files);
+      const added = await uploadAttachments(props.ticketId, files);
       setTicket((current) => current ? { ...current, attachments: [...current.attachments, ...added] } : current);
       setUploadStatus("ready");
       event.target.value = "";
@@ -566,7 +579,7 @@ function TicketDetailView(props: { requesterId: number; ticketId: number; onBack
 
   async function download(attachment: Attachment) {
     try {
-      const result = await downloadAttachment(props.requesterId, attachment.id);
+      const result = await downloadAttachment(attachment.id);
       const url = URL.createObjectURL(result.blob);
       const link = document.createElement("a");
       link.href = url;
@@ -582,7 +595,7 @@ function TicketDetailView(props: { requesterId: number; ticketId: number; onBack
     event.preventDefault();
     if (removeReason.trim().length < 5) return;
     try {
-      const removed = await removeAttachment(props.requesterId, attachmentId, removeReason.trim());
+      const removed = await removeAttachment(attachmentId, removeReason.trim());
       setTicket((current) => current ? { ...current, attachments: current.attachments.map((item) => item.id === removed.id ? removed : item) } : current);
       setRemoveId(null);
       setRemoveReason("");
@@ -601,6 +614,7 @@ function TicketDetailView(props: { requesterId: number; ticketId: number; onBack
           <div className="section-heading"><div><p className="eyebrow">{ticket.ticketNumber}</p><h2 id="detail-heading">{ticket.summary}</h2></div><span className="status-pill">{ticket.status}</span></div>
           <dl className="detail-grid"><div><dt>Category</dt><dd>{ticket.category?.name || "—"}</dd></div><div><dt>Related system</dt><dd>{ticket.relatedSystem?.name || "—"}</dd></div><div><dt>Priority</dt><dd><span className={"priority " + ticket.requestedPriority.toLowerCase()}>{ticket.requestedPriority}</span></dd></div><div><dt>Submitted</dt><dd>{formatDate(ticket.createdAt)}</dd></div></dl>
           <div className="description-block"><h3>Description</h3><p>{ticket.description}</p></div>
+          <div className="comments-block description-block"><div className="section-heading compact"><div><h3>Public comments</h3><p className="field-help">Comments are visible to the service desk team.</p></div><span className="status-pill">{comments.length}</span></div><ul className="file-list">{comments.map((comment) => <li key={comment.id}><span><strong>{comment.author.name}</strong> · {formatDate(comment.createdAt)}<br />{comment.content}</span></li>)}</ul><form className="requester-form" onSubmit={(event) => void submitComment(event)}><label htmlFor="public-comment">Add a public comment</label><textarea id="public-comment" value={commentContent} onChange={(event) => setCommentContent(event.target.value)} maxLength={4000} rows={4} required /><button className="secondary-button" type="submit" disabled={commentStatus === "loading"}>{commentStatus === "loading" ? "Adding…" : "Add comment"}</button></form><div className="resolution-panel"><p><strong>Problem appears resolved?</strong> This does not change the formal ticket status.</p><button className="secondary-button" type="button" onClick={() => void toggleResolution()}>{resolvedStatus ? "Clear resolved indication" : "Mark as appears resolved"}</button>{resolvedStatus && <span className="field-help" role="status">Marked as appears resolved.</span>}</div></div>
           <div className="attachments-block"><div className="section-heading compact"><div><h3>Attachments</h3><p className="field-help">Active files can be downloaded or removed.</p></div><label className="secondary-button upload-label" htmlFor="detail-upload">Add files<input id="detail-upload" type="file" multiple accept=".jpg,.jpeg,.png,.webp,.pdf,image/jpeg,image/png,image/webp,application/pdf" onChange={chooseUpload} /></label></div>
             {uploadStatus === "loading" && <div className="notice info">Uploading…</div>}
             {uploadError && <div className="notice error" role="alert">{uploadError}</div>}

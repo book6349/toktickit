@@ -9,6 +9,7 @@ import type { Express } from "express";
 // @ts-expect-error formidable 3.x currently has no bundled TypeScript types.
 import formidable from "formidable";
 import { getPrisma } from "./prisma.js";
+import { getUserDelegate, requireCsrf, requireRole } from "./auth.js";
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
 const MAX_ATTACHMENTS = 5;
@@ -24,8 +25,19 @@ const SORT_FIELDS = new Set([
   "createdAt",
   "ticketNumber",
   "requestedPriority",
+  "status",
 ]);
 const PAGE_SIZES = new Set([10, 20, 50]);
+const TICKET_STATUSES = new Set([
+  "NEW",
+  "OPEN",
+  "IN_PROGRESS",
+  "WAITING_FOR_REQUESTER",
+  "RESOLVED",
+  "CLOSED",
+  "REOPENED",
+  "CANCELLED",
+]);
 
 type UploadedFile = {
   filepath: string;
@@ -65,28 +77,10 @@ function positiveInt(value: string): number | null {
   return Number.isSafeInteger(parsed) ? parsed : null;
 }
 
-function requesterIdFrom(req: Request): number | null {
-  const raw = req.header("X-Requester-Id");
-  return raw ? positiveInt(raw.trim()) : null;
-}
-
 async function requireRequester(req: Request, res: Response): Promise<number | null> {
-  const requesterId = requesterIdFrom(req);
-  if (requesterId === null) {
-    fail(res, 400, "INVALID_REQUESTER_CONTEXT", "Select an active requester before continuing.");
-    return null;
-  }
-  try {
-    const requester = await activeRequester(requesterId);
-    if (!requester) {
-      fail(res, 400, "INVALID_REQUESTER_CONTEXT", "Select an active requester before continuing.");
-      return null;
-    }
-  } catch {
-    fail(res, 500, "INTERNAL_ERROR", "Unable to verify requester context.");
-    return null;
-  }
-  return requesterId;
+  const context = await requireRole(req, res, ["REQUESTER"]);
+  if (!context) return null;
+  return context.user.id;
 }
 
 function safeFilename(filename: string): string {
@@ -279,9 +273,12 @@ function ticketJson(ticket: any) {
     categoryId: ticket.categoryId,
     relatedSystemId: ticket.relatedSystemId,
     requestedPriority: ticket.requestedPriority,
+    itPriority: ticket.itPriority ?? ticket.requestedPriority,
     status: ticket.status,
     summary: ticket.summary,
     description: ticket.description,
+    ownerId: ticket.ownerId ?? null,
+    requesterResolutionIndicatedAt: ticket.requesterResolutionIndicatedAt ?? null,
     createdAt: ticket.createdAt,
     updatedAt: ticket.updatedAt,
     requester: ticket.requester,
@@ -294,7 +291,7 @@ function ticketJson(ticket: any) {
 }
 
 async function activeRequester(requesterId: number) {
-  return getPrisma().requesterUser.findFirst({
+  return getUserDelegate(getPrisma()).findFirst({
     where: { id: requesterId, isActive: true },
     select: { id: true, name: true, email: true },
   });
@@ -347,7 +344,7 @@ function queryParams(req: Request) {
 export function registerLab2Routes(app: Express) {
   app.get("/api/requesters/active", async (_req: Request, res: Response) => {
     try {
-      const requesters = await getPrisma().requesterUser.findMany({
+      const requesters = await getUserDelegate(getPrisma()).findMany({
         where: { isActive: true },
         orderBy: [{ name: "asc" }, { id: "asc" }],
         select: { id: true, name: true, email: true },
@@ -387,6 +384,7 @@ export function registerLab2Routes(app: Express) {
   app.post("/api/tickets", async (req: Request, res: Response) => {
     const requesterId = await requireRequester(req, res);
     if (requesterId === null) return;
+    if (!requireCsrf(req, res)) return;
     let parsed: ParsedInput;
     try {
       parsed = await parseInput(req);
@@ -432,6 +430,7 @@ export function registerLab2Routes(app: Express) {
           categoryId: validation.categoryId!,
           relatedSystemId: validation.relatedSystemId!,
           requestedPriority: validation.requestedPriority as any,
+          itPriority: validation.requestedPriority as any,
           status: "NEW" as any,
           summary: validation.summary,
           description: validation.description,
@@ -481,7 +480,7 @@ export function registerLab2Routes(app: Express) {
     if (params.requestedPriority && !PRIORITIES.has(params.requestedPriority)) {
       return fail(res, 400, "INVALID_QUERY", "Unknown requested priority.");
     }
-    if (params.status && params.status !== "NEW") {
+    if (params.status && !TICKET_STATUSES.has(params.status)) {
       return fail(res, 400, "INVALID_QUERY", "Unknown ticket status.");
     }
     try {
@@ -526,13 +525,13 @@ export function registerLab2Routes(app: Express) {
     const requesterId = await requireRequester(req, res);
     if (requesterId === null) return;
     const ticketId = positiveInt(req.params.ticketId);
-    if (ticketId === null) return fail(res, 404, "TICKET_NOT_FOUND", "Ticket not found.");
+    if (ticketId === null) return fail(res, 404, "RESOURCE_NOT_FOUND", "Ticket not found.");
     try {
       const ticket = await getPrisma().ticket.findFirst({
         where: { id: ticketId, requesterId },
         include: ticketInclude,
       });
-      if (!ticket) return fail(res, 404, "TICKET_NOT_FOUND", "Ticket not found.");
+      if (!ticket) return fail(res, 404, "RESOURCE_NOT_FOUND", "Ticket not found.");
       return res.json({ ticket: ticketJson(ticket) });
     } catch {
       return fail(res, 500, "INTERNAL_ERROR", "Unable to load the ticket.");
@@ -543,13 +542,13 @@ export function registerLab2Routes(app: Express) {
     const requesterId = await requireRequester(req, res);
     if (requesterId === null) return;
     const ticketId = positiveInt(req.params.ticketId);
-    if (ticketId === null) return fail(res, 404, "TICKET_NOT_FOUND", "Ticket not found.");
+    if (ticketId === null) return fail(res, 404, "RESOURCE_NOT_FOUND", "Ticket not found.");
     try {
       const ticket = await getPrisma().ticket.findFirst({
         where: { id: ticketId, requesterId },
         select: { id: true },
       });
-      if (!ticket) return fail(res, 404, "TICKET_NOT_FOUND", "Ticket not found.");
+      if (!ticket) return fail(res, 404, "RESOURCE_NOT_FOUND", "Ticket not found.");
       const attachments = await getPrisma().attachment.findMany({
         where: { ticketId },
         orderBy: { uploadedAt: "asc" },
@@ -563,8 +562,9 @@ export function registerLab2Routes(app: Express) {
   app.post("/api/tickets/:ticketId/attachments", async (req: Request, res: Response) => {
     const requesterId = await requireRequester(req, res);
     if (requesterId === null) return;
+    if (!requireCsrf(req, res)) return;
     const ticketId = positiveInt(req.params.ticketId);
-    if (ticketId === null) return fail(res, 404, "TICKET_NOT_FOUND", "Ticket not found.");
+    if (ticketId === null) return fail(res, 404, "RESOURCE_NOT_FOUND", "Ticket not found.");
     let parsed: ParsedInput;
     try {
       parsed = await parseMultipart(req);
@@ -584,7 +584,7 @@ export function registerLab2Routes(app: Express) {
       });
       if (!ticket) {
         await removeTempFiles(parsed.files);
-        return fail(res, 404, "TICKET_NOT_FOUND", "Ticket not found.");
+        return fail(res, 404, "RESOURCE_NOT_FOUND", "Ticket not found.");
       }
       const activeCount = await prisma.attachment.count({ where: { ticketId, removedAt: null } });
       const fileError = validateFiles(parsed.files, activeCount);
@@ -630,7 +630,7 @@ export function registerLab2Routes(app: Express) {
     const requesterId = await requireRequester(req, res);
     if (requesterId === null) return;
     const attachmentId = positiveInt(req.params.attachmentId);
-    if (attachmentId === null) return fail(res, 404, "ATTACHMENT_NOT_FOUND", "Attachment not found.");
+    if (attachmentId === null) return fail(res, 404, "RESOURCE_NOT_FOUND", "Attachment not found.");
     try {
       const attachment = await getPrisma().attachment.findFirst({
         where: {
@@ -639,11 +639,11 @@ export function registerLab2Routes(app: Express) {
           ticket: { requesterId },
         },
       });
-      if (!attachment) return fail(res, 404, "ATTACHMENT_NOT_FOUND", "Attachment not found.");
+      if (!attachment) return fail(res, 404, "RESOURCE_NOT_FOUND", "Attachment not found.");
       const storage = await ensureStorage();
       const filePath = path.join(storage.uploads, attachment.storageKey);
       const data = await fs.readFile(filePath).catch(() => null);
-      if (!data) return fail(res, 404, "ATTACHMENT_NOT_FOUND", "Attachment file is unavailable.");
+      if (!data) return fail(res, 404, "RESOURCE_NOT_FOUND", "Attachment file is unavailable.");
       res.setHeader("Content-Type", attachment.mimeType);
       res.setHeader(
         "Content-Disposition",
@@ -658,8 +658,9 @@ export function registerLab2Routes(app: Express) {
   app.delete("/api/attachments/:attachmentId", async (req: Request, res: Response) => {
     const requesterId = await requireRequester(req, res);
     if (requesterId === null) return;
+    if (!requireCsrf(req, res)) return;
     const attachmentId = positiveInt(req.params.attachmentId);
-    if (attachmentId === null) return fail(res, 404, "ATTACHMENT_NOT_FOUND", "Attachment not found.");
+    if (attachmentId === null) return fail(res, 404, "RESOURCE_NOT_FOUND", "Attachment not found.");
     const reason = String((req.body as Record<string, unknown> | undefined)?.reason ?? "").trim();
     if (reason.length < 5 || reason.length > 250) {
       return fail(res, 400, "INVALID_REMOVAL_REASON", "Removal reason must be between 5 and 250 characters.", {
@@ -671,7 +672,7 @@ export function registerLab2Routes(app: Express) {
       const attachment = await prisma.attachment.findFirst({
         where: { id: attachmentId, removedAt: null, ticket: { requesterId } },
       });
-      if (!attachment) return fail(res, 404, "ATTACHMENT_NOT_FOUND", "Attachment not found.");
+      if (!attachment) return fail(res, 404, "RESOURCE_NOT_FOUND", "Attachment not found.");
       const removed = await prisma.attachment.update({
         where: { id: attachmentId },
         data: { removedAt: new Date(), removalReason: reason, removedByRequesterId: requesterId },

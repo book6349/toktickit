@@ -99,12 +99,44 @@ textarea { resize: vertical; line-height: 1.5; }
 .upload-label { position: relative; overflow: hidden; }
 .upload-label input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
 .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+.staff-ticket-row { align-items: start; }
+.staff-ticket-row .ticket-meta { min-width: 12rem; }
+.staff-control-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; padding: 1.5rem 0; border-bottom: 1px solid var(--line); }
+.operation-panel { display: grid; gap: .75rem; align-content: start; padding: 1rem; border: 1px solid var(--line); border-radius: 12px; background: #fbfefd; }
+.operation-panel h3 { margin-bottom: 0; }
+.inline-actions { display: flex; flex-wrap: wrap; gap: .6rem; }
+.comment-list { list-style: none; padding: 0; margin: .75rem 0 1rem; display: grid; gap: .65rem; }
+.comment-list li { padding: .8rem; border-radius: 10px; background: var(--canvas); }
+.comment-list li > span { display: block; color: var(--muted); font-size: .8rem; margin-top: .2rem; }
+.comment-list li > p { white-space: pre-wrap; color: #375049; margin: .45rem 0 0; line-height: 1.55; }
+.public-panel { background: #fcfffd; }
+.internal-notes-panel { background: #fffdf7; border-left: 4px solid #c59a3a; padding-left: 1rem; }
+.direct-detail-form { align-items: end; margin-top: 1.5rem; }
+.user-management-card, .user-form-card { max-width: 1080px; }
+.user-filter-bar { grid-template-columns: minmax(15rem, 2fr) minmax(11rem, 1fr); }
+.user-list { display: grid; gap: .7rem; }
+.user-row { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 1rem; align-items: center; padding: 1rem; border: 1px solid var(--line); border-radius: 12px; background: #fff; }
+.user-row:hover { border-color: var(--zen-green-600); background: #fbfefd; }
+.user-main { display: grid; gap: .25rem; min-width: 0; }
+.user-main strong { color: var(--zen-green-950); }
+.user-main span { color: var(--ink); overflow-wrap: anywhere; }
+.user-main small { color: var(--muted); }
+.user-meta { display: flex; align-items: center; gap: .45rem; flex-wrap: wrap; justify-content: flex-end; }
+.role-pill { display: inline-flex; align-items: center; border-radius: 999px; padding: .28rem .65rem; font-size: .72rem; font-weight: 800; letter-spacing: .04em; color: var(--zen-green-950); background: #dff1e9; }
+.status-pill.inactive { color: #8b2e2e; background: #fff0ef; }
+.checkbox-field { align-content: start; }
+.checkbox-field label { display: flex; gap: .55rem; align-items: center; }
+.checkbox-field input { width: auto; }
+.reset-password-panel { display: grid; gap: .75rem; margin-top: 1.75rem; padding: 1.25rem; border: 1px solid #e8d8a8; border-left: 4px solid #c59a3a; border-radius: 12px; background: #fffdf7; }
+.reset-password-panel h3 { margin-bottom: 0; }
+.inline-reset-form { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto; gap: .75rem; align-items: end; }
+.inline-reset-form label { grid-column: 1 / -1; }
 
 @media (max-width: 700px) {
   .gate-card { margin-top: 1rem; padding: 1.4rem; }
   .topbar { align-items: start; flex-direction: column; }
   .requester-chip { align-items: start; text-align: left; flex-direction: column; gap: .25rem; }
-  .form-grid, .filter-bar, .detail-grid { grid-template-columns: 1fr; }
+  .form-grid, .filter-bar, .detail-grid, .staff-control-grid, .user-filter-bar { grid-template-columns: 1fr; }
   .filter-bar .secondary-button { width: 100%; }
   .filter-actions { grid-column: auto; justify-content: stretch; }
   .filter-actions > button { flex: 1; }
@@ -113,4 +145,11 @@ textarea { resize: vertical; line-height: 1.5; }
   .system-check, .section-heading { align-items: start; flex-direction: column; }
   .form-actions .primary-button { width: 100%; }
   .remove-form { align-items: stretch; flex-direction: column; }
+  .staff-ticket-row .ticket-meta { min-width: 0; }
+  .user-row { grid-template-columns: 1fr; }
+  .user-meta { justify-content: flex-start; }
+  .user-row .secondary-button { width: 100%; }
+  .inline-reset-form { grid-template-columns: 1fr; }
+  .inline-reset-form label { grid-column: auto; }
+  .inline-reset-form .secondary-button { width: 100%; }
 }
