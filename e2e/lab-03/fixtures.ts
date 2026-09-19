@@ -20,16 +20,21 @@ export async function signIn(page: Page, email: string, password = initialPasswo
 
 export async function completeInitialPasswordChange(page: Page, nextPassword = changedPassword) {
   const changeHeading = page.getByRole("heading", { name: "Change your password" });
+  const roleShellHeading = page.getByRole("heading", { name: /My tickets|Ticket Queue|User Management/ });
+  await expect(changeHeading.or(roleShellHeading)).toBeVisible({ timeout: 10_000 });
   if (await changeHeading.isVisible().catch(() => false)) {
     await page.getByLabel("Current password").fill(initialPassword);
-    await page.getByLabel("New password").fill(nextPassword);
+    await page.getByLabel("New password", { exact: true }).fill(nextPassword);
     await page.getByLabel("Confirm new password").fill(nextPassword);
-    await page.getByRole("button", { name: "Save password" }).click();
+    const saveButton = page.getByRole("button", { name: "Save password" });
+    await expect(saveButton).toBeEnabled();
+    await saveButton.click();
+    await expect(changeHeading).toBeHidden({ timeout: 10_000 });
   }
 }
 
-export async function signInAndUnlock(page: Page, email: string) {
-  await signIn(page, email);
+export async function signInAndUnlock(page: Page, email: string, password = initialPassword) {
+  await signIn(page, email, password);
   await completeInitialPasswordChange(page);
 }
 

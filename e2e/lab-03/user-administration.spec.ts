@@ -1,15 +1,15 @@
 import { expect, test } from "@playwright/test";
-import { adminEmail, captureRequiredViewports, signInAndUnlock } from "./fixtures";
+import { adminEmail, captureRequiredViewports, changedPassword, signInAndUnlock } from "./fixtures";
 
 test.describe("Lab 3 Administrator User Management", () => {
   test("Administrator can list, search, create, edit, and reset a user", async ({ page }) => {
     await signInAndUnlock(page, adminEmail);
     await expect(page.getByRole("heading", { name: "User Management" })).toBeVisible();
     await expect(page.getByRole("button", { name: "Create user" }).first()).toBeVisible();
-    await expect(page.getByText("Name")).toBeVisible();
-    await expect(page.getByText("Email")).toBeVisible();
-    await expect(page.getByText("Role")).toBeVisible();
-    await expect(page.getByText("Status")).toBeVisible();
+    const requesterRow = page.locator(".user-row").filter({ hasText: "Ariya Somchai" });
+    await expect(requesterRow).toBeVisible();
+    await expect(requesterRow.getByText("Requester", { exact: true })).toBeVisible();
+    await expect(requesterRow.getByText("Active", { exact: true })).toBeVisible();
 
     const email = `e2e-${Date.now()}@example.com`;
     await page.getByRole("button", { name: "Create user" }).first().click();
@@ -34,7 +34,7 @@ test.describe("Lab 3 Administrator User Management", () => {
   });
 
   test("Administrator navigation excludes Queue and direct Ticket Detail remains explicit", async ({ page }) => {
-    await signInAndUnlock(page, adminEmail);
+    await signInAndUnlock(page, adminEmail, changedPassword);
     await expect(page.getByRole("button", { name: "Ticket Queue" })).toHaveCount(0);
     await expect(page.getByText(/shared IT Staff Queue is not available/i)).toBeVisible();
     await page.getByLabel("Ticket ID").fill("1");
@@ -44,7 +44,7 @@ test.describe("Lab 3 Administrator User Management", () => {
   });
 
   test("Administrator User Management is captured at required responsive sizes", async ({ page }) => {
-    await signInAndUnlock(page, adminEmail);
+    await signInAndUnlock(page, adminEmail, changedPassword);
     await captureRequiredViewports(page, "user-management", "list");
   });
 });

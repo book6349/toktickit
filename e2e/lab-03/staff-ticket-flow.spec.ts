@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { captureRequiredViewports, signInAndUnlock, staffEmail } from "./fixtures";
+import { captureRequiredViewports, changedPassword, signInAndUnlock, staffEmail } from "./fixtures";
 
 test.describe("Lab 3 IT Staff Queue and Ticket Detail", () => {
   test("IT Staff can search Queue, open Detail, and see separate comments and notes", async ({ page }) => {
@@ -21,7 +21,7 @@ test.describe("Lab 3 IT Staff Queue and Ticket Detail", () => {
   });
 
   test("IT Staff Queue and Detail are captured at required responsive sizes", async ({ page }) => {
-    await signInAndUnlock(page, staffEmail);
+    await signInAndUnlock(page, staffEmail, changedPassword);
     await captureRequiredViewports(page, "staff-queue", "queue");
     await page.locator(".staff-ticket-row").first().getByRole("button", { name: "Open Detail" }).click();
     await captureRequiredViewports(page, "staff-ticket-detail", "detail");

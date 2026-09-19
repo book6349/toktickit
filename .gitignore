@@ -11,6 +11,9 @@ build/
 server/prisma/*.db
 # private uploaded files
 server/storage/
+# Playwright runtime output
+test-results/
+artifacts/lab-03/playwright-report/
 # logs & OS
 *.log
 .DS_Store
