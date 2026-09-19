@@ -53,8 +53,10 @@ describe("Lab 3 IT Staff Ticket Queue", () => {
     const list = vi.spyOn(api, "listStaffTickets").mockResolvedValue(queueResult);
     render(<App />);
 
-    await waitFor(() => expect(screen.getByRole("heading", { name: "Ticket Queue" })).toBeInTheDocument());
-    expect(screen.getByText(ticket.ticketNumber)).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByRole("heading", { name: "Ticket Queue" })).toBeInTheDocument();
+      expect(screen.getByText(ticket.ticketNumber)).toBeInTheDocument();
+    });
     expect(screen.getAllByText("Unassigned").length).toBeGreaterThanOrEqual(2);
 
     fireEvent.change(screen.getByLabelText("Search tickets"), { target: { value: "VPN" } });

@@ -192,6 +192,57 @@ export async function logout(): Promise<void> {
   csrfToken = null;
 }
 
+export type AdminUserFilters = {
+  search?: string;
+  role?: UserRole | "";
+};
+
+export type AdminUserCreate = {
+  name: string;
+  email: string;
+  role: UserRole;
+  isActive: boolean;
+  initialPassword: string;
+};
+
+export type AdminUserPatch = Partial<Pick<User, "name" | "email" | "role" | "isActive">>;
+
+export async function listAdminUsers(filters: AdminUserFilters = {}): Promise<User[]> {
+  const query = new URLSearchParams();
+  if (filters.search?.trim()) query.set("search", filters.search.trim());
+  if (filters.role) query.set("role", filters.role);
+  const suffix = query.toString() ? "?" + query.toString() : "";
+  const data = await request<{ users: User[] }>("/api/admin/users" + suffix);
+  return data.users;
+}
+
+export async function createAdminUser(payload: AdminUserCreate): Promise<User> {
+  const data = await request<{ user: User }>("/api/admin/users", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+  return data.user;
+}
+
+export async function updateAdminUser(userId: number, payload: AdminUserPatch): Promise<User> {
+  const data = await request<{ user: User }>(`/api/admin/users/${userId}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+  return data.user;
+}
+
+export async function resetAdminInitialPassword(userId: number, initialPassword: string): Promise<User> {
+  const data = await request<{ user: User }>(`/api/admin/users/${userId}/initial-password`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ initialPassword }),
+  });
+  return data.user;
+}
+
 export async function getActiveRequesters(): Promise<Requester[]> {
   const data = await request<{ requesters: Requester[] }>("/api/requesters/active");
   return data.requesters;
