@@ -21,6 +21,7 @@ import {
   uploadAttachments,
 } from "./api.js";
 import { AdminDirectDetail, StaffWorkspace } from "./staff.js";
+import { AdminWorkspace } from "./admin.js";
 
 type View = "list" | "create" | "detail";
 type AsyncStatus = "idle" | "loading" | "ready" | "error";
@@ -188,7 +189,7 @@ function App() {
           />
         )}
         {user && !user.mustChangePassword && user.role === "IT_STAFF" && <StaffWorkspace user={user} onLogout={() => void handleLogout()} />}
-        {user && !user.mustChangePassword && user.role === "ADMINISTRATOR" && <AdminDirectDetail user={user} onLogout={() => void handleLogout()} />}
+        {user && !user.mustChangePassword && user.role === "ADMINISTRATOR" && <AdminWorkspace user={user} onLogout={() => void handleLogout()} />}
       </div>
     </main>
   );
