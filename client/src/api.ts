@@ -1,5 +1,18 @@
 const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:3000";
 
+export type UserRole = "REQUESTER" | "IT_STAFF" | "ADMINISTRATOR";
+
+export interface User {
+  id: number;
+  name: string;
+  email: string;
+  role: UserRole;
+  isActive: boolean;
+  mustChangePassword: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface Requester {
   id: number;
   name: string;
@@ -35,7 +48,10 @@ export interface Ticket {
   categoryId: number;
   relatedSystemId: number;
   requestedPriority: "LOW" | "MEDIUM" | "HIGH";
-  status: "NEW";
+  itPriority?: "LOW" | "MEDIUM" | "HIGH";
+  status: "NEW" | "OPEN" | "IN_PROGRESS" | "WAITING_FOR_REQUESTER" | "RESOLVED" | "CLOSED" | "REOPENED" | "CANCELLED";
+  ownerId?: number | null;
+  requesterResolutionIndicatedAt?: string | null;
   summary: string;
   description: string;
   createdAt: string;
@@ -44,6 +60,14 @@ export interface Ticket {
   category?: Category;
   relatedSystem?: RelatedSystem;
   attachments: Attachment[];
+}
+
+export interface PublicComment {
+  id: number;
+  ticketId: number;
+  content: string;
+  author: { id: number; name: string; role: UserRole };
+  createdAt: string;
 }
 
 export interface Pagination {
@@ -82,21 +106,63 @@ async function readError(response: Response): Promise<Error & { fields?: Record<
   }
   const error = new Error(data.error?.message || "The TokTickIT API request failed.") as Error & {
     fields?: Record<string, string>;
+    status?: number;
+    code?: string;
   };
   error.fields = data.error?.fields;
+  error.status = response.status;
+  error.code = data.error?.code;
   return error;
+}
+
+let csrfToken: string | null = null;
+
+export async function getCsrfToken(): Promise<string> {
+  const response = await fetch(API_URL + "/api/auth/csrf", { credentials: "include" });
+  if (!response.ok) throw await readError(response);
+  const data = (await response.json()) as { csrfToken: string };
+  csrfToken = data.csrfToken;
+  return csrfToken;
 }
 
 async function request<T>(
   path: string,
   init: RequestInit = {},
-  requesterId?: number,
 ): Promise<T> {
   const headers = new Headers(init.headers);
-  if (requesterId !== undefined) headers.set("X-Requester-Id", String(requesterId));
-  const response = await fetch(API_URL + path, { ...init, headers });
+  const method = String(init.method ?? "GET").toUpperCase();
+  if (["POST", "PUT", "PATCH", "DELETE"].includes(method)) {
+    headers.set("X-CSRF-Token", csrfToken ?? await getCsrfToken());
+  }
+  const response = await fetch(API_URL + path, { ...init, headers, credentials: "include" });
   if (!response.ok) throw await readError(response);
+  if (response.status === 204) return undefined as T;
   return (await response.json()) as T;
+}
+
+export async function getCurrentUser(): Promise<{ user: User; mustChangePassword: boolean }> {
+  return request<{ user: User; mustChangePassword: boolean }>("/api/auth/me");
+}
+
+export async function login(email: string, password: string): Promise<{ user: User; mustChangePassword: boolean }> {
+  return request<{ user: User; mustChangePassword: boolean }>("/api/auth/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password }),
+  });
+}
+
+export async function changePassword(currentPassword: string, newPassword: string): Promise<{ user: User; mustChangePassword: boolean }> {
+  return request<{ user: User; mustChangePassword: boolean }>("/api/auth/change-password", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ currentPassword, newPassword }),
+  });
+}
+
+export async function logout(): Promise<void> {
+  await request<void>("/api/auth/logout", { method: "POST" });
+  csrfToken = null;
 }
 
 export async function getActiveRequesters(): Promise<Requester[]> {
@@ -131,17 +197,19 @@ export async function checkSystem(): Promise<SystemStatus> {
   return { online: true, categories };
 }
 
-export async function createTicket(
-  requesterId: number,
-  payload: {
+type TicketPayload = {
     categoryId: number;
     relatedSystemId: number;
     requestedPriority: "LOW" | "MEDIUM" | "HIGH";
     summary: string;
     description: string;
     attachments: File[];
-  },
-): Promise<Ticket> {
+};
+
+export async function createTicket(payload: TicketPayload): Promise<Ticket>;
+export async function createTicket(_requesterId: number, payload: TicketPayload): Promise<Ticket>;
+export async function createTicket(first: number | TicketPayload, second?: TicketPayload): Promise<Ticket> {
+  const payload = typeof first === "number" ? second! : first;
   const form = new FormData();
   form.set("categoryId", String(payload.categoryId));
   form.set("relatedSystemId", String(payload.relatedSystemId));
@@ -152,13 +220,11 @@ export async function createTicket(
   const data = await request<{ ticket: Ticket }>("/api/tickets", {
     method: "POST",
     body: form,
-  }, requesterId);
+  });
   return data.ticket;
 }
 
-export async function listTickets(
-  requesterId: number,
-  params: {
+type TicketParams = {
     search?: string;
     categoryId?: number | "";
     requestedPriority?: string;
@@ -167,42 +233,48 @@ export async function listTickets(
     sortDirection?: "asc" | "desc";
     page?: number;
     pageSize?: number;
-  } = {},
-): Promise<TicketList> {
+};
+
+export async function listTickets(params?: TicketParams): Promise<TicketList>;
+export async function listTickets(_requesterId: number, params?: TicketParams): Promise<TicketList>;
+export async function listTickets(first: number | TicketParams = {}, second: TicketParams = {}): Promise<TicketList> {
+  const params = typeof first === "number" ? second : first;
   const query = new URLSearchParams();
   Object.entries(params).forEach(([key, value]) => {
     if (value !== undefined && value !== "") query.set(key, String(value));
   });
   const suffix = query.toString() ? "?" + query.toString() : "";
-  return request<TicketList>("/api/tickets" + suffix, {}, requesterId);
+  return request<TicketList>("/api/tickets" + suffix);
 }
 
-export async function getTicket(requesterId: number, ticketId: number): Promise<Ticket> {
-  const data = await request<{ ticket: Ticket }>("/api/tickets/" + ticketId, {}, requesterId);
+export async function getTicket(ticketId: number): Promise<Ticket>;
+export async function getTicket(_requesterId: number, ticketId: number): Promise<Ticket>;
+export async function getTicket(first: number, second?: number): Promise<Ticket> {
+  const ticketId = second ?? first;
+  const data = await request<{ ticket: Ticket }>("/api/tickets/" + ticketId);
   return data.ticket;
 }
 
-export async function uploadAttachments(
-  requesterId: number,
-  ticketId: number,
-  files: File[],
-): Promise<Attachment[]> {
+export async function uploadAttachments(ticketId: number, files: File[]): Promise<Attachment[]>;
+export async function uploadAttachments(_requesterId: number, ticketId: number, files: File[]): Promise<Attachment[]>;
+export async function uploadAttachments(first: number, second: number | File[], third?: File[]): Promise<Attachment[]> {
+  const ticketId = typeof second === "number" ? second : first;
+  const files = (typeof second === "number" ? third : second)!;
   const form = new FormData();
   files.forEach((file) => form.append("attachments", file, file.name));
   const data = await request<{ attachments: Attachment[] }>(
     "/api/tickets/" + ticketId + "/attachments",
     { method: "POST", body: form },
-    requesterId,
   );
   return data.attachments;
 }
 
-export async function downloadAttachment(
-  requesterId: number,
-  attachmentId: number,
-): Promise<{ blob: Blob; filename: string }> {
+export async function downloadAttachment(attachmentId: number): Promise<{ blob: Blob; filename: string }>;
+export async function downloadAttachment(_requesterId: number, attachmentId: number): Promise<{ blob: Blob; filename: string }>;
+export async function downloadAttachment(first: number, second?: number): Promise<{ blob: Blob; filename: string }> {
+  const attachmentId = second ?? first;
   const response = await fetch(API_URL + "/api/attachments/" + attachmentId + "/download", {
-    headers: { "X-Requester-Id": String(requesterId) },
+    credentials: "include",
   });
   if (!response.ok) throw await readError(response);
   const disposition = response.headers.get("Content-Disposition") ?? "";
@@ -210,11 +282,11 @@ export async function downloadAttachment(
   return { blob: await response.blob(), filename: match?.[1] ?? "attachment" };
 }
 
-export async function removeAttachment(
-  requesterId: number,
-  attachmentId: number,
-  reason: string,
-): Promise<Attachment> {
+export async function removeAttachment(attachmentId: number, reason: string): Promise<Attachment>;
+export async function removeAttachment(_requesterId: number, attachmentId: number, reason: string): Promise<Attachment>;
+export async function removeAttachment(first: number, second: number | string, third?: string): Promise<Attachment> {
+  const attachmentId = typeof second === "number" ? second : first;
+  const reason = typeof second === "number" ? third! : second;
   const data = await request<{ attachment: Attachment }>(
     "/api/attachments/" + attachmentId,
     {
@@ -222,7 +294,28 @@ export async function removeAttachment(
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ reason }),
     },
-    requesterId,
   );
   return data.attachment;
+}
+
+export async function getComments(ticketId: number): Promise<PublicComment[]> {
+  const data = await request<{ comments: PublicComment[] }>(`/api/tickets/${ticketId}/comments`);
+  return data.comments;
+}
+
+export async function addComment(ticketId: number, content: string): Promise<PublicComment> {
+  const data = await request<{ comment: PublicComment }>(`/api/tickets/${ticketId}/comments`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ content }),
+  });
+  return data.comment;
+}
+
+export async function setResolution(ticketId: number, appearsResolved: boolean): Promise<{ appearsResolved: boolean; indicatedAt: string | null }> {
+  return request<{ appearsResolved: boolean; indicatedAt: string | null }>(`/api/tickets/${ticketId}/resolution-indication`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ appearsResolved }),
+  });
 }
