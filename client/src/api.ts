@@ -70,6 +70,28 @@ export interface PublicComment {
   createdAt: string;
 }
 
+export interface StaffPerson {
+  id: number;
+  name: string;
+  email: string;
+  role: UserRole;
+}
+
+export interface InternalNote {
+  id: number;
+  ticketId: number;
+  content: string;
+  author: StaffPerson;
+  createdAt: string;
+}
+
+export interface StaffTicket extends Ticket {
+  requester?: StaffPerson;
+  owner?: StaffPerson | null;
+  comments: PublicComment[];
+  notes: InternalNote[];
+}
+
 export interface Pagination {
   page: number;
   pageSize: number;
@@ -81,6 +103,11 @@ export interface Pagination {
 
 export interface TicketList {
   items: Ticket[];
+  pagination: Pagination;
+}
+
+export interface StaffTicketList {
+  items: StaffTicket[];
   pagination: Pagination;
 }
 
@@ -318,4 +345,72 @@ export async function setResolution(ticketId: number, appearsResolved: boolean):
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ appearsResolved }),
   });
+}
+
+export type StaffTicketParams = {
+  search?: string;
+  status?: string;
+  requestedPriority?: string;
+  itPriority?: string;
+  ownerId?: number;
+  ownership?: "assigned" | "unassigned" | "";
+  sortBy?: "updatedAt" | "createdAt" | "ticketNumber" | "status" | "requestedPriority" | "itPriority" | "owner";
+  sortDirection?: "asc" | "desc";
+  page?: number;
+  pageSize?: number;
+};
+
+export async function listStaffTickets(params: StaffTicketParams = {}): Promise<StaffTicketList> {
+  const query = new URLSearchParams();
+  Object.entries(params).forEach(([key, value]) => {
+    if (value !== undefined && value !== "") query.set(key, String(value));
+  });
+  const suffix = query.toString() ? "?" + query.toString() : "";
+  return request<StaffTicketList>("/api/staff/tickets" + suffix);
+}
+
+export async function getStaffTicket(ticketId: number): Promise<StaffTicket> {
+  const data = await request<{ ticket: StaffTicket }>(`/api/staff/tickets/${ticketId}`);
+  return data.ticket;
+}
+
+export async function updateStaffOwner(ticketId: number, ownerId: number | null): Promise<StaffTicket> {
+  const data = await request<{ ticket: StaffTicket }>(`/api/staff/tickets/${ticketId}/owner`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ ownerId }),
+  });
+  return data.ticket;
+}
+
+export async function updateStaffPriority(ticketId: number, itPriority: "LOW" | "MEDIUM" | "HIGH"): Promise<StaffTicket> {
+  const data = await request<{ ticket: StaffTicket }>(`/api/staff/tickets/${ticketId}/priority`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ itPriority }),
+  });
+  return data.ticket;
+}
+
+export async function updateStaffStatus(ticketId: number, status: Ticket["status"], confirm = false): Promise<StaffTicket> {
+  const data = await request<{ ticket: StaffTicket }>(`/api/staff/tickets/${ticketId}/status`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ status, confirm }),
+  });
+  return data.ticket;
+}
+
+export async function getStaffNotes(ticketId: number): Promise<InternalNote[]> {
+  const data = await request<{ notes: InternalNote[] }>(`/api/staff/tickets/${ticketId}/notes`);
+  return data.notes;
+}
+
+export async function addStaffNote(ticketId: number, content: string): Promise<InternalNote> {
+  const data = await request<{ note: InternalNote }>(`/api/staff/tickets/${ticketId}/notes`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ content }),
+  });
+  return data.note;
 }
