@@ -45,4 +45,18 @@ describe("Lab 3 Login", () => {
     fireEvent.click(screen.getByRole("button", { name: "Sign in" }));
     await waitFor(() => expect(screen.getByRole("alert")).toHaveTextContent("Email or password is incorrect."));
   });
+
+  it("shows and disables the visible sign-in busy state while authentication is pending", async () => {
+    vi.spyOn(api, "getCurrentUser").mockRejectedValue({ status: 401 });
+    let resolveLogin: ((value: { user: typeof signedInUser; mustChangePassword: boolean }) => void) | undefined;
+    vi.spyOn(api, "login").mockImplementation(() => new Promise((resolve) => { resolveLogin = resolve; }));
+    render(<App />);
+    await waitFor(() => expect(screen.getByRole("heading", { name: /sign in/i })).toBeInTheDocument());
+    fireEvent.change(screen.getByLabelText("Email"), { target: { value: signedInUser.email } });
+    fireEvent.change(screen.getByLabelText("Password"), { target: { value: "Local-development-password" } });
+    fireEvent.click(screen.getByRole("button", { name: "Sign in" }));
+    expect(screen.getByRole("button", { name: "Signing in…" })).toBeDisabled();
+    resolveLogin?.({ user: signedInUser, mustChangePassword: false });
+    await waitFor(() => expect(screen.getByRole("heading", { name: "My tickets" })).toBeInTheDocument());
+  });
 });

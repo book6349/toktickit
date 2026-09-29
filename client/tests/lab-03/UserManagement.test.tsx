@@ -78,5 +78,7 @@ describe("Lab 3 Administrator User Management", () => {
     fireEvent.change(screen.getByLabelText("New initial password"), { target: { value: "Reset-password-2026" } });
     fireEvent.click(screen.getByRole("button", { name: "Reset password" }));
     await waitFor(() => expect(reset).toHaveBeenCalledWith(2, "Reset-password-2026"));
+    expect(screen.getByRole("status")).toHaveTextContent("Initial password reset. The user must change it at next login.");
+    expect(screen.getByRole("heading", { name: "Edit user" })).toBeInTheDocument();
   });
 });

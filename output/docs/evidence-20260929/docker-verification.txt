@@ -1,0 +1,184 @@
+Lab 3 disposable Docker database verification
+Date: 2026-09-29 (Asia/Bangkok)
+Repository: C:\Users\Jitvoottikrai\OneDrive\เดสก์ท็อป\SoftwareEn\LAB1\Lab1_Starter_Scaffold\toktickit-lab3-specification
+Branch: main
+HEAD: 493758be65850504de7b970e50f7a61b846584f0
+Worktree: dirty; results below are local dirty-tree evidence, not final-main.
+Databases used for this replay were newly created task-scoped disposable databases:
+  toktickit_lab3_migration_recheck_20260929
+  toktickit_lab3_e2e_recheck2_20260929
+No pre-existing database was reset or modified. Connection values were loaded
+from server/.env.example in the process only; the URL/password is intentionally
+not printed.
+
+1. Docker availability/readiness check
+Working directory: repository root
+Command: docker ps --filter name=toktickit-postgres --format '{{.Names}} {{.Status}} {{.Ports}}'
+Observed at 2026-09-29 21:58:15 +07:00:
+toktickit-postgres Up 2 hours 0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
+Exit code: 0
+The availability checks below were read-only; they did not alter database
+state. The first was before publish, and the second followed final visual QA.
+
+Pre-publish final availability recheck at 2026-09-29 22:28:17 +07:00:
+Command: docker ps --filter 'name=toktickit-postgres' --format '{{.Names}} {{.Status}} {{.Ports}}'
+Output: toktickit-postgres Up 3 hours 0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
+Exit code: 0
+Command: docker exec toktickit-postgres pg_isready -U toktickit
+Output: /var/run/postgresql:5432 - accepting connections
+Exit code: 0
+
+Post-report final availability recheck after final PDF visual QA at
+2026-09-29 22:39:44 +07:00:
+Command: docker ps --filter 'name=toktickit-postgres' --format '{{.Names}} {{.Status}} {{.Ports}}'
+Output: toktickit-postgres Up 3 hours 0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
+Exit code: 0
+Command: docker exec toktickit-postgres pg_isready -U toktickit
+Output: /var/run/postgresql:5432 - accepting connections
+Exit code: 0
+
+2. Lab 2 baseline and data-preservation fixture
+Only the new migration_recheck database was created. Its base Category table
+was bootstrapped, then the repository's
+server/prisma/migrations/20260824000000_lab2_foundation/migration.sql was
+applied. The Lab 2 shape check returned 0 Lab 3-specific RequesterUser columns
+and 0 Lab 3-specific Ticket columns.
+
+Synthetic Lab 2 fixture values before Lab 3 migration:
+Attachment|7501|7401|preserved-proof.pdf|lab3-preservation/7501|application/pdf|1234
+Requester|7301|Preservation Requester|lab3-preservation-7301@example.test|true
+Ticket|7401|LAB3-PRESERVE-7401|7301|1|1|HIGH|NEW|Migration preservation fixture
+
+3. Initial Prisma deploy attempt and baseline correction
+Working directory: server
+Command: npx prisma migrate deploy
+Database: toktickit_lab3_migration_recheck_20260929
+Observed output:
+Prisma schema loaded from prisma\schema.prisma
+Datasource "db": PostgreSQL database "toktickit_lab3_migration_recheck_20260929", schema "public" at "localhost:5432"
+2 migrations found in prisma/migrations
+Error: P3005
+The database schema is not empty. Read more about how to baseline an existing production database: https://pris.ly/d/migrate-baseline
+Exit code: 1
+
+The Lab 2 SQL had already been applied to this new disposable database, so I
+recorded that baseline with Prisma and reran the Lab 3 deploy:
+Command: npx prisma migrate resolve --applied 20260824000000_lab2_foundation
+Prisma schema loaded from prisma\schema.prisma
+Datasource "db": PostgreSQL database "toktickit_lab3_migration_recheck_20260929", schema "public" at "localhost:5432"
+Migration 20260824000000_lab2_foundation marked as applied.
+Exit code: 0
+
+Command: npx prisma migrate deploy
+Prisma schema loaded from prisma\schema.prisma
+Datasource "db": PostgreSQL database "toktickit_lab3_migration_recheck_20260929", schema "public" at "localhost:5432"
+2 migrations found in prisma/migrations
+Applying migration `20260919000000_lab3_auth_requester`
+The following migration(s) have been applied:
+migrations/
+  └─ 20260919000000_lab3_auth_requester/
+    └─ migration.sql
+All migrations have been successfully applied.
+Exit code: 0
+
+Command: npx prisma migrate status
+Prisma schema loaded from prisma\schema.prisma
+Datasource "db": PostgreSQL database "toktickit_lab3_migration_recheck_20260929", schema "public" at "localhost:5432"
+2 migrations found in prisma/migrations
+Database schema is up to date!
+Exit code: 0
+
+Post-Lab-3 preservation snapshot:
+Attachment|7501|7401|preserved-proof.pdf|lab3-preservation/7501|application/pdf|1234
+Requester|7301|Preservation Requester|lab3-preservation-7301@example.test|true|REQUESTER|true
+Ticket|7401|LAB3-PRESERVE-7401|7301|1|1|HIGH|HIGH|NEW|NULL|Migration preservation fixture
+
+4. Seed twice and database assertions
+Working directory: server
+Command: npm run prisma:seed (first attempt)
+Result: failed, exit code 1. P2002 duplicate Category id, because the synthetic
+Category/RelatedSystem IDs were explicit and those two disposable sequences had
+not been advanced. No application code or pre-existing database was changed.
+Relevant error output:
+PrismaClientKnownRequestError: Invalid `prisma.category.upsert()` invocation
+server/prisma/seed.ts:29:27
+Unique constraint failed on the fields: (`id`)
+code: P2002; modelName: Category; target: [ 'id' ]; clientVersion: 5.22.0
+
+Correction on the disposable database only: set the Category and RelatedSystem
+sequences to their current max IDs. Both setval calls returned 1.
+
+Command: npm run prisma:seed (rerun 1)
+> toktickit-server@1.0.0 prisma:seed
+> tsx prisma/seed.ts
+Seeding completed successfully: 10 users and 3 tickets.
+Exit code: 0
+
+Command: npm run prisma:seed (rerun 2)
+> toktickit-server@1.0.0 prisma:seed
+> tsx prisma/seed.ts
+Seeding completed successfully: 10 users and 3 tickets.
+Exit code: 0
+
+Pre-seed counts:
+attachments|1
+categories|1
+internal notes|0
+public comments|0
+systems|1
+tickets|1
+users|1
+
+Post-second-seed assertions (metric|value):
+attachments|1
+categories|5
+internal notes|3
+invalid requester/owner FKs|0
+preserved attachment relationship|1
+public comments|3
+seed Administrators|1
+seed IT Staff|4
+seed Requesters|5
+seed tickets|3
+seed users|10
+systems|7
+total tickets|4
+total users|11
+
+Supplemental idempotence and role/authorship verification:
+Before supplemental seed rerun:
+attachments|1
+categories|5
+internal notes|3
+public comments|3
+systems|7
+tickets|4
+users|11
+
+Command: npm run prisma:seed
+> toktickit-server@1.0.0 prisma:seed
+> tsx prisma/seed.ts
+Seeding completed successfully: 10 users and 3 tickets.
+Exit code: 0
+
+After supplemental seed rerun (counts unchanged):
+attachments|1
+categories|5
+internal notes|3
+public comments|3
+systems|7
+tickets|4
+users|11
+
+Role/authorship/continuity assertions (metric|count):
+preserved attachment relationship|1
+seed Administrator count|1
+seed comments with non-Requester authors|0
+seed IT Staff count|4
+seed notes with non-Staff authors|0
+seed requester count|5
+seed tickets with invalid requester/owner roles|0
+
+These checks demonstrate the Lab 2 fixture's row/metadata/link preservation
+through the actual Lab 3 migration, then confirm stable seed counts and
+relationships across two runs. They are dirty-tree local evidence only.

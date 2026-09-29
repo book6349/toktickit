@@ -46,6 +46,11 @@ export async function captureRequiredViewports(page: Page, relativePath: string,
   ];
   for (const viewport of viewports) {
     await page.setViewportSize({ width: viewport.width, height: viewport.height });
+    const overflow = await page.evaluate(() => ({
+      scrollWidth: document.documentElement.scrollWidth,
+      clientWidth: document.documentElement.clientWidth,
+    }));
+    expect(overflow.scrollWidth, `horizontal overflow at ${viewport.label}`).toBeLessThanOrEqual(overflow.clientWidth);
     await page.screenshot({
       path: `artifacts/lab-03/screenshots/${relativePath}/${viewport.label}-${name}.png`,
       fullPage: true,

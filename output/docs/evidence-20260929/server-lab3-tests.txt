@@ -1,0 +1,42 @@
+Working directory: server
+Command: npm test -- --run tests/lab-03 --reporter=verbose
+
+> toktickit-server@1.0.0 test
+> vitest run --run tests/lab-03 --reporter=verbose
+
+
+ RUN  v2.1.9 C:/Users/Jitvoottikrai/OneDrive/เดสก์ท็อป/SoftwareEn/LAB1/Lab1_Starter_Scaffold/toktickit-lab3-specification/server
+
+ ✓ tests/lab-03/migration-regression.test.ts > Lab 3 migration and seed contract > maps the canonical User model to the Lab 2 table and preserves ownership fields
+ ✓ tests/lab-03/migration-regression.test.ts > Lab 3 migration and seed contract > keeps role fixtures and local-only initial credentials in the idempotent seed
+ ✓ tests/lab-03/auth.unit.test.ts > Lab 3 authentication primitives > normalizes email consistently
+ ✓ tests/lab-03/auth.unit.test.ts > Lab 3 authentication primitives > enforces the documented password boundaries and composition
+ ✓ tests/lab-03/auth.unit.test.ts > Lab 3 authentication primitives > stores a salted scrypt digest rather than the supplied password
+ ✓ tests/lab-03/auth.unit.test.ts > Lab 3 authentication primitives > verifies the correct password and rejects wrong or malformed digests
+ ✓ tests/lab-03/staff-queue.api.test.ts > Lab 3 IT Staff Queue > enforces staff-only access and returns filtered paginated queue data
+ ✓ tests/lab-03/staff-queue.api.test.ts > Lab 3 IT Staff Queue > rejects invalid queries before touching ticket data
+ ✓ tests/lab-03/staff-queue.api.test.ts > Lab 3 IT Staff Queue > does not expose the Queue to Requesters or Administrators
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > requires the approved confirmation and transition matrix on the backend
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > updates a permitted status only when the current state still matches
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > rejects requester owners and allows a permitted priority update
+ ✓ tests/lab-03/authorization.api.test.ts > Lab 3 Requester authorization > uses session identity for Ticket creation and ignores requesterId input
+ ✓ tests/lab-03/authorization.api.test.ts > Lab 3 Requester authorization > returns the same safe not-found response for cross-requester Ticket access
+ ✓ tests/lab-03/authorization.api.test.ts > Lab 3 Requester authorization > returns Public Comments only and records a requester resolution indication
+ ✓ tests/lab-03/comments-notes.api.test.ts > Lab 3 Public Comments and Internal Notes > keeps Internal Notes on separate staff endpoints and records the session author
+ ✓ tests/lab-03/comments-notes.api.test.ts > Lab 3 Public Comments and Internal Notes > does not allow Requesters to read staff notes
+ ✓ tests/lab-03/auth.api.test.ts > Lab 3 authentication contract > requires CSRF and returns safe user data on login
+ ✓ tests/lab-03/auth.api.test.ts > Lab 3 authentication contract > uses the same safe 401 for missing and inactive accounts
+ ✓ tests/lab-03/users-admin.api.test.ts > Lab 3 Administrator User Management API > lists safe users with case-insensitive search and one role filter
+ ✓ tests/lab-03/auth.api.test.ts > Lab 3 authentication contract > gates normal routes until password change and revokes the old session
+ ✓ tests/lab-03/users-admin.api.test.ts > Lab 3 Administrator User Management API > rejects non-Administrators and invalid role filters 320ms
+ ✓ tests/lab-03/users-admin.api.test.ts > Lab 3 Administrator User Management API > creates an active user with a hashed initial password and forced change
+ ✓ tests/lab-03/users-admin.api.test.ts > Lab 3 Administrator User Management API > rejects duplicate email and invalid create input safely 304ms
+ ✓ tests/lab-03/users-admin.api.test.ts > Lab 3 Administrator User Management API > edits permitted account fields and resets the initial password
+ ✓ tests/lab-03/users-admin.api.test.ts > Lab 3 Administrator User Management API > blocks self-deactivation and removal of the last active Administrator
+
+ Test Files  8 passed (8)
+      Tests  26 passed (26)
+   Start at  17:42:41
+   Duration  2.89s (transform 603ms, setup 0ms, collect 4.42s, tests 2.56s, environment 2ms, prepare 2.21s)
+
+Exit code: 0

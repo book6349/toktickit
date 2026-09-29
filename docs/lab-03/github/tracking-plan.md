@@ -1,22 +1,29 @@
 # Lab 3 GitHub Tracking Plan
 
-Status: Copy-ready planning material. No GitHub Issue or Pull Request has
-been created from these files.
+Status: Historical plan for the approved five-unit Lab 3 workflow. Issues
+#36-#40, feature PRs #41-#45, and release PR #46 were created and completed.
+See `../reviewer.md` for the observed GitHub record. The files in this folder
+remain copy-ready templates; their placeholders are not evidence of Issues,
+PRs, reviews, approvals, merges, or board changes.
 
 ## Five approved units
 
-| ID | Issue title | Branch | First target | PR now |
-|---|---|---|---|---|
-| ISSUE-01 | Lab 3 engineering contract and Test DD | feature/lab3-specification | lab3-staging | Yes, one PR |
-| ISSUE-02 | Authentication, migration, authorization, and Requester regression | feature/lab3-auth-requester | lab3-staging | Later |
-| ISSUE-03 | IT Staff Queue, Ticket Detail, and ticket operations | feature/lab3-staff-workflow | lab3-staging | Later |
-| ISSUE-04 | Administrator User Management | feature/lab3-admin-users | lab3-staging | Later |
-| ISSUE-05 | Integrated E2E/visual evidence and Lab 3 release integration | feature/lab3-integration-evidence | lab3-staging, then reviewed release PR to main | Later |
+| Unit | Issue | Branch | Feature PR | Target | Actual status |
+|---|---|---|---|---|---|
+| 1. Engineering contract and Test DD | #36 | `feature/lab3-specification` | #41 | `lab3-staging` | Merged |
+| 2. Authentication and Requester regression | #37 | `feature/lab3-auth-requester` | #42 | `lab3-staging` | Merged |
+| 3. IT Staff workflow | #38 | `feature/lab3-staff-workflow` | #43 | `lab3-staging` | Merged |
+| 4. Administrator user management | #39 | `feature/lab3-admin-users` | #44 | `lab3-staging` | Merged |
+| 5. E2E, visual evidence, and integration | #40 | `feature/lab3-integration-evidence` | #45 | `lab3-staging` | PR #45 and release PR #46 to `main` merged |
 
-The first PR is documentation-only and contains the Lab 3 specification and
-Test DD. The other four PRs must not be opened now.
+At planning time, the first PR was documentation-only and the remaining PRs
+were held until dependencies were ready. All five units have since completed;
+the actual review and merge events are recorded in `../reviewer.md`.
 
-## Controlled posting order
+## Approved posting order (historical)
+
+The approved sequence below was followed. `ISSUE-01` through `ISSUE-05` were
+GitHub Issues #36 through #40 respectively.
 
 1. Create exactly these five Issues and add each to the existing Kanban board
    in Backlog. Do not create extra Issues.
@@ -53,5 +60,6 @@ Test DD. The other four PRs must not be opened now.
 - pr-01-author-reply.txt through pr-05-author-reply.txt: copy-ready replies after each comment is addressed.
 - pr-01-approval.txt through pr-05-approval.txt: copy-ready approval text for the reviewer.
 
-Replace ISSUE-01-style placeholders with actual GitHub numbers and links only
-after the Issues are created. Do not invent numbers or review events.
+The templates intentionally retain `ISSUE-01`-style placeholders. Do not use
+those placeholders as live links or evidence; use `../reviewer.md` for actual
+GitHub numbers and observed review events.

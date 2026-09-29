@@ -52,6 +52,10 @@ test.describe("Lab 3 authentication and Requester regression", () => {
     await expect(page.getByText("Requester E2E comment.")).toBeVisible();
     await page.getByRole("button", { name: "Mark as appears resolved" }).click();
     await expect(page.getByText("Marked as appears resolved.")).toBeVisible();
+    await page.screenshot({
+      path: "artifacts/lab-03/screenshots/authentication/requester-resolution-indicated-1280x900.png",
+      fullPage: true,
+    });
   });
 
   test("Requester shell is captured at required responsive sizes", async ({ page }) => {
