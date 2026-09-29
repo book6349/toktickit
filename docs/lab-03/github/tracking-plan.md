@@ -4,7 +4,10 @@ Status: Historical plan for the approved five-unit Lab 3 workflow. Issues
 #36-#40, feature PRs #41-#45, and release PR #46 were created and completed.
 See `../reviewer.md` for the observed GitHub record. The files in this folder
 remain copy-ready templates; their placeholders are not evidence of Issues,
-PRs, reviews, approvals, merges, or board changes.
+PRs, reviews, approvals, merges, or board changes. A post-audit correction now
+uses existing Issue #40; PR #47 is open to `lab3-staging` and pending Punge089's
+review. No additional Issue was created, and the follow-up release PR is not
+open.
 
 ## Five approved units
 
@@ -19,6 +22,19 @@ PRs, reviews, approvals, merges, or board changes.
 At planning time, the first PR was documentation-only and the remaining PRs
 were held until dependencies were ready. All five units have since completed;
 the actual review and merge events are recorded in `../reviewer.md`.
+
+## Post-audit follow-up (existing Issue #40)
+
+- [PR #47](https://github.com/book6349/toktickit/pull/47) uses
+  `feature/lab3-submission-corrections` and targets `lab3-staging`.
+- GitHub's Development panel links PR #47 to [Issue #40](https://github.com/book6349/toktickit/issues/40).
+- Issue #40 is open and its board status is `PR Review`; Punge089's review is
+  requested and pending.
+- Do not merge PR #47 as the author. The reviewer must review, receive replies
+  to any comments, approve, and merge it. Only afterward prepare and review the
+  follow-up release PR from `lab3-staging` to `main`.
+- Keep Issue #40 open until the follow-up release is reviewed and merged and
+  the documented workflow permits closure.
 
 ## Approved posting order (historical)
 

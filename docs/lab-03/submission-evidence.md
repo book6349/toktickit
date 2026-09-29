@@ -9,7 +9,10 @@ from current dirty-working-tree results.
 
 The prior statement that a Project-board screenshot was unavailable was stale:
 the editable report contains a board screenshot on page 2 showing Issues
-#36-#40 in Done. This audit rechecked the previously deferred Docker-backed work
+#36-#40 in Done at the original release. On 2026-09-30, the live board was
+rechecked after the post-audit follow-up: Issue #40 is now open in `PR Review`.
+The existing screenshot therefore records the historical state and must be
+replaced for the final report. This audit rechecked the previously deferred Docker-backed work
 on uniquely named disposable databases. The Lab 3 migration preserved seeded
 pre-Lab-3 Requester, Ticket, and Attachment rows; two seed runs produced stable
 counts and relationship checks; and the corrected integrated Playwright run
@@ -19,8 +22,9 @@ from that committed SHA or final-main.
 
 Remaining limits prevent claiming full final compliance:
 
-1. The worktree remains dirty; no follow-up integration was published. A final
-   post-review run against committed `main` is still required.
+1. PR #47 publishes the post-audit corrections to `lab3-staging` but is still
+   awaiting Punge089's review. A follow-up release PR and final post-review run
+   against committed `main` are still required.
 2. The historical main run's full raw output is absent. Current passing output
    is local dirty-tree evidence and is labelled accordingly.
 3. The original mobile full-page screenshots on report pages 12, 17, and 22
@@ -33,11 +37,13 @@ Remaining limits prevent claiming full final compliance:
    journeys, and overflow checks on Requester, Queue, Detail, and Admin
    viewports. Administrator safety guards are identifiable in passing API
    tests, but no dedicated safety-state screenshot was captured.
-6. Reviewer Punge089's historical review events are confirmed. The current
-   collaborator-permission endpoint returned 403, and the live board was not
-   rechecked during this audit.
-7. Remote `main` still has placeholder rows in `reviewer.md`; the locally
-   corrected workflow record and submission have not been published.
+6. Reviewer Punge089's historical review events are confirmed, and a review
+   request for PR #47 is visibly pending. The current collaborator-permission
+   endpoint returned 403, so current collaborator permission level remains
+   unknown. The live board shows Issue #40 in `PR Review`.
+7. The corrected workflow/evidence records are committed on the PR #47 head
+   branch, not yet integrated into `main`. The editable report's board view and
+   workflow appendix still need synchronization with the follow-up events.
 
 No placeholder or planned evidence is treated as a real event. Full compliance
 is not claimed while these material gaps remain.
@@ -48,11 +54,11 @@ is not claimed while these material gaps remain.
 |---|---|---|---|
 | One concise PDF to submit | `output/docs/Lab3_Final_Report.pdf` | Regenerated from the editable DOCX; final page count, hash, links, and every rendered page are checked after export | Local submission copy; not final-main |
 | Headings `Answer Part 1` through `Answer Part 9` in exact order | Final report body pages 1-32 | Extracted heading check; Part 1-9 headings occur in order | Verified |
-| Working links | Final report annotations and GitHub links | Issues/PRs #36-#46 and review/comment/reply/approval anchors were fetched and confirmed; permission endpoint returned 403 | Links verified; current collaborator permission is not established |
+| Working links | Final report annotations and GitHub links | Issues/PRs #36-#47 and historical review/comment/reply/approval anchors were checked; PR #47 is linked to Issue #40 through Development; permission endpoint returned 403 | Links checked; PR #47 review pending; collaborator permission is not established |
 | Readable screenshots | Final report Figures 1-42 and `artifacts/lab-03/screenshots/` | Lossless mobile crops, fresh E2E captures, and all page placements inspected; auth gate images use mocked API for layout only | Local dirty-tree evidence; not final-main |
-| Final repository and `main` as source of truth | Part 1, local `reviewer.md`, final commit `493758b` | PDF reflects local post-main corrections; remote `main` reviewer file still contains placeholders | Not integrated; report and main differ |
+| Final repository and `main` as source of truth | Part 1, local `reviewer.md`, final commit `493758b` | Corrections and workflow updates are on PR #47 to staging; they are not yet on `main` | Follow-up integration pending; report requires final synchronization |
 | Feature branches merged into `lab3-staging`, then `main` | Part 1 table and local `reviewer.md` section 2 | Issues #36-#40 and PRs #41-#46 confirmed through read-only GitHub fetches; all merged/closed | GitHub events verified |
-| Final Kanban board with all Issues in Done | `reviewer.md`, Part 1, screenshot embedded on report page 2 | Image shows #36-#40 Done; current live board access not rechecked | Screenshot evidenced; link/access not rechecked |
+| Final Kanban board with all Issues in Done | `reviewer.md`, Part 1, screenshot embedded on report page 2 | Existing image shows the historical #36-#40 Done state; the live board now shows reopened Issue #40 in PR Review | Refresh board screenshot after follow-up release and closure |
 | Rendered `reviewer.md` with reviewer identity, PR links, comments, replies, approvals | Final report workflow appendix and `reviewer.md` | Six review/reply/approval/merge rows are rendered | Verified |
 | README and `.gitignore` evidence | Final report workflow appendix and repository links | Files inspected on final `main` | Verified |
 | Repository directory structure | Final report repository appendix | Generated from `git ls-tree -r --name-only HEAD` at `493758b`; 152 committed paths, excluding dirty, ignored, generated, and backup files | Content and rendered placement verified |
@@ -116,10 +122,12 @@ is not claimed while these material gaps remain.
 - `Unavailable`: the required external view or permission was not accessible.
 
 The board screenshot is present on report page 2, so the former “unavailable”
-claim is removed. GitHub Issue/PR/review event links were checked read-only;
-Punge089's review activity is confirmed, but the permission endpoint returned
-403 and the current board was not queried. Docker-backed migration, seed, data
+claim is removed. GitHub Issue/PR/review event links were checked; Punge089's
+historical review activity is confirmed and the PR #47 review request is
+visible. The permission endpoint returned 403. The live board was checked and
+shows Issue #40 in `PR Review`. Docker-backed migration, seed, data
 preservation, and integrated E2E checks passed on disposable databases in the
-dirty local tree. Final acceptance remains open for a post-review run against
-committed `main`, reviewed integration of local report corrections, current
-reviewer permission-level confirmation, and live board verification.
+dirty local tree. Final acceptance remains open for Punge089's PR #47 review,
+the reviewed follow-up release to `main`, post-review checks against committed
+`main`, final report and board screenshot synchronization, and current reviewer
+permission-level confirmation.

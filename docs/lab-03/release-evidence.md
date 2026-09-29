@@ -1,10 +1,12 @@
 # Lab 3 Release and Verification Evidence
 
-Status: The GitHub release is historically complete. Section 2 preserves the
-2026-09-21 final-main audit summary; it is not a raw log and does not certify
-the dirty local audit tree inspected on 2026-09-29. Section 6 records later
-dirty-tree Docker migration/data-preservation, seed-twice, and 15-test E2E
-passes. No follow-up GitHub change has been made.
+Status: The original GitHub release is historically complete. A post-audit
+correction is now open as PR #47 to `lab3-staging`, linked to reopened Issue
+#40, and awaits Punge089's review. The next release PR to `main` is not open.
+Section 2 preserves the 2026-09-21 final-main audit summary; it is not a raw log
+and does not certify the dirty local audit tree inspected on 2026-09-29.
+Section 6 records later dirty-tree Docker migration/data-preservation,
+seed-twice, and 15-test E2E passes.
 
 ## 1. Release snapshot
 
@@ -69,9 +71,14 @@ keyboard-only role journeys and a busy-state test.
 
 ## 4. GitHub workflow evidence
 
-The complete Issue, board, review, reply, approval, merge, and release record
-is in [`reviewer.md`](reviewer.md). All five Issues are closed and the board
-shows `Done`; Issue #38 was corrected from `No status` to `Done` after closure.
+The original Issue, board, review, reply, approval, merge, and release record is
+in [`reviewer.md`](reviewer.md). Issues #36-#40 and PRs #41-#46 completed that
+workflow, and Issue #38 was corrected from `No status` to `Done` after closure.
+For the approved post-audit follow-up, existing Issue #40 was reopened and its
+board status is `PR Review`; PR #47 targets `lab3-staging`, links to Issue #40
+through Development, and has a review request pending with Punge089. No review,
+approval, or merge is claimed for PR #47, and the follow-up release PR to `main`
+has not been opened. Issue #40 remains open.
 
 ## 5. Evidence labels
 
@@ -124,9 +131,26 @@ Read-only GitHub checks confirmed Issues #36-#40, PRs #41-#46, reviewer
 Punge089's review comments/approvals, author replies, and merged states. The
 collaborator-permission endpoint returned 403, so current collaborator
 permission is not known; the historical review submissions themselves are
-confirmed. The remote `main` copy of `reviewer.md` still contains placeholder
-tracking rows; the local report copy is corrected but uncommitted and was not
-published. The current live board was not queried.
+confirmed. The current correction and workflow records are published on the
+head branch of PR #47, not yet on `main`. The live board was queried on
+2026-09-30: Issue #40 is open with status `PR Review`; the PDF's older board
+screenshot still shows the historical completed state and must be refreshed
+for final delivery.
+
+## 7. Post-audit follow-up status (2026-09-30)
+
+- Existing Issue [#40](https://github.com/book6349/toktickit/issues/40) was
+  reopened; no new Issue was created.
+- [PR #47](https://github.com/book6349/toktickit/pull/47) is open from
+  `feature/lab3-submission-corrections` to `lab3-staging`, at commit
+  `6efc07b83b6ac36657fd5397fb2d6b2e1fd6257d`.
+- PR #47 is linked to Issue #40 through the GitHub Development panel, and the
+  existing project board shows `PR Review`.
+- Punge089's review was requested. As of this record, no review comment, reply,
+  approval, or merge has occurred for PR #47.
+- Do not open the follow-up release PR to `main` until PR #47 is reviewed and
+  merged. Final clean-main checks and final report synchronization remain
+  pending that reviewed integration.
 
 The first focused Requester UI run had one failed test-query assertion because
 the comment is rendered together with author and timestamp in a list item. The
