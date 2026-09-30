@@ -96,6 +96,7 @@ export function AdminWorkspace(props: { user: User; onLogout: () => void }) {
           user={selected}
           onCancel={closeForm}
           onSaved={(updated) => { replaceUser(updated); closeForm(); }}
+          onPasswordReset={replaceUser}
         />
       )}
       {directTicketId !== null && <StaffTicketDetail ticketId={directTicketId} user={props.user} canOperate={false} onBack={() => setDirectTicketId(null)} />}
@@ -146,7 +147,7 @@ function AdminDirectDetailLauncher(props: { onOpen: (ticketId: number) => void }
   );
 }
 
-function AdminUserForm(props: { mode: FormMode; currentUser: User; user: User | null; onCancel: () => void; onSaved: (user: User) => void }) {
+function AdminUserForm(props: { mode: FormMode; currentUser: User; user: User | null; onCancel: () => void; onSaved: (user: User) => void; onPasswordReset: (user: User) => void }) {
   const editing = props.mode === "edit" && props.user !== null;
   const [name, setName] = useState(props.user?.name ?? "");
   const [email, setEmail] = useState(props.user?.email ?? "");
@@ -193,7 +194,7 @@ function AdminUserForm(props: { mode: FormMode; currentUser: User; user: User | 
       setResetStatus("ready");
       setResetPassword("");
       setResetSuccess("Initial password reset. The user must change it at next login.");
-      props.onSaved(updated);
+      props.onPasswordReset(updated);
     } catch (requestError: any) {
       setResetStatus("error");
       setResetError(requestError?.message || "Unable to reset the initial password.");

@@ -1,9 +1,9 @@
 import { expect, test } from "@playwright/test";
-import { adminEmail, captureRequiredViewports, changedPassword, signInAndUnlock } from "./fixtures";
+import { adminEmail, captureRequiredViewports, changedPassword, initialPassword, signInAndUnlock } from "./fixtures";
 
 test.describe("Lab 3 Administrator User Management", () => {
   test("Administrator can list, search, create, edit, and reset a user", async ({ page }) => {
-    await signInAndUnlock(page, adminEmail);
+    await signInAndUnlock(page, adminEmail, initialPassword);
     await expect(page.getByRole("heading", { name: "User Management" })).toBeVisible();
     await expect(page.getByRole("button", { name: "Create user" }).first()).toBeVisible();
     const requesterRow = page.locator(".user-row").filter({ hasText: "Ariya Somchai" });
@@ -21,15 +21,21 @@ test.describe("Lab 3 Administrator User Management", () => {
     await expect(page.getByText(email)).toBeVisible();
 
     await page.getByLabel("Search users").fill(email);
-    await expect(page.getByText(email)).toBeVisible();
-    await page.getByRole("button", { name: "Edit" }).first().click();
+    await page.getByRole("button", { name: "Apply filters" }).click();
+    const createdRow = page.locator(".user-row").filter({ hasText: email });
+    await expect(createdRow).toBeVisible();
+    await createdRow.getByRole("button", { name: "Edit" }).click();
     await page.getByLabel("Name").fill("E2E Administrator Test Updated");
     await page.getByRole("button", { name: "Save changes" }).click();
-    await expect(page.getByText("E2E Administrator Test Updated")).toBeVisible();
+    const updatedRow = page.locator(".user-row").filter({ hasText: email });
+    await expect(updatedRow.getByText("E2E Administrator Test Updated")).toBeVisible();
 
-    await page.getByRole("button", { name: "Edit" }).first().click();
+    await updatedRow.getByRole("button", { name: "Edit" }).click();
     await page.getByLabel("New initial password").fill("E2E-reset-password1");
     await page.getByRole("button", { name: "Reset password" }).click();
+    await expect(page.getByRole("status")).toContainText("Initial password reset");
+    await page.screenshot({ path: "artifacts/lab-03/screenshots/user-management/reset-success-1280x900.png", fullPage: true });
+    await page.getByRole("button", { name: /Back to User Management/ }).click();
     await expect(page.getByText(email)).toBeVisible();
   });
 

@@ -1,0 +1,7 @@
+Working directory: server
+Command: npm run build
+
+> toktickit-server@1.0.0 build
+> tsc
+
+Exit code: 0

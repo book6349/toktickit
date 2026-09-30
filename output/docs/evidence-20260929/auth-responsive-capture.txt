@@ -1,0 +1,13 @@
+OVERFLOW_OK Login desktop scrollWidth=1280 clientWidth=1280
+CAPTURED login-desktop-1280x900.png 1280x900 state=Login api=mocked-layout-only
+OVERFLOW_OK Login tablet scrollWidth=900 clientWidth=900
+CAPTURED login-tablet-900x900.png 900x900 state=Login api=mocked-layout-only
+OVERFLOW_OK Login mobile scrollWidth=390 clientWidth=390
+CAPTURED login-mobile-390x844.png 390x844 state=Login api=mocked-layout-only
+OVERFLOW_OK Change Password desktop scrollWidth=1280 clientWidth=1280
+CAPTURED change-password-desktop-1280x900.png 1280x900 state=mandatory-change-password api=mocked-layout-only
+OVERFLOW_OK Change Password tablet scrollWidth=900 clientWidth=900
+CAPTURED change-password-tablet-900x900.png 900x900 state=mandatory-change-password api=mocked-layout-only
+OVERFLOW_OK Change Password mobile scrollWidth=390 clientWidth=390
+CAPTURED change-password-mobile-390x844.png 390x844 state=mandatory-change-password api=mocked-layout-only
+RESULT 6 responsive application screenshots captured; no backend, database, or authentication behavior was verified.

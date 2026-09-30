@@ -1,7 +1,8 @@
 # Lab 3 Zen Green UI Specification
 
-Status: Draft planning contract. Visual states remain Planned until they are
-implemented, tested, and captured.
+Status: Approved final Lab 3 UI contract. Captured states and verification
+limits are indexed in `docs/lab-03/screenshot-index.md`,
+`docs/lab-03/final-report.md`, and `docs/lab-03/submission-evidence.md`.
 
 ## 1. Design Continuity
 

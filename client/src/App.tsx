@@ -69,6 +69,7 @@ function formatSize(bytes: number) {
 function App() {
   const [user, setUser] = useState<User | null>(null);
   const [authStatus, setAuthStatus] = useState<AsyncStatus>("loading");
+  const [loginBusy, setLoginBusy] = useState(false);
   const [authError, setAuthError] = useState("");
   const [references, setReferences] = useState<{ categories: Category[]; relatedSystems: RelatedSystem[] }>({
     categories: [],
@@ -112,7 +113,7 @@ function App() {
   }, []);
 
   async function handleLogin(email: string, password: string) {
-    setAuthStatus("loading");
+    setLoginBusy(true);
     setAuthError("");
     try {
       const result = await login(email, password);
@@ -123,6 +124,8 @@ function App() {
     } catch (error: any) {
       setAuthError(error?.message || "Unable to sign in.");
       setAuthStatus("idle");
+    } finally {
+      setLoginBusy(false);
     }
   }
 
@@ -170,7 +173,7 @@ function App() {
         {authStatus === "error" && !user && (
           <div className="gate-card"><div className="notice error" role="alert">{authError}<button type="button" className="link-button" onClick={() => void retrySession()}>Retry</button></div></div>
         )}
-        {authStatus === "idle" && !user && <LoginView onSubmit={(email, password) => void handleLogin(email, password)} error={authError} busy={false} />}
+        {authStatus === "idle" && !user && <LoginView onSubmit={(email, password) => void handleLogin(email, password)} error={authError} busy={loginBusy} />}
         {user?.mustChangePassword && (
           <ChangePasswordView user={user} onSubmit={(current, next) => void handlePasswordChange(current, next)} onLogout={() => void handleLogout()} error={authError} busy={authStatus === "loading"} />
         )}
