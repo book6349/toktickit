@@ -1,0 +1,16 @@
+Working directory: client
+Command: npm run build
+
+> toktickit-client@1.0.0 build
+> tsc && vite build
+
+vite v6.4.3 building for production...
+transforming...
+✓ 31 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.41 kB │ gzip:  0.28 kB
+dist/assets/index-LW7_0rpz.css  241.29 kB │ gzip: 33.52 kB
+dist/assets/index-CdRWtPuy.js   201.34 kB │ gzip: 58.68 kB
+✓ built in 993ms
+Exit code: 0

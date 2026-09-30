@@ -1,8 +1,9 @@
 # Lab 3 Sprint Engineering Specification
 
-Status: Draft planning contract. No requirement in this document is marked
-complete until the corresponding implementation, test, and evidence exist on
-the final integrated branch.
+Status: Approved final Lab 3 engineering contract. Implementation, test, and
+evidence status is traced in `docs/lab-03/final-report.md` and
+`docs/lab-03/submission-evidence.md`; remaining limitations are explicitly
+labelled there.
 
 ## 1. Sprint Goal
 
@@ -417,7 +418,7 @@ must have final evidence before it is marked Passed.
   through Answer Part 9, readable screenshots, working links, and honest
   evidence labels.
 
-## 12. Assumptions and Decisions to Reconfirm Before Implementation
+## 12. Assumptions and Decisions - Workflow Resolution Record
 
 - The User Prisma model maps the existing RequesterUser SQL table for this
   increment rather than copying or deleting historical records.
@@ -430,5 +431,10 @@ must have final evidence before it is marked Passed.
   covers ticket number, summary, description, requester name, and requester
   email. Queue sorting covers updatedAt, createdAt, ticketNumber, status,
   requestedPriority, itPriority, and owner.
-- Final issue numbers, PR numbers, reviewer identity, and approval evidence
-  remain unknown until the controlled GitHub workflow is approved and used.
+- At the time this specification was drafted, the controlled GitHub workflow
+  had not yet created Issues or PRs. This decision is resolved: Lab 3 Issues
+  #36-#40 map to feature PRs #41-#45, and release PR #46 promotes
+  `lab3-staging` to `main`. The designated reviewer is Punge089. The recorded
+  review comments, author replies, approvals, merges, and board states are
+  linked in [`reviewer.md`](reviewer.md). These are historical completed
+  events; this local audit has not created or changed GitHub items.

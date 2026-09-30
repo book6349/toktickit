@@ -1,0 +1,23 @@
+Lab 3 E2E first fresh-clone attempt (retained failure)
+Date: 2026-09-29 (Asia/Bangkok)
+Working directory: repository root
+Command: npm run test:e2e
+Database: task-created disposable clone toktickit_lab3_e2e_recheck_20260929
+Branch: main; HEAD 493758be65850504de7b970e50f7a61b846584f0; dirty tree.
+
+Result: 13 passed, 2 failed, 41.7s; exit code 1.
+Failure 1: staff-ticket-flow.spec.ts:33 expected "Page 1 of 3"; the fresh
+clone did not contain the 21 deterministic queue fixtures required by this
+scenario. The locator timed out after 10 seconds.
+Failure 2: staff-ticket-flow.spec.ts:50 expected ticket
+TT-DOCKER-PRELAB3-001; the clean migration fixture instead used its separate
+preservation identifier and did not yet have the E2E attachment filename.
+
+The failure was isolated to omitted E2E setup data, not application behavior.
+The failed screenshot, error contexts, trace, and last-run record were copied
+to output/docs/evidence-20260929/failed-e2e-recheck/ before rerunning.
+Corrective setup was confined to a second newly created disposable clone:
+added 21 queue rows; assigned Kanya Staff ID 7 expected by the E2E control;
+restored the E2E baseline ticket/attachment labels; retained fresh first-login
+state. The subsequent complete suite passed 15/15 in 24.6s. See
+e2e-lab3-final.txt. No failure was relabelled as a pass.

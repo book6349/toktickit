@@ -1,0 +1,1 @@
+Date: 2026-09-29T17:42:40+07:00 Branch: main HEAD: 493758be65850504de7b970e50f7a61b846584f0 Working tree: dirty Boundary: all commands below execute against current local working-tree files; not final-main

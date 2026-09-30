@@ -1,7 +1,8 @@
 # Lab 3 REST API Specification
 
-Status: Draft planning contract. Endpoint behavior is Planned until the
-implementation and automated tests verify it.
+Status: Approved final Lab 3 API contract. Endpoint implementation and
+automated-test results are traced in `docs/lab-03/tests.md` and
+`docs/lab-03/final-report.md`; evidence limitations are explicitly labelled.
 
 ## 1. Conventions
 
