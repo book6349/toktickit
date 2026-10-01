@@ -1,6 +1,7 @@
 import { expect, test } from "@playwright/test";
 import {
   captureRequiredViewports,
+  apiBaseURL,
   changedPassword,
   completeInitialPasswordChange,
   initialPassword,
@@ -24,15 +25,26 @@ test.describe("Lab 3 authentication and Requester regression", () => {
 
     await page.getByRole("button", { name: "Log out" }).click();
     await expect(page.getByRole("heading", { name: /TokTickIT.*Sign in/i })).toBeVisible();
+    expect((await page.request.get(`${apiBaseURL}/api/tickets`)).status()).toBe(401);
+    await page.reload();
+    await expect(page.getByRole("heading", { name: /TokTickIT.*Sign in/i })).toBeVisible();
   });
 
   test("invalid and inactive accounts receive safe sign-in failure", async ({ page }) => {
     await openSignIn(page);
-    await page.getByLabel("Email").fill("inactive@example.com");
-    await page.getByLabel("Password").fill(initialPassword);
-    await page.getByRole("button", { name: "Sign in" }).click();
-    await expect(page.getByRole("alert")).toBeVisible();
-    await expect(page.getByRole("heading", { name: /TokTickIT.*Sign in/i })).toBeVisible();
+    for (const [email, password] of [
+      ["inactive@example.com", initialPassword],
+      ["missing@example.com", initialPassword],
+      [requesterEmail, "Incorrect-password-2026"],
+    ]) {
+      await page.getByLabel("Email").fill(email);
+      await page.getByLabel("Password").fill(password);
+      const response = page.waitForResponse((res) => res.url().endsWith("/api/auth/login") && res.request().method() === "POST");
+      await page.getByRole("button", { name: "Sign in" }).click();
+      expect((await response).status()).toBe(401);
+      await expect(page.getByRole("alert")).toHaveText("Email or password is incorrect.");
+      await expect(page.getByRole("heading", { name: /TokTickIT.*Sign in/i })).toBeVisible();
+    }
   });
 
   test("Requester can create, open, comment, and indicate resolution", async ({ page }) => {

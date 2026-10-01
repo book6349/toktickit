@@ -1,0 +1,23 @@
+
+Running 16 tests using 1 worker
+
+(node:25232) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  1 [chromium] › e2e\lab-03\authentication.spec.ts:15:3 › Lab 3 authentication and Requester regression › valid login, first-login change, role shell, logout, and direct blocking (2.3s)
+  ok  2 [chromium] › e2e\lab-03\authentication.spec.ts:33:3 › Lab 3 authentication and Requester regression › invalid and inactive accounts receive safe sign-in failure (570ms)
+  ok  3 [chromium] › e2e\lab-03\authentication.spec.ts:50:3 › Lab 3 authentication and Requester regression › Requester can create, open, comment, and indicate resolution (931ms)
+  ok  4 [chromium] › e2e\lab-03\authentication.spec.ts:73:3 › Lab 3 authentication and Requester regression › Requester shell is captured at required responsive sizes (704ms)
+  ok  5 [chromium] › e2e\lab-03\staff-ticket-flow.spec.ts:5:3 › Lab 3 IT Staff Queue and Ticket Detail › IT Staff can search Queue, open Detail, and see separate comments and notes (1.0s)
+  ok  6 [chromium] › e2e\lab-03\staff-ticket-flow.spec.ts:23:3 › Lab 3 IT Staff Queue and Ticket Detail › IT Staff Queue and Detail are captured at required responsive sizes (1.4s)
+  ok  7 [chromium] › e2e\lab-03\staff-ticket-flow.spec.ts:30:3 › Lab 3 IT Staff Queue and Ticket Detail › IT Staff can advance to a populated second Queue page (654ms)
+  ok  8 [chromium] › e2e\lab-03\staff-ticket-flow.spec.ts:46:3 › Lab 3 IT Staff Queue and Ticket Detail › preserves migrated Attachment and verifies reassignment, priority, and status operations (992ms)
+  ok  9 [chromium] › e2e\lab-03\staff-ticket-flow.spec.ts:75:3 › Lab 3 IT Staff Queue and Ticket Detail › Staff sees the Requester resolution indication without a formal status change (913ms)
+  ok 10 [chromium] › e2e\lab-03\user-administration.spec.ts:5:3 › Lab 3 Administrator User Management › Administrator can list, search, create, edit, reset, and require the new initial password at next login (2.5s)
+  ok 11 [chromium] › e2e\lab-03\user-administration.spec.ts:60:3 › Lab 3 Administrator User Management › Administrator navigation excludes Queue and direct Ticket Detail remains explicit (543ms)
+  ok 12 [chromium] › e2e\lab-03\user-administration.spec.ts:70:3 › Lab 3 Administrator User Management › Administrator User Management is captured at required responsive sizes (822ms)
+  ok 13 [chromium] › e2e\lab-03\z-accessibility-evidence.spec.ts:24:3 › Lab 3 accessibility and transient-state evidence › captures the visible sign-in busy state and successful destination (1.9s)
+  ok 14 [chromium] › e2e\lab-03\z-accessibility-evidence.spec.ts:40:3 › Lab 3 accessibility and transient-state evidence › completes a keyboard-only sign-in and reaches requester navigation (918ms)
+  ok 15 [chromium] › e2e\lab-03\z-accessibility-evidence.spec.ts:55:3 › Lab 3 accessibility and transient-state evidence › traverses the IT Staff Queue and opens Ticket Detail with the keyboard (1.0s)
+  ok 16 [chromium] › e2e\lab-03\z-accessibility-evidence.spec.ts:67:3 › Lab 3 accessibility and transient-state evidence › traverses Administrator User Management and opens Create User with the keyboard (779ms)
+
+  16 passed (20.4s)

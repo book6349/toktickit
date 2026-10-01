@@ -1,10 +1,23 @@
 import { expect, Page } from "@playwright/test";
+import { readFileSync } from "node:fs";
+import path from "node:path";
 
 export const initialPassword = process.env.E2E_INITIAL_PASSWORD ?? "Local-development-password";
 export const changedPassword = process.env.E2E_CHANGED_PASSWORD ?? "Local-development-password2";
 export const requesterEmail = process.env.E2E_REQUESTER_EMAIL ?? "ariya.somchai@example.com";
 export const staffEmail = process.env.E2E_STAFF_EMAIL ?? "somchai.staff@example.com";
 export const adminEmail = process.env.E2E_ADMIN_EMAIL ?? "admin@example.com";
+export const apiBaseURL = process.env.E2E_API_BASE_URL ?? "http://localhost:3000";
+
+export function getE2EFixtures(): { databaseName: string; baselineTicketId: number; reassignmentOwnerId: number; queueTotal: number } {
+  const fixturePath = path.resolve("artifacts/lab-03/runtime/e2e-fixtures.json");
+  const fixtures = JSON.parse(readFileSync(fixturePath, "utf8"));
+  const selectedDatabase = new URL(process.env.DATABASE_URL ?? "postgresql://invalid/none").pathname.slice(1);
+  if (fixtures.databaseName !== selectedDatabase || !Number.isSafeInteger(fixtures.baselineTicketId) || !Number.isSafeInteger(fixtures.reassignmentOwnerId)) {
+    throw new Error("E2E fixture metadata does not match this database. Run npm run test:e2e with a new disposable DATABASE_URL.");
+  }
+  return fixtures;
+}
 
 export async function openSignIn(page: Page) {
   await page.goto("/");
@@ -18,12 +31,12 @@ export async function signIn(page: Page, email: string, password = initialPasswo
   await page.getByRole("button", { name: "Sign in" }).click();
 }
 
-export async function completeInitialPasswordChange(page: Page, nextPassword = changedPassword) {
+export async function completeInitialPasswordChange(page: Page, nextPassword = changedPassword, currentPassword = initialPassword) {
   const changeHeading = page.getByRole("heading", { name: "Change your password" });
   const roleShellHeading = page.getByRole("heading", { name: /My tickets|Ticket Queue|User Management/ });
   await expect(changeHeading.or(roleShellHeading)).toBeVisible({ timeout: 10_000 });
   if (await changeHeading.isVisible().catch(() => false)) {
-    await page.getByLabel("Current password").fill(initialPassword);
+    await page.getByLabel("Current password").fill(currentPassword);
     await page.getByLabel("New password", { exact: true }).fill(nextPassword);
     await page.getByLabel("Confirm new password").fill(nextPassword);
     const saveButton = page.getByRole("button", { name: "Save password" });
@@ -35,7 +48,7 @@ export async function completeInitialPasswordChange(page: Page, nextPassword = c
 
 export async function signInAndUnlock(page: Page, email: string, password = initialPassword) {
   await signIn(page, email, password);
-  await completeInitialPasswordChange(page);
+  await completeInitialPasswordChange(page, changedPassword, password);
 }
 
 export async function captureRequiredViewports(page: Page, relativePath: string, name: string) {

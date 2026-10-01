@@ -1,0 +1,518 @@
+{
+  "source": "C:\\Users\\Jitvoottikrai\\OneDrive\\\u0e40\u0e14\u0e2a\u0e01\u0e4c\u0e17\u0e47\u0e2d\u0e1b\\SoftwareEn\\LAB1\\Lab1_Starter_Scaffold\\toktickit-lab3-specification\\output\\docs\\evidence-20261001-step5\\backup\\Lab3_Final_Report_Editable.docx",
+  "sourceSHA256": "8f9d3f9327ed6dbc3c8cfbd3938b69507010086d7fcff2d457c3f8ec37f5a73c",
+  "candidate": "C:\\Users\\Jitvoottikrai\\OneDrive\\\u0e40\u0e14\u0e2a\u0e01\u0e4c\u0e17\u0e47\u0e2d\u0e1b\\SoftwareEn\\LAB1\\Lab1_Starter_Scaffold\\toktickit-lab3-specification\\output\\docs\\evidence-20261001-step5\\Lab3_Final_Report_Editable_updated.docx",
+  "paragraphUpdates": [
+    {
+      "paragraph": 3,
+      "before": "Final release commit: 493758be65850504de7b970e50f7a61b846584f0 | Audit updated: 2026-09-29 | Current local tree is dirty and not final-main evidence",
+      "after": "Committed main: 0353a4052c4a6d7ead9ddfb9b7c682d3e7958d02 | Local audit: 2026-10-01 | Base HEAD: 1fb8df040eb12ac443bb4246a314babfde1564e9 | Local fixes are uncommitted"
+    },
+    {
+      "paragraph": 4,
+      "before": "This is the final evidence report. Lab 2 remains the completed baseline and is not presented as new Lab 3 work.",
+      "after": "The report records the reviewed Lab 3 workflow and the repaired local implementation. Lab 2 remains the completed baseline. REVIEWED INTEGRATION AND FINAL-MAIN VERIFICATION ARE STILL REQUIRED BEFORE SUBMISSION."
+    },
+    {
+      "paragraph": 7,
+      "before": "The five approved units used one feature branch and one linked feature PR each. PRs #41-#45 targeted lab3-staging; reviewed release PR #46 promoted lab3-staging to main. Punge089 reviewed and merged the PRs. Issues #36-#40 are closed and the Kanban board shows Done; Issue #38 was corrected from No status to Done after closure.",
+      "after": "The five approved units used Issues #36-#40 and feature PRs #41-#45 into lab3-staging. Reviewer Punge089 approved and merged them. Release PR #46 initially promoted staging to main; reviewed correction PR #47 and release PR #48 produced committed main 0353a40. No additional GitHub action was made during this local audit."
+    },
+    {
+      "paragraph": 8,
+      "before": "Direct Issue/PR and review, reply, approval, and merge-event links appear in the workflow appendix. Board status is historical; the live board was not rechecked. Lab 2 remains a separate completed baseline.",
+      "after": "The workflow appendix gives actual review, reply, approval and merge links through PR #48. The retained board screenshot shows all five Issues in Done; the recorded 2026-09-30 live check confirmed Done/closed. Current reviewer access has not been independently reverified in this local report update."
+    },
+    {
+      "paragraph": 9,
+      "before": "Lab 3 documents and screenshots below are current local versions, not published on main; the report includes their rendered content.",
+      "after": "Remote main was checked read-only on 2026-10-01 and remains 0353a40. The local repaired code, tests, documentation and screenshots are not yet reviewed or integrated. The report distinguishes these local results from committed-main history."
+    },
+    {
+      "paragraph": 16,
+      "before": "The current local `specification.md`, `api-spec.md`, and `ui-spec.md` are rendered in this report but not published on main. They define authentication, sessions and migration, role/access boundaries, ticket operations, Administrator safeguards, APIs, validation, acceptance criteria, UI states, accessibility, responsive rules, and the Definition of Done.",
+      "after": "The approved specification.md, api-spec.md and ui-spec.md define numbered requirements, business rules, role authorization, migration decisions, acceptance criteria and Product Definition of Done. Their rendered appendices are preserved below."
+    },
+    {
+      "paragraph": 20,
+      "before": "`tests.md` now maps each actual assertion to its test file and separates historical summary results from this local run. On 2026-09-29, the dirty working tree passed 8 server files/26 tests and 7 client files/16 tests; both builds passed. Prisma schema validation passed using a synthetic process-local URL; Docker migration/data-preservation, seed-twice, responsive, keyboard, and all 15 integrated E2E tests also passed on disposable databases. These are local results, not results from committed SHA 493758b.",
+      "after": "Current Test DD traceability points to actual assertions and files. The 2026-10-01 dirty local tree passed 190 server tests, 36 client tests and 16 Chromium E2E scenarios; both builds and Prisma validation passed. Actual PostgreSQL migration snapshots, seed-twice assertions and attachment-byte checks passed on new disposable databases. Complete passing output is rendered at the end of this report."
+    },
+    {
+      "paragraph": 21,
+      "before": "The 2026-09-21 release ledger historically summarizes 22 server tests, 11 client tests, nine E2E tests, migration/seed commands, and post-run counts; complete raw main output is not retained. This audit separately applied the Lab 3 migration to a real pre-Lab-3 schema in disposable Docker PostgreSQL, proved existing requester/ticket/attachment preservation, seeded twice with stable counts, and passed 15 current dirty-tree E2E tests. None of these results certify committed main.",
+      "after": "These results do not certify committed main 0353a40. The clean-main checks recorded on 2026-09-30 had legacy regression failures; the current audit repaired those tests for session-based authentication. Reviewed staging/release integration and a clean-main rerun are still required. Earlier failed tests and the Staff indicator red test are retained with subsequent passing runs."
+    },
+    {
+      "paragraph": 25,
+      "before": "`ai-use.md` records Codex as the assistant, seven representative prompts, human-controlled GitHub actions, and reflection. The exact model identifier used for earlier project work was not recorded and is not guessed.",
+      "after": "Codex was the development assistant. Seven recorded representative prompts and My Reflection are rendered in the AI-use appendix. Specification-agent work clarified identity, authorization, migration and workflow before coding; coding-agent work supported implementation and verification. The audit found obsolete regression assumptions, an owner-filter defect and a missing Staff resolution display, showing why generated summaries must be checked against assertions and actual UI. Human approval and Punge089 peer review remain mandatory. The exact earlier model identifier was not recorded and is not guessed."
+    },
+    {
+      "paragraph": 28,
+      "before": "The implementation is in client/src/App.tsx and client/src/api.ts, with server behavior in server/src/auth.ts. Client tests cover login, safe failure, role shell, logout, mandatory password change, and busy feedback. Figures 1-3 show the responsive Requester shell; further captures show invalid login, inactive account, first-login gating, logout, and success. The local screenshot index is rendered in the appendix but not published on main.",
+      "after": "Real database-backed browser checks demonstrate valid/invalid/inactive login, mandatory password replacement, authenticated identity/role, logout and direct API blocking. Busy feedback is captured while the real login request is deliberately delayed. The responsive Login and Change Password figures now use actual API sessions, not mocked authentication responses."
+    },
+    {
+      "paragraph": 29,
+      "before": "Status: Passed locally - login, inactive/invalid failure, first-password change, role shell, logout/direct blocking, and current UI tests passed. Responsive Login/Change Password captures are actual UI with mocked API; they prove layout only.",
+      "after": "Status: Passed locally in tests and actual captures at desktop/tablet/mobile widths. Current code/evidence is not yet committed-main evidence."
+    },
+    {
+      "paragraph": 47,
+      "before": "The implementation is in `client/src/staff.tsx`, with queue authorization and query behavior in `server/src/staff-workflow.ts`. Local API tests return filtered paginated results. The current Docker-backed E2E used 21 real queue fixtures, asserted Page 2 of 3, and captured the populated second page. The mobile full-page screenshot contains 10 visible records and page controls.",
+      "after": "The Queue shows synthetic realistic priorities, statuses and assigned/unassigned owners. The disposable preparer produces 20 tickets before E2E; Requester creation adds another. Search, filters, all seven sort fields in both directions, owner combinations and populated second-page navigation are tested. Real no-results and labelled controlled empty/failure/loading captures are included."
+    },
+    {
+      "paragraph": 48,
+      "before": "Status: Passed locally - filter/empty UI, responsive layouts, and real page-2 navigation/screenshot passed; full sort/filter combinations are not exhaustive.",
+      "after": "Status: Passed locally for tested API/query combinations, populated pagination and responsive overflow. Controlled response screenshots prove UI presentation, not real database outage behavior."
+    },
+    {
+      "paragraph": 61,
+      "before": "PAGINATION NOTE Pagination is covered by the Test DD and API/client tests. The current visual package does not include a dedicated real-data page-2 screenshot; this is stated rather than implied.",
+      "after": "PAGINATION EVIDENCE: Figure 40 shows the actual populated second Queue page from the passing 2026-10-01 E2E run. The native test output records the executed Next-page assertion."
+    },
+    {
+      "paragraph": 64,
+      "before": "Ticket Detail ownership, priority, status, public Comments, Internal Notes, and authorization are covered by server/src/staff-workflow.ts and client/src/staff.tsx. Figures 7-9 show the responsive detail layout and the separation between public and internal content. Direct API authorization is covered by the server Lab 3 suite.",
+      "after": "Staff Detail groups ownership, IT Priority/status, attachment metadata, Public Comments and Internal Notes. The 2026-10-01 audit added the omitted Requester-resolution indicator, which now displays the reported timestamp and explicitly preserves formal status. Four client assertions and the new real Staff E2E scenario verify it; Figures 43-45 show the fix."
+    },
+    {
+      "paragraph": 65,
+      "before": "Status: Passed locally for representative claim/reassignment, IT Priority, NEW-to-OPEN status update, comments/notes separation, and migrated Attachment continuity; other transition combinations remain bounded by the API matrix tests.",
+      "after": "Status: Passed locally. API tests exercise all 64 status pairs with mocked delegates, terminal confirmation, role restrictions and concurrency; real browser flows exercise representative transitions, claim/reassignment and content submission. A real Requester attachment download matched the original 17 bytes and SHA256. This is not exhaustive browser coverage of every transition."
+    },
+    {
+      "paragraph": 78,
+      "before": "Administrator list, search, create, edit, initial-password reset, activation safety, and role restrictions are implemented in server/src/admin-users.ts and client/src/admin.tsx. Figures 10-12 show responsive User Management. Current dirty-tree API safety and UI tests passed; no dedicated safety-state screenshot was captured, and results are not final-main.",
+      "after": "User Management displays Name, Email, Role, Active/Inactive and Edit. Real captures show search/role filtering, create, invalid password, duplicate email, edits of name/email/role/activation, persistent reset feedback and required next-login change. Self-deactivation is disabled in the UI and rejected by the real API; Requester/Staff management denial is recorded."
+    },
+    {
+      "paragraph": 79,
+      "before": "Status: Passed locally for list/search/create/edit/reset and direct-route E2E; named API tests passed for self/last-Administrator protection and non-Administrator denial. No dedicated safety-state screenshot was captured; this is not final-main evidence.",
+      "after": "Status: Passed locally for executed scenarios. The separate last-active-Administrator error branch is tested with mocked delegates; live self-removal reaches the earlier self-protection guard and leaves one active Administrator. Do not confuse these two proof forms."
+    },
+    {
+      "paragraph": 100,
+      "before": "`ui-spec.md` defines the Zen Green tokens, role shells, states, responsive rules, accessibility expectations, and screenshot matrix. The three full-page mobile images on PDF pages 12, 17, and 22 have been split into lossless, readable sections (Figures 20-33). Figures 34-39 add desktop, tablet, and mobile Login and mandatory Change Password screens from the actual client with mocked API responses; they show layout only. Every page of the exported PDF is rendered and visually inspected, with sequential figure numbering. The integrated E2E suite passed responsive overflow assertions for Requester, Queue, Detail, and Admin screens and three keyboard-only role journeys; auth-gate API behavior is not inferred from mocks.",
+      "after": "The UI specification and checklist are rendered below. Real major-screen captures cover desktop 1280x900, tablet 900x900 and mobile 390x844. Tall mobile views use native readable browser sections with overlap; full-page originals are retained. Automated document-width assertions and three keyboard journeys passed in E2E. Inspection covers the captured states, not every possible device or assistive technology."
+    },
+    {
+      "paragraph": 104,
+      "before": "The following figures include fresh Playwright captures from the Docker-backed local application on 2026-09-29. They correspond to the dirty local tree, not the committed main SHA.",
+      "after": "The following figures are actual browser captures from the 2026-10-01 local audit. Step-4 screenshots show unchanged screens; replacement Staff indicator captures come from the post-fix 16-test run. All remain dirty local evidence, not final-main."
+    },
+    {
+      "paragraph": 123,
+      "before": "This checklist maps the Required Submission Evidence table on pages 16-18 to the report and evidence. It distinguishes historical main summaries from current dirty-working-tree results.",
+      "after": "This audit maps labsheet pages 16-18 to current local evidence. Functional gaps were repaired, but reviewed integration, final-main passing output, current reviewer-access confirmation and the final submission acceptance audit remain outstanding."
+    },
+    {
+      "paragraph": 125,
+      "before": "The board screenshot on report page 2 shows Issues #36-#40 in Done. Read-only GitHub checks confirmed Issues #36-#40, PRs #41-#46, and their review comments, author replies, approvals, and merged states. Punge089's historical reviews are confirmed; the collaborator-permission endpoint returned 403, so current access level is unverified. The live board was not rechecked. Docker-backed migration/data-preservation, two seed runs, and all 15 current dirty-tree E2E tests passed on disposable databases. The local worktree remains dirty and no final-main rerun or follow-up integration was made; historical raw main output is unavailable. Remote main still has placeholder reviewer.md tracking rows. Full final-main compliance is not claimed.",
+      "after": "The board screenshot is present. Workflow records contain actual Issues #36-#40 and PRs #41-#48, with Punge089 reviews, replies, approvals and merges. Docker-backed local migration, seed and E2E checks now passed. Remote main is still 0353a40, so the new repairs are not yet published and must not be described as final-main results."
+    },
+    {
+      "paragraph": 433,
+      "before": "The Issue/PR/reviewer decision is resolved: Issues #36-#40 map to feature PRs #41-#45; release PR #46 promoted `lab3-staging` to `main`; designated reviewer Punge089. See `reviewer.md` for recorded comments, replies, approvals, merges, and board states. This local audit made no GitHub changes.",
+      "after": "Tracking is resolved: Issues #36-#40 map to feature PRs #41-#45, reviewed release #46, correction #47 and release #48; reviewer Punge089. Local follow-up repairs require the same reviewed staging/release workflow. No new GitHub items were created in this audit."
+    },
+    {
+      "paragraph": 963,
+      "before": "The earlier evidence packet reported login busy feedback and reset confirmation. The current local client tests verify the busy/reset behaviors. New responsive Login and mandatory Change Password screenshots show real client UI with mocked API responses; they do not prove auth behavior. Three keyboard-only role journeys and one delayed-login busy-state flow passed in the current E2E run. The earlier claim that the Project-board screenshot was unavailable is corrected: it is embedded on page 2. The exact prior LLM model identifier remains unavailable and is not guessed.",
+      "after": "The current audit retained complete output and real evidence. New tests exposed the combined-owner-filter defect and missing Staff resolution indicator before fixes. Migration snapshots and seed-twice checks used actual disposable PostgreSQL, while separate controlled empty/failure images are labelled as UI-state evidence. The repaired local runs passed 190 server, 36 client and 16 E2E tests. These are not committed-main results; human review and final-main verification remain required. The exact earlier model name was not recorded."
+    },
+    {
+      "paragraph": 975,
+      "before": "Status: Observed GitHub workflow record. The five approved feature units and the reviewed release have completed the documented workflow. No extra Issue or Pull Request was created.",
+      "after": "Observed workflow through PR #48: the original five units and reviewed follow-up/release completed. The local 2026-10-01 repairs have not created new Issues, PRs or approvals."
+    },
+    {
+      "paragraph": 991,
+      "before": "The separate release PR was #46, from lab3-staging to main, merged by Punge089 as 493758b. All five Issues are closed and the board shows Done.",
+      "after": "Initial release #46 merged as 493758b. Reviewed correction #47 merged to staging as 7d8ee7a; reviewed release #48 merged to main as 0353a40. Existing Issue #40 is recorded Done/closed."
+    },
+    {
+      "paragraph": 995,
+      "before": "The release reviewer confirmed that the five feature PRs were in lab3-staging, the release PR targeted main, the Issue #40 link existed, and the conflicts were resolved before approval. The release PR was then merged. The repository is now at main commit 493758b, with the same tree as lab3-staging at the audit.",
+      "after": "Punge089 approved and merged the documented staging/release PRs through #48. A read-only remote check on 2026-10-01 confirmed main 0353a40. The additional local fixes are uncommitted and are not part of those completed PR events."
+    },
+    {
+      "paragraph": 996,
+      "before": "The release ledger records a clean disposable-database final-main E2E run of nine passes on 2026-09-21, but its raw output is unavailable and it was not rerun against final main. These historical counts do not prove migration preservation. Part 3 and the raw-output appendix record later dirty-tree test/build, migration, seed, row-preservation, and 15-test E2E checks; they are not final-main evidence.",
+      "after": "Clean-main results from 2026-09-30 and later local results are distinct. The current appendix contains full 2026-10-01 local output, including the 16-test E2E run after the Staff indicator fix. Only a subsequent clean-main run after reviewed integration may be labelled final-main."
+    },
+    {
+      "paragraph": 1001,
+      "before": "The current screenshot index distinguishes fresh 2026-09-29 browser captures from historical files. The corrected 15-test E2E suite passed three keyboard-only role journeys and viewport-overflow assertions for Requester, Queue, Ticket Detail, and Admin. These captures and test results are dirty-tree/local evidence, not final-main evidence.",
+      "after": "Current screenshot provenance: inspected 2026-10-01 local captures, real authentication gates, controlled empty/failure responses explicitly labelled, and post-fix Staff-resolution evidence. The complete image inventory is retained in evidence-20261001-step4; final report figures are selected readable images, not all 81 inventory files."
+    },
+    {
+      "paragraph": 1069,
+      "before": "Appendix - Committed Repository Tree at 493758b",
+      "after": "Appendix - Committed Repository Tree at Main 0353a40"
+    },
+    {
+      "paragraph": 895,
+      "before": "Status: Test DD created before implementation. Each row below was audited against actual assertions and source paths. Results are current dirty-tree runs on 2026-09-29 at HEAD 493758be65850504de7b970e50f7a61b846584f0, not final-main evidence. Docker-backed migration/data-preservation and two seed runs passed on disposable databases. The corrected integrated E2E suite passed 15 tests, including viewport overflow and three keyboard journeys.",
+      "after": "Test DD was created before implementation. The original numbered matrix is retained below with current local execution status. Supplemental traceability identifies newly added assertions and proof boundaries. Current results: 190 server tests, 36 client tests and 16 E2E scenarios passed on 2026-10-01 in the dirty local tree; not final-main."
+    },
+    {
+      "paragraph": 1005,
+      "before": "Historical capture command, not rerun in this audit: npx --no-install playwright test e2e/lab-03",
+      "after": "Current integrated capture command: npx --no-install playwright test e2e/lab-03; 16 scenarios passed locally. Full output is appended."
+    },
+    {
+      "paragraph": 1006,
+      "before": "Historical additional-state command used a temporary evidence-only Playwright harness (not rerun in this audit):",
+      "after": "Additional native browser capture scripts and exact outputs are retained in evidence-20261001-step4 and step5. Controlled response captures are labelled; they are not real database failures."
+    },
+    {
+      "paragraph": 1117,
+      "before": "Captured on 2026-09-29 from the running React/Vite client. The visual-only Playwright harness mocks authentication API responses with synthetic values; it does not contact the server or database. These figures demonstrate UI layout at required viewport sizes only, not authentication or session behavior.",
+      "after": "These Login and mandatory Change Password captures use real local API sessions on the disposable database, not mocked authentication responses. All three required viewports were captured with width/overflow assertions; they remain local evidence, not final-main."
+    },
+    {
+      "paragraph": 31,
+      "before": "Figure 1. Requester My Tickets shell after authentication at desktop width",
+      "after": "Figure 1. Requester My Tickets shell after authentication at desktop width Captured 2026-10-01, dirty local tree."
+    },
+    {
+      "paragraph": 33,
+      "before": "Figure 2. Requester My Tickets shell at tablet width",
+      "after": "Figure 2. Requester My Tickets shell at tablet width Captured 2026-10-01, dirty local tree."
+    },
+    {
+      "paragraph": 35,
+      "before": "Figure 3. Requester My Tickets shell at mobile width",
+      "after": "Figure 3. Requester My Tickets shell at mobile width; native readable section, full originals/continuations retained. Captured 2026-10-01, dirty local tree."
+    },
+    {
+      "paragraph": 37,
+      "before": "Additional state capture \u2014 Safe invalid-login failure",
+      "after": "Additional state capture \u2014 Safe invalid-login failure Captured 2026-10-01, dirty local tree."
+    },
+    {
+      "paragraph": 39,
+      "before": "Additional state capture \u2014 Safe inactive-account failure",
+      "after": "Additional state capture \u2014 Safe inactive-account failure Captured 2026-10-01, dirty local tree."
+    },
+    {
+      "paragraph": 41,
+      "before": "Additional state capture \u2014 Mandatory first-password change gate with visible keyboard focus",
+      "after": "Additional state capture - Real mandatory password gate; 2026-10-01 local capture, not keyboard-traversal proof."
+    },
+    {
+      "paragraph": 43,
+      "before": "Additional state capture \u2014 Login gate after logout",
+      "after": "Additional state capture \u2014 Login gate after logout Captured 2026-10-01, dirty local tree."
+    },
+    {
+      "paragraph": 50,
+      "before": "Figure 4. IT Staff Queue with filters and realistic results at desktop width",
+      "after": "Figure 4. Queue native viewport at 1280x900, captured 2026-10-01 locally. Full-page originals and readable mobile continuations retained separately; not final-main."
+    },
+    {
+      "paragraph": 52,
+      "before": "Figure 5. IT Staff Queue at tablet width",
+      "after": "Figure 5. Queue native viewport at 900x900, captured 2026-10-01 locally. Full-page originals and readable mobile continuations retained separately; not final-main."
+    },
+    {
+      "paragraph": 54,
+      "before": "Figure 6. IT Staff Queue at mobile width (390 x 844 viewport), section 1/5; readable full-page sections are Figures 20-24.",
+      "after": "Figure 6. IT Staff Queue at mobile width (390 x 844 viewport); native readable section, full originals/continuations retained. Captured 2026-10-01, dirty local tree."
+    },
+    {
+      "paragraph": 56,
+      "before": "Additional state capture \u2014 Filtered queue with no matches",
+      "after": "Additional state capture \u2014 Filtered queue with no matches Captured 2026-10-01, dirty local tree."
+    },
+    {
+      "paragraph": 58,
+      "before": "Additional state capture \u2014 Empty queue state",
+      "after": "Additional state capture \u2014 Empty queue state Captured 2026-10-01, dirty local tree. CONTROLLED MOCKED API STATE; UI presentation only."
+    },
+    {
+      "paragraph": 60,
+      "before": "Additional state capture \u2014 Queue API failure with retry",
+      "after": "Additional state capture \u2014 Queue API failure with retry Captured 2026-10-01, dirty local tree. CONTROLLED MOCKED API STATE; UI presentation only."
+    },
+    {
+      "paragraph": 67,
+      "before": "Figure 7. IT Staff Ticket Detail with ownership, comments, and notes at desktop width",
+      "after": "Figure 7. Staff Detail native viewport at 1280x900, captured 2026-10-01 locally. Full-page originals and readable mobile continuations retained separately; not final-main."
+    },
+    {
+      "paragraph": 69,
+      "before": "Figure 8. IT Staff Ticket Detail at tablet width",
+      "after": "Figure 8. Staff Detail native viewport at 900x900, captured 2026-10-01 locally. Full-page originals and readable mobile continuations retained separately; not final-main."
+    },
+    {
+      "paragraph": 71,
+      "before": "Figure 9. IT Staff Ticket Detail at mobile width (390 x 844 viewport), section 1/4; readable full-page sections are Figures 25-28.",
+      "after": "Figure 9. IT Staff Ticket Detail at mobile width (390 x 844 viewport); native readable section, full originals/continuations retained. Captured 2026-10-01, dirty local tree."
+    },
+    {
+      "paragraph": 73,
+      "before": "Additional state capture \u2014 Claim, IT Priority, public comment, and Internal Note operations",
+      "after": "Additional state capture \u2014 Claim, IT Priority, public comment, and Internal Note operations Captured 2026-10-01, dirty local tree."
+    },
+    {
+      "paragraph": 75,
+      "before": "Additional state capture \u2014 Safe owner-validation failure",
+      "after": "Additional state capture \u2014 Safe owner-validation failure Captured 2026-10-01, dirty local tree."
+    },
+    {
+      "paragraph": 81,
+      "before": "Figure 10. Administrator User Management list and actions at desktop width",
+      "after": "Figure 10. Administrator User Management native viewport at 1280x900, captured 2026-10-01 locally. Full-page originals and readable mobile continuations retained separately; not final-main."
+    },
+    {
+      "paragraph": 83,
+      "before": "Figure 11. Administrator User Management at tablet width",
+      "after": "Figure 11. Administrator User Management native viewport at 900x900, captured 2026-10-01 locally. Full-page originals and readable mobile continuations retained separately; not final-main."
+    },
+    {
+      "paragraph": 85,
+      "before": "Figure 12. Administrator User Management at mobile width (390 x 844 viewport), section 1/5; readable full-page sections are Figures 29-33.",
+      "after": "Figure 12. Administrator User Management at mobile width (390 x 844 viewport); native readable section, full originals/continuations retained. Captured 2026-10-01, dirty local tree."
+    },
+    {
+      "paragraph": 87,
+      "before": "Additional state capture \u2014 Administrator create-user form",
+      "after": "Additional state capture \u2014 Administrator create-user form Captured 2026-10-01, dirty local tree."
+    },
+    {
+      "paragraph": 89,
+      "before": "Additional state capture \u2014 Duplicate-email validation",
+      "after": "Additional state capture \u2014 Duplicate-email validation Captured 2026-10-01, dirty local tree."
+    },
+    {
+      "paragraph": 91,
+      "before": "Additional state capture \u2014 Administrator search with no matches",
+      "after": "Additional state capture \u2014 Administrator search with no matches Captured 2026-10-01, dirty local tree."
+    },
+    {
+      "paragraph": 93,
+      "before": "Additional state capture \u2014 Administrator edit form",
+      "after": "Additional state capture \u2014 Administrator edit form Captured 2026-10-01, dirty local tree."
+    },
+    {
+      "paragraph": 95,
+      "before": "Additional state capture \u2014 User list after the reset action",
+      "after": "Additional state capture - Persistent reset confirmation, real API; 2026-10-01 local capture."
+    },
+    {
+      "paragraph": 97,
+      "before": "Additional state capture \u2014 Reset user reaches the mandatory password-change screen at next login",
+      "after": "Additional state capture \u2014 Reset user reaches the mandatory password-change screen at next login Captured 2026-10-01, dirty local tree."
+    },
+    {
+      "paragraph": 106,
+      "before": "Figure 13. Disabled Signing in feedback during a delayed authentication request.",
+      "after": "Figure 13. Disabled Signing in feedback during a delayed authentication request. Captured 2026-10-01, dirty local tree."
+    },
+    {
+      "paragraph": 108,
+      "before": "Figure 14. Successful Requester destination after authentication.",
+      "after": "Figure 14. Successful Requester destination after authentication. Captured 2026-10-01, dirty local tree."
+    },
+    {
+      "paragraph": 112,
+      "before": "Figure 16. Requester Create Ticket navigation reached by keyboard.",
+      "after": "Figure 16. Requester Create Ticket navigation reached by keyboard. Captured 2026-10-01, dirty local tree."
+    },
+    {
+      "paragraph": 114,
+      "before": "Figure 17. IT Staff opened Ticket Detail and reached the Back control by keyboard.",
+      "after": "Figure 17. IT Staff opened Ticket Detail and reached the Back control by keyboard. Captured 2026-10-01, dirty local tree."
+    },
+    {
+      "paragraph": 116,
+      "before": "Figure 18. Administrator opened Create User and focused the Name field by keyboard.",
+      "after": "Figure 18. Administrator opened Create User and focused the Name field by keyboard. Captured 2026-10-01, dirty local tree."
+    },
+    {
+      "paragraph": 118,
+      "before": "Figure 19. Persistent administrator reset-success confirmation before returning to User Management.",
+      "after": "Figure 19. Persistent administrator reset-success confirmation before returning to User Management. Captured 2026-10-01, dirty local tree."
+    },
+    {
+      "paragraph": 110,
+      "before": "Figure 15. Sign-in submit control reached through keyboard navigation.",
+      "after": "Figure 15. Sign-in submit control reached through keyboard navigation. Historical 2026-09-29 capture; current keyboard journeys are recorded separately."
+    },
+    {
+      "paragraph": 1075,
+      "before": "Figure 20. IT Staff Queue mobile, section 1/5: role header and search/filter controls. Crop source pixel range y=0-747 of 3735; viewport 390 x 844.",
+      "after": "Figure 20. Queue native mobile section 1/6; 2026-10-01 local browser capture. Final section follows as Figure 46."
+    },
+    {
+      "paragraph": 1078,
+      "before": "Figure 21. IT Staff Queue mobile, section 2/5: first visible queue results. Crop source pixel range y=747-1494 of 3735; viewport 390 x 844.",
+      "after": "Figure 21. Queue native mobile section 2/6; 2026-10-01 local browser capture. Final section follows as Figure 46."
+    },
+    {
+      "paragraph": 1081,
+      "before": "Figure 22. IT Staff Queue mobile, section 3/5: populated ticket cards. Crop source pixel range y=1494-2241 of 3735; viewport 390 x 844.",
+      "after": "Figure 22. Queue native mobile section 3/6; 2026-10-01 local browser capture. Final section follows as Figure 46."
+    },
+    {
+      "paragraph": 1084,
+      "before": "Figure 23. IT Staff Queue mobile, section 4/5: populated ticket cards. Crop source pixel range y=2241-2988 of 3735; viewport 390 x 844.",
+      "after": "Figure 23. Queue native mobile section 4/6; 2026-10-01 local browser capture. Final section follows as Figure 46."
+    },
+    {
+      "paragraph": 1087,
+      "before": "Figure 24. IT Staff Queue mobile, section 5/5: final visible results and page controls. Crop source pixel range y=2988-3735 of 3735; viewport 390 x 844.",
+      "after": "Figure 24. Queue native mobile section 5/6; 2026-10-01 local browser capture. Final section follows as Figure 46."
+    },
+    {
+      "paragraph": 1090,
+      "before": "Figure 25. Ticket Detail mobile, section 1/4: ticket identity and requester/category. Crop source pixel range y=0-740 of 2962; viewport 390 x 844.",
+      "after": "Figure 25. Staff Detail native mobile section 1/5; 2026-10-01 local browser capture. Final section follows as Figure 47."
+    },
+    {
+      "paragraph": 1093,
+      "before": "Figure 26. Ticket Detail mobile, section 2/4: priority, description, and ownership controls. Crop source pixel range y=740-1481 of 2962; viewport 390 x 844.",
+      "after": "Figure 26. Staff Detail native mobile section 2/5; 2026-10-01 local browser capture. Final section follows as Figure 47."
+    },
+    {
+      "paragraph": 1096,
+      "before": "Figure 27. Ticket Detail mobile, section 3/4: IT Priority/status, Attachments, and public comments. Crop source pixel range y=1481-2221 of 2962; viewport 390 x 844.",
+      "after": "Figure 27. Staff Detail native mobile section 3/5; 2026-10-01 local browser capture. Final section follows as Figure 47."
+    },
+    {
+      "paragraph": 1099,
+      "before": "Figure 28. Ticket Detail mobile, section 4/4: public-comment form and Internal Notes boundary. Crop source pixel range y=2221-2962 of 2962; viewport 390 x 844.",
+      "after": "Figure 28. Staff Detail native mobile section 4/5; 2026-10-01 local browser capture. Final section follows as Figure 47."
+    },
+    {
+      "paragraph": 1102,
+      "before": "Figure 29. Administrator mobile, section 1/5: role shell and search controls. Crop source pixel range y=0-775 of 3878; viewport 390 x 844.",
+      "after": "Figure 29. Administrator native mobile section 1/6; 2026-10-01 local browser capture. Final section follows as Figure 48."
+    },
+    {
+      "paragraph": 1105,
+      "before": "Figure 30. Administrator mobile, section 2/5: initial account rows. Crop source pixel range y=775-1551 of 3878; viewport 390 x 844.",
+      "after": "Figure 30. Administrator native mobile section 2/6; 2026-10-01 local browser capture. Final section follows as Figure 48."
+    },
+    {
+      "paragraph": 1108,
+      "before": "Figure 31. Administrator mobile, section 3/5: Requester and Staff account rows. Crop source pixel range y=1551-2326 of 3878; viewport 390 x 844.",
+      "after": "Figure 31. Administrator native mobile section 3/6; 2026-10-01 local browser capture. Final section follows as Figure 48."
+    },
+    {
+      "paragraph": 1111,
+      "before": "Figure 32. Administrator mobile, section 4/5: account rows and status labels. Crop source pixel range y=2326-3102 of 3878; viewport 390 x 844.",
+      "after": "Figure 32. Administrator native mobile section 4/6; 2026-10-01 local browser capture. Final section follows as Figure 48."
+    },
+    {
+      "paragraph": 1114,
+      "before": "Figure 33. Administrator mobile, section 5/5: remaining accounts and page content. Crop source pixel range y=3102-3878 of 3878; viewport 390 x 844.",
+      "after": "Figure 33. Administrator native mobile section 5/6; 2026-10-01 local browser capture. Final section follows as Figure 48."
+    },
+    {
+      "paragraph": 1119,
+      "before": "Figure 34. Login, desktop (1280 x 900). Actual application UI; authentication API mocked; layout evidence only.",
+      "after": "Figure 34. Real login UI at 1280x900; actual API session, 2026-10-01 dirty local capture, not final-main."
+    },
+    {
+      "paragraph": 1122,
+      "before": "Figure 35. Login, tablet (900 x 900). Actual application UI; authentication API mocked; layout evidence only.",
+      "after": "Figure 35. Real login UI at 900x900; actual API session, 2026-10-01 dirty local capture, not final-main."
+    },
+    {
+      "paragraph": 1125,
+      "before": "Figure 36. Login, mobile (390 x 844). Actual application UI; authentication API mocked; layout evidence only.",
+      "after": "Figure 36. Real login UI at 390x844; actual API session, 2026-10-01 dirty local capture, not final-main."
+    },
+    {
+      "paragraph": 1128,
+      "before": "Figure 37. Mandatory Change Password, desktop (1280 x 900). Actual application UI; authentication API mocked; layout evidence only.",
+      "after": "Figure 37. Real mandatory change password UI at 1280x900; actual API session, 2026-10-01 dirty local capture, not final-main."
+    },
+    {
+      "paragraph": 1131,
+      "before": "Figure 38. Mandatory Change Password, tablet (900 x 900). Actual application UI; authentication API mocked; layout evidence only.",
+      "after": "Figure 38. Real mandatory change password UI at 900x900; actual API session, 2026-10-01 dirty local capture, not final-main."
+    },
+    {
+      "paragraph": 1134,
+      "before": "Figure 39. Mandatory Change Password, mobile (390 x 844). Actual application UI; authentication API mocked; layout evidence only.",
+      "after": "Figure 39. Real mandatory change password UI at 390x844; actual API session, 2026-10-01 dirty local capture, not final-main."
+    },
+    {
+      "paragraph": 1138,
+      "before": "Figure 40. Staff Queue, Page 2 of 3 with real fixture data (1280 x 900). Captured in the passing 2026-09-29 local E2E run; dirty-tree evidence, not final-main.",
+      "after": "Figure 40. Populated second Queue page in the passing 16-test E2E run on 2026-10-01; local disposable database, not final-main."
+    },
+    {
+      "paragraph": 1141,
+      "before": "Figure 41. Migrated Attachment remains visible after reassignment, LOW priority, and NEW-to-OPEN update (1280 x 900). Captured in the passing 2026-09-29 local E2E run; dirty-tree evidence, not final-main.",
+      "after": "Figure 41. Migrated Attachment after reassignment, LOW IT Priority and NEW-to-OPEN update; 2026-10-01 passing local E2E."
+    },
+    {
+      "paragraph": 1144,
+      "before": "Figure 42. Requester sees the separate resolved indication and can clear it (1280 x 900). Captured in the passing 2026-09-29 local E2E run; dirty-tree evidence, not final-main.",
+      "after": "Figure 42. Requester indication is separate from formal status; 2026-10-01 passing local E2E. Staff rendering follows in Figures 43-45."
+    }
+  ],
+  "preservedBaseline": true,
+  "historicalRawOutputReplaced": true,
+  "committedMainTreeEntries": 218,
+  "figures": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51
+  ]
+}

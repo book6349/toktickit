@@ -165,8 +165,11 @@ export function registerStaffWorkflowRoutes(app: Express) {
     if (params.requestedPriority) where.requestedPriority = params.requestedPriority;
     if (params.itPriority) where.itPriority = params.itPriority;
     if (params.ownerId !== null) where.ownerId = params.ownerId;
-    if (params.ownership === "assigned") where.ownerId = { not: null };
-    if (params.ownership === "unassigned") where.ownerId = null;
+    if (params.ownership === "assigned" && params.ownerId === null) where.ownerId = { not: null };
+    if (params.ownership === "unassigned") {
+      if (params.ownerId === null) where.ownerId = null;
+      else where.AND = [{ ownerId: null }];
+    }
     try {
       const prisma = getPrisma();
       const [totalItems, tickets] = await Promise.all([

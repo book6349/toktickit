@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import request from "supertest";
 import { app } from "../../src/app.js";
 import * as prismaModule from "../../src/prisma.js";
+import { regressionCookie, requesterSession } from "../lab-03/regression-fixtures.js";
 
 describe("Lab 2 requester context and reference data", () => {
   beforeEach(() => {
@@ -25,19 +26,22 @@ describe("Lab 2 requester context and reference data", () => {
     });
   });
 
-  it("rejects a missing or inactive requester context safely", async () => {
+  it("rejects missing sessions and inactive accounts without accepting the old requester header", async () => {
+    const count = vi.fn();
     vi.spyOn(prismaModule, "getPrisma").mockReturnValue({
-      requesterUser: {
-        findFirst: vi.fn().mockResolvedValue(null),
-      },
+      ...requesterSession(999, false),
+      ticket: { count },
     } as any);
 
     const missing = await request(app).get("/api/tickets");
-    const inactive = await request(app).get("/api/tickets").set("X-Requester-Id", "999");
+    const forgedHeader = await request(app).get("/api/tickets").set("X-Requester-Id", "1");
+    const inactive = await request(app).get("/api/tickets").set("Cookie", regressionCookie);
 
-    expect(missing.status).toBe(400);
-    expect(missing.body.error.code).toBe("INVALID_REQUESTER_CONTEXT");
-    expect(inactive.status).toBe(400);
-    expect(inactive.body.error.code).toBe("INVALID_REQUESTER_CONTEXT");
+    expect(missing.status).toBe(401);
+    expect(missing.body.error.code).toBe("UNAUTHENTICATED");
+    expect(forgedHeader.status).toBe(401);
+    expect(inactive.status).toBe(401);
+    expect(inactive.body).toEqual(missing.body);
+    expect(count).not.toHaveBeenCalled();
   });
 });

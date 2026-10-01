@@ -14,6 +14,7 @@ server/storage/
 # Playwright runtime output
 test-results/
 artifacts/lab-03/playwright-report/
+artifacts/lab-03/runtime/
 # logs & OS
 *.log
 .DS_Store

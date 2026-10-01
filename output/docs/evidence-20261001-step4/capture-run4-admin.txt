@@ -1,0 +1,18 @@
+Captured: user-management/list-1280x900.png Live application with real disposable PostgreSQL data
+Captured: user-management/list-900x900.png Live application with real disposable PostgreSQL data
+Captured: user-management/list-390x844.png Live application with real disposable PostgreSQL data
+Captured: user-management/staff-role-filter-1280x900.png Live application with real disposable PostgreSQL data
+Captured: user-management/no-results-1280x900.png Live application with real disposable PostgreSQL data
+Captured: user-management/self-deactivation-disabled-1280x900.png Live application with real disposable PostgreSQL data
+Captured: user-management/create-form-1280x900.png Live application with real disposable PostgreSQL data
+Captured: user-management/create-form-900x900.png Live application with real disposable PostgreSQL data
+Captured: user-management/create-form-390x844.png Live application with real disposable PostgreSQL data
+Captured: user-management/invalid-password-1280x900.png Live application with real disposable PostgreSQL data
+Captured: user-management/duplicate-email-1280x900.png Live application with real disposable PostgreSQL data
+Captured: user-management/edit-form-1280x900.png Live application with real disposable PostgreSQL data
+Captured: user-management/edit-form-900x900.png Live application with real disposable PostgreSQL data
+Captured: user-management/edit-form-390x844.png Live application with real disposable PostgreSQL data
+Captured: staff-queue/controlled-empty-1280x900.png Controlled mocked API state; actual React UI; not database behavior proof
+Captured: staff-queue/controlled-failure-1280x900.png Controlled mocked API state; actual React UI; not database behavior proof
+Captured: staff-queue/controlled-loading-1280x900.png Controlled network delay; real API response follows
+All capture assertions passed. Screenshot files: 25

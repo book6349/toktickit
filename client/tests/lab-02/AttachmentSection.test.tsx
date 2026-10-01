@@ -2,6 +2,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import App from "../../src/App.js";
 import * as api from "../../src/api.js";
+import { mockRequesterSession } from "../lab-03/regression-fixtures.js";
 
 const activeAttachment = {
   id: 55,
@@ -57,9 +58,6 @@ const listResult = {
 
 async function openDetail() {
   render(<App />);
-  await waitFor(() => expect(screen.getByRole("option", { name: /Ariya Somchai/i })).toBeInTheDocument());
-  fireEvent.change(screen.getByLabelText("Requester"), { target: { value: "1" } });
-  fireEvent.click(screen.getByRole("button", { name: "Continue" }));
   await waitFor(() => expect(screen.getByRole("button", { name: /TT-20260824-000010 VPN access request/i })).toBeInTheDocument());
   fireEvent.click(screen.getByRole("button", { name: /TT-20260824-000010 VPN access request/i }));
   await waitFor(() => expect(screen.getByRole("heading", { name: "VPN access request" })).toBeInTheDocument());
@@ -68,9 +66,7 @@ async function openDetail() {
 describe("Lab 2 AttachmentSection", () => {
   beforeEach(() => {
     window.sessionStorage.clear();
-    vi.spyOn(api, "getActiveRequesters").mockResolvedValue([
-      { id: 1, name: "Ariya Somchai", email: "ariya@example.com" },
-    ]);
+    mockRequesterSession();
     vi.spyOn(api, "getReferenceData").mockResolvedValue({
       categories: [{ id: 2, name: "Hardware" }],
       relatedSystems: [{ id: 3, name: "VPN" }],
@@ -103,13 +99,13 @@ describe("Lab 2 AttachmentSection", () => {
     fireEvent.click(screen.getByRole("button", { name: "Remove" }));
     fireEvent.change(screen.getByLabelText("Removal reason"), { target: { value: "No longer needed" } });
     fireEvent.click(screen.getByRole("button", { name: "Confirm removal" }));
-    await waitFor(() => expect(removeAttachment).toHaveBeenCalledWith(1, 55, "No longer needed"));
+    await waitFor(() => expect(removeAttachment).toHaveBeenCalledWith(55, "No longer needed"));
     await waitFor(() => expect(screen.getAllByText(/Removed/).length).toBeGreaterThan(0));
     expect(screen.queryByRole("button", { name: "Remove" })).not.toBeInTheDocument();
 
     const file = new File(["log"], "new-log.pdf", { type: "application/pdf" });
     fireEvent.change(screen.getByLabelText("Add files"), { target: { files: [file] } });
-    await waitFor(() => expect(uploadAttachments).toHaveBeenCalledWith(1, 10, [file]));
+    await waitFor(() => expect(uploadAttachments).toHaveBeenCalledWith(10, [file]));
     expect(screen.getByText("new-log.pdf")).toBeInTheDocument();
   });
 });

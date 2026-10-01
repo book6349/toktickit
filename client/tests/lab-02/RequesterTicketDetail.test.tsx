@@ -2,6 +2,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import App from "../../src/App.js";
 import * as api from "../../src/api.js";
+import { mockRequesterSession } from "../lab-03/regression-fixtures.js";
 
 const ticket = {
   id: 10,
@@ -35,9 +36,6 @@ const listResult = {
 
 async function selectTicket() {
   render(<App />);
-  await waitFor(() => expect(screen.getByRole("option", { name: /Ariya Somchai/i })).toBeInTheDocument());
-  fireEvent.change(screen.getByLabelText("Requester"), { target: { value: "1" } });
-  fireEvent.click(screen.getByRole("button", { name: "Continue" }));
   await waitFor(() => expect(screen.getByRole("button", { name: /TT-20260824-000010 VPN access request/i })).toBeInTheDocument());
   fireEvent.click(screen.getByRole("button", { name: /TT-20260824-000010 VPN access request/i }));
 }
@@ -50,9 +48,7 @@ async function openTicket() {
 describe("Lab 2 owned Ticket Detail", () => {
   beforeEach(() => {
     window.sessionStorage.clear();
-    vi.spyOn(api, "getActiveRequesters").mockResolvedValue([
-      { id: 1, name: "Ariya Somchai", email: "ariya@example.com" },
-    ]);
+    mockRequesterSession();
     vi.spyOn(api, "getReferenceData").mockResolvedValue({
       categories: [{ id: 2, name: "Hardware" }],
       relatedSystems: [{ id: 3, name: "VPN" }],
@@ -68,7 +64,7 @@ describe("Lab 2 owned Ticket Detail", () => {
     const getTicket = vi.spyOn(api, "getTicket").mockResolvedValue(ticket);
     await openTicket();
 
-    expect(getTicket).toHaveBeenCalledWith(1, 10);
+    expect(getTicket).toHaveBeenCalledWith(10);
     expect(screen.getByText(ticket.description)).toBeInTheDocument();
     expect(screen.getByText("Hardware")).toBeInTheDocument();
     expect(screen.getByText("VPN")).toBeInTheDocument();

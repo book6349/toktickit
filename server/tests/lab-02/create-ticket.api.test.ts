@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import request from "supertest";
 import { app } from "../../src/app.js";
 import * as prismaModule from "../../src/prisma.js";
+import { regressionCookie, regressionCsrf, requesterSession } from "../lab-03/regression-fixtures.js";
 
 describe("Lab 2 ticket creation", () => {
   beforeEach(() => {
@@ -11,6 +12,7 @@ describe("Lab 2 ticket creation", () => {
   it("returns field errors without persisting an invalid ticket", async () => {
     const create = vi.fn();
     vi.spyOn(prismaModule, "getPrisma").mockReturnValue({
+      ...requesterSession(1),
       requesterUser: {
         findFirst: vi.fn().mockResolvedValue({ id: 1, name: "Ariya", email: "ariya@example.com" }),
       },
@@ -19,7 +21,8 @@ describe("Lab 2 ticket creation", () => {
 
     const response = await request(app)
       .post("/api/tickets")
-      .set("X-Requester-Id", "1")
+      .set("Cookie", regressionCookie)
+      .set("X-CSRF-Token", regressionCsrf)
       .send({
         categoryId: "not-an-id",
         relatedSystemId: "2",
@@ -64,6 +67,7 @@ describe("Lab 2 ticket creation", () => {
         attachments: [],
       });
     vi.spyOn(prismaModule, "getPrisma").mockReturnValue({
+      ...requesterSession(1),
       requesterUser: {
         findFirst: vi.fn().mockResolvedValue({ id: 1, name: "Ariya", email: "ariya@example.com" }),
       },
@@ -74,7 +78,8 @@ describe("Lab 2 ticket creation", () => {
 
     const response = await request(app)
       .post("/api/tickets")
-      .set("X-Requester-Id", "1")
+      .set("Cookie", regressionCookie)
+      .set("X-CSRF-Token", regressionCsrf)
       .send({
         categoryId: "2",
         relatedSystemId: "3",

@@ -33,4 +33,62 @@ describe("Lab 3 Public Comments and Internal Notes", () => {
     expect(response.status).toBe(403);
     expect(response.body.error.code).toBe("FORBIDDEN");
   });
+
+  it.each(["comment", "note"])("rejects blank, overlength, and non-string %s content before database writes", async (kind) => {
+    const create = vi.fn();
+    vi.spyOn(prismaModule, "getPrisma").mockReturnValue({
+      session: { findUnique: vi.fn().mockResolvedValue(session) },
+      ticket: { findFirst: vi.fn(), findUnique: vi.fn() },
+      publicComment: { create }, internalNote: { create },
+    } as any);
+    const path = kind === "comment" ? "/api/tickets/44/comments" : "/api/staff/tickets/44/notes";
+    for (const content of ["", " \n\t ", "x".repeat(4001), 123]) {
+      const response = await request(app).post(path)
+        .set("Cookie", "toktickit_session=staff-token; toktickit_csrf=csrf-token")
+        .set("X-CSRF-Token", "csrf-token").send({ content });
+      expect(response.status).toBe(400);
+      expect(response.body.error.code).toBe("VALIDATION_ERROR");
+      expect(response.body.error.fields.content).toEqual(expect.any(String));
+    }
+    expect(create).not.toHaveBeenCalled();
+  });
+
+  it.each(["comment", "note"])("accepts the 4,000-character %s boundary and uses the backend author and timestamp", async (kind) => {
+    const createdAt = new Date("2026-10-01T00:00:00Z");
+    const create = vi.fn().mockImplementation(async ({ data }: any) => ({ ...data, id: 4, createdAt, author: staff }));
+    vi.spyOn(prismaModule, "getPrisma").mockReturnValue({
+      session: { findUnique: vi.fn().mockResolvedValue(session) },
+      ticket: { findFirst: vi.fn().mockResolvedValue({ id: 44 }), findUnique: vi.fn().mockResolvedValue({ id: 44 }) },
+      publicComment: { create }, internalNote: { create },
+    } as any);
+    const path = kind === "comment" ? "/api/tickets/44/comments" : "/api/staff/tickets/44/notes";
+    const content = "x".repeat(4000);
+    const response = await request(app).post(path)
+      .set("Cookie", "toktickit_session=staff-token; toktickit_csrf=csrf-token")
+      .set("X-CSRF-Token", "csrf-token")
+      .send({ content: ` ${content} `, authorId: 999, createdAt: "1970-01-01T00:00:00Z" });
+    expect(response.status).toBe(201);
+    expect(create).toHaveBeenCalledWith(expect.objectContaining({ data: { ticketId: 44, authorId: staff.id, content } }));
+    expect(response.body[kind]).toMatchObject({ content, author: { id: staff.id }, createdAt: createdAt.toISOString() });
+  });
+
+  it.each(["comments", "notes"])("keeps %s append-only: collection and entry edit/delete requests cannot mutate stored content", async (kind) => {
+    const update = vi.fn();
+    const remove = vi.fn();
+    vi.spyOn(prismaModule, "getPrisma").mockReturnValue({
+      session: { findUnique: vi.fn().mockResolvedValue(session) },
+      publicComment: { update, delete: remove }, internalNote: { update, delete: remove },
+    } as any);
+    const path = kind === "comments" ? "/api/tickets/44/comments" : "/api/staff/tickets/44/notes";
+    for (const resource of [path, `${path}/4`]) {
+      for (const method of ["patch", "put", "delete"] as const) {
+        const response = await request(app)[method](resource)
+          .set("Cookie", "toktickit_session=staff-token; toktickit_csrf=csrf-token")
+          .set("X-CSRF-Token", "csrf-token").send({ content: "Replacement content" });
+        expect(response.status).toBe(404);
+      }
+    }
+    expect(update).not.toHaveBeenCalled();
+    expect(remove).not.toHaveBeenCalled();
+  });
 });

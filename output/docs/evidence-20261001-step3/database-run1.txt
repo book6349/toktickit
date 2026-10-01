@@ -1,0 +1,57 @@
+
+> toktickit-lab3-integration@1.0.0 test:e2e:prepare
+> npm --prefix server run test:e2e:prepare
+
+
+> toktickit-server@1.0.0 test:e2e:prepare
+> tsx prisma/prepare-lab3-e2e.ts
+
+New disposable database: toktickit_lab3_e2e_20261001_run1
+server: npx --no-install prisma db execute --schema prisma/schema.prisma --stdin
+Script executed successfully.
+Synthetic pre-Lab-3 snapshot: {"requesters":[{"id":1,"name":"Ariya Somchai","email":"ariya.somchai@example.com","isActive":true,"createdAt":"2026-09-30T18:18:48.703Z"}],"tickets":[{"id":1,"ticketNumber":"TT-DOCKER-PRELAB3-001","requesterId":1,"categoryId":1,"relatedSystemId":1,"requestedPriority":"HIGH","status":"NEW","summary":"Pre-Lab 3 preservation fixture","description":"Synthetic migration fixture for local verification."}],"attachments":[{"id":1,"ticketId":1,"originalFilename":"baseline.txt","storageKey":"toktickit_lab3_e2e_20261001_run1-baseline.txt","mimeType":"text/plain","sizeBytes":17,"removedAt":null}],"categories":[{"id":1,"name":"Hardware","isActive":true,"createdAt":"2026-09-30T18:18:48.703Z"}],"systems":[{"id":1,"name":"Corporate Laptop","isActive":true,"createdAt":"2026-09-30T18:18:48.703Z"}]}
+server: npx --no-install prisma migrate resolve --applied 20260824000000_lab2_foundation
+Prisma schema loaded from prisma\schema.prisma
+Datasource "db": PostgreSQL database "toktickit_lab3_e2e_20261001_run1", schema "public" at "localhost:5432"
+
+Migration 20260824000000_lab2_foundation marked as applied.
+
+server: npx --no-install prisma migrate deploy
+Prisma schema loaded from prisma\schema.prisma
+Datasource "db": PostgreSQL database "toktickit_lab3_e2e_20261001_run1", schema "public" at "localhost:5432"
+
+2 migrations found in prisma/migrations
+
+Applying migration `20260919000000_lab3_auth_requester`
+
+The following migration(s) have been applied:
+
+migrations/
+  └─ 20260919000000_lab3_auth_requester/
+    └─ migration.sql
+      
+All migrations have been successfully applied.
+server: npx --no-install prisma migrate status
+Prisma schema loaded from prisma\schema.prisma
+Datasource "db": PostgreSQL database "toktickit_lab3_e2e_20261001_run1", schema "public" at "localhost:5432"
+
+2 migrations found in prisma/migrations
+
+Database schema is up to date!
+Post-migration snapshot: {"requesters":[{"id":1,"name":"Ariya Somchai","email":"ariya.somchai@example.com","isActive":true,"createdAt":"2026-09-30T18:18:48.703Z"}],"tickets":[{"id":1,"ticketNumber":"TT-DOCKER-PRELAB3-001","requesterId":1,"categoryId":1,"relatedSystemId":1,"requestedPriority":"HIGH","status":"NEW","summary":"Pre-Lab 3 preservation fixture","description":"Synthetic migration fixture for local verification."}],"attachments":[{"id":1,"ticketId":1,"originalFilename":"baseline.txt","storageKey":"toktickit_lab3_e2e_20261001_run1-baseline.txt","mimeType":"text/plain","sizeBytes":17,"removedAt":null}],"categories":[{"id":1,"name":"Hardware","isActive":true,"createdAt":"2026-09-30T18:18:48.703Z"}],"systems":[{"id":1,"name":"Corporate Laptop","isActive":true,"createdAt":"2026-09-30T18:18:48.703Z"}]}
+server: npm run prisma:seed (run 1)
+
+> toktickit-server@1.0.0 prisma:seed
+> tsx prisma/seed.ts
+
+Seeding completed successfully: 10 users and 3 tickets.
+Seed 1 assertions: {"users":10,"tickets":4,"attachments":1,"comments":3,"notes":3,"activeRequesters":4,"inactiveRequesters":1,"activeStaff":3,"inactiveStaff":1,"activeAdmins":1,"seededRequesterOwnership":3,"seededStaffOwnership":2,"commentAuthors":3,"noteAuthors":3,"baselineAttachment":1}
+server: npm run prisma:seed (run 2)
+
+> toktickit-server@1.0.0 prisma:seed
+> tsx prisma/seed.ts
+
+Seeding completed successfully: 10 users and 3 tickets.
+Seed 2 assertions: {"users":10,"tickets":4,"attachments":1,"comments":3,"notes":3,"activeRequesters":4,"inactiveRequesters":1,"activeStaff":3,"inactiveStaff":1,"activeAdmins":1,"seededRequesterOwnership":3,"seededStaffOwnership":2,"commentAuthors":3,"noteAuthors":3,"baselineAttachment":1}
+Baseline attachment SHA256: cc7098632c30d31ed81ff5936a75a027f3136024cb96efd35e8fe3f9b4d3cfaf
+Prepared E2E fixture IDs/count: {"databaseName":"toktickit_lab3_e2e_20261001_run1","baselineTicketId":1,"reassignmentOwnerId":8,"queueTotal":20}

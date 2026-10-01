@@ -2,6 +2,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import App from "../../src/App.js";
 import * as api from "../../src/api.js";
+import { mockRequesterSession } from "../lab-03/regression-fixtures.js";
 
 const references = {
   categories: [{ id: 1, name: "Account and Access" }],
@@ -26,9 +27,6 @@ const createdTicket = {
 
 async function openCreateTicket() {
   render(<App />);
-  await waitFor(() => expect(screen.getByRole("option", { name: /Ariya Somchai/i })).toBeInTheDocument());
-  fireEvent.change(screen.getByLabelText("Requester"), { target: { value: "1" } });
-  fireEvent.click(screen.getByRole("button", { name: "Continue" }));
   await waitFor(() => expect(screen.getByRole("heading", { name: "My tickets" })).toBeInTheDocument());
   fireEvent.click(screen.getByRole("button", { name: "Create Ticket" }));
   await waitFor(() => expect(screen.getByRole("heading", { name: "Create a ticket" })).toBeInTheDocument());
@@ -45,9 +43,7 @@ function fillValidTicket() {
 describe("Lab 2 Create Ticket", () => {
   beforeEach(() => {
     window.sessionStorage.clear();
-    vi.spyOn(api, "getActiveRequesters").mockResolvedValue([
-      { id: 1, name: "Ariya Somchai", email: "ariya@example.com" },
-    ]);
+    mockRequesterSession();
     vi.spyOn(api, "getReferenceData").mockResolvedValue(references);
     vi.spyOn(api, "listTickets").mockResolvedValue({
       items: [],

@@ -1,0 +1,433 @@
+{
+  "sourceHead": "1fb8df040eb12ac443bb4246a314babfde1564e9",
+  "branch": "feature/lab3-submission-corrections",
+  "sourceState": "dirty local tree; not final-main",
+  "database": "toktickit_lab3_e2e_20261001_run1",
+  "captures": [
+    {
+      "file": "user-management/list-1280x900.png",
+      "screen": "user-management",
+      "scenario": "list",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "capturedAt": "2026-09-30T18:32:37.182Z",
+      "boundary": "Live application with real disposable PostgreSQL data",
+      "overflow": {
+        "width": 1280,
+        "client": 1280,
+        "height": 2197
+      },
+      "status": "Captured; visual review pending"
+    },
+    {
+      "file": "user-management/list-900x900.png",
+      "screen": "user-management",
+      "scenario": "list",
+      "viewport": {
+        "width": 900,
+        "height": 900
+      },
+      "capturedAt": "2026-09-30T18:32:37.283Z",
+      "boundary": "Live application with real disposable PostgreSQL data",
+      "overflow": {
+        "width": 900,
+        "client": 900,
+        "height": 2173
+      },
+      "status": "Captured; visual review pending"
+    },
+    {
+      "file": "user-management/list-390x844.png",
+      "screen": "user-management",
+      "scenario": "list",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "capturedAt": "2026-09-30T18:32:37.370Z",
+      "boundary": "Live application with real disposable PostgreSQL data",
+      "overflow": {
+        "width": 390,
+        "client": 390,
+        "height": 3650
+      },
+      "status": "Captured; visual review pending"
+    },
+    {
+      "file": "user-management/list-section-01-390px.png",
+      "source": "user-management/list-390x844.png",
+      "screen": "user-management",
+      "scenario": "list",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "capturedAt": "2026-09-30T18:32:37.417Z",
+      "boundary": "Live application with real disposable PostgreSQL data",
+      "verticalRange": [
+        0,
+        760
+      ],
+      "status": "Native browser section capture; visual review pending"
+    },
+    {
+      "file": "user-management/list-section-02-390px.png",
+      "source": "user-management/list-390x844.png",
+      "screen": "user-management",
+      "scenario": "list",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "capturedAt": "2026-09-30T18:32:37.456Z",
+      "boundary": "Live application with real disposable PostgreSQL data",
+      "verticalRange": [
+        660,
+        1420
+      ],
+      "status": "Native browser section capture; visual review pending"
+    },
+    {
+      "file": "user-management/list-section-03-390px.png",
+      "source": "user-management/list-390x844.png",
+      "screen": "user-management",
+      "scenario": "list",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "capturedAt": "2026-09-30T18:32:37.490Z",
+      "boundary": "Live application with real disposable PostgreSQL data",
+      "verticalRange": [
+        1320,
+        2080
+      ],
+      "status": "Native browser section capture; visual review pending"
+    },
+    {
+      "file": "user-management/list-section-04-390px.png",
+      "source": "user-management/list-390x844.png",
+      "screen": "user-management",
+      "scenario": "list",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "capturedAt": "2026-09-30T18:32:37.522Z",
+      "boundary": "Live application with real disposable PostgreSQL data",
+      "verticalRange": [
+        1980,
+        2740
+      ],
+      "status": "Native browser section capture; visual review pending"
+    },
+    {
+      "file": "user-management/list-section-05-390px.png",
+      "source": "user-management/list-390x844.png",
+      "screen": "user-management",
+      "scenario": "list",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "capturedAt": "2026-09-30T18:32:37.555Z",
+      "boundary": "Live application with real disposable PostgreSQL data",
+      "verticalRange": [
+        2640,
+        3400
+      ],
+      "status": "Native browser section capture; visual review pending"
+    },
+    {
+      "file": "user-management/list-section-06-390px.png",
+      "source": "user-management/list-390x844.png",
+      "screen": "user-management",
+      "scenario": "list",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "capturedAt": "2026-09-30T18:32:37.585Z",
+      "boundary": "Live application with real disposable PostgreSQL data",
+      "verticalRange": [
+        3300,
+        3650
+      ],
+      "status": "Native browser section capture; visual review pending"
+    },
+    {
+      "file": "user-management/staff-role-filter-1280x900.png",
+      "screen": "user-management",
+      "scenario": "staff-role-filter",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "capturedAt": "2026-09-30T18:32:37.746Z",
+      "boundary": "Live application with real disposable PostgreSQL data",
+      "overflow": {
+        "width": 1280,
+        "client": 1280,
+        "height": 2197
+      },
+      "status": "Captured; visual review pending"
+    },
+    {
+      "file": "user-management/no-results-1280x900.png",
+      "screen": "user-management",
+      "scenario": "no-results",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "capturedAt": "2026-09-30T18:32:37.955Z",
+      "boundary": "Live application with real disposable PostgreSQL data",
+      "overflow": {
+        "width": 1280,
+        "client": 1280,
+        "height": 999
+      },
+      "status": "Captured; visual review pending"
+    },
+    {
+      "file": "user-management/self-deactivation-disabled-1280x900.png",
+      "screen": "user-management",
+      "scenario": "self-deactivation-disabled",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "capturedAt": "2026-09-30T18:32:38.147Z",
+      "boundary": "Live application with real disposable PostgreSQL data",
+      "overflow": {
+        "width": 1280,
+        "client": 1280,
+        "height": 975
+      },
+      "status": "Captured; visual review pending"
+    },
+    {
+      "file": "user-management/create-form-1280x900.png",
+      "screen": "user-management",
+      "scenario": "create-form",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "capturedAt": "2026-09-30T18:32:38.271Z",
+      "boundary": "Live application with real disposable PostgreSQL data",
+      "overflow": {
+        "width": 1280,
+        "client": 1280,
+        "height": 900
+      },
+      "status": "Captured; visual review pending"
+    },
+    {
+      "file": "user-management/create-form-900x900.png",
+      "screen": "user-management",
+      "scenario": "create-form",
+      "viewport": {
+        "width": 900,
+        "height": 900
+      },
+      "capturedAt": "2026-09-30T18:32:38.331Z",
+      "boundary": "Live application with real disposable PostgreSQL data",
+      "overflow": {
+        "width": 900,
+        "client": 900,
+        "height": 900
+      },
+      "status": "Captured; visual review pending"
+    },
+    {
+      "file": "user-management/create-form-390x844.png",
+      "screen": "user-management",
+      "scenario": "create-form",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "capturedAt": "2026-09-30T18:32:38.387Z",
+      "boundary": "Live application with real disposable PostgreSQL data",
+      "overflow": {
+        "width": 390,
+        "client": 390,
+        "height": 984
+      },
+      "status": "Captured; visual review pending"
+    },
+    {
+      "file": "user-management/invalid-password-1280x900.png",
+      "screen": "user-management",
+      "scenario": "invalid-password",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "capturedAt": "2026-09-30T18:32:38.584Z",
+      "boundary": "Live application with real disposable PostgreSQL data",
+      "overflow": {
+        "width": 1280,
+        "client": 1280,
+        "height": 930
+      },
+      "status": "Captured; visual review pending"
+    },
+    {
+      "file": "user-management/duplicate-email-1280x900.png",
+      "screen": "user-management",
+      "scenario": "duplicate-email",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "capturedAt": "2026-09-30T18:32:38.733Z",
+      "boundary": "Live application with real disposable PostgreSQL data",
+      "overflow": {
+        "width": 1280,
+        "client": 1280,
+        "height": 930
+      },
+      "status": "Captured; visual review pending"
+    },
+    {
+      "file": "user-management/edit-form-1280x900.png",
+      "screen": "user-management",
+      "scenario": "edit-form",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "capturedAt": "2026-09-30T18:32:38.876Z",
+      "boundary": "Live application with real disposable PostgreSQL data",
+      "overflow": {
+        "width": 1280,
+        "client": 1280,
+        "height": 975
+      },
+      "status": "Captured; visual review pending"
+    },
+    {
+      "file": "user-management/edit-form-900x900.png",
+      "screen": "user-management",
+      "scenario": "edit-form",
+      "viewport": {
+        "width": 900,
+        "height": 900
+      },
+      "capturedAt": "2026-09-30T18:32:38.952Z",
+      "boundary": "Live application with real disposable PostgreSQL data",
+      "overflow": {
+        "width": 900,
+        "client": 900,
+        "height": 932
+      },
+      "status": "Captured; visual review pending"
+    },
+    {
+      "file": "user-management/edit-form-390x844.png",
+      "screen": "user-management",
+      "scenario": "edit-form",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "capturedAt": "2026-09-30T18:32:39.005Z",
+      "boundary": "Live application with real disposable PostgreSQL data",
+      "overflow": {
+        "width": 390,
+        "client": 390,
+        "height": 1240
+      },
+      "status": "Captured; visual review pending"
+    },
+    {
+      "file": "user-management/edit-form-section-01-390px.png",
+      "source": "user-management/edit-form-390x844.png",
+      "screen": "user-management",
+      "scenario": "edit-form",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "capturedAt": "2026-09-30T18:32:39.068Z",
+      "boundary": "Live application with real disposable PostgreSQL data",
+      "verticalRange": [
+        0,
+        760
+      ],
+      "status": "Native browser section capture; visual review pending"
+    },
+    {
+      "file": "user-management/edit-form-section-02-390px.png",
+      "source": "user-management/edit-form-390x844.png",
+      "screen": "user-management",
+      "scenario": "edit-form",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "capturedAt": "2026-09-30T18:32:39.104Z",
+      "boundary": "Live application with real disposable PostgreSQL data",
+      "verticalRange": [
+        660,
+        1240
+      ],
+      "status": "Native browser section capture; visual review pending"
+    },
+    {
+      "file": "staff-queue/controlled-empty-1280x900.png",
+      "screen": "staff-queue",
+      "scenario": "controlled-empty",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "capturedAt": "2026-09-30T18:32:39.574Z",
+      "boundary": "Controlled mocked API state; actual React UI; not database behavior proof",
+      "overflow": {
+        "width": 1280,
+        "client": 1280,
+        "height": 900
+      },
+      "status": "Captured; visual review pending"
+    },
+    {
+      "file": "staff-queue/controlled-failure-1280x900.png",
+      "screen": "staff-queue",
+      "scenario": "controlled-failure",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "capturedAt": "2026-09-30T18:32:39.688Z",
+      "boundary": "Controlled mocked API state; actual React UI; not database behavior proof",
+      "overflow": {
+        "width": 1280,
+        "client": 1280,
+        "height": 900
+      },
+      "status": "Captured; visual review pending"
+    },
+    {
+      "file": "staff-queue/controlled-loading-1280x900.png",
+      "screen": "staff-queue",
+      "scenario": "controlled-loading",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "capturedAt": "2026-09-30T18:32:39.824Z",
+      "boundary": "Controlled network delay; real API response follows",
+      "overflow": {
+        "width": 1280,
+        "client": 1280,
+        "height": 900
+      },
+      "status": "Captured; visual review pending"
+    }
+  ]
+}
