@@ -1,0 +1,76 @@
+{
+  "sourceHead": "1fb8df040eb12ac443bb4246a314babfde1564e9",
+  "sourceState": "dirty local tree; not final-main",
+  "captures": [
+    {
+      "file": "user-management/edited-name-email-role-activation-1280x900.png",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "boundary": "Real API and synthetic disposable PostgreSQL records",
+      "capturedAt": "2026-09-30T18:35:01.738Z",
+      "status": "Captured; visual review pending"
+    },
+    {
+      "file": "user-management/reset-success-1280x900.png",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "boundary": "Real API and synthetic disposable PostgreSQL records",
+      "capturedAt": "2026-09-30T18:35:02.119Z",
+      "status": "Captured; visual review pending"
+    },
+    {
+      "file": "user-management/reset-next-login-password-gate-1280x900.png",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "boundary": "Real API and synthetic disposable PostgreSQL records",
+      "capturedAt": "2026-09-30T18:35:02.547Z",
+      "status": "Captured; visual review pending"
+    },
+    {
+      "file": "user-management/reset-next-login-password-gate-900x900.png",
+      "viewport": {
+        "width": 900,
+        "height": 900
+      },
+      "boundary": "Real API and synthetic disposable PostgreSQL records",
+      "capturedAt": "2026-09-30T18:35:02.587Z",
+      "status": "Captured; visual review pending"
+    },
+    {
+      "file": "user-management/reset-next-login-password-gate-390x844.png",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "boundary": "Real API and synthetic disposable PostgreSQL records",
+      "capturedAt": "2026-09-30T18:35:02.621Z",
+      "status": "Captured; visual review pending"
+    },
+    {
+      "file": "staff-ticket-detail/administrator-read-only-1280x900.png",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "boundary": "Real API and synthetic disposable PostgreSQL records",
+      "capturedAt": "2026-09-30T18:35:02.878Z",
+      "status": "Captured; visual review pending"
+    },
+    {
+      "file": "staff-ticket-detail/controlled-failure-1280x900.png",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "boundary": "Controlled mocked 503 response; actual app UI; not database failure proof",
+      "capturedAt": "2026-09-30T18:35:03.409Z",
+      "status": "Captured; visual review pending"
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+
+> toktickit-client@1.0.0 test
+> vitest run --reporter=verbose
+
+
+ RUN  v2.1.9 C:/Users/Jitvoottikrai/OneDrive/เดสก์ท็อป/SoftwareEn/LAB1/Lab1_Starter_Scaffold/toktickit-lab3-specification/client
+
+ ✓ tests/lab-02/RequesterContext.test.tsx > Lab 2 requester context > restores the authenticated Requester and ignores stale development-selector state
+ ✓ tests/lab-03/ui-style.test.tsx > Lab 3 Zen Green styling and responsive rules > defines the documented palette, visible focus treatment, and mobile layout
+ ✓ tests/lab-03/ui-style.test.tsx > Lab 3 Zen Green styling and responsive rules > renders accessible sign-in controls with the primary action hierarchy
+ ✓ tests/lab-01/App.test.tsx > App > renders the TokTickIT sign-in heading after checking the session
+ ✓ tests/lab-01/App.test.tsx > App > retains the system-health API and seeded categories after the shell migration
+ ✓ tests/lab-01/App.test.tsx > App > retains a safe system-health error when the API is unavailable
+ ✓ tests/lab-03/ChangePassword.test.tsx > Lab 3 mandatory Change Password > blocks the normal shell until a valid replacement password is saved
+ ✓ tests/lab-02/ui-style.test.tsx > Lab 2 Zen Green UI conventions > exposes the required theme tokens and visible button hierarchy
+ ✓ tests/lab-03/ChangePassword.test.tsx > Lab 3 mandatory Change Password > shows confirmation mismatch and keeps the save action disabled
+ ✓ tests/lab-02/CreateTicket.test.tsx > Lab 2 Create Ticket > shows field-level validation without calling the API 316ms
+ ✓ tests/lab-03/Login.test.tsx > Lab 3 Login > shows the login form and enters the authenticated Requester shell without a selector 389ms
+ ✓ tests/lab-03/UserManagement.test.tsx > Lab 3 Administrator User Management > lists users, applies search and role filters, and keeps the direct detail entry point 393ms
+ ✓ tests/lab-02/ui-style.test.tsx > Lab 2 Zen Green UI conventions > keeps active navigation and focusable labeled controls visible
+ ✓ tests/lab-03/StaffTicketQueue.test.tsx > Lab 3 IT Staff Ticket Queue > loads the authenticated Staff Queue and sends the documented filters 430ms
+ ✓ tests/lab-03/Login.test.tsx > Lab 3 Login > shows a safe login failure
+ ✓ tests/lab-02/CreateTicket.test.tsx > Lab 2 Create Ticket > rejects an invalid attachment in the browser
+ ✓ tests/lab-02/MyTickets.test.tsx > Lab 2 My Tickets > sends the selected filters and sort controls to the requester-scoped API 438ms
+ ✓ tests/lab-03/StaffTicketQueue.test.tsx > Lab 3 IT Staff Ticket Queue > distinguishes an empty Queue from a filtered no-result state
+ ✓ tests/lab-02/RequesterTicketDetail.test.tsx > Lab 2 owned Ticket Detail > renders an owned detail as read-only and navigates back to My Tickets 429ms
+ ✓ tests/lab-03/RequesterWorkflow.test.tsx > Lab 3 Requester ticket regression > adds a public comment to the owned ticket and never renders Internal Notes 528ms
+ ✓ tests/lab-03/UserManagement.test.tsx > Lab 3 Administrator User Management > creates a user with clear initial-password behavior
+ ✓ tests/lab-03/Login.test.tsx > Lab 3 Login > shows and disables the visible sign-in busy state while authentication is pending
+ ✓ tests/lab-02/RequesterTicketDetail.test.tsx > Lab 2 owned Ticket Detail > shows a safe error when the detail is not owned or no longer exists
+ ✓ tests/lab-03/StaffTicketDetail.test.tsx > Lab 3 Staff Ticket Detail > keeps public comments and Internal Notes separate and supports staff operations 557ms
+ ✓ tests/lab-02/AttachmentSection.test.tsx > Lab 2 AttachmentSection > allows upload and removal for active files while hiding actions for removed files 591ms
+ ✓ tests/lab-02/MyTickets.test.tsx > Lab 2 My Tickets > supports pagination and distinguishes a filtered no-results state
+ ✓ tests/lab-03/RequesterWorkflow.test.tsx > Lab 3 Requester ticket regression > shows the Requester resolution indication after the API confirms it
+ ✓ tests/lab-02/CreateTicket.test.tsx > Lab 2 Create Ticket > disables duplicate submission and shows the backend ticket number on success
+ ✓ tests/lab-03/UserManagement.test.tsx > Lab 3 Administrator User Management > edits an account and exposes reset initial password as a separate action
+ ✓ tests/lab-03/StaffTicketDetail.test.tsx > Lab 3 Staff Ticket Detail > keeps Administrators out of the Queue and exposes only direct read-only detail
+ ✓ tests/lab-03/RequesterWorkflow.test.tsx > Lab 3 Requester ticket regression > renders comment markup as text without creating executable HTML
+ ✓ tests/lab-02/CreateTicket.test.tsx > Lab 2 Create Ticket > keeps entered values after an API failure
+
+ Test Files  14 passed (14)
+      Tests  32 passed (32)
+   Start at  01:11:34
+   Duration  4.73s (transform 1.63s, setup 4.26s, collect 8.46s, tests 7.16s, environment 23.94s, prepare 4.40s)
+

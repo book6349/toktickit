@@ -1,0 +1,150 @@
+Captured: authentication/login-1280x900.png Live application with real disposable PostgreSQL data
+Captured: authentication/login-900x900.png Live application with real disposable PostgreSQL data
+Captured: authentication/login-390x844.png Live application with real disposable PostgreSQL data
+Captured: authentication/invalid-login-1280x900.png Live application with real disposable PostgreSQL data
+Captured: authentication/inactive-login-1280x900.png Live application with real disposable PostgreSQL data
+Captured: authentication/mandatory-change-password-1280x900.png Live application with real disposable PostgreSQL data
+Captured: authentication/mandatory-change-password-900x900.png Live application with real disposable PostgreSQL data
+Captured: authentication/mandatory-change-password-390x844.png Live application with real disposable PostgreSQL data
+Captured: authentication/password-confirmation-mismatch-1280x900.png Live application with real disposable PostgreSQL data
+Captured: authentication/logout-api-blocked-1280x900.png Live application with real disposable PostgreSQL data
+Captured: authentication/requester/my-tickets-1280x900.png Live application with real disposable PostgreSQL data
+Captured: authentication/requester/my-tickets-900x900.png Live application with real disposable PostgreSQL data
+Captured: authentication/requester/my-tickets-390x844.png Live application with real disposable PostgreSQL data
+Captured: authentication/requester/create-ticket-1280x900.png Live application with real disposable PostgreSQL data
+Captured: authentication/requester/create-ticket-900x900.png Live application with real disposable PostgreSQL data
+Captured: authentication/requester/create-ticket-390x844.png Live application with real disposable PostgreSQL data
+Captured: authentication/requester/comments-resolution-restricted-1280x900.png Live application with real disposable PostgreSQL data
+Captured: authentication/requester/comments-resolution-restricted-900x900.png Live application with real disposable PostgreSQL data
+Captured: authentication/requester/comments-resolution-restricted-390x844.png Live application with real disposable PostgreSQL data
+Captured: staff-queue/populated-1280x900.png Live application with real disposable PostgreSQL data
+Captured: staff-queue/populated-900x900.png Live application with real disposable PostgreSQL data
+Captured: staff-queue/populated-390x844.png Live application with real disposable PostgreSQL data
+Captured: staff-queue/unassigned-sorted-1280x900.png Live application with real disposable PostgreSQL data
+Captured: staff-queue/status-requested-it-priority-filter-1280x900.png Live application with real disposable PostgreSQL data
+Captured: staff-queue/no-results-1280x900.png Live application with real disposable PostgreSQL data
+Captured: staff-ticket-detail/invalid-owner-safe-error-1280x900.png Live application with real disposable PostgreSQL data
+Captured: staff-ticket-detail/claimed-migrated-attachment-1280x900.png Live application with real disposable PostgreSQL data
+Real status confirmation: Confirm changing this Ticket to RESOLVED?
+Captured: staff-ticket-detail/public-private-status-attachment-1280x900.png Live application with real disposable PostgreSQL data
+Captured: staff-ticket-detail/public-private-status-attachment-900x900.png Live application with real disposable PostgreSQL data
+Captured: staff-ticket-detail/public-private-status-attachment-390x844.png Live application with real disposable PostgreSQL data
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+ExpectError: expect(locator).toBeVisible() failed
+
+Locator: getByText(/Requester indicates/)
+Expected: visible
+Timeout: 5000ms
+Error: element(s) not found
+
+Call log:
+  - Expect "toBeVisible" getByText(/Requester indicates/) with timeout 5000ms
+  - waiting for getByText(/Requester indicates/)
+
+    at captureRawStack (C:\Users\Jitvoottikrai\OneDrive\เดสก์ท็อป\SoftwareEn\LAB1\Lab1_Starter_Scaffold\toktickit-lab3-specification\node_modules\playwright-core\lib\coreBundle.js:8588:17)
+    at callMatcherAsStep (C:\Users\Jitvoottikrai\OneDrive\เดสก์ท็อป\SoftwareEn\LAB1\Lab1_Starter_Scaffold\toktickit-lab3-specification\node_modules\playwright\lib\matchers\expect.js:13310:57)
+    at Object.toBeVisible (C:\Users\Jitvoottikrai\OneDrive\เดสก์ท็อป\SoftwareEn\LAB1\Lab1_Starter_Scaffold\toktickit-lab3-specification\node_modules\playwright\lib\matchers\expect.js:13302:23)
+    at C:\Users\Jitvoottikrai\OneDrive\เดสก์ท็อป\SoftwareEn\LAB1\Lab1_Starter_Scaffold\toktickit-lab3-specification\output\docs\evidence-20261001-step4\capture-evidence.mjs:130:56 {
+  matcherResult: {
+    message: 'expect(locator).toBeVisible() failed\n' +
+      '\n' +
+      'Locator: getByText(/Requester indicates/)\n' +
+      'Expected: visible\n' +
+      'Timeout: 5000ms\n' +
+      'Error: element(s) not found\n' +
+      '\n' +
+      'Call log:\n' +
+      '  - Expect "toBeVisible" getByText(/Requester indicates/) with timeout 5000ms\n' +
+      '  - waiting for getByText(/Requester indicates/)\n',
+    pass: false,
+    actual: undefined,
+    name: 'toBeVisible',
+    expected: 'visible',
+    log: [
+      '  - Expect "toBeVisible" getByText(/Requester indicates/) with timeout 5000ms',
+      '  - waiting for getByText(/Requester indicates/)'
+    ],
+    timeout: 5000,
+    ariaSnapshot: '- main:\n' +
+      '  - paragraph: TOKTICKIT\n' +
+      '  - heading "IT Service Desk" [level=1]\n' +
+      '  - text: Somchai Staff · IT_STAFF\n' +
+      '  - button "Log out"\n' +
+      '  - navigation "Main navigation":\n' +
+      '    - button "Ticket Queue"\n' +
+      '  - region "E2E request 1790792389029":\n' +
+      '    - button "← Back to Ticket Queue"\n' +
+      '    - paragraph: TT-20261001-549570\n' +
+      '    - heading "E2E request 1790792389029" [level=2]\n' +
+      '    - text: NEW\n' +
+      '    - term: Requester\n' +
+      '    - definition: Ariya Somchai · ariya.somchai@example.com\n' +
+      '    - term: Category\n' +
+      '    - definition: Hardware\n' +
+      '    - term: Related system\n' +
+      '    - definition: Corporate Laptop\n' +
+      '    - term: Created\n' +
+      '    - definition: 10/1/2026, 1:19:49 AM\n' +
+      '    - term: Updated\n' +
+      '    - definition: 10/1/2026, 1:19:51 AM\n' +
+      '    - term: Requested priority\n' +
+      '    - definition: MEDIUM\n' +
+      '    - term: IT priority\n' +
+      '    - definition: MEDIUM\n' +
+      '    - term: Owner\n' +
+      '    - definition: Somchai Staff · somchai.staff@example.com\n' +
+      '    - heading "Description" [level=3]\n' +
+      '    - paragraph: Integrated E2E requester regression flow.\n' +
+      '    - region "Ownership":\n' +
+      '      - heading "Ownership" [level=3]\n' +
+      '      - paragraph: Only active IT Staff or Administrators may own a Ticket.\n' +
+      '      - button "Claim as me"\n' +
+      '      - button "Unassign"\n' +
+      '      - text: Assign owner ID\n' +
+      '      - spinbutton "Assign owner ID": "7"\n' +
+      '      - button "Assign owner"\n' +
+      '    - region "IT Priority and status":\n' +
+      '      - heading "IT Priority and status" [level=3]\n' +
+      '      - text: IT Priority\n' +
+      '      - combobox "IT Priority":\n' +
+      '        - option "LOW"\n' +
+      '        - option "MEDIUM" [selected]\n' +
+      '        - option "HIGH"\n' +
+      '      - button "Save IT Priority"\n' +
+      '      - text: Next status\n' +
+      '      - combobox "Next status":\n' +
+      '        - option "Choose a permitted transition" [selected]\n' +
+      '        - option "OPEN"\n' +
+      '        - option "CANCELLED"\n' +
+      '      - button "Update status" [disabled]\n' +
+      '    - heading "Attachments" [level=3]\n' +
+      '    - paragraph: Existing Ticket files.\n' +
+      '    - paragraph: No attachments.\n' +
+      '    - region "Public Comments":\n' +
+      '      - heading "Public Comments" [level=3]\n' +
+      '      - paragraph: Visible to Requesters, IT Staff, and Administrators.\n' +
+      '      - text: "1"\n' +
+      '      - list:\n' +
+      '        - listitem:\n' +
+      '          - strong: Ariya Somchai\n' +
+      '          - text: 10/1/2026, 1:19:49 AM\n' +
+      '          - paragraph: Requester E2E comment.\n' +
+      '      - text: Add a public comment\n' +
+      '      - textbox "Add a public comment"\n' +
+      '      - button "Add public comment"\n' +
+      '    - region "Internal Notes":\n' +
+      '      - heading "Internal Notes" [level=3]\n' +
+      '      - paragraph: Private to IT Staff and Administrators; never shown in the Requester workspace.\n' +
+      '      - text: "0"\n' +
+      '      - list:\n' +
+      '        - listitem: No Internal Notes.\n' +
+      '      - text: Add an Internal Note\n' +
+      '      - textbox "Add an Internal Note"\n' +
+      '      - button "Add Internal Note"'
+  }
+}
+
+Node.js v24.14.0

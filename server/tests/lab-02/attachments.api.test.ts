@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import request from "supertest";
 import { app } from "../../src/app.js";
 import * as prismaModule from "../../src/prisma.js";
+import { regressionCookie, regressionCsrf, requesterSession } from "../lab-03/regression-fixtures.js";
 
 const activeAttachment = {
   id: 55,
@@ -23,6 +24,7 @@ describe("Lab 2 attachment lifecycle", () => {
     const ticketFindFirst = vi.fn().mockResolvedValue({ id: 10 });
     const attachmentFindMany = vi.fn().mockResolvedValue([activeAttachment]);
     vi.spyOn(prismaModule, "getPrisma").mockReturnValue({
+      ...requesterSession(4),
       requesterUser: {
         findFirst: vi.fn().mockResolvedValue({ id: 4, name: "Niran Suksan", email: "niran@example.com" }),
       },
@@ -32,7 +34,7 @@ describe("Lab 2 attachment lifecycle", () => {
 
     const response = await request(app)
       .get("/api/tickets/10/attachments")
-      .set("X-Requester-Id", "4");
+      .set("Cookie", regressionCookie);
 
     expect(response.status).toBe(200);
     expect(response.body).toEqual({
@@ -66,6 +68,7 @@ describe("Lab 2 attachment lifecycle", () => {
       removedByRequesterId: 4,
     });
     vi.spyOn(prismaModule, "getPrisma").mockReturnValue({
+      ...requesterSession(4),
       requesterUser: {
         findFirst: vi.fn().mockResolvedValue({ id: 4, name: "Niran Suksan", email: "niran@example.com" }),
       },
@@ -74,7 +77,8 @@ describe("Lab 2 attachment lifecycle", () => {
 
     const response = await request(app)
       .delete("/api/attachments/55")
-      .set("X-Requester-Id", "4")
+      .set("Cookie", regressionCookie)
+      .set("X-CSRF-Token", regressionCsrf)
       .send({ reason: "No longer needed" });
 
     expect(response.status).toBe(200);
@@ -100,6 +104,7 @@ describe("Lab 2 attachment lifecycle", () => {
   it("requires a useful removal reason before touching the database", async () => {
     const findFirst = vi.fn();
     vi.spyOn(prismaModule, "getPrisma").mockReturnValue({
+      ...requesterSession(4),
       requesterUser: {
         findFirst: vi.fn().mockResolvedValue({ id: 4, name: "Niran Suksan", email: "niran@example.com" }),
       },
@@ -108,7 +113,8 @@ describe("Lab 2 attachment lifecycle", () => {
 
     const response = await request(app)
       .delete("/api/attachments/55")
-      .set("X-Requester-Id", "4")
+      .set("Cookie", regressionCookie)
+      .set("X-CSRF-Token", regressionCsrf)
       .send({ reason: "no" });
 
     expect(response.status).toBe(400);

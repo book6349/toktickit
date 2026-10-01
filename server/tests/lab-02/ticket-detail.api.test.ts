@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import request from "supertest";
 import { app } from "../../src/app.js";
 import * as prismaModule from "../../src/prisma.js";
+import { regressionCookie, requesterSession } from "../lab-03/regression-fixtures.js";
 
 const ownedTicket = {
   id: 10,
@@ -27,9 +28,10 @@ describe("Lab 2 owned Ticket Detail", () => {
     vi.restoreAllMocks();
   });
 
-  it("returns the detail only within the selected requester scope", async () => {
+  it("returns the detail only within the authenticated requester scope", async () => {
     const findFirst = vi.fn().mockResolvedValue(ownedTicket);
     vi.spyOn(prismaModule, "getPrisma").mockReturnValue({
+      ...requesterSession(4),
       requesterUser: {
         findFirst: vi.fn().mockResolvedValue({ id: 4, name: "Niran Suksan", email: "niran@example.com" }),
       },
@@ -38,7 +40,7 @@ describe("Lab 2 owned Ticket Detail", () => {
 
     const response = await request(app)
       .get("/api/tickets/10")
-      .set("X-Requester-Id", "4");
+      .set("Cookie", regressionCookie);
 
     expect(response.status).toBe(200);
     expect(response.body.ticket).toMatchObject({
@@ -56,6 +58,7 @@ describe("Lab 2 owned Ticket Detail", () => {
   it("returns the same safe not-found response for another requester's ticket", async () => {
     const findFirst = vi.fn().mockResolvedValue(null);
     vi.spyOn(prismaModule, "getPrisma").mockReturnValue({
+      ...requesterSession(4),
       requesterUser: {
         findFirst: vi.fn().mockResolvedValue({ id: 4, name: "Niran Suksan", email: "niran@example.com" }),
       },
@@ -64,11 +67,11 @@ describe("Lab 2 owned Ticket Detail", () => {
 
     const response = await request(app)
       .get("/api/tickets/99")
-      .set("X-Requester-Id", "4");
+      .set("Cookie", regressionCookie);
 
     expect(response.status).toBe(404);
     expect(response.body).toEqual({
-      error: { code: "TICKET_NOT_FOUND", message: "Ticket not found." },
+      error: { code: "RESOURCE_NOT_FOUND", message: "Ticket not found." },
     });
     expect(findFirst).toHaveBeenCalledWith(expect.objectContaining({
       where: { id: 99, requesterId: 4 },

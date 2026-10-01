@@ -9,6 +9,7 @@
     "start": "node dist/index.js",
     "prisma:migrate": "prisma migrate dev",
     "prisma:seed": "tsx prisma/seed.ts",
+    "test:e2e:prepare": "tsx prisma/prepare-lab3-e2e.ts",
     "test": "vitest run"
   },
   "prisma": { "seed": "tsx prisma/seed.ts" },

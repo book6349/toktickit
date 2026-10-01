@@ -1,0 +1,28 @@
+
+> toktickit-client@1.0.0 test
+> vitest run tests/lab-01 tests/lab-02 --reporter=verbose
+
+
+ RUN  v2.1.9 C:/Users/Jitvoottikrai/OneDrive/เดสก์ท็อป/SoftwareEn/LAB1/Lab1_Starter_Scaffold/toktickit-lab3-specification/client
+
+ ✓ tests/lab-01/App.test.tsx > App > renders the TokTickIT sign-in heading after checking the session 823ms
+ ✓ tests/lab-01/App.test.tsx > App > retains the system-health API and seeded categories after the shell migration
+ ✓ tests/lab-01/App.test.tsx > App > retains a safe system-health error when the API is unavailable
+ ✓ tests/lab-02/RequesterContext.test.tsx > Lab 2 requester context > restores the authenticated Requester and ignores stale development-selector state 939ms
+ ✓ tests/lab-02/ui-style.test.tsx > Lab 2 Zen Green UI conventions > exposes the required theme tokens and visible button hierarchy 1429ms
+ ✓ tests/lab-02/CreateTicket.test.tsx > Lab 2 Create Ticket > shows field-level validation without calling the API 1482ms
+ ✓ tests/lab-02/MyTickets.test.tsx > Lab 2 My Tickets > sends the selected filters and sort controls to the requester-scoped API 1688ms
+ ✓ tests/lab-02/ui-style.test.tsx > Lab 2 Zen Green UI conventions > keeps active navigation and focusable labeled controls visible 390ms
+ ✓ tests/lab-02/CreateTicket.test.tsx > Lab 2 Create Ticket > rejects an invalid attachment in the browser 332ms
+ ✓ tests/lab-02/RequesterTicketDetail.test.tsx > Lab 2 owned Ticket Detail > renders an owned detail as read-only and navigates back to My Tickets 1858ms
+ ✓ tests/lab-02/RequesterTicketDetail.test.tsx > Lab 2 owned Ticket Detail > shows a safe error when the detail is not owned or no longer exists
+ ✓ tests/lab-02/AttachmentSection.test.tsx > Lab 2 AttachmentSection > allows upload and removal for active files while hiding actions for removed files 2065ms
+ ✓ tests/lab-02/MyTickets.test.tsx > Lab 2 My Tickets > supports pagination and distinguishes a filtered no-results state 428ms
+ ✓ tests/lab-02/CreateTicket.test.tsx > Lab 2 Create Ticket > disables duplicate submission and shows the backend ticket number on success 359ms
+ ✓ tests/lab-02/CreateTicket.test.tsx > Lab 2 Create Ticket > keeps entered values after an API failure
+
+ Test Files  7 passed (7)
+      Tests  15 passed (15)
+   Start at  00:38:50
+   Duration  6.59s (transform 1.80s, setup 1.95s, collect 10.27s, tests 12.22s, environment 11.54s, prepare 2.19s)
+

@@ -1,5 +1,25 @@
 # Lab 3 AI Use and Reflection
 
+## Current audit reflection 2026-10-01
+
+The same Codex assistant supported the local audit. The exact model used for
+earlier implementation was not recorded, so it is not guessed. The seven
+selected prompts below remain the recorded representative prompts.
+
+Specification-agent work helped make authorization and workflow decisions
+explicit before coding. Coding-agent work was useful for implementation and
+test execution, but the audit showed that generated summaries needed checking
+against actual assertions and screenshots. Legacy tests still assumed a
+development selector, two combined owner filters contradicted their intended
+query, and the Staff screen omitted a resolution field already returned by
+the API. New tests exposed these defects before fixes; real PostgreSQL and
+browser verification then checked the repaired behavior. I would retain raw
+output and inspect representative screenshots earlier in a future sprint.
+
+Human approval and peer review remain separate from agent assistance. Local
+results now include 190 server, 36 client and 16 E2E passes; they are not
+committed-main results and do not replace the reviewer approval/merge process.
+
 Status: Updated 2026-09-29 for the submission audit. The Codex assistant
 supported the project; the exact model identifier used for earlier project
 work was not recorded in the available source/history and is intentionally

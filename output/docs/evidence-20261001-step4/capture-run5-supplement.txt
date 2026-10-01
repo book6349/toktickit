@@ -1,0 +1,9 @@
+Captured: user-management/edited-name-email-role-activation-1280x900.png Real API and synthetic disposable PostgreSQL records
+Captured: user-management/reset-success-1280x900.png Real API and synthetic disposable PostgreSQL records
+Reset account direct API blocked: 403 {"error":{"code":"PASSWORD_CHANGE_REQUIRED","message":"Change your password before continuing."}}
+Captured: user-management/reset-next-login-password-gate-1280x900.png Real API and synthetic disposable PostgreSQL records
+Captured: user-management/reset-next-login-password-gate-900x900.png Real API and synthetic disposable PostgreSQL records
+Captured: user-management/reset-next-login-password-gate-390x844.png Real API and synthetic disposable PostgreSQL records
+Captured: staff-ticket-detail/administrator-read-only-1280x900.png Real API and synthetic disposable PostgreSQL records
+Captured: staff-ticket-detail/controlled-failure-1280x900.png Controlled mocked 503 response; actual app UI; not database failure proof
+Supplemental assertions passed.

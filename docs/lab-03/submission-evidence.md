@@ -1,67 +1,61 @@
 # Lab 3 Required Submission Evidence Audit
 
+## Current local verification 2026-10-01
+
+The approved local repairs now pass 190 server tests, 36 client tests, both
+builds, Prisma validation, and 16 integrated E2E scenarios. Migration
+preservation and seed-twice assertions passed on a fresh disposable Docker
+PostgreSQL database. The missing Staff Requester-resolution indicator was
+fixed and verified without changing formal status. Complete output and new
+Staff captures are retained in `output/docs/evidence-20261001-step5/`.
+
+These are dirty local working-tree results based on
+`1fb8df040eb12ac443bb4246a314babfde1564e9`, not committed-main evidence.
+Recorded main remains `0353a4052c4a6d7ead9ddfb9b7c682d3e7958d02`.
+No new GitHub events are claimed. Reviewed staging/release integration and
+clean-main reruns remain required. The older dated records below are retained
+as history; earlier Docker-unavailable and missing-indicator statements do
+not describe this new local run.
+
 This checklist maps the Required Submission Evidence table on pages 16-18 of
 the Lab 3 sheet to report pages, repository paths, captured evidence, and
-exact verification commands. It distinguishes historical final-main summaries
-from current dirty-working-tree results.
+exact verification commands. The detailed evidence rows retain their original
+capture/test provenance; the current merged-main status is summarized below.
 
 ## Current Audit Status
 
-The prior statement that a Project-board screenshot was unavailable was stale:
-the editable report contains a board screenshot on page 2 showing Issues
-#36-#40 in Done at the original release. On 2026-09-30, the live board was
-rechecked after the post-audit follow-up: Issue #40 is now open in `PR Review`.
-The existing screenshot therefore records the historical state and must be
-replaced for the final report. This audit rechecked the previously deferred Docker-backed work
-on uniquely named disposable databases. The Lab 3 migration preserved seeded
-pre-Lab-3 Requester, Ticket, and Attachment rows; two seed runs produced stable
-counts and relationship checks; and the corrected integrated Playwright run
-passed 15 tests. These results and fresh browser captures are from the dirty
-local tree on branch `main` at `493758be65850504de7b970e50f7a61b846584f0`, not
-from that committed SHA or final-main.
+The board screenshot on report page 2 shows Issues #36-#40 in `Done`. The live
+board was rechecked after PR #48; Issue #40 is closed and remains `Done`. PR #47
+merged to `lab3-staging`; reviewed release PR #48 merged to `main` at
+`0353a4052c4a6d7ead9ddfb9b7c682d3e7958d02`.
 
-Remaining limits prevent claiming full final compliance:
+Final-main verification on 2026-09-30 passed the focused Lab 3 server/client
+suites (26 and 16 tests), both builds, and Prisma schema validation. The full
+unfiltered server/client suites failed in legacy Lab 1/2 tests. Docker's API
+pipe was not reachable, so migration/data-preservation, seed-twice, and
+integrated E2E checks were not rerun on this commit. Existing screenshots are
+from the earlier pre-merge run and were not recaptured on clean main. The
+editable report/PDF update and full rendered-page recheck remain in progress.
 
-1. PR #47 publishes the post-audit corrections to `lab3-staging` but is still
-   awaiting Punge089's review. A follow-up release PR and final post-review run
-   against committed `main` are still required.
-2. The historical main run's full raw output is absent. Current passing output
-   is local dirty-tree evidence and is labelled accordingly.
-3. The original mobile full-page screenshots on report pages 12, 17, and 22
-   were too small. Figures 20-33 now split them into readable lossless sections;
-   their placement and captions must be checked in the regenerated final PDF.
-4. Figures 34-39 show actual-client Login and mandatory Change Password
-   layouts at all target sizes using mocked auth responses. They prove layout,
-   not authentication behavior.
-5. Current local E2E includes real-data Queue pagination, three keyboard-only
-   journeys, and overflow checks on Requester, Queue, Detail, and Admin
-   viewports. Administrator safety guards are identifiable in passing API
-   tests, but no dedicated safety-state screenshot was captured.
-6. Reviewer Punge089's historical review events are confirmed, and a review
-   request for PR #47 is visibly pending. The current collaborator-permission
-   endpoint returned 403, so current collaborator permission level remains
-   unknown. The live board shows Issue #40 in `PR Review`.
-7. The corrected workflow/evidence records are committed on the PR #47 head
-   branch, not yet integrated into `main`. The editable report's board view and
-   workflow appendix still need synchronization with the follow-up events.
-
-No placeholder or planned evidence is treated as a real event. Full compliance
-is not claimed while these material gaps remain.
+Full compliance is not claimed while the full-suite failures, unavailable
+Docker-backed evidence, missing dedicated Administrator safety-state capture,
+and final DOCX/PDF render audit remain unresolved. No placeholder is treated as
+a real GitHub event or test result.
 
 ## Page 16 - Submission format and Part 1
 
 | Required evidence | Evidence location | Verification | Status |
 |---|---|---|---|
-| One concise PDF to submit | `output/docs/Lab3_Final_Report.pdf` | Regenerated from the editable DOCX; final page count, hash, links, and every rendered page are checked after export | Local submission copy; not final-main |
-| Headings `Answer Part 1` through `Answer Part 9` in exact order | Final report body pages 1-32 | Extracted heading check; Part 1-9 headings occur in order | Verified |
-| Working links | Final report annotations and GitHub links | Issues/PRs #36-#47 and historical review/comment/reply/approval anchors were checked; PR #47 is linked to Issue #40 through Development; permission endpoint returned 403 | Links checked; PR #47 review pending; collaborator permission is not established |
-| Readable screenshots | Final report Figures 1-42 and `artifacts/lab-03/screenshots/` | Lossless mobile crops, fresh E2E captures, and all page placements inspected; auth gate images use mocked API for layout only | Local dirty-tree evidence; not final-main |
-| Final repository and `main` as source of truth | Part 1, local `reviewer.md`, final commit `493758b` | Corrections and workflow updates are on PR #47 to staging; they are not yet on `main` | Follow-up integration pending; report requires final synchronization |
-| Feature branches merged into `lab3-staging`, then `main` | Part 1 table and local `reviewer.md` section 2 | Issues #36-#40 and PRs #41-#46 confirmed through read-only GitHub fetches; all merged/closed | GitHub events verified |
-| Final Kanban board with all Issues in Done | `reviewer.md`, Part 1, screenshot embedded on report page 2 | Existing image shows the historical #36-#40 Done state; the live board now shows reopened Issue #40 in PR Review | Refresh board screenshot after follow-up release and closure |
-| Rendered `reviewer.md` with reviewer identity, PR links, comments, replies, approvals | Final report workflow appendix and `reviewer.md` | Six review/reply/approval/merge rows are rendered | Verified |
+| One concise PDF to submit | `output/docs/Lab3_Final_Report.pdf` | Existing PDF is 101 pages; this audit's DOCX/PDF content update and full render check remain pending | Not final-ready |
+| Headings `Answer Part 1` through `Answer Part 9` in exact order | Final report body | The existing PDF had the nine headings in order; repeat extraction after final export | Recheck pending |
+| Working links | Final report annotations and GitHub links | Issues #36-#40 and PRs #41-#48, including review/comment/reply/approval links, were checked; PR #47/#48 link to Issue #40 | GitHub events verified; final PDF link audit pending |
+| Readable screenshots | Final report Figures 1-42 and `artifacts/lab-03/screenshots/` | Existing screenshots are captured on the earlier pre-merge run; auth-gate images use mocked API for layout only | Historical supporting evidence; not recaptured on clean main |
+| Final repository and `main` as source of truth | Part 1, `reviewer.md`, final commit `0353a40` | PR #48 integrated the reviewed follow-up to main; final-main test and evidence limitations are recorded | Main state verified; local report update is not yet final |
+| Feature branches merged into `lab3-staging`, then `main` | Part 1 table and `reviewer.md` section 2 | Issues #36-#40, PRs #41-#47, and release PR #48 were confirmed merged/closed as applicable | GitHub events verified |
+| Final Kanban board with all Issues in Done | `reviewer.md`, Part 1, screenshot embedded on report page 2 | Live board and Issue #40 final state were rechecked after PR #48; all five Issues are Done/closed | Verified |
+| Rendered `reviewer.md` with reviewer identity, PR links, comments, replies, approvals | Final report workflow appendix and `reviewer.md` | Eight review/reply/approval/merge rows are available in the updated source | Source updated; final PDF render pending |
 | README and `.gitignore` evidence | Final report workflow appendix and repository links | Files inspected on final `main` | Verified |
-| Repository directory structure | Final report repository appendix | Generated from `git ls-tree -r --name-only HEAD` at `493758b`; 152 committed paths, excluding dirty, ignored, generated, and backup files | Content and rendered placement verified |
+| Repository directory structure | Final report repository appendix | `git ls-tree -r --name-only HEAD` at `0353a40` reports 218 committed paths; excludes ignored and untracked files | Main tree verified; final PDF render pending |
 
 ## Page 17 - Parts 2 through 8
 
@@ -71,26 +65,26 @@ is not claimed while these material gaps remain.
 | 2 | Specification existed before implementation PRs | Part 2 chronology: contract/Test DD in PR #41 before PRs #42-#45 | Verified |
 | 3 | Rendered `docs/lab-03/tests.md` | Full Test DD rendered in the test appendix; traceability and file paths are visible | Verified |
 | 3 | Planned tests, AC traceability, actual paths, final status | Test DD appendix plus `docs/lab-03/tests.md` | Verified |
-| 3 | Complete passing unit, API/integration, UI, authorization, regression, and E2E output from committed `main` | Current full server/client logs and 15-test E2E run are from the dirty tree; historical main log is summarized only | Not met for committed `main`; current local runs passed, and final-main rerun remains pending |
+| 3 | Complete passing unit, API/integration, UI, authorization, regression, and E2E output from committed `main` | Focused Lab 3 output is 26 server + 16 client passes on `0353a40`; full unfiltered suites fail in legacy tests; Docker/E2E not rerun | Not met: aggregate suites are not green and final-main integrated E2E is unavailable |
 | 4 | Rendered `docs/lab-03/ai-use.md`, LLM name, 6-10 prompts, reflection | Seven prompts/reflection present; Codex assistant recorded, exact earlier model identifier unavailable | Partially evidenced; no model guessed |
-| 5 | Valid/invalid login and inactive-account handling | Authentication tests, fresh 15-test E2E run, and browser captures | Passed locally; dirty-tree result, not final-main |
-| 5 | Busy and safe failure feedback | Client tests and fresh delayed-login browser capture | Passed locally; screenshot is actual browser evidence |
-| 5 | Login and mandatory Change Password at desktop/tablet/mobile | Figures 34-39; actual React client with synthetic API responses | Captured and visually inspected; layout only, not auth behavior evidence |
-| 5 | First-password change, user/role display, logout, direct access blocked | Authentication client/API tests and E2E | Passed locally; token expiry is not exercised; not final-main |
-| 6 | Realistic queue data, search, filters, sorting, pagination, ownership, badges, open detail | Queue tests, 21 real E2E fixture records, Page 2 of 3 assertion, and screenshot | Page-2 navigation passed locally; exhaustive sort/filter matrix remains incomplete |
+| 5 | Valid/invalid login and inactive-account handling | Final-main auth/client tests; earlier 15-test E2E and screenshots | Direct tests passed on main; integrated flow is historical, not rerun |
+| 5 | Busy and safe failure feedback | Final-main client tests and earlier delayed-login browser capture | Test passed on main; screenshot is pre-merge supporting evidence |
+| 5 | Login and mandatory Change Password at desktop/tablet/mobile | Figures 34-39; actual React client with synthetic API responses | Captured; mocked API proves layout only; not recaptured on main |
+| 5 | First-password change, user/role display, logout, direct access blocked | Final-main auth/client tests; earlier E2E | Direct tests passed; integrated path not rerun; token expiry is not exercised |
+| 6 | Realistic queue data, search, filters, sorting, pagination, ownership, badges, open detail | Main queue API/UI tests; earlier 21-fixture E2E, Page 2 of 3, and screenshot | Direct tests passed; real-data page-2 screenshot is pre-merge; exhaustive sort/filter matrix remains incomplete |
 | 6 | Empty, no-results, and failure feedback | `empty-1280x900.png`, `no-results-1280x900.png`, and `failure-1280x900.png` are controlled UI-state captures | Present as mocked API-state evidence; not database-backed behavior proof |
-| 6 | Responsive behavior | Required desktop/tablet/mobile queue figures and Figures 20-24 | E2E viewport/overflow checks passed locally; auth layout images are mocked; not final-main |
-| 7 | Claim/reassign, IT Priority, permitted status changes | Staff API/client tests and migration/operations E2E capture | Reassignment, LOW priority, NEW-to-OPEN, and migrated Attachment display passed locally and are visibly captured |
-| 7 | Public Comments, Internal Notes, attachment continuity, requester resolution | Detail tests, migration/operations capture, and Requester resolution screenshot | Representative paths passed locally; append-only behavior and all transition combinations remain bounded |
-| 7 | Role restrictions, validation, safe failure, direct API authorization | Current API/client tests and E2E | Representative checks passed locally; not final-main |
+| 6 | Responsive behavior | Required desktop/tablet/mobile queue figures and Figures 20-24 | Existing captures/overflow checks are pre-merge; not rerun on final main; auth layout images are mocked |
+| 7 | Claim/reassign, IT Priority, permitted status changes | Main staff API/client tests and earlier migration/operations E2E capture | Representative direct tests passed on main; Attachment/operation screenshot is pre-merge |
+| 7 | Public Comments, Internal Notes, attachment continuity, requester resolution | Main detail/Requester tests; earlier migration/operations capture | Direct paths passed on main; attachment continuity is historical; append-only behavior and all transitions remain bounded |
+| 7 | Role restrictions, validation, safe failure, direct API authorization | Main API/client tests and earlier E2E | Direct checks passed on main; integrated E2E not rerun |
 | 8 | List with Name, Email, Role, Status, Edit | Responsive user-management figures | Verified |
 | 8 | Search and optional role filter | Admin E2E and no-results capture | Verified |
 | 8 | Create user with permitted role and initial password | Create-form capture and admin E2E | Verified |
 | 8 | Duplicate-email and invalid-input validation | Duplicate-validation capture and API tests | Verified for duplicate and API invalid-input; separate invalid-field screenshot is not captured |
 | 8 | Edit name, email, role, activation | Edit-form capture and API/client tests | Verified by tests; visual edit form is captured |
 | 8 | Reset initial password and required next-login change | Persistent `reset-success-1280x900.png` plus `reset-first-login-1280x900.png` | Verified |
-| 8 | Self-deactivation and last-active-Administrator protection | Named test cases in `users-admin.api.test.ts` and complete server test output | Passed in current local API suite; no safety-state screenshot |
-| 8 | Forbidden non-Administrator access | Named denial cases in `users-admin.api.test.ts` and `staff-queue.api.test.ts` | Passed in current local API suite and local E2E; no dedicated denial screenshot |
+| 8 | Self-deactivation and last-active-Administrator protection | Named tests in `users-admin.api.test.ts`; 26-test main output | Passed in the final-main API suite; no safety-state screenshot |
+| 8 | Forbidden non-Administrator access | Named tests in `users-admin.api.test.ts` and `staff-queue.api.test.ts` | Passed in final-main API tests; no dedicated denial screenshot |
 | 8 | Responsive Zen Green and safe failure feedback | Responsive figures, API/client tests, and report checklist | Verified for responsive presentation; not every failure state has a screenshot |
 
 ## Page 18 - Part 9 and PDF format
@@ -98,16 +92,16 @@ is not claimed while these material gaps remain.
 | Required evidence | Evidence location | Verification | Status |
 |---|---|---|---|
 | Rendered `ui-spec.md` | UI-spec appendix and repository link | Full UI specification rendered | Verified |
-| Desktop, tablet, and mobile screenshots for all major Lab 3 screens | Figures 1-12, 20-33, responsive auth Figures 34-39, and interaction Figures 40-42 | Fresh local E2E captures and final PDF placements visually inspected; auth gates use mocked API | Local dirty-tree evidence; final-main recapture/integration outstanding |
+| Desktop, tablet, and mobile screenshots for all major Lab 3 screens | Figures 1-12, 20-33, responsive auth Figures 34-39, and interaction Figures 40-42 | Existing captures came from the pre-merge run; auth gates use mocked API | Historical supporting evidence; no final-main recapture |
 | Design consistency and Zen Green tokens | UI specification and visual checklist | Token and responsive rules rendered | Verified |
 | Role navigation | Authentication/staff/admin tests and captures | Functional role navigation passed | Verified functionally; not a complete accessibility audit |
 | Badges | Queue, detail, and user-management captures | Status, priority, role, and active-state badges visible | Verified |
 | Editable/read-only fields | Staff detail and Administrator direct-detail evidence | API/client tests and detail captures | Verified by tests; not every role variant has a separate figure |
 | Validation placement | First-login, queue/detail, and administrator validation captures | Field and alert placement visually inspected | Verified for captured states |
-| Keyboard focus | `z-accessibility-evidence.spec.ts` and fresh browser captures | Three keyboard-only flows and one delayed-login busy-state flow passed in the local E2E run | Passed locally; not final-main |
-| Clipping and overlap | Fresh viewport screenshots, responsive assertions, and mobile crops | E2E viewport bounds passed for four main screens; final PDF pages are visually inspected after export | Passed locally within those tested views; not a universal accessibility audit |
-| Horizontal overflow | E2E `scrollWidth <= clientWidth` assertions | Passed for Requester, Queue, Ticket Detail, and Admin at required viewports | Passed locally; Login/Change Password are separately mocked layout evidence |
-| One PDF with exact Answer Part format | `output/docs/Lab3_Final_Report.pdf` | Re-exported from editable DOCX; exact section order, figure numbering, links, and all page renders checked | Local artifact; final-main integration and verification remain incomplete |
+| Keyboard focus | `z-accessibility-evidence.spec.ts` and existing browser captures | Three keyboard-only flows and one delayed-login busy-state flow passed in the earlier local E2E run | Historical; not rerun on final main |
+| Clipping and overlap | Existing viewport screenshots, responsive assertions, and mobile crops | Earlier E2E bounds passed for four main screens; updated final PDF still requires page-by-page review | Historical tested views only; not a universal accessibility audit |
+| Horizontal overflow | Earlier E2E `scrollWidth <= clientWidth` assertions | Passed for Requester, Queue, Ticket Detail, and Admin in the earlier run | Historical; Login/Change Password images are mocked layout evidence |
+| One PDF with exact Answer Part format | `output/docs/Lab3_Final_Report.pdf` and editable DOCX | Existing 101-page PDF was inspected on 2026-09-29; final evidence updates have not yet been exported/rechecked | Not final-ready; export, link audit, and every-page visual inspection remain |
 
 ## Evidence classification
 
@@ -121,13 +115,24 @@ is not claimed while these material gaps remain.
   environment and is not claimed as complete.
 - `Unavailable`: the required external view or permission was not accessible.
 
-The board screenshot is present on report page 2, so the former “unavailable”
-claim is removed. GitHub Issue/PR/review event links were checked; Punge089's
-historical review activity is confirmed and the PR #47 review request is
-visible. The permission endpoint returned 403. The live board was checked and
-shows Issue #40 in `PR Review`. Docker-backed migration, seed, data
-preservation, and integrated E2E checks passed on disposable databases in the
-dirty local tree. Final acceptance remains open for Punge089's PR #47 review,
-the reviewed follow-up release to `main`, post-review checks against committed
-`main`, final report and board screenshot synchronization, and current reviewer
-permission-level confirmation.
+The board screenshot is present on report page 2, and the live board now also
+shows the final all-Done state. Read-only GitHub checks verified PRs #41-#48,
+review comments, author replies, approvals, merges, and Issue #40's closure.
+The 2026-09-30 final-main Lab 3 tests/builds/Prisma schema validation passed,
+but the unfiltered test suites failed in legacy tests and Docker-backed
+migration, seed, and E2E checks were unavailable. The DOCX/PDF evidence update,
+link audit, and complete final render inspection remain pending.
+
+## Final-main status by labsheet part (2026-09-30)
+
+| Labsheet part | Current status at `0353a40` |
+|---|---|
+| Part 1 — Git workflow | Verified: PRs #41-#48 review/merge history confirmed; Issues #36-#40 Done/closed. |
+| Part 2 — Spec DD | Verified: specification and contracts were merged before implementation; existing rendered source remains in the report. |
+| Part 3 — Test DD | Partial/not met: 26 server and 16 client Lab 3 tests passed, but full suites have 10 server and 15 client failures; final-main database/E2E output is unavailable. |
+| Part 4 — AI reflection | Partial: seven prompts/reflection recorded; exact earlier model identifier is not available and is not guessed. |
+| Part 5 — Login/password UI | Partial: direct Lab 3 tests pass; existing responsive captures are mocked/pre-merge; final-main E2E not run. |
+| Part 6 — Staff Queue | Partial: direct API/UI tests pass; real-data pagination and responsive E2E evidence is pre-merge. |
+| Part 7 — Staff Ticket Detail | Partial: direct tests pass; attachment continuity and operation sequence are pre-merge; append-only note behavior and exhaustive transitions remain incomplete. |
+| Part 8 — Administrator UI | Partial: main API safety tests pass; no dedicated safety-state screenshot; integrated flow is pre-merge. |
+| Part 9 — Responsive evidence | Partial: existing screenshots and prior visual audit are historical; clean-main E2E/layout/keyboard rerun and final PDF recheck remain. |
