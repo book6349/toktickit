@@ -85,4 +85,17 @@ describe("Lab 3 Requester ticket regression", () => {
     expect(await screen.findByRole("status")).toHaveTextContent("Marked as appears resolved.");
     expect(screen.getByRole("button", { name: "Clear resolved indication" })).toBeInTheDocument();
   });
+
+  it("renders comment markup as text without creating executable HTML", async () => {
+    const content = '<img src=x onerror="window.commentExecuted=true"><script>alert(1)</script>';
+    vi.spyOn(api, "getComments").mockResolvedValue([{
+      id: 3, ticketId: ticket.id, content,
+      author: { id: requester.id, name: requester.name, role: "REQUESTER" },
+      createdAt: "2026-10-01T00:00:00Z",
+    }]);
+    await openTicketDetail();
+    expect(screen.getByRole("listitem")).toHaveTextContent(content);
+    expect(document.querySelector(".comments-block img")).toBeNull();
+    expect(document.querySelector(".comments-block script")).toBeNull();
+  });
 });

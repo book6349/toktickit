@@ -1,0 +1,3055 @@
+
+> toktickit-client@1.0.0 test
+> vitest run tests/lab-03/StaffTicketDetail.test.tsx --reporter=verbose
+
+
+ RUN  v2.1.9 C:/Users/Jitvoottikrai/OneDrive/เดสก์ท็อป/SoftwareEn/LAB1/Lab1_Starter_Scaffold/toktickit-lab3-specification/client
+
+ × tests/lab-03/StaffTicketDetail.test.tsx > Lab 3 Staff Ticket Detail > shows a Requester resolution indication without changing formal status for 'IT_STAFF' 1019ms
+   → Unable to find role="heading" and name "Requester resolution indication"
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<section[39m
+      [33maria-labelledby[39m=[32m"staff-detail-heading"[39m
+      [33mclass[39m=[32m"content-card staff-detail-card"[39m
+    [36m>[39m
+      [36m<button[39m
+        [33mclass[39m=[32m"back-link"[39m
+        [33mtype[39m=[32m"button"[39m
+      [36m>[39m
+        [0m← Back to [0m
+        [0mTicket Queue[0m
+      [36m</button>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"section-heading"[39m
+      [36m>[39m
+        [36m<div>[39m
+          [36m<p[39m
+            [33mclass[39m=[32m"eyebrow"[39m
+          [36m>[39m
+            [0mTT-20260919-000010[0m
+          [36m</p>[39m
+          [36m<h2[39m
+            [33mid[39m=[32m"staff-detail-heading"[39m
+          [36m>[39m
+            [0mVPN access request[0m
+          [36m</h2>[39m
+        [36m</div>[39m
+        [36m<span[39m
+          [33mclass[39m=[32m"status-pill"[39m
+        [36m>[39m
+          [0mOPEN[0m
+        [36m</span>[39m
+      [36m</div>[39m
+      [36m<dl[39m
+        [33mclass[39m=[32m"detail-grid"[39m
+      [36m>[39m
+        [36m<div>[39m
+          [36m<dt>[39m
+            [0mRequester[0m
+          [36m</dt>[39m
+          [36m<dd>[39m
+            [0mAriya Somchai · ariya@example.com[0m
+          [36m</dd>[39m
+        [36m</div>[39m
+        [36m<div>[39m
+          [36m<dt>[39m
+            [0mCategory[0m
+          [36m</dt>[39m
+          [36m<dd>[39m
+            [0mHardware[0m
+          [36m</dd>[39m
+        [36m</div>[39m
+        [36m<div>[39m
+          [36m<dt>[39m
+            [0mRelated system[0m
+          [36m</dt>[39m
+          [36m<dd>[39m
+            [0mVPN[0m
+          [36m</dd>[39m
+        [36m</div>[39m
+        [36m<div>[39m
+          [36m<dt>[39m
+            [0mCreated[0m
+          [36m</dt>[39m
+          [36m<dd>[39m
+            [0m9/19/2026, 5:00:00 PM[0m
+          [36m</dd>[39m
+        [36m</div>[39m
+        [36m<div>[39m
+          [36m<dt>[39m
+            [0mUpdated[0m
+          [36m</dt>[39m
+          [36m<dd>[39m
+            [0m9/19/2026, 6:00:00 PM[0m
+          [36m</dd>[39m
+        [36m</div>[39m
+        [36m<div>[39m
+          [36m<dt>[39m
+            [0mRequested priority[0m
+          [36m</dt>[39m
+          [36m<dd>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"priority high"[39m
+            [36m>[39m
+              [0mHIGH[0m
+            [36m</span>[39m
+          [36m</dd>[39m
+        [36m</div>[39m
+        [36m<div>[39m
+          [36m<dt>[39m
+            [0mIT priority[0m
+          [36m</dt>[39m
+          [36m<dd>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"priority medium"[39m
+            [36m>[39m
+              [0mMEDIUM[0m
+            [36m</span>[39m
+          [36m</dd>[39m
+        [36m</div>[39m
+        [36m<div>[39m
+          [36m<dt>[39m
+            [0mOwner[0m
+          [36m</dt>[39m
+          [36m<dd>[39m
+            [0mUnassigned[0m
+          [36m</dd>[39m
+        [36m</div>[39m
+      [36m</dl>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"description-block"[39m
+      [36m>[39m
+        [36m<h3>[39m
+          [0mDescription[0m
+        [36m</h3>[39m
+        [36m<p>[39m
+          [0mPlease restore access to the corporate VPN.[0m
+        [36m</p>[39m
+      [36m</div>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"staff-control-grid"[39m
+      [36m>[39m
+        [36m<section[39m
+          [33maria-labelledby[39m=[32m"ownership-heading"[39m
+          [33mclass[39m=[32m"operation-panel"[39m
+        [36m>[39m
+          [36m<h3[39m
+            [33mid[39m=[32m"ownership-heading"[39m
+          [36m>[39m
+            [0mOwnership[0m
+          [36m</h3>[39m
+          [36m<p[39m
+            [33mclass[39m=[32m"field-help"[39m
+          [36m>[39m
+            [0mOnly active IT Staff or Administrators may own a Ticket.[0m
+          [36m</p>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"inline-actions"[39m
+          [36m>[39m
+            [36m<button[39m
+              [33mclass[39m=[32m"secondary-button"[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [0mClaim as me[0m
+            [36m</button>[39m
+            [36m<button[39m
+              [33mclass[39m=[32m"secondary-button"[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [0mUnassign[0m
+            [36m</button>[39m
+          [36m</div>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"field"[39m
+          [36m>[39m
+            [36m<label[39m
+              [33mfor[39m=[32m"staff-owner-id"[39m
+            [36m>[39m
+              [0mAssign owner ID[0m
+            [36m</label>[39m
+            [36m<input[39m
+              [33mid[39m=[32m"staff-owner-id"[39m
+              [33mmin[39m=[32m"1"[39m
+              [33mtype[39m=[32m"number"[39m
+              [33mvalue[39m=[32m""[39m
+            [36m/>[39m
+            [36m<button[39m
+              [33mclass[39m=[32m"secondary-button"[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [0mAssign owner[0m
+            [36m</button>[39m
+          [36m</div>[39m
+        [36m</section>[39m
+        [36m<section[39m
+          [33maria-labelledby[39m=[32m"priority-heading"[39m
+          [33mclass[39m=[32m"operation-panel"[39m
+        [36m>[39m
+          [36m<h3[39m
+            [33mid[39m=[32m"priority-heading"[39m
+          [36m>[39m
+            [0mIT Priority and status[0m
+          [36m</h3>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"field"[39m
+          [36m>[39m
+            [36m<label[39m
+              [33mfor[39m=[32m"staff-it-priority-detail"[39m
+            [36m>[39m
+              [0mIT Priority[0m
+            [36m</label>[39m
+            [36m<select[39m
+              [33mid[39m=[32m"staff-it-priority-detail"[39m
+            [36m>[39m
+              [36m<option[39m
+                [33mvalue[39m=[32m"LOW"[39m
+              [36m>[39m
+                [0mLOW[0m
+              [36m</option>[39m
+              [36m<option[39m
+                [33mvalue[39m=[32m"MEDIUM"[39m
+              [36m>[39m
+                [0mMEDIUM[0m
+              [36m</option>[39m
+              [36m<option[39m
+                [33mvalue[39m=[32m"HIGH"[39m
+              [36m>[39m
+                [0mHIGH[0m
+              [36m</option>[39m
+            [36m</select>[39m
+          [36m</div>[39m
+          [36m<button[39m
+            [33mclass[39m=[32m"secondary-button"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [0mSave IT Priority[0m
+          [36m</button>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"field"[39m
+          [36m>[39m
+            [36m<label[39m
+              [33mfor[39m=[32m"staff-next-status"[39m
+            [36m>[39m
+              [0mNext status[0m
+            [36m</label>[39m
+            [36m<select[39m
+              [33mid[39m=[32m"staff-next-status"[39m
+            [36m>[39m
+              [36m<option[39m
+                [33mvalue[39m=[32m""[39m
+              [36m>[39m
+                [0mChoose a permitted transition[0m
+              [36m</option>[39m
+              [36m<option[39m
+                [33mvalue[39m=[32m"IN_PROGRESS"[39m
+              [36m>[39m
+                [0mIN PROGRESS[0m
+              [36m</option>[39m
+              [36m<option[39m
+                [33mvalue[39m=[32m"WAITING_FOR_REQUESTER"[39m
+              [36m>[39m
+                [0mWAITING FOR REQUESTER[0m
+              [36m</option>[39m
+              [36m<option[39m
+                [33mvalue[39m=[32m"RESOLVED"[39m
+              [36m>[39m
+                [0mRESOLVED[0m
+              [36m</option>[39m
+              [36m<option[39m
+                [33mvalue[39m=[32m"CANCELLED"[39m
+              [36m>[39m
+                [0mCANCELLED[0m
+              [36m</option>[39m
+            [36m</select>[39m
+          [36m</div>[39m
+          [36m<button[39m
+            [33mclass[39m=[32m"secondary-button"[39m
+            [33mdisabled[39m=[32m""[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [0mUpdate status[0m
+          [36m</button>[39m
+        [36m</section>[39m
+      [36m</div>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"attachments-block"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"section-heading compact"[39m
+        [36m>[39m
+          [36m<div>[39m
+            [36m<h3>[39m
+              [0mAttachments[0m
+            [36m</h3>[39m
+            [36m<p[39m
+              [33mclass[39m=[32m"field-help"[39m
+            [36m>[39m
+              [0mExisting Ticket files.[0m
+            [36m</p>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+        [36m<p[39m
+          [33mclass[39m=[32m"muted"[39m
+        [36m>[39m
+          [0mNo attachments.[0m
+        [36m</p>[39m
+      [36m</div>[39m
+      [36m<section[39m
+        [33maria-labelledby[39m=[32m"public-comments-heading"[39m
+        [33mclass[39m=[32m"description-block public-panel"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"section-heading compact"[39m
+        [36m>[39m
+          [36m<div>[39m
+            [36m<h3[39m
+              [33mid[39m=[32m"public-comments-heading"[39m
+            [36m>[39m
+              [0mPublic Comments[0m
+            [36m</h3>[39m
+            [36m<p[39m
+              [33mclass[39m=[32m"field-help"[39m
+            [36m>[39m
+              [0mVisible to Requesters, IT Staff, and Administrators.[0m
+            [36m</p>[39m
+          [36m</div>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"status-pill"[39m
+          [36m>[39m
+            [0m1[0m
+          [36m</span>[39m
+        [36m</div>[39m
+        [36m<ul[39m
+          [33mclass[39m=[32m"comment-list"[39m
+        [36m>[39m
+          [36m<li>[39m
+            [36m<strong>[39m
+              [0mAriya Somchai[0m
+            [36m</strong>[39m
+            [36m<span>[39m
+              [0m9/19/2026, 6:00:00 PM[0m
+            [36m</span>[39m
+            [36m<p>[39m
+              [0mPlease help.[0m
+            [36m</p>[39m
+          [36m</li>[39m
+        [36m</ul>[39m
+        [36m<form[39m
+          [33mclass[39m=[32m"requester-form"[39m
+        [36m>[39m
+          [36m<label[39m
+            [33mfor[39m=[32m"staff-public-comment"[39m
+          [36m>[39m
+            [0mAdd a public comment[0m
+          [36m</label>[39m
+          [36m<textarea[39m
+            [33mid[39m=[32m"staff-public-comment"[39m
+            [33mmaxlength[39m=[32m"4000"[39m
+            [33mrequired[39m=[32m""[39m
+            [33mrows[39m=[32m"4"[39m
+          [36m/>[39m
+          [36m<button[39m
+            [33mclass[39m=[32m"secondary-button"[39m
+            [33mtype[39m=[32m"submit"[39m
+          [36m>[39m
+            [0mAdd public comment[0m
+          [36m</button>[39m
+        [36m</form>[39m
+      [36m</section>[39m
+      [36m<section[39m
+        [33maria-labelledby[39m=[32m"internal-notes-heading"[39m
+        [33mclass[39m=[32m"description-block internal-notes-panel"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"section-heading compact"[39m
+        [36m>[39m
+          [36m<div>[39m
+            [36m<h3[39m
+              [33mid[39m=[32m"internal-notes-heading"[39m
+            [36m>[39m
+              [0mInternal Notes[0m
+            [36m</h3>[39m
+            [36m<p[39m
+              [33mclass[39m=[32m"field-help"[39m
+            [36m>[39m
+              [0mPrivate to IT Staff and Administrators; never shown in the Requester workspace.[0m
+            [36m</p>[39m
+          [36m</div>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"status-pill"[39m
+          [36m>[39m
+            [0m1[0m
+          [36m</span>[39m
+        [36m</div>[39m
+        [36m<ul[39m
+          [33mclass[39m=[32m"comment-list"[39m
+        [36m>[39m
+          [36m<li>[39m
+            [36m<strong>[39m
+              [0mNiran Staff[0m
+            [36m</strong>[39m
+            [36m<span>[39m
+              [0m9/19/2026, 6:05:00 PM[0m
+            [36m</span>[39m
+            [36m<p>[39m
+              [0mChecked VPN group.[0m
+            [36m</p>[39m
+          [36m</li>[39m
+        [36m</ul>[39m
+        [36m<form[39m
+          [33mclass[39m=[32m"requester-form"[39m
+        [36m>[39m
+          [36m<label[39m
+            [33mfor[39m=[32m"internal-note-content"[39m
+          [36m>[39m
+            [0mAdd an Internal Note[0m
+          [36m</label>[39m
+          [36m<textarea[39m
+            [33mid[39m=[32m"internal-note-content"[39m
+            [33mmaxlength[39m=[32m"4000"[39m
+            [33mrequired[39m=[32m""[39m
+            [33mrows[39m=[32m"4"[39m
+          [36m/>[39m
+          [36m<button[39m
+            [33mclass[39m=[32m"secondary-button"[39m
+            [33mtype[39m=[32m"submit"[39m
+          [36m>[39m
+            [0mAdd Internal Note[0m
+          [36m</button>[39m
+        [36m</form>[39m
+      [36m</section>[39m
+    [36m</section>[39m
+  [36m</div>[39m
+[36m</body>[39m
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<section[39m
+      [33maria-labelledby[39m=[32m"staff-detail-heading"[39m
+      [33mclass[39m=[32m"content-card staff-detail-card"[39m
+    [36m>[39m
+      [36m<button[39m
+        [33mclass[39m=[32m"back-link"[39m
+        [33mtype[39m=[32m"button"[39m
+      [36m>[39m
+        [0m← Back to [0m
+        [0mTicket Queue[0m
+      [36m</button>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"section-heading"[39m
+      [36m>[39m
+        [36m<div>[39m
+          [36m<p[39m
+            [33mclass[39m=[32m"eyebrow"[39m
+          [36m>[39m
+            [0mTT-20260919-000010[0m
+          [36m</p>[39m
+          [36m<h2[39m
+            [33mid[39m=[32m"staff-detail-heading"[39m
+          [36m>[39m
+            [0mVPN access request[0m
+          [36m</h2>[39m
+        [36m</div>[39m
+        [36m<span[39m
+          [33mclass[39m=[32m"status-pill"[39m
+        [36m>[39m
+          [0mOPEN[0m
+        [36m</span>[39m
+      [36m</div>[39m
+      [36m<dl[39m
+        [33mclass[39m=[32m"detail-grid"[39m
+      [36m>[39m
+        [36m<div>[39m
+          [36m<dt>[39m
+            [0mRequester[0m
+          [36m</dt>[39m
+          [36m<dd>[39m
+            [0mAriya Somchai · ariya@example.com[0m
+          [36m</dd>[39m
+        [36m</div>[39m
+        [36m<div>[39m
+          [36m<dt>[39m
+            [0mCategory[0m
+          [36m</dt>[39m
+          [36m<dd>[39m
+            [0mHardware[0m
+          [36m</dd>[39m
+        [36m</div>[39m
+        [36m<div>[39m
+          [36m<dt>[39m
+            [0mRelated system[0m
+          [36m</dt>[39m
+          [36m<dd>[39m
+            [0mVPN[0m
+          [36m</dd>[39m
+        [36m</div>[39m
+        [36m<div>[39m
+          [36m<dt>[39m
+            [0mCreated[0m
+          [36m</dt>[39m
+          [36m<dd>[39m
+            [0m9/19/2026, 5:00:00 PM[0m
+          [36m</dd>[39m
+        [36m</div>[39m
+        [36m<div>[39m
+          [36m<dt>[39m
+            [0mUpdated[0m
+          [36m</dt>[39m
+          [36m<dd>[39m
+            [0m9/19/2026, 6:00:00 PM[0m
+          [36m</dd>[39m
+        [36m</div>[39m
+        [36m<div>[39m
+          [36m<dt>[39m
+            [0mRequested priority[0m
+          [36m</dt>[39m
+          [36m<dd>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"priority high"[39m
+            [36m>[39m
+              [0mHIGH[0m
+            [36m</span>[39m
+          [36m</dd>[39m
+        [36m</div>[39m
+        [36m<div>[39m
+          [36m<dt>[39m
+            [0mIT priority[0m
+          [36m</dt>[39m
+          [36m<dd>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"priority medium"[39m
+            [36m>[39m
+              [0mMEDIUM[0m
+            [36m</span>[39m
+          [36m</dd>[39m
+        [36m</div>[39m
+        [36m<div>[39m
+          [36m<dt>[39m
+            [0mOwner[0m
+          [36m</dt>[39m
+          [36m<dd>[39m
+            [0mUnassigned[0m
+          [36m</dd>[39m
+        [36m</div>[39m
+      [36m</dl>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"description-block"[39m
+      [36m>[39m
+        [36m<h3>[39m
+          [0mDescription[0m
+        [36m</h3>[39m
+        [36m<p>[39m
+          [0mPlease restore access to the corporate VPN.[0m
+        [36m</p>[39m
+      [36m</div>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"staff-control-grid"[39m
+      [36m>[39m
+        [36m<section[39m
+          [33maria-labelledby[39m=[32m"ownership-heading"[39m
+          [33mclass[39m=[32m"operation-panel"[39m
+        [36m>[39m
+          [36m<h3[39m
+            [33mid[39m=[32m"ownership-heading"[39m
+          [36m>[39m
+            [0mOwnership[0m
+          [36m</h3>[39m
+          [36m<p[39m
+            [33mclass[39m=[32m"field-help"[39m
+          [36m>[39m
+            [0mOnly active IT Staff or Administrators may own a Ticket.[0m
+          [36m</p>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"inline-actions"[39m
+          [36m>[39m
+            [36m<button[39m
+              [33mclass[39m=[32m"secondary-button"[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [0mClaim as me[0m
+            [36m</button>[39m
+            [36m<button[39m
+              [33mclass[39m=[32m"secondary-button"[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [0mUnassign[0m
+            [36m</button>[39m
+          [36m</div>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"field"[39m
+          [36m>[39m
+            [36m<label[39m
+              [33mfor[39m=[32m"staff-owner-id"[39m
+            [36m>[39m
+              [0mAssign owner ID[0m
+            [36m</label>[39m
+            [36m<input[39m
+              [33mid[39m=[32m"staff-owner-id"[39m
+              [33mmin[39m=[32m"1"[39m
+              [33mtype[39m=[32m"number"[39m
+              [33mvalue[39m=[32m""[39m
+            [36m/>[39m
+            [36m<button[39m
+              [33mclass[39m=[32m"secondary-button"[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [0mAssign owner[0m
+            [36m</button>[39m
+          [36m</div>[39m
+        [36m</section>[39m
+        [36m<section[39m
+          [33maria-labelledby[39m=[32m"priority-heading"[39m
+          [33mclass[39m=[32m"operation-panel"[39m
+        [36m>[39m
+          [36m<h3[39m
+            [33mid[39m=[32m"priority-heading"[39m
+          [36m>[39m
+            [0mIT Priority and status[0m
+          [36m</h3>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"field"[39m
+          [36m>[39m
+            [36m<label[39m
+              [33mfor[39m=[32m"staff-it-priority-detail"[39m
+            [36m>[39m
+              [0mIT Priority[0m
+            [36m</label>[39m
+            [36m<select[39m
+              [33mid[39m=[32m"staff-it-priority-detail"[39m
+            [36m>[39m
+              [36m<option[39m
+                [33mvalue[39m=[32m"LOW"[39m
+              [36m>[39m
+                [0mLOW[0m
+              [36m</option>[39m
+              [36m<option[39m
+                [33mvalue[39m=[32m"MEDIUM"[39m
+              [36m>[39m
+                [0mMEDIUM[0m
+              [36m</option>[39m
+              [36m<option[39m
+                [33mvalue[39m=[32m"HIGH"[39m
+              [36m>[39m
+                [0mHIGH[0m
+              [36m</option>[39m
+            [36m</select>[39m
+          [36m</div>[39m
+          [36m<button[39m
+            [33mclass[39m=[32m"secondary-button"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [0mSave IT Priority[0m
+          [36m</button>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"field"[39m
+          [36m>[39m
+            [36m<label[39m
+              [33mfor[39m=[32m"staff-next-status"[39m
+            [36m>[39m
+              [0mNext status[0m
+            [36m</label>[39m
+            [36m<select[39m
+              [33mid[39m=[32m"staff-next-status"[39m
+            [36m>[39m
+              [36m<option[39m
+                [33mvalue[39m=[32m""[39m
+              [36m>[39m
+                [0mChoose a permitted transition[0m
+              [36m</option>[39m
+              [36m<option[39m
+                [33mvalue[39m=[32m"IN_PROGRESS"[39m
+              [36m>[39m
+                [0mIN PROGRESS[0m
+              [36m</option>[39m
+              [36m<option[39m
+                [33mvalue[39m=[32m"WAITING_FOR_REQUESTER"[39m
+              [36m>[39m
+                [0mWAITING FOR REQUESTER[0m
+              [36m</option>[39m
+              [36m<option[39m
+                [33mvalue[39m=[32m"RESOLVED"[39m
+              [36m>[39m
+                [0mRESOLVED[0m
+              [36m</option>[39m
+              [36m<option[39m
+                [33mvalue[39m=[32m"CANCELLED"[39m
+              [36m>[39m
+                [0mCANCELLED[0m
+              [36m</option>[39m
+            [36m</select>[39m
+          [36m</div>[39m
+          [36m<button[39m
+            [33mclass[39m=[32m"secondary-button"[39m
+            [33mdisabled[39m=[32m""[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [0mUpdate status[0m
+          [36m</button>[39m
+        [36m</section>[39m
+      [36m</div>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"attachments-block"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"section-heading compact"[39m
+        [36m>[39m
+          [36m<div>[39m
+            [36m<h3>[39m
+              [0mAttachments[0m
+            [36m</h3>[39m
+            [36m<p[39m
+              [33mclass[39m=[32m"field-help"[39m
+            [36m>[39m
+              [0mExisting Ticket files.[0m
+            [36m</p>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+        [36m<p[39m
+          [33mclass[39m=[32m"muted"[39m
+        [36m>[39m
+          [0mNo attachments.[0m
+        [36m</p>[39m
+      [36m</div>[39m
+      [36m<section[39m
+        [33maria-labelledby[39m=[32m"public-comments-heading"[39m
+        [33mclass[39m=[32m"description-block public-panel"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"section-heading compact"[39m
+        [36m>[39m
+          [36m<div>[39m
+            [36m<h3[39m
+              [33mid[39m=[32m"public-comments-heading"[39m
+            [36m>[39m
+              [0mPublic Comments[0m
+            [36m</h3>[39m
+            [36m<p[39m
+              [33mclass[39m=[32m"field-help"[39m
+            [36m>[39m
+              [0mVisible to Requesters, IT Staff, and Administrators.[0m
+            [36m</p>[39m
+          [36m</div>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"status-pill"[39m
+          [36m>[39m
+            [0m1[0m
+          [36m</span>[39m
+        [36m</div>[39m
+        [36m<ul[39m
+          [33mclass[39m=[32m"comment-list"[39m
+        [36m>[39m
+          [36m<li>[39m
+            [36m<strong>[39m
+              [0mAriya Somchai[0m
+            [36m</strong>[39m
+            [36m<span>[39m
+              [0m9/19/2026, 6:00:00 PM[0m
+            [36m</span>[39m
+            [36m<p>[39m
+              [0mPlease help.[0m
+            [36m</p>[39m
+          [36m</li>[39m
+        [36m</ul>[39m
+        [36m<form[39m
+          [33mclass[39m=[32m"requester-form"[39m
+        [36m>[39m
+          [36m<label[39m
+            [33mfor[39m=[32m"staff-public-comment"[39m
+          [36m>[39m
+            [0mAdd a public comment[0m
+          [36m</label>[39m
+          [36m<textarea[39m
+            [33mid[39m=[32m"staff-public-comment"[39m
+            [33mmaxlength[39m=[32m"4000"[39m
+            [33mrequired[39m=[32m""[39m
+            [33mrows[39m=[32m"4"[39m
+          [36m/>[39m
+          [36m<button[39m
+            [33mclass[39m=[32m"secondary-button"[39m
+            [33mtype[39m=[32m"submit"[39m
+          [36m>[39m
+            [0mAdd public comment[0m
+          [36m</button>[39m
+        [36m</form>[39m
+      [36m</section>[39m
+      [36m<section[39m
+        [33maria-labelledby[39m=[32m"internal-notes-heading"[39m
+        [33mclass[39m=[32m"description-block internal-notes-panel"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"section-heading compact"[39m
+        [36m>[39m
+          [36m<div>[39m
+            [36m<h3[39m
+              [33mid[39m=[32m"internal-notes-heading"[39m
+            [36m>[39m
+              [0mInternal Notes[0m
+            [36m</h3>[39m
+            [36m<p[39m
+              [33mclass[39m=[32m"field-help"[39m
+            [36m>[39m
+              [0mPrivate to IT Staff and Administrators; never shown in the Requester workspace.[0m
+            [36m</p>[39m
+          [36m</div>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"status-pill"[39m
+          [36m>[39m
+            [0m1[0m
+          [36m</span>[39m
+        [36m</div>[39m
+        [36m<ul[39m
+          [33mclass[39m=[32m"comment-list"[39m
+        [36m>[39m
+          [36m<li>[39m
+            [36m<strong>[39m
+              [0mNiran Staff[0m
+            [36m</strong>[39m
+            [36m<span>[39m
+              [0m9/19/2026, 6:05:00 PM[0m
+            [36m</span>[39m
+            [36m<p>[39m
+              [0mChecked VPN group.[0m
+            [36m</p>[39m
+          [36m</li>[39m
+        [36m</ul>[39m
+        [36m<form[39m
+          [33mclass[39m=[32m"requester-form"[39m
+        [36m>[39m
+          [36m<label[39m
+            [33mfor[39m=[32m"internal-note-content"[39m
+          [36m>[39m
+            [0mAdd an Internal Note[0m
+          [36m</label>[39m
+          [36m<textarea[39m
+            [33mid[39m=[32m"internal-note-content"[39m
+            [33mmaxlength[39m=[32m"4000"[39m
+            [33mrequired[39m=[32m""[39m
+            [33mrows[39m=[32m"4"[39m
+          [36m/>[39m
+          [36m<button[39m
+            [33mclass[39m=[32m"secondary-button"[39m
+            [33mtype[39m=[32m"submit"[39m
+          [36m>[39m
+            [0mAdd Internal Note[0m
+          [36m</button>[39m
+        [36m</form>[39m
+      [36m</section>[39m
+    [36m</section>[39m
+  [36m</div>[39m
+[36m</body>[39m
+ × tests/lab-03/StaffTicketDetail.test.tsx > Lab 3 Staff Ticket Detail > shows a Requester resolution indication without changing formal status for 'ADMINISTRATOR' 1007ms
+   → Unable to find role="heading" and name "Requester resolution indication"
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<section[39m
+      [33maria-labelledby[39m=[32m"staff-detail-heading"[39m
+      [33mclass[39m=[32m"content-card staff-detail-card"[39m
+    [36m>[39m
+      [36m<button[39m
+        [33mclass[39m=[32m"back-link"[39m
+        [33mtype[39m=[32m"button"[39m
+      [36m>[39m
+        [0m← Back to [0m
+        [0mAdministrator workspace[0m
+      [36m</button>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"section-heading"[39m
+      [36m>[39m
+        [36m<div>[39m
+          [36m<p[39m
+            [33mclass[39m=[32m"eyebrow"[39m
+          [36m>[39m
+            [0mTT-20260919-000010[0m
+          [36m</p>[39m
+          [36m<h2[39m
+            [33mid[39m=[32m"staff-detail-heading"[39m
+          [36m>[39m
+            [0mVPN access request[0m
+          [36m</h2>[39m
+        [36m</div>[39m
+        [36m<span[39m
+          [33mclass[39m=[32m"status-pill"[39m
+        [36m>[39m
+          [0mOPEN[0m
+        [36m</span>[39m
+      [36m</div>[39m
+      [36m<dl[39m
+        [33mclass[39m=[32m"detail-grid"[39m
+      [36m>[39m
+        [36m<div>[39m
+          [36m<dt>[39m
+            [0mRequester[0m
+          [36m</dt>[39m
+          [36m<dd>[39m
+            [0mAriya Somchai · ariya@example.com[0m
+          [36m</dd>[39m
+        [36m</div>[39m
+        [36m<div>[39m
+          [36m<dt>[39m
+            [0mCategory[0m
+          [36m</dt>[39m
+          [36m<dd>[39m
+            [0mHardware[0m
+          [36m</dd>[39m
+        [36m</div>[39m
+        [36m<div>[39m
+          [36m<dt>[39m
+            [0mRelated system[0m
+          [36m</dt>[39m
+          [36m<dd>[39m
+            [0mVPN[0m
+          [36m</dd>[39m
+        [36m</div>[39m
+        [36m<div>[39m
+          [36m<dt>[39m
+            [0mCreated[0m
+          [36m</dt>[39m
+          [36m<dd>[39m
+            [0m9/19/2026, 5:00:00 PM[0m
+          [36m</dd>[39m
+        [36m</div>[39m
+        [36m<div>[39m
+          [36m<dt>[39m
+            [0mUpdated[0m
+          [36m</dt>[39m
+          [36m<dd>[39m
+            [0m9/19/2026, 6:00:00 PM[0m
+          [36m</dd>[39m
+        [36m</div>[39m
+        [36m<div>[39m
+          [36m<dt>[39m
+            [0mRequested priority[0m
+          [36m</dt>[39m
+          [36m<dd>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"priority high"[39m
+            [36m>[39m
+              [0mHIGH[0m
+            [36m</span>[39m
+          [36m</dd>[39m
+        [36m</div>[39m
+        [36m<div>[39m
+          [36m<dt>[39m
+            [0mIT priority[0m
+          [36m</dt>[39m
+          [36m<dd>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"priority medium"[39m
+            [36m>[39m
+              [0mMEDIUM[0m
+            [36m</span>[39m
+          [36m</dd>[39m
+        [36m</div>[39m
+        [36m<div>[39m
+          [36m<dt>[39m
+            [0mOwner[0m
+          [36m</dt>[39m
+          [36m<dd>[39m
+            [0mUnassigned[0m
+          [36m</dd>[39m
+        [36m</div>[39m
+      [36m</dl>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"description-block"[39m
+      [36m>[39m
+        [36m<h3>[39m
+          [0mDescription[0m
+        [36m</h3>[39m
+        [36m<p>[39m
+          [0mPlease restore access to the corporate VPN.[0m
+        [36m</p>[39m
+      [36m</div>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"staff-control-grid"[39m
+      [36m>[39m
+        [36m<section[39m
+          [33maria-labelledby[39m=[32m"ownership-heading"[39m
+          [33mclass[39m=[32m"operation-panel"[39m
+        [36m>[39m
+          [36m<h3[39m
+            [33mid[39m=[32m"ownership-heading"[39m
+          [36m>[39m
+            [0mOwnership[0m
+          [36m</h3>[39m
+          [36m<p[39m
+            [33mclass[39m=[32m"field-help"[39m
+          [36m>[39m
+            [0mOnly active IT Staff or Administrators may own a Ticket.[0m
+          [36m</p>[39m
+          [36m<p[39m
+            [33mclass[39m=[32m"muted"[39m
+          [36m>[39m
+            [0mAdministrator access is read-only. Current owner: [0m
+            [0mUnassigned[0m
+            [0m.[0m
+          [36m</p>[39m
+        [36m</section>[39m
+        [36m<section[39m
+          [33maria-labelledby[39m=[32m"priority-heading"[39m
+          [33mclass[39m=[32m"operation-panel"[39m
+        [36m>[39m
+          [36m<h3[39m
+            [33mid[39m=[32m"priority-heading"[39m
+          [36m>[39m
+            [0mIT Priority and status[0m
+          [36m</h3>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"field"[39m
+          [36m>[39m
+            [36m<label[39m
+              [33mfor[39m=[32m"staff-it-priority-detail"[39m
+            [36m>[39m
+              [0mIT Priority[0m
+            [36m</label>[39m
+            [36m<select[39m
+              [33mdisabled[39m=[32m""[39m
+              [33mid[39m=[32m"staff-it-priority-detail"[39m
+            [36m>[39m
+              [36m<option[39m
+                [33mvalue[39m=[32m"LOW"[39m
+              [36m>[39m
+                [0mLOW[0m
+              [36m</option>[39m
+              [36m<option[39m
+                [33mvalue[39m=[32m"MEDIUM"[39m
+              [36m>[39m
+                [0mMEDIUM[0m
+              [36m</option>[39m
+              [36m<option[39m
+                [33mvalue[39m=[32m"HIGH"[39m
+              [36m>[39m
+                [0mHIGH[0m
+              [36m</option>[39m
+            [36m</select>[39m
+          [36m</div>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"field"[39m
+          [36m>[39m
+            [36m<label[39m
+              [33mfor[39m=[32m"staff-next-status"[39m
+            [36m>[39m
+              [0mNext status[0m
+            [36m</label>[39m
+            [36m<select[39m
+              [33mdisabled[39m=[32m""[39m
+              [33mid[39m=[32m"staff-next-status"[39m
+            [36m>[39m
+              [36m<option[39m
+                [33mvalue[39m=[32m""[39m
+              [36m>[39m
+                [0mChoose a permitted transition[0m
+              [36m</option>[39m
+              [36m<option[39m
+                [33mvalue[39m=[32m"IN_PROGRESS"[39m
+              [36m>[39m
+                [0mIN PROGRESS[0m
+              [36m</option>[39m
+              [36m<option[39m
+                [33mvalue[39m=[32m"WAITING_FOR_REQUESTER"[39m
+              [36m>[39m
+                [0mWAITING FOR REQUESTER[0m
+              [36m</option>[39m
+              [36m<option[39m
+                [33mvalue[39m=[32m"RESOLVED"[39m
+              [36m>[39m
+                [0mRESOLVED[0m
+              [36m</option>[39m
+              [36m<option[39m
+                [33mvalue[39m=[32m"CANCELLED"[39m
+              [36m>[39m
+                [0mCANCELLED[0m
+              [36m</option>[39m
+            [36m</select>[39m
+          [36m</div>[39m
+        [36m</section>[39m
+      [36m</div>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"attachments-block"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"section-heading compact"[39m
+        [36m>[39m
+          [36m<div>[39m
+            [36m<h3>[39m
+              [0mAttachments[0m
+            [36m</h3>[39m
+            [36m<p[39m
+              [33mclass[39m=[32m"field-help"[39m
+            [36m>[39m
+              [0mExisting Ticket files.[0m
+            [36m</p>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+        [36m<p[39m
+          [33mclass[39m=[32m"muted"[39m
+        [36m>[39m
+          [0mNo attachments.[0m
+        [36m</p>[39m
+      [36m</div>[39m
+      [36m<section[39m
+        [33maria-labelledby[39m=[32m"public-comments-heading"[39m
+        [33mclass[39m=[32m"description-block public-panel"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"section-heading compact"[39m
+        [36m>[39m
+          [36m<div>[39m
+            [36m<h3[39m
+              [33mid[39m=[32m"public-comments-heading"[39m
+            [36m>[39m
+              [0mPublic Comments[0m
+            [36m</h3>[39m
+            [36m<p[39m
+              [33mclass[39m=[32m"field-help"[39m
+            [36m>[39m
+              [0mVisible to Requesters, IT Staff, and Administrators.[0m
+            [36m</p>[39m
+          [36m</div>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"status-pill"[39m
+          [36m>[39m
+            [0m1[0m
+          [36m</span>[39m
+        [36m</div>[39m
+        [36m<ul[39m
+          [33mclass[39m=[32m"comment-list"[39m
+        [36m>[39m
+          [36m<li>[39m
+            [36m<strong>[39m
+              [0mAriya Somchai[0m
+            [36m</strong>[39m
+            [36m<span>[39m
+              [0m9/19/2026, 6:00:00 PM[0m
+            [36m</span>[39m
+            [36m<p>[39m
+              [0mPlease help.[0m
+            [36m</p>[39m
+          [36m</li>[39m
+        [36m</ul>[39m
+      [36m</section>[39m
+      [36m<section[39m
+        [33maria-labelledby[39m=[32m"internal-notes-heading"[39m
+        [33mclass[39m=[32m"description-block internal-notes-panel"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"section-heading compact"[39m
+        [36m>[39m
+          [36m<div>[39m
+            [36m<h3[39m
+              [33mid[39m=[32m"internal-notes-heading"[39m
+            [36m>[39m
+              [0mInternal Notes[0m
+            [36m</h3>[39m
+            [36m<p[39m
+              [33mclass[39m=[32m"field-help"[39m
+            [36m>[39m
+              [0mPrivate to IT Staff and Administrators; never shown in the Requester workspace.[0m
+            [36m</p>[39m
+          [36m</div>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"status-pill"[39m
+          [36m>[39m
+            [0m1[0m
+          [36m</span>[39m
+        [36m</div>[39m
+        [36m<ul[39m
+          [33mclass[39m=[32m"comment-list"[39m
+        [36m>[39m
+          [36m<li>[39m
+            [36m<strong>[39m
+              [0mNiran Staff[0m
+            [36m</strong>[39m
+            [36m<span>[39m
+              [0m9/19/2026, 6:05:00 PM[0m
+            [36m</span>[39m
+            [36m<p>[39m
+              [0mChecked VPN group.[0m
+            [36m</p>[39m
+          [36m</li>[39m
+        [36m</ul>[39m
+      [36m</section>[39m
+    [36m</section>[39m
+  [36m</div>[39m
+[36m</body>[39m
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<section[39m
+      [33maria-labelledby[39m=[32m"staff-detail-heading"[39m
+      [33mclass[39m=[32m"content-card staff-detail-card"[39m
+    [36m>[39m
+      [36m<button[39m
+        [33mclass[39m=[32m"back-link"[39m
+        [33mtype[39m=[32m"button"[39m
+      [36m>[39m
+        [0m← Back to [0m
+        [0mAdministrator workspace[0m
+      [36m</button>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"section-heading"[39m
+      [36m>[39m
+        [36m<div>[39m
+          [36m<p[39m
+            [33mclass[39m=[32m"eyebrow"[39m
+          [36m>[39m
+            [0mTT-20260919-000010[0m
+          [36m</p>[39m
+          [36m<h2[39m
+            [33mid[39m=[32m"staff-detail-heading"[39m
+          [36m>[39m
+            [0mVPN access request[0m
+          [36m</h2>[39m
+        [36m</div>[39m
+        [36m<span[39m
+          [33mclass[39m=[32m"status-pill"[39m
+        [36m>[39m
+          [0mOPEN[0m
+        [36m</span>[39m
+      [36m</div>[39m
+      [36m<dl[39m
+        [33mclass[39m=[32m"detail-grid"[39m
+      [36m>[39m
+        [36m<div>[39m
+          [36m<dt>[39m
+            [0mRequester[0m
+          [36m</dt>[39m
+          [36m<dd>[39m
+            [0mAriya Somchai · ariya@example.com[0m
+          [36m</dd>[39m
+        [36m</div>[39m
+        [36m<div>[39m
+          [36m<dt>[39m
+            [0mCategory[0m
+          [36m</dt>[39m
+          [36m<dd>[39m
+            [0mHardware[0m
+          [36m</dd>[39m
+        [36m</div>[39m
+        [36m<div>[39m
+          [36m<dt>[39m
+            [0mRelated system[0m
+          [36m</dt>[39m
+          [36m<dd>[39m
+            [0mVPN[0m
+          [36m</dd>[39m
+        [36m</div>[39m
+        [36m<div>[39m
+          [36m<dt>[39m
+            [0mCreated[0m
+          [36m</dt>[39m
+          [36m<dd>[39m
+            [0m9/19/2026, 5:00:00 PM[0m
+          [36m</dd>[39m
+        [36m</div>[39m
+        [36m<div>[39m
+          [36m<dt>[39m
+            [0mUpdated[0m
+          [36m</dt>[39m
+          [36m<dd>[39m
+            [0m9/19/2026, 6:00:00 PM[0m
+          [36m</dd>[39m
+        [36m</div>[39m
+        [36m<div>[39m
+          [36m<dt>[39m
+            [0mRequested priority[0m
+          [36m</dt>[39m
+          [36m<dd>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"priority high"[39m
+            [36m>[39m
+              [0mHIGH[0m
+            [36m</span>[39m
+          [36m</dd>[39m
+        [36m</div>[39m
+        [36m<div>[39m
+          [36m<dt>[39m
+            [0mIT priority[0m
+          [36m</dt>[39m
+          [36m<dd>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"priority medium"[39m
+            [36m>[39m
+              [0mMEDIUM[0m
+            [36m</span>[39m
+          [36m</dd>[39m
+        [36m</div>[39m
+        [36m<div>[39m
+          [36m<dt>[39m
+            [0mOwner[0m
+          [36m</dt>[39m
+          [36m<dd>[39m
+            [0mUnassigned[0m
+          [36m</dd>[39m
+        [36m</div>[39m
+      [36m</dl>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"description-block"[39m
+      [36m>[39m
+        [36m<h3>[39m
+          [0mDescription[0m
+        [36m</h3>[39m
+        [36m<p>[39m
+          [0mPlease restore access to the corporate VPN.[0m
+        [36m</p>[39m
+      [36m</div>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"staff-control-grid"[39m
+      [36m>[39m
+        [36m<section[39m
+          [33maria-labelledby[39m=[32m"ownership-heading"[39m
+          [33mclass[39m=[32m"operation-panel"[39m
+        [36m>[39m
+          [36m<h3[39m
+            [33mid[39m=[32m"ownership-heading"[39m
+          [36m>[39m
+            [0mOwnership[0m
+          [36m</h3>[39m
+          [36m<p[39m
+            [33mclass[39m=[32m"field-help"[39m
+          [36m>[39m
+            [0mOnly active IT Staff or Administrators may own a Ticket.[0m
+          [36m</p>[39m
+          [36m<p[39m
+            [33mclass[39m=[32m"muted"[39m
+          [36m>[39m
+            [0mAdministrator access is read-only. Current owner: [0m
+            [0mUnassigned[0m
+            [0m.[0m
+          [36m</p>[39m
+        [36m</section>[39m
+        [36m<section[39m
+          [33maria-labelledby[39m=[32m"priority-heading"[39m
+          [33mclass[39m=[32m"operation-panel"[39m
+        [36m>[39m
+          [36m<h3[39m
+            [33mid[39m=[32m"priority-heading"[39m
+          [36m>[39m
+            [0mIT Priority and status[0m
+          [36m</h3>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"field"[39m
+          [36m>[39m
+            [36m<label[39m
+              [33mfor[39m=[32m"staff-it-priority-detail"[39m
+            [36m>[39m
+              [0mIT Priority[0m
+            [36m</label>[39m
+            [36m<select[39m
+              [33mdisabled[39m=[32m""[39m
+              [33mid[39m=[32m"staff-it-priority-detail"[39m
+            [36m>[39m
+              [36m<option[39m
+                [33mvalue[39m=[32m"LOW"[39m
+              [36m>[39m
+                [0mLOW[0m
+              [36m</option>[39m
+              [36m<option[39m
+                [33mvalue[39m=[32m"MEDIUM"[39m
+              [36m>[39m
+                [0mMEDIUM[0m
+              [36m</option>[39m
+              [36m<option[39m
+                [33mvalue[39m=[32m"HIGH"[39m
+              [36m>[39m
+                [0mHIGH[0m
+              [36m</option>[39m
+            [36m</select>[39m
+          [36m</div>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"field"[39m
+          [36m>[39m
+            [36m<label[39m
+              [33mfor[39m=[32m"staff-next-status"[39m
+            [36m>[39m
+              [0mNext status[0m
+            [36m</label>[39m
+            [36m<select[39m
+              [33mdisabled[39m=[32m""[39m
+              [33mid[39m=[32m"staff-next-status"[39m
+            [36m>[39m
+              [36m<option[39m
+                [33mvalue[39m=[32m""[39m
+              [36m>[39m
+                [0mChoose a permitted transition[0m
+              [36m</option>[39m
+              [36m<option[39m
+                [33mvalue[39m=[32m"IN_PROGRESS"[39m
+              [36m>[39m
+                [0mIN PROGRESS[0m
+              [36m</option>[39m
+              [36m<option[39m
+                [33mvalue[39m=[32m"WAITING_FOR_REQUESTER"[39m
+              [36m>[39m
+                [0mWAITING FOR REQUESTER[0m
+              [36m</option>[39m
+              [36m<option[39m
+                [33mvalue[39m=[32m"RESOLVED"[39m
+              [36m>[39m
+                [0mRESOLVED[0m
+              [36m</option>[39m
+              [36m<option[39m
+                [33mvalue[39m=[32m"CANCELLED"[39m
+              [36m>[39m
+                [0mCANCELLED[0m
+              [36m</option>[39m
+            [36m</select>[39m
+          [36m</div>[39m
+        [36m</section>[39m
+      [36m</div>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"attachments-block"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"section-heading compact"[39m
+        [36m>[39m
+          [36m<div>[39m
+            [36m<h3>[39m
+              [0mAttachments[0m
+            [36m</h3>[39m
+            [36m<p[39m
+              [33mclass[39m=[32m"field-help"[39m
+            [36m>[39m
+              [0mExisting Ticket files.[0m
+            [36m</p>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+        [36m<p[39m
+          [33mclass[39m=[32m"muted"[39m
+        [36m>[39m
+          [0mNo attachments.[0m
+        [36m</p>[39m
+      [36m</div>[39m
+      [36m<section[39m
+        [33maria-labelledby[39m=[32m"public-comments-heading"[39m
+        [33mclass[39m=[32m"description-block public-panel"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"section-heading compact"[39m
+        [36m>[39m
+          [36m<div>[39m
+            [36m<h3[39m
+              [33mid[39m=[32m"public-comments-heading"[39m
+            [36m>[39m
+              [0mPublic Comments[0m
+            [36m</h3>[39m
+            [36m<p[39m
+              [33mclass[39m=[32m"field-help"[39m
+            [36m>[39m
+              [0mVisible to Requesters, IT Staff, and Administrators.[0m
+            [36m</p>[39m
+          [36m</div>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"status-pill"[39m
+          [36m>[39m
+            [0m1[0m
+          [36m</span>[39m
+        [36m</div>[39m
+        [36m<ul[39m
+          [33mclass[39m=[32m"comment-list"[39m
+        [36m>[39m
+          [36m<li>[39m
+            [36m<strong>[39m
+              [0mAriya Somchai[0m
+            [36m</strong>[39m
+            [36m<span>[39m
+              [0m9/19/2026, 6:00:00 PM[0m
+            [36m</span>[39m
+            [36m<p>[39m
+              [0mPlease help.[0m
+            [36m</p>[39m
+          [36m</li>[39m
+        [36m</ul>[39m
+      [36m</section>[39m
+      [36m<section[39m
+        [33maria-labelledby[39m=[32m"internal-notes-heading"[39m
+        [33mclass[39m=[32m"description-block internal-notes-panel"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"section-heading compact"[39m
+        [36m>[39m
+          [36m<div>[39m
+            [36m<h3[39m
+              [33mid[39m=[32m"internal-notes-heading"[39m
+            [36m>[39m
+              [0mInternal Notes[0m
+            [36m</h3>[39m
+            [36m<p[39m
+              [33mclass[39m=[32m"field-help"[39m
+            [36m>[39m
+              [0mPrivate to IT Staff and Administrators; never shown in the Requester workspace.[0m
+            [36m</p>[39m
+          [36m</div>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"status-pill"[39m
+          [36m>[39m
+            [0m1[0m
+          [36m</span>[39m
+        [36m</div>[39m
+        [36m<ul[39m
+          [33mclass[39m=[32m"comment-list"[39m
+        [36m>[39m
+          [36m<li>[39m
+            [36m<strong>[39m
+              [0mNiran Staff[0m
+            [36m</strong>[39m
+            [36m<span>[39m
+              [0m9/19/2026, 6:05:00 PM[0m
+            [36m</span>[39m
+            [36m<p>[39m
+              [0mChecked VPN group.[0m
+            [36m</p>[39m
+          [36m</li>[39m
+        [36m</ul>[39m
+      [36m</section>[39m
+    [36m</section>[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ✓ tests/lab-03/StaffTicketDetail.test.tsx > Lab 3 Staff Ticket Detail > does not show an indication when none exists for 'IT_STAFF'
+ ✓ tests/lab-03/StaffTicketDetail.test.tsx > Lab 3 Staff Ticket Detail > does not show an indication when none exists for 'ADMINISTRATOR'
+ ✓ tests/lab-03/StaffTicketDetail.test.tsx > Lab 3 Staff Ticket Detail > keeps public comments and Internal Notes separate and supports staff operations
+ ✓ tests/lab-03/StaffTicketDetail.test.tsx > Lab 3 Staff Ticket Detail > keeps Administrators out of the Queue and exposes only direct read-only detail
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/lab-03/StaffTicketDetail.test.tsx > Lab 3 Staff Ticket Detail > shows a Requester resolution indication without changing formal status for 'IT_STAFF'
+TestingLibraryElementError: Unable to find role="heading" and name "Requester resolution indication"
+
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <section
+      aria-labelledby="staff-detail-heading"
+      class="content-card staff-detail-card"
+    >
+      <button
+        class="back-link"
+        type="button"
+      >
+        ← Back to 
+        Ticket Queue
+      </button>
+      <div
+        class="section-heading"
+      >
+        <div>
+          <p
+            class="eyebrow"
+          >
+            TT-20260919-000010
+          </p>
+          <h2
+            id="staff-detail-heading"
+          >
+            VPN access request
+          </h2>
+        </div>
+        <span
+          class="status-pill"
+        >
+          OPEN
+        </span>
+      </div>
+      <dl
+        class="detail-grid"
+      >
+        <div>
+          <dt>
+            Requester
+          </dt>
+          <dd>
+            Ariya Somchai · ariya@example.com
+          </dd>
+        </div>
+        <div>
+          <dt>
+            Category
+          </dt>
+          <dd>
+            Hardware
+          </dd>
+        </div>
+        <div>
+          <dt>
+            Related system
+          </dt>
+          <dd>
+            VPN
+          </dd>
+        </div>
+        <div>
+          <dt>
+            Created
+          </dt>
+          <dd>
+            9/19/2026, 5:00:00 PM
+          </dd>
+        </div>
+        <div>
+          <dt>
+            Updated
+          </dt>
+          <dd>
+            9/19/2026, 6:00:00 PM
+          </dd>
+        </div>
+        <div>
+          <dt>
+            Requested priority
+          </dt>
+          <dd>
+            <span
+              class="priority high"
+            >
+              HIGH
+            </span>
+          </dd>
+        </div>
+        <div>
+          <dt>
+            IT priority
+          </dt>
+          <dd>
+            <span
+              class="priority medium"
+            >
+              MEDIUM
+            </span>
+          </dd>
+        </div>
+        <div>
+          <dt>
+            Owner
+          </dt>
+          <dd>
+            Unassigned
+          </dd>
+        </div>
+      </dl>
+      <div
+        class="description-block"
+      >
+        <h3>
+          Description
+        </h3>
+        <p>
+          Please restore access to the corporate VPN.
+        </p>
+      </div>
+      <div
+        class="staff-control-grid"
+      >
+        <section
+          aria-labelledby="ownership-heading"
+          class="operation-panel"
+        >
+          <h3
+            id="ownership-heading"
+          >
+            Ownership
+          </h3>
+          <p
+            class="field-help"
+          >
+            Only active IT Staff or Administrators may own a Ticket.
+          </p>
+          <div
+            class="inline-actions"
+          >
+            <button
+              class="secondary-button"
+              type="button"
+            >
+              Claim as me
+            </button>
+            <button
+              class="secondary-button"
+              type="button"
+            >
+              Unassign
+            </button>
+          </div>
+          <div
+            class="field"
+          >
+            <label
+              for="staff-owner-id"
+            >
+              Assign owner ID
+            </label>
+            <input
+              id="staff-owner-id"
+              min="1"
+              type="number"
+              value=""
+            />
+            <button
+              class="secondary-button"
+              type="button"
+            >
+              Assign owner
+            </button>
+          </div>
+        </section>
+        <section
+          aria-labelledby="priority-heading"
+          class="operation-panel"
+        >
+          <h3
+            id="priority-heading"
+          >
+            IT Priority and status
+          </h3>
+          <div
+            class="field"
+          >
+            <label
+              for="staff-it-priority-detail"
+            >
+              IT Priority
+            </label>
+            <select
+              id="staff-it-priority-detail"
+            >
+              <option
+                value="LOW"
+              >
+                LOW
+              </option>
+              <option
+                value="MEDIUM"
+              >
+                MEDIUM
+              </option>
+              <option
+                value="HIGH"
+              >
+                HIGH
+              </option>
+            </select>
+          </div>
+          <button
+            class="secondary-button"
+            type="button"
+          >
+            Save IT Priority
+          </button>
+          <div
+            class="field"
+          >
+            <label
+              for="staff-next-status"
+            >
+              Next status
+            </label>
+            <select
+              id="staff-next-status"
+            >
+              <option
+                value=""
+              >
+                Choose a permitted transition
+              </option>
+              <option
+                value="IN_PROGRESS"
+              >
+                IN PROGRESS
+              </option>
+              <option
+                value="WAITING_FOR_REQUESTER"
+              >
+                WAITING FOR REQUESTER
+              </option>
+              <option
+                value="RESOLVED"
+              >
+                RESOLVED
+              </option>
+              <option
+                value="CANCELLED"
+              >
+                CANCELLED
+              </option>
+            </select>
+          </div>
+          <button
+            class="secondary-button"
+            disabled=""
+            type="button"
+          >
+            Update status
+          </button>
+        </section>
+      </div>
+      <div
+        class="attachments-block"
+      >
+        <div
+          class="section-heading compact"
+        >
+          <div>
+            <h3>
+              Attachments
+            </h3>
+            <p
+              class="field-help"
+            >
+              Existing Ticket files.
+            </p>
+          </div>
+        </div>
+        <p
+          class="muted"
+        >
+          No attachments.
+        </p>
+      </div>
+      <section
+        aria-labelledby="public-comments-heading"
+        class="description-block public-panel"
+      >
+        <div
+          class="section-heading compact"
+        >
+          <div>
+            <h3
+              id="public-comments-heading"
+            >
+              Public Comments
+            </h3>
+            <p
+              class="field-help"
+            >
+              Visible to Requesters, IT Staff, and Administrators.
+            </p>
+          </div>
+          <span
+            class="status-pill"
+          >
+            1
+          </span>
+        </div>
+        <ul
+          class="comment-list"
+        >
+          <li>
+            <strong>
+              Ariya Somchai
+            </strong>
+            <span>
+              9/19/2026, 6:00:00 PM
+            </span>
+            <p>
+              Please help.
+            </p>
+          </li>
+        </ul>
+        <form
+          class="requester-form"
+        >
+          <label
+            for="staff-public-comment"
+          >
+            Add a public comment
+          </label>
+          <textarea
+            id="staff-public-comment"
+            maxlength="4000"
+            required=""
+            rows="4"
+          />
+          <button
+            class="secondary-button"
+            type="submit"
+          >
+            Add public comment
+          </button>
+        </form>
+      </section>
+      <section
+        aria-labelledby="internal-notes-heading"
+        class="description-block internal-notes-panel"
+      >
+        <div
+          class="section-heading compact"
+        >
+          <div>
+            <h3
+              id="internal-notes-heading"
+            >
+              Internal Notes
+            </h3>
+            <p
+              class="field-help"
+            >
+              Private to IT Staff and Administrators; never shown in the Requester workspace.
+            </p>
+          </div>
+          <span
+            class="status-pill"
+          >
+            1
+          </span>
+        </div>
+        <ul
+          class="comment-list"
+        >
+          <li>
+            <strong>
+              Niran Staff
+            </strong>
+            <span>
+              9/19/2026, 6:05:00 PM
+            </span>
+            <p>
+              Checked VPN group.
+            </p>
+          </li>
+        </ul>
+        <form
+          class="requester-form"
+        >
+          <label
+            for="internal-note-content"
+          >
+            Add an Internal Note
+          </label>
+          <textarea
+            id="internal-note-content"
+            maxlength="4000"
+            required=""
+            rows="4"
+          />
+          <button
+            class="secondary-button"
+            type="submit"
+          >
+            Add Internal Note
+          </button>
+        </form>
+      </section>
+    </section>
+  </div>
+</body>
+
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <section
+      aria-labelledby="staff-detail-heading"
+      class="content-card staff-detail-card"
+    >
+      <button
+        class="back-link"
+        type="button"
+      >
+        ← Back to 
+        Ticket Queue
+      </button>
+      <div
+        class="section-heading"
+      >
+        <div>
+          <p
+            class="eyebrow"
+          >
+            TT-20260919-000010
+          </p>
+          <h2
+            id="staff-detail-heading"
+          >
+            VPN access request
+          </h2>
+        </div>
+        <span
+          class="status-pill"
+        >
+          OPEN
+        </span>
+      </div>
+      <dl
+        class="detail-grid"
+      >
+        <div>
+          <dt>
+            Requester
+          </dt>
+          <dd>
+            Ariya Somchai · ariya@example.com
+          </dd>
+        </div>
+        <div>
+          <dt>
+            Category
+          </dt>
+          <dd>
+            Hardware
+          </dd>
+        </div>
+        <div>
+          <dt>
+            Related system
+          </dt>
+          <dd>
+            VPN
+          </dd>
+        </div>
+        <div>
+          <dt>
+            Created
+          </dt>
+          <dd>
+            9/19/2026, 5:00:00 PM
+          </dd>
+        </div>
+        <div>
+          <dt>
+            Updated
+          </dt>
+          <dd>
+            9/19/2026, 6:00:00 PM
+          </dd>
+        </div>
+        <div>
+          <dt>
+            Requested priority
+          </dt>
+          <dd>
+            <span
+              class="priority high"
+            >
+              HIGH
+            </span>
+          </dd>
+        </div>
+        <div>
+          <dt>
+            IT priority
+          </dt>
+          <dd>
+            <span
+              class="priority medium"
+            >
+              MEDIUM
+            </span>
+          </dd>
+        </div>
+        <div>
+          <dt>
+            Owner
+          </dt>
+          <dd>
+            Unassigned
+          </dd>
+        </div>
+      </dl>
+      <div
+        class="description-block"
+      >
+        <h3>
+          Description
+        </h3>
+        <p>
+          Please restore access to the corporate VPN.
+        </p>
+      </div>
+      <div
+        class="staff-control-grid"
+      >
+        <section
+          aria-labelledby="ownership-heading"
+          class="operation-panel"
+        >
+          <h3
+            id="ownership-heading"
+          >
+            Ownership
+          </h3>
+          <p
+            class="field-help"
+          >
+            Only active IT Staff or Administrators may own a Ticket.
+          </p>
+          <div
+            class="inline-actions"
+          >
+            <button
+              class="secondary-button"
+              type="button"
+            >
+              Claim as me
+            </button>
+            <button
+              class="secondary-button"
+              type="button"
+            >
+              Unassign
+            </button>
+          </div>
+          <div
+            class="field"
+          >
+            <label
+              for="staff-owner-id"
+            >
+              Assign owner ID
+            </label>
+            <input
+              id="staff-owner-id"
+              min="1"
+              type="number"
+              value=""
+            />
+            <button
+              class="secondary-button"
+              type="button"
+            >
+              Assign owner
+            </button>
+          </div>
+        </section>
+        <section
+          aria-labelledby="priority-heading"
+          class="operation-panel"
+        >
+          <h3
+            id="priority-heading"
+          >
+            IT Priority and status
+          </h3>
+          <div
+            class="field"
+          >
+            <label
+              for="staff-it-priority-detail"
+            >
+              IT Priority
+            </label>
+            <select
+              id="staff-it-priority-detail"
+            >
+              <option
+                value="LOW"
+              >
+                LOW
+              </option>
+              <option
+                value="MEDIUM"
+              >
+                MEDIUM
+              </option>
+              <option
+                value="HIGH"
+              >
+                HIGH
+              </option>
+            </select>
+          </div>
+          <button
+            class="secondary-button"
+            type="button"
+          >
+            Save IT Priority
+          </button>
+          <div
+            class="field"
+          >
+            <label
+              for="staff-next-status"
+            >
+              Next status
+            </label>
+            <select
+              id="staff-next-status"
+            >
+              <option
+                value=""
+              >
+                Choose a permitted transition
+              </option>
+              <option
+                value="IN_PROGRESS"
+              >
+                IN PROGRESS
+              </option>
+              <option
+                value="WAITING_FOR_REQUESTER"
+              >
+                WAITING FOR REQUESTER
+              </option>
+              <option
+                value="RESOLVED"
+              >
+                RESOLVED
+              </option>
+              <option
+                value="CANCELLED"
+              >
+                CANCELLED
+              </option>
+            </select>
+          </div>
+          <button
+            class="secondary-button"
+            disabled=""
+            type="button"
+          >
+            Update status
+          </button>
+        </section>
+      </div>
+      <div
+        class="attachments-block"
+      >
+        <div
+          class="section-heading compact"
+        >
+          <div>
+            <h3>
+              Attachments
+            </h3>
+            <p
+              class="field-help"
+            >
+              Existing Ticket files.
+            </p>
+          </div>
+        </div>
+        <p
+          class="muted"
+        >
+          No attachments.
+        </p>
+      </div>
+      <section
+        aria-labelledby="public-comments-heading"
+        class="description-block public-panel"
+      >
+        <div
+          class="section-heading compact"
+        >
+          <div>
+            <h3
+              id="public-comments-heading"
+            >
+              Public Comments
+            </h3>
+            <p
+              class="field-help"
+            >
+              Visible to Requesters, IT Staff, and Administrators.
+            </p>
+          </div>
+          <span
+            class="status-pill"
+          >
+            1
+          </span>
+        </div>
+        <ul
+          class="comment-list"
+        >
+          <li>
+            <strong>
+              Ariya Somchai
+            </strong>
+            <span>
+              9/19/2026, 6:00:00 PM
+            </span>
+            <p>
+              Please help.
+            </p>
+          </li>
+        </ul>
+        <form
+          class="requester-form"
+        >
+          <label
+            for="staff-public-comment"
+          >
+            Add a public comment
+          </label>
+          <textarea
+            id="staff-public-comment"
+            maxlength="4000"
+            required=""
+            rows="4"
+          />
+          <button
+            class="secondary-button"
+            type="submit"
+          >
+            Add public comment
+          </button>
+        </form>
+      </section>
+      <section
+        aria-labelledby="internal-notes-heading"
+        class="description-block internal-notes-panel"
+      >
+        <div
+          class="section-heading compact"
+        >
+          <div>
+            <h3
+              id="internal-notes-heading"
+            >
+              Internal Notes
+            </h3>
+            <p
+              class="field-help"
+            >
+              Private to IT Staff and Administrators; never shown in the Requester workspace.
+            </p>
+          </div>
+          <span
+            class="status-pill"
+          >
+            1
+          </span>
+        </div>
+        <ul
+          class="comment-list"
+        >
+          <li>
+            <strong>
+              Niran Staff
+            </strong>
+            <span>
+              9/19/2026, 6:05:00 PM
+            </span>
+            <p>
+              Checked VPN group.
+            </p>
+          </li>
+        </ul>
+        <form
+          class="requester-form"
+        >
+          <label
+            for="internal-note-content"
+          >
+            Add an Internal Note
+          </label>
+          <textarea
+            id="internal-note-content"
+            maxlength="4000"
+            required=""
+            rows="4"
+          />
+          <button
+            class="secondary-button"
+            type="submit"
+          >
+            Add Internal Note
+          </button>
+        </form>
+      </section>
+    </section>
+  </div>
+</body>
+ ❯ waitForWrapper node_modules/@testing-library/dom/dist/wait-for.js:163:27
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:86:33
+ ❯ tests/lab-03/StaffTicketDetail.test.tsx:58:25
+     56|     const updateStatus = vi.spyOn(api, "updateStaffStatus");
+     57|     render(<StaffTicketDetail ticketId={10} user={user} canOperate={us…
+     58|     expect(await screen.findByRole("heading", { name: "Requester resol…
+       |                         ^
+     59|     expect(screen.getByText("Requester indicates that the problem appe…
+     60|     expect(screen.getByText(/Formal ticket status is still OPEN/)).toB…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/lab-03/StaffTicketDetail.test.tsx > Lab 3 Staff Ticket Detail > shows a Requester resolution indication without changing formal status for 'ADMINISTRATOR'
+TestingLibraryElementError: Unable to find role="heading" and name "Requester resolution indication"
+
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <section
+      aria-labelledby="staff-detail-heading"
+      class="content-card staff-detail-card"
+    >
+      <button
+        class="back-link"
+        type="button"
+      >
+        ← Back to 
+        Administrator workspace
+      </button>
+      <div
+        class="section-heading"
+      >
+        <div>
+          <p
+            class="eyebrow"
+          >
+            TT-20260919-000010
+          </p>
+          <h2
+            id="staff-detail-heading"
+          >
+            VPN access request
+          </h2>
+        </div>
+        <span
+          class="status-pill"
+        >
+          OPEN
+        </span>
+      </div>
+      <dl
+        class="detail-grid"
+      >
+        <div>
+          <dt>
+            Requester
+          </dt>
+          <dd>
+            Ariya Somchai · ariya@example.com
+          </dd>
+        </div>
+        <div>
+          <dt>
+            Category
+          </dt>
+          <dd>
+            Hardware
+          </dd>
+        </div>
+        <div>
+          <dt>
+            Related system
+          </dt>
+          <dd>
+            VPN
+          </dd>
+        </div>
+        <div>
+          <dt>
+            Created
+          </dt>
+          <dd>
+            9/19/2026, 5:00:00 PM
+          </dd>
+        </div>
+        <div>
+          <dt>
+            Updated
+          </dt>
+          <dd>
+            9/19/2026, 6:00:00 PM
+          </dd>
+        </div>
+        <div>
+          <dt>
+            Requested priority
+          </dt>
+          <dd>
+            <span
+              class="priority high"
+            >
+              HIGH
+            </span>
+          </dd>
+        </div>
+        <div>
+          <dt>
+            IT priority
+          </dt>
+          <dd>
+            <span
+              class="priority medium"
+            >
+              MEDIUM
+            </span>
+          </dd>
+        </div>
+        <div>
+          <dt>
+            Owner
+          </dt>
+          <dd>
+            Unassigned
+          </dd>
+        </div>
+      </dl>
+      <div
+        class="description-block"
+      >
+        <h3>
+          Description
+        </h3>
+        <p>
+          Please restore access to the corporate VPN.
+        </p>
+      </div>
+      <div
+        class="staff-control-grid"
+      >
+        <section
+          aria-labelledby="ownership-heading"
+          class="operation-panel"
+        >
+          <h3
+            id="ownership-heading"
+          >
+            Ownership
+          </h3>
+          <p
+            class="field-help"
+          >
+            Only active IT Staff or Administrators may own a Ticket.
+          </p>
+          <p
+            class="muted"
+          >
+            Administrator access is read-only. Current owner: 
+            Unassigned
+            .
+          </p>
+        </section>
+        <section
+          aria-labelledby="priority-heading"
+          class="operation-panel"
+        >
+          <h3
+            id="priority-heading"
+          >
+            IT Priority and status
+          </h3>
+          <div
+            class="field"
+          >
+            <label
+              for="staff-it-priority-detail"
+            >
+              IT Priority
+            </label>
+            <select
+              disabled=""
+              id="staff-it-priority-detail"
+            >
+              <option
+                value="LOW"
+              >
+                LOW
+              </option>
+              <option
+                value="MEDIUM"
+              >
+                MEDIUM
+              </option>
+              <option
+                value="HIGH"
+              >
+                HIGH
+              </option>
+            </select>
+          </div>
+          <div
+            class="field"
+          >
+            <label
+              for="staff-next-status"
+            >
+              Next status
+            </label>
+            <select
+              disabled=""
+              id="staff-next-status"
+            >
+              <option
+                value=""
+              >
+                Choose a permitted transition
+              </option>
+              <option
+                value="IN_PROGRESS"
+              >
+                IN PROGRESS
+              </option>
+              <option
+                value="WAITING_FOR_REQUESTER"
+              >
+                WAITING FOR REQUESTER
+              </option>
+              <option
+                value="RESOLVED"
+              >
+                RESOLVED
+              </option>
+              <option
+                value="CANCELLED"
+              >
+                CANCELLED
+              </option>
+            </select>
+          </div>
+        </section>
+      </div>
+      <div
+        class="attachments-block"
+      >
+        <div
+          class="section-heading compact"
+        >
+          <div>
+            <h3>
+              Attachments
+            </h3>
+            <p
+              class="field-help"
+            >
+              Existing Ticket files.
+            </p>
+          </div>
+        </div>
+        <p
+          class="muted"
+        >
+          No attachments.
+        </p>
+      </div>
+      <section
+        aria-labelledby="public-comments-heading"
+        class="description-block public-panel"
+      >
+        <div
+          class="section-heading compact"
+        >
+          <div>
+            <h3
+              id="public-comments-heading"
+            >
+              Public Comments
+            </h3>
+            <p
+              class="field-help"
+            >
+              Visible to Requesters, IT Staff, and Administrators.
+            </p>
+          </div>
+          <span
+            class="status-pill"
+          >
+            1
+          </span>
+        </div>
+        <ul
+          class="comment-list"
+        >
+          <li>
+            <strong>
+              Ariya Somchai
+            </strong>
+            <span>
+              9/19/2026, 6:00:00 PM
+            </span>
+            <p>
+              Please help.
+            </p>
+          </li>
+        </ul>
+      </section>
+      <section
+        aria-labelledby="internal-notes-heading"
+        class="description-block internal-notes-panel"
+      >
+        <div
+          class="section-heading compact"
+        >
+          <div>
+            <h3
+              id="internal-notes-heading"
+            >
+              Internal Notes
+            </h3>
+            <p
+              class="field-help"
+            >
+              Private to IT Staff and Administrators; never shown in the Requester workspace.
+            </p>
+          </div>
+          <span
+            class="status-pill"
+          >
+            1
+          </span>
+        </div>
+        <ul
+          class="comment-list"
+        >
+          <li>
+            <strong>
+              Niran Staff
+            </strong>
+            <span>
+              9/19/2026, 6:05:00 PM
+            </span>
+            <p>
+              Checked VPN group.
+            </p>
+          </li>
+        </ul>
+      </section>
+    </section>
+  </div>
+</body>
+
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <section
+      aria-labelledby="staff-detail-heading"
+      class="content-card staff-detail-card"
+    >
+      <button
+        class="back-link"
+        type="button"
+      >
+        ← Back to 
+        Administrator workspace
+      </button>
+      <div
+        class="section-heading"
+      >
+        <div>
+          <p
+            class="eyebrow"
+          >
+            TT-20260919-000010
+          </p>
+          <h2
+            id="staff-detail-heading"
+          >
+            VPN access request
+          </h2>
+        </div>
+        <span
+          class="status-pill"
+        >
+          OPEN
+        </span>
+      </div>
+      <dl
+        class="detail-grid"
+      >
+        <div>
+          <dt>
+            Requester
+          </dt>
+          <dd>
+            Ariya Somchai · ariya@example.com
+          </dd>
+        </div>
+        <div>
+          <dt>
+            Category
+          </dt>
+          <dd>
+            Hardware
+          </dd>
+        </div>
+        <div>
+          <dt>
+            Related system
+          </dt>
+          <dd>
+            VPN
+          </dd>
+        </div>
+        <div>
+          <dt>
+            Created
+          </dt>
+          <dd>
+            9/19/2026, 5:00:00 PM
+          </dd>
+        </div>
+        <div>
+          <dt>
+            Updated
+          </dt>
+          <dd>
+            9/19/2026, 6:00:00 PM
+          </dd>
+        </div>
+        <div>
+          <dt>
+            Requested priority
+          </dt>
+          <dd>
+            <span
+              class="priority high"
+            >
+              HIGH
+            </span>
+          </dd>
+        </div>
+        <div>
+          <dt>
+            IT priority
+          </dt>
+          <dd>
+            <span
+              class="priority medium"
+            >
+              MEDIUM
+            </span>
+          </dd>
+        </div>
+        <div>
+          <dt>
+            Owner
+          </dt>
+          <dd>
+            Unassigned
+          </dd>
+        </div>
+      </dl>
+      <div
+        class="description-block"
+      >
+        <h3>
+          Description
+        </h3>
+        <p>
+          Please restore access to the corporate VPN.
+        </p>
+      </div>
+      <div
+        class="staff-control-grid"
+      >
+        <section
+          aria-labelledby="ownership-heading"
+          class="operation-panel"
+        >
+          <h3
+            id="ownership-heading"
+          >
+            Ownership
+          </h3>
+          <p
+            class="field-help"
+          >
+            Only active IT Staff or Administrators may own a Ticket.
+          </p>
+          <p
+            class="muted"
+          >
+            Administrator access is read-only. Current owner: 
+            Unassigned
+            .
+          </p>
+        </section>
+        <section
+          aria-labelledby="priority-heading"
+          class="operation-panel"
+        >
+          <h3
+            id="priority-heading"
+          >
+            IT Priority and status
+          </h3>
+          <div
+            class="field"
+          >
+            <label
+              for="staff-it-priority-detail"
+            >
+              IT Priority
+            </label>
+            <select
+              disabled=""
+              id="staff-it-priority-detail"
+            >
+              <option
+                value="LOW"
+              >
+                LOW
+              </option>
+              <option
+                value="MEDIUM"
+              >
+                MEDIUM
+              </option>
+              <option
+                value="HIGH"
+              >
+                HIGH
+              </option>
+            </select>
+          </div>
+          <div
+            class="field"
+          >
+            <label
+              for="staff-next-status"
+            >
+              Next status
+            </label>
+            <select
+              disabled=""
+              id="staff-next-status"
+            >
+              <option
+                value=""
+              >
+                Choose a permitted transition
+              </option>
+              <option
+                value="IN_PROGRESS"
+              >
+                IN PROGRESS
+              </option>
+              <option
+                value="WAITING_FOR_REQUESTER"
+              >
+                WAITING FOR REQUESTER
+              </option>
+              <option
+                value="RESOLVED"
+              >
+                RESOLVED
+              </option>
+              <option
+                value="CANCELLED"
+              >
+                CANCELLED
+              </option>
+            </select>
+          </div>
+        </section>
+      </div>
+      <div
+        class="attachments-block"
+      >
+        <div
+          class="section-heading compact"
+        >
+          <div>
+            <h3>
+              Attachments
+            </h3>
+            <p
+              class="field-help"
+            >
+              Existing Ticket files.
+            </p>
+          </div>
+        </div>
+        <p
+          class="muted"
+        >
+          No attachments.
+        </p>
+      </div>
+      <section
+        aria-labelledby="public-comments-heading"
+        class="description-block public-panel"
+      >
+        <div
+          class="section-heading compact"
+        >
+          <div>
+            <h3
+              id="public-comments-heading"
+            >
+              Public Comments
+            </h3>
+            <p
+              class="field-help"
+            >
+              Visible to Requesters, IT Staff, and Administrators.
+            </p>
+          </div>
+          <span
+            class="status-pill"
+          >
+            1
+          </span>
+        </div>
+        <ul
+          class="comment-list"
+        >
+          <li>
+            <strong>
+              Ariya Somchai
+            </strong>
+            <span>
+              9/19/2026, 6:00:00 PM
+            </span>
+            <p>
+              Please help.
+            </p>
+          </li>
+        </ul>
+      </section>
+      <section
+        aria-labelledby="internal-notes-heading"
+        class="description-block internal-notes-panel"
+      >
+        <div
+          class="section-heading compact"
+        >
+          <div>
+            <h3
+              id="internal-notes-heading"
+            >
+              Internal Notes
+            </h3>
+            <p
+              class="field-help"
+            >
+              Private to IT Staff and Administrators; never shown in the Requester workspace.
+            </p>
+          </div>
+          <span
+            class="status-pill"
+          >
+            1
+          </span>
+        </div>
+        <ul
+          class="comment-list"
+        >
+          <li>
+            <strong>
+              Niran Staff
+            </strong>
+            <span>
+              9/19/2026, 6:05:00 PM
+            </span>
+            <p>
+              Checked VPN group.
+            </p>
+          </li>
+        </ul>
+      </section>
+    </section>
+  </div>
+</body>
+ ❯ waitForWrapper node_modules/@testing-library/dom/dist/wait-for.js:163:27
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:86:33
+ ❯ tests/lab-03/StaffTicketDetail.test.tsx:58:25
+     56|     const updateStatus = vi.spyOn(api, "updateStaffStatus");
+     57|     render(<StaffTicketDetail ticketId={10} user={user} canOperate={us…
+     58|     expect(await screen.findByRole("heading", { name: "Requester resol…
+       |                         ^
+     59|     expect(screen.getByText("Requester indicates that the problem appe…
+     60|     expect(screen.getByText(/Formal ticket status is still OPEN/)).toB…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 4 passed (6)
+   Start at  01:42:38
+   Duration  3.81s (transform 170ms, setup 111ms, collect 238ms, tests 2.30s, environment 581ms, prepare 251ms)
+

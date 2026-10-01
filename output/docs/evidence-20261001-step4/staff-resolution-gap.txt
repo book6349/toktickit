@@ -1,0 +1,3 @@
+Observed: 2026-09-30T18:36:32.211Z Ticket 24 Requester resolution API timestamp: 2026-09-30T18:19:49.288Z
+Staff UI resolution wording present: false
+GAP CONFIRMED: populated API field is not rendered in Staff Detail. Feature is NOT passed.

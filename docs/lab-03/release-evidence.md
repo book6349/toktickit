@@ -1,12 +1,30 @@
 # Lab 3 Release and Verification Evidence
 
-Status: The original GitHub release is historically complete. A post-audit
-correction is now open as PR #47 to `lab3-staging`, linked to reopened Issue
-#40, and awaits Punge089's review. The next release PR to `main` is not open.
-Section 2 preserves the 2026-09-21 final-main audit summary; it is not a raw log
-and does not certify the dirty local audit tree inspected on 2026-09-29.
-Section 6 records later dirty-tree Docker migration/data-preservation,
-seed-twice, and 15-test E2E passes.
+## Current local verification 2026-10-01
+
+The approved local repairs now pass 190 server tests, 36 client tests, both
+builds, Prisma validation, and 16 integrated E2E scenarios. Migration
+preservation and seed-twice assertions passed on a fresh disposable Docker
+PostgreSQL database. The missing Staff Requester-resolution indicator was
+fixed and verified without changing formal status. Complete output and new
+Staff captures are retained in `output/docs/evidence-20261001-step5/`.
+
+These are dirty local working-tree results based on
+`1fb8df040eb12ac443bb4246a314babfde1564e9`, not committed-main evidence.
+Recorded main remains `0353a4052c4a6d7ead9ddfb9b7c682d3e7958d02`.
+No new GitHub events are claimed. Reviewed staging/release integration and
+clean-main reruns remain required. The older dated records below are retained
+as history; earlier Docker-unavailable and missing-indicator statements do
+not describe this new local run.
+
+Status: PR #47 merged to `lab3-staging`; reviewed release PR #48 merged to
+`main` at `0353a4052c4a6d7ead9ddfb9b7c682d3e7958d02`. On 2026-09-30, the Lab 3
+server/client suites, production builds, and Prisma schema validation passed
+at that commit. Full unfiltered server/client test commands failed in legacy
+Lab 1/2 suites. Docker was not reachable for this run, so final-main migration,
+seed-twice, and integrated E2E checks are not verified. Section 2 is the
+historical 2026-09-21 summary; Section 6 preserves the distinct 2026-09-29
+dirty-tree Docker run; Section 8 records this current main verification.
 
 ## 1. Release snapshot
 
@@ -16,6 +34,11 @@ seed-twice, and 15-test E2E passes.
 - Release source: `lab3-staging`
 - Release PR: [#46](https://github.com/book6349/toktickit/pull/46)
 - Release merge: `493758b`
+- Follow-up correction: [PR #47](https://github.com/book6349/toktickit/pull/47),
+  merged to `lab3-staging` as `7d8ee7acb09c76e06ca1bec5b1f5410452b8f2d7`
+- Follow-up release: [PR #48](https://github.com/book6349/toktickit/pull/48),
+  merged to `main` as `0353a4052c4a6d7ead9ddfb9b7c682d3e7958d02`
+- Issue #40: closed; board status `Done`
 - Feature PRs: [#41](https://github.com/book6349/toktickit/pull/41),
   [#42](https://github.com/book6349/toktickit/pull/42),
   [#43](https://github.com/book6349/toktickit/pull/43),
@@ -72,13 +95,10 @@ keyboard-only role journeys and a busy-state test.
 ## 4. GitHub workflow evidence
 
 The original Issue, board, review, reply, approval, merge, and release record is
-in [`reviewer.md`](reviewer.md). Issues #36-#40 and PRs #41-#46 completed that
-workflow, and Issue #38 was corrected from `No status` to `Done` after closure.
-For the approved post-audit follow-up, existing Issue #40 was reopened and its
-board status is `PR Review`; PR #47 targets `lab3-staging`, links to Issue #40
-through Development, and has a review request pending with Punge089. No review,
-approval, or merge is claimed for PR #47, and the follow-up release PR to `main`
-has not been opened. Issue #40 remains open.
+in [`reviewer.md`](reviewer.md). PR #47 used existing Issue #40, was reviewed,
+replied to, approved, and merged into `lab3-staging`. PR #48 was then reviewed,
+replied to, approved, and merged into `main`. Issue #40 is closed and the board
+shows `Done`; no extra Issue was created.
 
 ## 5. Evidence labels
 
@@ -127,35 +147,68 @@ clone then passed all 15 E2E tests. Exact available output is in
 `output/docs/evidence-20260929/docker-verification.txt`,
 `e2e-lab3-fixture-failure.txt`, and `e2e-lab3-final.txt`.
 
-Read-only GitHub checks confirmed Issues #36-#40, PRs #41-#46, reviewer
-Punge089's review comments/approvals, author replies, and merged states. The
-collaborator-permission endpoint returned 403, so current collaborator
-permission is not known; the historical review submissions themselves are
-confirmed. The current correction and workflow records are published on the
-head branch of PR #47, not yet on `main`. The live board was queried on
-2026-09-30: Issue #40 is open with status `PR Review`; the PDF's older board
-screenshot still shows the historical completed state and must be refreshed
-for final delivery.
+Read-only GitHub checks from the 2026-09-29 audit confirmed the then-current
+Issues #36-#40 and PRs #41-#46. The collaborator-permission endpoint returned
+403, so current collaborator permission is not established. The later PR #47
+and PR #48 events, including the final Issue #40 Done/closed state, are
+recorded in Sections 7 and 8 and linked in `reviewer.md`.
 
-## 7. Post-audit follow-up status (2026-09-30)
+## 7. Completed post-audit GitHub workflow (2026-09-30)
 
 - Existing Issue [#40](https://github.com/book6349/toktickit/issues/40) was
-  reopened; no new Issue was created.
-- [PR #47](https://github.com/book6349/toktickit/pull/47) is open from
-  `feature/lab3-submission-corrections` to `lab3-staging`, at commit
-  `6efc07b83b6ac36657fd5397fb2d6b2e1fd6257d`.
-- PR #47 is linked to Issue #40 through the GitHub Development panel, and the
-  existing project board shows `PR Review`.
-- Punge089's review was requested. As of this record, no review comment, reply,
-  approval, or merge has occurred for PR #47.
-- Do not open the follow-up release PR to `main` until PR #47 is reviewed and
-  merged. Final clean-main checks and final report synchronization remain
-  pending that reviewed integration.
+  used for the follow-up; no new Issue was created.
+- [PR #47](https://github.com/book6349/toktickit/pull/47) targeted
+  `lab3-staging`, was linked to Issue #40 through Development, received
+  Punge089's review, an author reply, and approval, then merged as
+  `7d8ee7acb09c76e06ca1bec5b1f5410452b8f2d7`.
+- [PR #48](https://github.com/book6349/toktickit/pull/48) promoted
+  `lab3-staging` to `main`, was reviewed and approved by Punge089 after the
+  author's reply, then merged as
+  `0353a4052c4a6d7ead9ddfb9b7c682d3e7958d02`.
+- Issue #40 is closed; the board status is `Done`.
+
+## 8. Final-main verification (2026-09-30)
+
+Source: clean isolated checkout of `origin/main` at
+`0353a4052c4a6d7ead9ddfb9b7c682d3e7958d02`, detached HEAD. Git status was
+clean before and after verification. The original Lab 3 worktree and its
+untracked files were left unchanged. Commands ran in this isolated checkout;
+the package-lock hashes matched the original checkout. Node `v24.14.0`, npm
+`11.9.0`. Vitest's raw output records its start time in Asia/Bangkok (UTC+7).
+
+| Working directory | Exact command | Exit / observed result |
+|---|---|---|
+| `server` | `npm test -- --run tests/lab-03 --reporter=verbose` | 0; 8 files, 26 tests passed; Vitest start 22:59:47 |
+| `client` | `npm test -- --run tests/lab-03 --reporter=verbose` | 0; 7 files, 16 tests passed; Vitest start 22:59:50 |
+| `server` | `npm run build` | 0; TypeScript build passed |
+| `client` | `npm run build` | 0; TypeScript and Vite build passed, 31 modules |
+| `server` | `npm exec prisma validate` (no `DATABASE_URL`) | 1; P1012, required variable missing; schema was not evaluated |
+| `server` | Set process-local `DATABASE_URL=postgresql://lab3:lab3@127.0.0.1:5432/toktickit_verify`, then `npm exec prisma validate` | 0; schema valid; validation only, no connection |
+| `server` | `npm test` | 1; 18 files, 35/45 tests passed; 10 Lab 2 API tests failed with 401 where unauthenticated legacy tests expected 200/400/404; Vitest start 22:52:02 |
+| `client` | `npm test` | 1; 14 files, 16/31 tests passed; 15 Lab 1/2 UI tests failed while new session/auth startup was not satisfied by their old test setup; Vitest start 22:52:02 |
+| repository root | `docker info` | 1; Docker API pipe `//./pipe/docker_engine` not found; no Docker server connection |
+| repository root | `git diff --check` | 0; no whitespace errors |
+| repository root | `git status --short --branch` | 0; `## HEAD (no branch)`, clean |
+
+The passing focused Lab 3 output is recorded verbatim in `tests.md`. The
+unfiltered failures are reported, not hidden or converted to passes. Their
+observed responses indicate the older Lab 1/2 test fixtures are not aligned
+with the Lab 3 session flow; no Lab 1/2 source or test file was changed during
+this verification.
+
+Docker-backed `prisma migrate deploy`, `prisma migrate status`, seed twice,
+legacy-row preservation assertions, and `npm run test:e2e` were not run on
+this final-main checkout because the Docker API pipe was unavailable. The
+successful 2026-09-29 disposable-database results in Section 6 remain valid
+historical dirty-tree evidence only; they do not certify commit `0353a40`.
+Existing screenshots were not recaptured on final main. Full labsheet
+compliance is therefore not claimed.
 
 The first focused Requester UI run had one failed test-query assertion because
 the comment is rendered together with author and timestamp in a list item. The
 assertion was corrected; the focused Requester/style rerun passed 4/4 tests,
 then the complete client suite passed 16/16. The initial Prisma validation
-failure was an unset environment variable, not a schema error. Current raw
-successful test output is included in the report appendix; the historical
-final-main output remains unavailable.
+failure was an unset environment variable, not a schema error. Raw final-main
+focused test output is recorded in `tests.md`; the editable report/PDF appendix
+has not yet been regenerated. The older 2026-09-21 main run's raw output remains
+unavailable.

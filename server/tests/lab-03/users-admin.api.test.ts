@@ -190,4 +190,29 @@ describe("Lab 3 Administrator User Management API", () => {
     expect(last.body.error.code).toBe("LAST_ADMINISTRATOR");
     expect(delegate.update).not.toHaveBeenCalled();
   });
+
+  it("prevents demotion of the last active Administrator", async () => {
+    const { delegate } = setupPrisma({
+      findUnique: vi.fn().mockResolvedValue(user({ id: 2 })), count: vi.fn().mockResolvedValue(1),
+    });
+    const response = await request(app).patch("/api/admin/users/2")
+      .set("Cookie", adminCookie).set("X-CSRF-Token", "csrf-token").send({ role: "IT_STAFF" });
+    expect(response.status).toBe(409);
+    expect(response.body.error.code).toBe("LAST_ADMINISTRATOR");
+    expect(delegate.update).not.toHaveBeenCalled();
+  });
+
+  it.each(["REQUESTER", "IT_STAFF"])("denies %s every User Management operation before user queries or writes", async (role) => {
+    const { delegate } = setupPrisma({ sessionUser: user({ role }) });
+    const operations = [
+      request(app).get("/api/admin/users"), request(app).post("/api/admin/users"),
+      request(app).patch("/api/admin/users/2"), request(app).post("/api/admin/users/2/initial-password"),
+    ];
+    for (const operation of operations) {
+      const response = await operation.set("Cookie", requesterCookie).set("X-CSRF-Token", "csrf-token").send({});
+      expect(response.status).toBe(403);
+      expect(response.body.error.code).toBe("FORBIDDEN");
+    }
+    for (const query of Object.values(delegate)) expect(query).not.toHaveBeenCalled();
+  });
 });

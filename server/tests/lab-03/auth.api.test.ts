@@ -77,4 +77,45 @@ describe("Lab 3 authentication contract", () => {
     expect(createSession).toHaveBeenCalledOnce();
     expect(findUnique).toHaveBeenCalledWith({ where: { tokenHash: crypto.createHash("sha256").update(rawToken).digest("hex") }, include: { user: true } });
   });
+
+  it.each(["expired", "revoked", "inactive"])("rejects a %s session before querying protected Ticket data", async (state) => {
+    const count = vi.fn();
+    const session = {
+      id: 11, userId: 1, expiresAt: new Date(Date.now() + 60_000),
+      revokedAt: state === "revoked" ? new Date() : null,
+      user: user({ isActive: state !== "inactive" }),
+    };
+    if (state === "expired") session.expiresAt = new Date(Date.now() - 1);
+    vi.spyOn(prismaModule, "getPrisma").mockReturnValue({
+      session: { findUnique: vi.fn().mockResolvedValue(session) }, ticket: { count },
+    } as any);
+    for (const path of ["/api/auth/me", "/api/tickets"]) {
+      const response = await request(app).get(path).set("Cookie", "toktickit_session=old-token");
+      expect(response.status).toBe(401);
+      expect(response.body).toEqual({ error: { code: "UNAUTHENTICATED", message: "Sign in to continue." } });
+    }
+    expect(count).not.toHaveBeenCalled();
+  });
+
+  it("logout clears the cookie, revokes the session, and blocks reuse of the old token", async () => {
+    const session = { id: 11, userId: 1, expiresAt: new Date(Date.now() + 60_000), revokedAt: null as Date | null, user: user() };
+    const update = vi.fn().mockImplementation(async ({ data }: any) => {
+      session.revokedAt = data.revokedAt;
+      return session;
+    });
+    const count = vi.fn();
+    vi.spyOn(prismaModule, "getPrisma").mockReturnValue({
+      session: { findUnique: vi.fn().mockImplementation(async () => session), update }, ticket: { count },
+    } as any);
+    const cookie = "toktickit_session=old-token; toktickit_csrf=csrf-token";
+    const response = await request(app).post("/api/auth/logout").set("Cookie", cookie).set("X-CSRF-Token", "csrf-token");
+    expect(response.status).toBe(204);
+    expect(update).toHaveBeenCalledWith({ where: { id: 11 }, data: { revokedAt: expect.any(Date) } });
+    expect(response.headers["set-cookie"]).toEqual(expect.arrayContaining([
+      expect.stringMatching(/toktickit_session=;.*Max-Age=0/),
+    ]));
+    const blocked = await request(app).get("/api/tickets").set("Cookie", cookie);
+    expect(blocked.status).toBe(401);
+    expect(count).not.toHaveBeenCalled();
+  });
 });

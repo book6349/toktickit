@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import request from "supertest";
 import { app } from "../../src/app.js";
 import * as prismaModule from "../../src/prisma.js";
+import { regressionCookie, requesterSession } from "../lab-03/regression-fixtures.js";
 
 const ticket = {
   id: 10,
@@ -27,10 +28,11 @@ describe("Lab 2 My Tickets list", () => {
     vi.restoreAllMocks();
   });
 
-  it("applies filters and pagination inside the selected requester scope", async () => {
+  it("applies filters and pagination inside the authenticated requester scope", async () => {
     const count = vi.fn().mockResolvedValue(25);
     const findMany = vi.fn().mockResolvedValue([ticket]);
     vi.spyOn(prismaModule, "getPrisma").mockReturnValue({
+      ...requesterSession(4),
       requesterUser: {
         findFirst: vi.fn().mockResolvedValue({ id: 4, name: "Niran Suksan", email: "niran@example.com" }),
       },
@@ -39,7 +41,8 @@ describe("Lab 2 My Tickets list", () => {
 
     const response = await request(app)
       .get("/api/tickets?search=VPN&categoryId=2&requestedPriority=HIGH&status=NEW&sortBy=createdAt&sortDirection=asc&page=2&pageSize=20")
-      .set("X-Requester-Id", "4");
+      .set("Cookie", regressionCookie)
+      .set("X-Requester-Id", "999");
 
     const expectedWhere = {
       requesterId: 4,
@@ -74,6 +77,7 @@ describe("Lab 2 My Tickets list", () => {
     const count = vi.fn();
     const findMany = vi.fn();
     vi.spyOn(prismaModule, "getPrisma").mockReturnValue({
+      ...requesterSession(4),
       requesterUser: {
         findFirst: vi.fn().mockResolvedValue({ id: 4, name: "Niran Suksan", email: "niran@example.com" }),
       },
@@ -82,7 +86,7 @@ describe("Lab 2 My Tickets list", () => {
 
     const response = await request(app)
       .get("/api/tickets?page=0&sortBy=unsupported")
-      .set("X-Requester-Id", "4");
+      .set("Cookie", regressionCookie);
 
     expect(response.status).toBe(400);
     expect(response.body.error.code).toBe("INVALID_QUERY");

@@ -1,0 +1,57 @@
+
+> toktickit-server@1.0.0 test
+> vitest run tests/lab-02 --reporter=verbose
+
+
+ RUN  v2.1.9 C:/Users/Jitvoottikrai/OneDrive/เดสก์ท็อป/SoftwareEn/LAB1/Lab1_Starter_Scaffold/toktickit-lab3-specification/server
+
+ ✓ tests/lab-02/ticket-number.unit.test.ts > Lab 2 ticket number date component > formats the official YYYYMMDD date segment
+ ✓ tests/lab-02/validation.unit.test.ts > Lab 2 ticket validation > trims values and reports field-level boundaries
+ ✓ tests/lab-02/validation.unit.test.ts > Lab 2 ticket validation > accepts valid fields and rejects invalid references and priority
+ ✓ tests/lab-02/validation.unit.test.ts > Lab 2 ticket validation > enforces attachment type, size, and active-count limits
+ ✓ tests/lab-02/reference-data.api.test.ts > Lab 2 reference data failures > returns active related systems in the documented wrapper
+ ✓ tests/lab-02/reference-data.api.test.ts > Lab 2 reference data failures > returns a safe 500 instead of fabricated categories when the database fails
+ ✓ tests/lab-02/requester-context.api.test.ts > Lab 2 requester context and reference data > returns active requesters only
+ ✓ tests/lab-02/my-tickets.api.test.ts > Lab 2 My Tickets list > applies filters and pagination inside the authenticated requester scope
+ ✓ tests/lab-02/my-tickets.api.test.ts > Lab 2 My Tickets list > rejects invalid list controls before querying tickets
+ ✓ tests/lab-02/requester-context.api.test.ts > Lab 2 requester context and reference data > rejects missing sessions and inactive accounts without accepting the old requester header
+ ✓ tests/lab-02/attachments.api.test.ts > Lab 2 attachment lifecycle > lists attachments only after confirming ticket ownership
+ ✓ tests/lab-02/ticket-detail.api.test.ts > Lab 2 owned Ticket Detail > returns the detail only within the authenticated requester scope
+ × tests/lab-02/ticket-detail.api.test.ts > Lab 2 owned Ticket Detail > returns the same safe not-found response for another requester's ticket
+   → expected { error: { …(2) } } to deeply equal { error: { …(2) } }
+ ✓ tests/lab-02/create-ticket.api.test.ts > Lab 2 ticket creation > returns field errors without persisting an invalid ticket
+ ✓ tests/lab-02/create-ticket.api.test.ts > Lab 2 ticket creation > creates a new ticket with the official number and NEW status
+ ✓ tests/lab-02/attachments.api.test.ts > Lab 2 attachment lifecycle > soft-removes an owned attachment and retains its audit metadata
+ ✓ tests/lab-02/attachments.api.test.ts > Lab 2 attachment lifecycle > requires a useful removal reason before touching the database
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/lab-02/ticket-detail.api.test.ts > Lab 2 owned Ticket Detail > returns the same safe not-found response for another requester's ticket
+AssertionError: expected { error: { …(2) } } to deeply equal { error: { …(2) } }
+
+- Expected
++ Received
+
+  Object {
+    "error": Object {
+-     "code": "TICKET_NOT_FOUND",
++     "code": "RESOURCE_NOT_FOUND",
+      "message": "Ticket not found.",
+    },
+  }
+
+ ❯ tests/lab-02/ticket-detail.api.test.ts:73:27
+     71| 
+     72|     expect(response.status).toBe(404);
+     73|     expect(response.body).toEqual({
+       |                           ^
+     74|       error: { code: "TICKET_NOT_FOUND", message: "Ticket not found." …
+     75|     });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+ Test Files  1 failed | 7 passed (8)
+      Tests  1 failed | 16 passed (17)
+   Start at  00:38:54
+   Duration  2.58s (transform 2.43s, setup 0ms, collect 8.99s, tests 279ms, environment 5ms, prepare 3.06s)
+

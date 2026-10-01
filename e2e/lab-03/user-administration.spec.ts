@@ -1,8 +1,8 @@
 import { expect, test } from "@playwright/test";
-import { adminEmail, captureRequiredViewports, changedPassword, initialPassword, signInAndUnlock } from "./fixtures";
+import { adminEmail, apiBaseURL, captureRequiredViewports, changedPassword, completeInitialPasswordChange, getE2EFixtures, initialPassword, signIn, signInAndUnlock } from "./fixtures";
 
 test.describe("Lab 3 Administrator User Management", () => {
-  test("Administrator can list, search, create, edit, and reset a user", async ({ page }) => {
+  test("Administrator can list, search, create, edit, reset, and require the new initial password at next login", async ({ page, browser, baseURL }) => {
     await signInAndUnlock(page, adminEmail, initialPassword);
     await expect(page.getByRole("heading", { name: "User Management" })).toBeVisible();
     await expect(page.getByRole("button", { name: "Create user" }).first()).toBeVisible();
@@ -37,13 +37,31 @@ test.describe("Lab 3 Administrator User Management", () => {
     await page.screenshot({ path: "artifacts/lab-03/screenshots/user-management/reset-success-1280x900.png", fullPage: true });
     await page.getByRole("button", { name: /Back to User Management/ }).click();
     await expect(page.getByText(email)).toBeVisible();
+
+    const resetContext = await browser.newContext({ baseURL });
+    try {
+      const resetPage = await resetContext.newPage();
+      await signIn(resetPage, email, "E2E-initial-password1");
+      await expect(resetPage.getByRole("alert")).toHaveText("Email or password is incorrect.");
+      await signIn(resetPage, email, "E2E-reset-password1");
+      await expect(resetPage.getByRole("heading", { name: "Change your password" })).toBeVisible();
+      await expect(resetPage.getByRole("heading", { name: "My tickets" })).toHaveCount(0);
+      const blocked = await resetContext.request.get(`${apiBaseURL}/api/tickets`);
+      expect(blocked.status()).toBe(403);
+      expect((await blocked.json()).error.code).toBe("PASSWORD_CHANGE_REQUIRED");
+      await completeInitialPasswordChange(resetPage, "E2E-changed-password2", "E2E-reset-password1");
+      await expect(resetPage.getByRole("heading", { name: "My tickets" })).toBeVisible();
+      expect((await resetContext.request.get(`${apiBaseURL}/api/tickets`)).status()).toBe(200);
+    } finally {
+      await resetContext.close();
+    }
   });
 
   test("Administrator navigation excludes Queue and direct Ticket Detail remains explicit", async ({ page }) => {
     await signInAndUnlock(page, adminEmail, changedPassword);
     await expect(page.getByRole("button", { name: "Ticket Queue" })).toHaveCount(0);
     await expect(page.getByText(/shared IT Staff Queue is not available/i)).toBeVisible();
-    await page.getByLabel("Ticket ID").fill("1");
+    await page.getByLabel("Ticket ID").fill(String(getE2EFixtures().baselineTicketId));
     await page.getByRole("button", { name: "Open Ticket Detail" }).click();
     await expect(page.locator('section[aria-labelledby="staff-detail-heading"]')).toBeVisible();
     await expect(page.getByRole("button", { name: "Claim as me" })).toHaveCount(0);

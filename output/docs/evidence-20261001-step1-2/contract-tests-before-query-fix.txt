@@ -1,0 +1,272 @@
+
+> toktickit-server@1.0.0 test
+> vitest run tests/lab-03/auth.api.test.ts tests/lab-03/comments-notes.api.test.ts tests/lab-03/staff-queue.api.test.ts tests/lab-03/staff-ticket-detail.api.test.ts tests/lab-03/users-admin.api.test.ts --reporter=verbose
+
+
+ RUN  v2.1.9 C:/Users/Jitvoottikrai/OneDrive/เดสก์ท็อป/SoftwareEn/LAB1/Lab1_Starter_Scaffold/toktickit-lab3-specification/server
+
+ ✓ tests/lab-03/comments-notes.api.test.ts > Lab 3 Public Comments and Internal Notes > keeps Internal Notes on separate staff endpoints and records the session author
+ ✓ tests/lab-03/comments-notes.api.test.ts > Lab 3 Public Comments and Internal Notes > does not allow Requesters to read staff notes
+ ✓ tests/lab-03/comments-notes.api.test.ts > Lab 3 Public Comments and Internal Notes > rejects blank, overlength, and non-string comment content before database writes
+ ✓ tests/lab-03/comments-notes.api.test.ts > Lab 3 Public Comments and Internal Notes > rejects blank, overlength, and non-string note content before database writes
+ ✓ tests/lab-03/comments-notes.api.test.ts > Lab 3 Public Comments and Internal Notes > accepts the 4,000-character comment boundary and uses the backend author and timestamp
+ ✓ tests/lab-03/comments-notes.api.test.ts > Lab 3 Public Comments and Internal Notes > accepts the 4,000-character note boundary and uses the backend author and timestamp
+ ✓ tests/lab-03/comments-notes.api.test.ts > Lab 3 Public Comments and Internal Notes > keeps comments append-only: collection and entry edit/delete requests cannot mutate stored content
+ ✓ tests/lab-03/comments-notes.api.test.ts > Lab 3 Public Comments and Internal Notes > keeps notes append-only: collection and entry edit/delete requests cannot mutate stored content
+ ✓ tests/lab-03/staff-queue.api.test.ts > Lab 3 IT Staff Queue > enforces staff-only access and returns filtered paginated queue data
+ ✓ tests/lab-03/staff-queue.api.test.ts > Lab 3 IT Staff Queue > rejects invalid queries before touching ticket data
+ ✓ tests/lab-03/staff-queue.api.test.ts > Lab 3 IT Staff Queue > does not expose the Queue to REQUESTER
+ ✓ tests/lab-03/staff-queue.api.test.ts > Lab 3 IT Staff Queue > does not expose the Queue to ADMINISTRATOR
+ ✓ tests/lab-03/staff-queue.api.test.ts > Lab 3 IT Staff Queue > applies the documented 'updatedAt' 'asc' ordering with a deterministic tie-breaker
+ ✓ tests/lab-03/staff-queue.api.test.ts > Lab 3 IT Staff Queue > applies the documented 'updatedAt' 'desc' ordering with a deterministic tie-breaker
+ ✓ tests/lab-03/staff-queue.api.test.ts > Lab 3 IT Staff Queue > applies the documented 'createdAt' 'asc' ordering with a deterministic tie-breaker
+ ✓ tests/lab-03/staff-queue.api.test.ts > Lab 3 IT Staff Queue > applies the documented 'createdAt' 'desc' ordering with a deterministic tie-breaker
+ ✓ tests/lab-03/staff-queue.api.test.ts > Lab 3 IT Staff Queue > applies the documented 'ticketNumber' 'asc' ordering with a deterministic tie-breaker
+ ✓ tests/lab-03/staff-queue.api.test.ts > Lab 3 IT Staff Queue > applies the documented 'ticketNumber' 'desc' ordering with a deterministic tie-breaker
+ ✓ tests/lab-03/staff-queue.api.test.ts > Lab 3 IT Staff Queue > applies the documented 'status' 'asc' ordering with a deterministic tie-breaker
+ ✓ tests/lab-03/staff-queue.api.test.ts > Lab 3 IT Staff Queue > applies the documented 'status' 'desc' ordering with a deterministic tie-breaker
+ ✓ tests/lab-03/staff-queue.api.test.ts > Lab 3 IT Staff Queue > applies the documented 'requestedPriority' 'asc' ordering with a deterministic tie-breaker
+ ✓ tests/lab-03/staff-queue.api.test.ts > Lab 3 IT Staff Queue > applies the documented 'requestedPriority' 'desc' ordering with a deterministic tie-breaker
+ ✓ tests/lab-03/staff-queue.api.test.ts > Lab 3 IT Staff Queue > applies the documented 'itPriority' 'asc' ordering with a deterministic tie-breaker
+ ✓ tests/lab-03/staff-queue.api.test.ts > Lab 3 IT Staff Queue > applies the documented 'itPriority' 'desc' ordering with a deterministic tie-breaker
+ ✓ tests/lab-03/staff-queue.api.test.ts > Lab 3 IT Staff Queue > applies the documented 'owner' 'asc' ordering with a deterministic tie-breaker
+ ✓ tests/lab-03/staff-queue.api.test.ts > Lab 3 IT Staff Queue > applies the documented 'owner' 'desc' ordering with a deterministic tie-breaker
+ ✓ tests/lab-03/staff-queue.api.test.ts > Lab 3 IT Staff Queue > keeps count and item retrieval in the same 'status=waiting_for_requester' filter scope
+ ✓ tests/lab-03/staff-queue.api.test.ts > Lab 3 IT Staff Queue > keeps count and item retrieval in the same 'requestedPriority=high' filter scope
+ ✓ tests/lab-03/staff-queue.api.test.ts > Lab 3 IT Staff Queue > keeps count and item retrieval in the same 'itPriority=low' filter scope
+ ✓ tests/lab-03/staff-queue.api.test.ts > Lab 3 IT Staff Queue > keeps count and item retrieval in the same 'ownerId=7' filter scope
+ ✓ tests/lab-03/staff-queue.api.test.ts > Lab 3 IT Staff Queue > keeps count and item retrieval in the same 'ownership=assigned' filter scope
+ ✓ tests/lab-03/staff-queue.api.test.ts > Lab 3 IT Staff Queue > keeps count and item retrieval in the same 'ownership=unassigned' filter scope
+ × tests/lab-03/staff-queue.api.test.ts > Lab 3 IT Staff Queue > keeps count and item retrieval in the same 'ownerId=7&ownership=assigned' filter scope
+   → expected "spy" to be called with arguments: [ { where: { ownerId: 7 } } ]
+
+Received: 
+
+  1st spy call:
+
+  Array [
+    Object {
+      "where": Object {
+-       "ownerId": 7,
++       "ownerId": Object {
++         "not": null,
++       },
+      },
+    },
+  ]
+
+
+Number of calls: 1
+
+ × tests/lab-03/staff-queue.api.test.ts > Lab 3 IT Staff Queue > keeps count and item retrieval in the same 'ownerId=7&ownership=unassigned' filter scope
+   → expected "spy" to be called with arguments: [ { where: { ownerId: 7, …(1) } } ]
+
+Received: 
+
+  1st spy call:
+
+  Array [
+    Object {
+      "where": Object {
+-       "AND": Array [
+-         Object {
+        "ownerId": null,
+-         },
+-       ],
+-       "ownerId": 7,
+      },
+    },
+  ]
+
+
+Number of calls: 1
+
+ ✓ tests/lab-03/staff-queue.api.test.ts > Lab 3 IT Staff Queue > keeps count and item retrieval in the same 'status=OPEN&requestedPriority=HIGH&it…' filter scope
+ ✓ tests/lab-03/staff-queue.api.test.ts > Lab 3 IT Staff Queue > searches every documented field case-insensitively
+ ✓ tests/lab-03/staff-queue.api.test.ts > Lab 3 IT Staff Queue > rejects $0 before querying Queue data
+ ✓ tests/lab-03/staff-queue.api.test.ts > Lab 3 IT Staff Queue > rejects $0 before querying Queue data
+ ✓ tests/lab-03/staff-queue.api.test.ts > Lab 3 IT Staff Queue > rejects $0 before querying Queue data
+ ✓ tests/lab-03/staff-queue.api.test.ts > Lab 3 IT Staff Queue > rejects $0 before querying Queue data
+ ✓ tests/lab-03/staff-queue.api.test.ts > Lab 3 IT Staff Queue > rejects $0 before querying Queue data
+ ✓ tests/lab-03/staff-queue.api.test.ts > Lab 3 IT Staff Queue > rejects $0 before querying Queue data
+ ✓ tests/lab-03/staff-queue.api.test.ts > Lab 3 IT Staff Queue > rejects $0 before querying Queue data
+ ✓ tests/lab-03/staff-queue.api.test.ts > Lab 3 IT Staff Queue > rejects $0 before querying Queue data
+ ✓ tests/lab-03/staff-queue.api.test.ts > Lab 3 IT Staff Queue > rejects $0 before querying Queue data
+ ✓ tests/lab-03/staff-queue.api.test.ts > Lab 3 IT Staff Queue > rejects $0 before querying Queue data
+ ✓ tests/lab-03/auth.api.test.ts > Lab 3 authentication contract > requires CSRF and returns safe user data on login
+ ✓ tests/lab-03/auth.api.test.ts > Lab 3 authentication contract > uses the same safe 401 for missing and inactive accounts
+ ✓ tests/lab-03/users-admin.api.test.ts > Lab 3 Administrator User Management API > lists safe users with case-insensitive search and one role filter
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > requires the approved confirmation and transition matrix on the backend
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > updates a permitted status only when the current state still matches
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > rejects requester owners and allows a permitted priority update
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > enforces 'NEW' -> 'NEW' (allowed=false) from the approved matrix
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > enforces 'NEW' -> 'OPEN' (allowed=true) from the approved matrix
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > enforces 'NEW' -> 'IN_PROGRESS' (allowed=false) from the approved matrix
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > enforces 'NEW' -> 'WAITING_FOR_REQUESTER' (allowed=false) from the approved matrix
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > enforces 'NEW' -> 'RESOLVED' (allowed=false) from the approved matrix
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > enforces 'NEW' -> 'CLOSED' (allowed=false) from the approved matrix
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > enforces 'NEW' -> 'REOPENED' (allowed=false) from the approved matrix
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > enforces 'NEW' -> 'CANCELLED' (allowed=true) from the approved matrix
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > enforces 'OPEN' -> 'NEW' (allowed=false) from the approved matrix
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > enforces 'OPEN' -> 'OPEN' (allowed=false) from the approved matrix
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > enforces 'OPEN' -> 'IN_PROGRESS' (allowed=true) from the approved matrix
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > enforces 'OPEN' -> 'WAITING_FOR_REQUESTER' (allowed=true) from the approved matrix
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > enforces 'OPEN' -> 'RESOLVED' (allowed=true) from the approved matrix
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > enforces 'OPEN' -> 'CLOSED' (allowed=false) from the approved matrix
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > enforces 'OPEN' -> 'REOPENED' (allowed=false) from the approved matrix
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > enforces 'OPEN' -> 'CANCELLED' (allowed=true) from the approved matrix
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > enforces 'IN_PROGRESS' -> 'NEW' (allowed=false) from the approved matrix
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > enforces 'IN_PROGRESS' -> 'OPEN' (allowed=false) from the approved matrix
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > enforces 'IN_PROGRESS' -> 'IN_PROGRESS' (allowed=false) from the approved matrix
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > enforces 'IN_PROGRESS' -> 'WAITING_FOR_REQUESTER' (allowed=true) from the approved matrix
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > enforces 'IN_PROGRESS' -> 'RESOLVED' (allowed=true) from the approved matrix
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > enforces 'IN_PROGRESS' -> 'CLOSED' (allowed=false) from the approved matrix
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > enforces 'IN_PROGRESS' -> 'REOPENED' (allowed=false) from the approved matrix
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > enforces 'IN_PROGRESS' -> 'CANCELLED' (allowed=true) from the approved matrix
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > enforces 'WAITING_FOR_REQUESTER' -> 'NEW' (allowed=false) from the approved matrix
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > enforces 'WAITING_FOR_REQUESTER' -> 'OPEN' (allowed=false) from the approved matrix
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > enforces 'WAITING_FOR_REQUESTER' -> 'IN_PROGRESS' (allowed=true) from the approved matrix
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > enforces 'WAITING_FOR_REQUESTER' -> 'WAITING_FOR_REQUESTER' (allowed=false) from the approved matrix
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > enforces 'WAITING_FOR_REQUESTER' -> 'RESOLVED' (allowed=true) from the approved matrix
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > enforces 'WAITING_FOR_REQUESTER' -> 'CLOSED' (allowed=false) from the approved matrix
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > enforces 'WAITING_FOR_REQUESTER' -> 'REOPENED' (allowed=false) from the approved matrix
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > enforces 'WAITING_FOR_REQUESTER' -> 'CANCELLED' (allowed=true) from the approved matrix
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > enforces 'RESOLVED' -> 'NEW' (allowed=false) from the approved matrix
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > enforces 'RESOLVED' -> 'OPEN' (allowed=false) from the approved matrix
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > enforces 'RESOLVED' -> 'IN_PROGRESS' (allowed=false) from the approved matrix
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > enforces 'RESOLVED' -> 'WAITING_FOR_REQUESTER' (allowed=false) from the approved matrix
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > enforces 'RESOLVED' -> 'RESOLVED' (allowed=false) from the approved matrix
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > enforces 'RESOLVED' -> 'CLOSED' (allowed=true) from the approved matrix
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > enforces 'RESOLVED' -> 'REOPENED' (allowed=true) from the approved matrix
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > enforces 'RESOLVED' -> 'CANCELLED' (allowed=false) from the approved matrix
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > enforces 'CLOSED' -> 'NEW' (allowed=false) from the approved matrix
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > enforces 'CLOSED' -> 'OPEN' (allowed=false) from the approved matrix
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > enforces 'CLOSED' -> 'IN_PROGRESS' (allowed=false) from the approved matrix
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > enforces 'CLOSED' -> 'WAITING_FOR_REQUESTER' (allowed=false) from the approved matrix
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > enforces 'CLOSED' -> 'RESOLVED' (allowed=false) from the approved matrix
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > enforces 'CLOSED' -> 'CLOSED' (allowed=false) from the approved matrix
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > enforces 'CLOSED' -> 'REOPENED' (allowed=true) from the approved matrix
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > enforces 'CLOSED' -> 'CANCELLED' (allowed=false) from the approved matrix
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > enforces 'REOPENED' -> 'NEW' (allowed=false) from the approved matrix
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > enforces 'REOPENED' -> 'OPEN' (allowed=false) from the approved matrix
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > enforces 'REOPENED' -> 'IN_PROGRESS' (allowed=true) from the approved matrix
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > enforces 'REOPENED' -> 'WAITING_FOR_REQUESTER' (allowed=true) from the approved matrix
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > enforces 'REOPENED' -> 'RESOLVED' (allowed=true) from the approved matrix
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > enforces 'REOPENED' -> 'CLOSED' (allowed=false) from the approved matrix
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > enforces 'REOPENED' -> 'REOPENED' (allowed=false) from the approved matrix
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > enforces 'REOPENED' -> 'CANCELLED' (allowed=true) from the approved matrix
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > enforces 'CANCELLED' -> 'NEW' (allowed=false) from the approved matrix
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > enforces 'CANCELLED' -> 'OPEN' (allowed=false) from the approved matrix
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > enforces 'CANCELLED' -> 'IN_PROGRESS' (allowed=false) from the approved matrix
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > enforces 'CANCELLED' -> 'WAITING_FOR_REQUESTER' (allowed=false) from the approved matrix
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > enforces 'CANCELLED' -> 'RESOLVED' (allowed=false) from the approved matrix
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > enforces 'CANCELLED' -> 'CLOSED' (allowed=false) from the approved matrix
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > enforces 'CANCELLED' -> 'REOPENED' (allowed=true) from the approved matrix
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > enforces 'CANCELLED' -> 'CANCELLED' (allowed=false) from the approved matrix
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > requires explicit confirmation for 'NEW' -> 'CANCELLED'
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > requires explicit confirmation for 'OPEN' -> 'RESOLVED'
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > requires explicit confirmation for 'OPEN' -> 'CANCELLED'
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > requires explicit confirmation for 'IN_PROGRESS' -> 'RESOLVED'
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > requires explicit confirmation for 'IN_PROGRESS' -> 'CANCELLED'
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > requires explicit confirmation for 'WAITING_FOR_REQUESTER' -> 'RESOLVED'
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > requires explicit confirmation for 'WAITING_FOR_REQUESTER' -> 'CANCELLED'
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > requires explicit confirmation for 'RESOLVED' -> 'CLOSED'
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > requires explicit confirmation for 'REOPENED' -> 'RESOLVED'
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > requires explicit confirmation for 'REOPENED' -> 'CANCELLED'
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > returns a safe conflict when the Ticket status changes before persistence
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > owner assignment accepts only active permitted accounts: 'IT_STAFF' active=true
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > owner assignment accepts only active permitted accounts: 'ADMINISTRATOR' active=true
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > owner assignment accepts only active permitted accounts: 'REQUESTER' active=true
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > owner assignment accepts only active permitted accounts: 'IT_STAFF' active=false
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > owner assignment accepts only active permitted accounts: 'ADMINISTRATOR' active=false
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > permits unassignment without looking up an owner account
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > denies REQUESTER ownership and status mutations before reading Ticket data
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > denies ADMINISTRATOR ownership and status mutations before reading Ticket data
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > applies the IT Priority authorization rule to IT_STAFF
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > applies the IT Priority authorization rule to ADMINISTRATOR
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts > Lab 3 IT Staff Ticket Detail > applies the IT Priority authorization rule to REQUESTER
+ ✓ tests/lab-03/auth.api.test.ts > Lab 3 authentication contract > gates normal routes until password change and revokes the old session
+ ✓ tests/lab-03/auth.api.test.ts > Lab 3 authentication contract > rejects a expired session before querying protected Ticket data
+ ✓ tests/lab-03/auth.api.test.ts > Lab 3 authentication contract > rejects a revoked session before querying protected Ticket data
+ ✓ tests/lab-03/users-admin.api.test.ts > Lab 3 Administrator User Management API > rejects non-Administrators and invalid role filters 311ms
+ ✓ tests/lab-03/auth.api.test.ts > Lab 3 authentication contract > rejects a inactive session before querying protected Ticket data
+ ✓ tests/lab-03/auth.api.test.ts > Lab 3 authentication contract > logout clears the cookie, revokes the session, and blocks reuse of the old token
+ ✓ tests/lab-03/users-admin.api.test.ts > Lab 3 Administrator User Management API > creates an active user with a hashed initial password and forced change
+ ✓ tests/lab-03/users-admin.api.test.ts > Lab 3 Administrator User Management API > rejects duplicate email and invalid create input safely
+ ✓ tests/lab-03/users-admin.api.test.ts > Lab 3 Administrator User Management API > edits permitted account fields and resets the initial password
+ ✓ tests/lab-03/users-admin.api.test.ts > Lab 3 Administrator User Management API > blocks self-deactivation and removal of the last active Administrator
+ ✓ tests/lab-03/users-admin.api.test.ts > Lab 3 Administrator User Management API > prevents demotion of the last active Administrator
+ ✓ tests/lab-03/users-admin.api.test.ts > Lab 3 Administrator User Management API > denies REQUESTER every User Management operation before user queries or writes
+ ✓ tests/lab-03/users-admin.api.test.ts > Lab 3 Administrator User Management API > denies IT_STAFF every User Management operation before user queries or writes
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/lab-03/staff-queue.api.test.ts > Lab 3 IT Staff Queue > keeps count and item retrieval in the same 'ownerId=7&ownership=assigned' filter scope
+AssertionError: expected "spy" to be called with arguments: [ { where: { ownerId: 7 } } ]
+
+Received: 
+
+  1st spy call:
+
+  Array [
+    Object {
+      "where": Object {
+-       "ownerId": 7,
++       "ownerId": Object {
++         "not": null,
++       },
+      },
+    },
+  ]
+
+
+Number of calls: 1
+
+ ❯ tests/lab-03/staff-queue.api.test.ts:85:19
+     83|     const response = await request(app).get(`/api/staff/tickets?${quer…
+     84|     expect(response.status).toBe(200);
+     85|     expect(count).toHaveBeenCalledWith({ where });
+       |                   ^
+     86|     expect(findMany).toHaveBeenCalledWith(expect.objectContaining({ wh…
+     87|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/lab-03/staff-queue.api.test.ts > Lab 3 IT Staff Queue > keeps count and item retrieval in the same 'ownerId=7&ownership=unassigned' filter scope
+AssertionError: expected "spy" to be called with arguments: [ { where: { ownerId: 7, …(1) } } ]
+
+Received: 
+
+  1st spy call:
+
+  Array [
+    Object {
+      "where": Object {
+-       "AND": Array [
+-         Object {
+        "ownerId": null,
+-         },
+-       ],
+-       "ownerId": 7,
+      },
+    },
+  ]
+
+
+Number of calls: 1
+
+ ❯ tests/lab-03/staff-queue.api.test.ts:85:19
+     83|     const response = await request(app).get(`/api/staff/tickets?${quer…
+     84|     expect(response.status).toBe(200);
+     85|     expect(count).toHaveBeenCalledWith({ where });
+       |                   ^
+     86|     expect(findMany).toHaveBeenCalledWith(expect.objectContaining({ wh…
+     87|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+ Test Files  1 failed | 4 passed (5)
+      Tests  2 failed | 149 passed (151)
+   Start at  00:50:40
+   Duration  3.08s (transform 373ms, setup 0ms, collect 2.63s, tests 3.35s, environment 1ms, prepare 1.19s)
+

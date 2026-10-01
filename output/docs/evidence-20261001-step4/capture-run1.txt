@@ -1,0 +1,35 @@
+Captured: authentication/login-1280x900.png Live application with real disposable PostgreSQL data
+Captured: authentication/login-900x900.png Live application with real disposable PostgreSQL data
+Captured: authentication/login-390x844.png Live application with real disposable PostgreSQL data
+Captured: authentication/invalid-login-1280x900.png Live application with real disposable PostgreSQL data
+Captured: authentication/inactive-login-1280x900.png Live application with real disposable PostgreSQL data
+Captured: authentication/mandatory-change-password-1280x900.png Live application with real disposable PostgreSQL data
+Captured: authentication/mandatory-change-password-900x900.png Live application with real disposable PostgreSQL data
+Captured: authentication/mandatory-change-password-390x844.png Live application with real disposable PostgreSQL data
+Captured: authentication/password-confirmation-mismatch-1280x900.png Live application with real disposable PostgreSQL data
+Captured: authentication/logout-api-blocked-1280x900.png Live application with real disposable PostgreSQL data
+Captured: authentication/requester/my-tickets-1280x900.png Live application with real disposable PostgreSQL data
+Captured: authentication/requester/my-tickets-900x900.png Live application with real disposable PostgreSQL data
+Captured: authentication/requester/my-tickets-390x844.png Live application with real disposable PostgreSQL data
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+page.screenshot: Clipped area is either empty or outside the resulting image
+Call log:
+  - taking page screenshot
+  - waiting for fonts to load...
+  - fonts loaded
+
+    at capture (C:\Users\Jitvoottikrai\OneDrive\เดสก์ท็อป\SoftwareEn\LAB1\Lab1_Starter_Scaffold\toktickit-lab3-specification\output\docs\evidence-20261001-step4\capture-evidence.mjs:27:18)
+    at async responsive (C:\Users\Jitvoottikrai\OneDrive\เดสก์ท็อป\SoftwareEn\LAB1\Lab1_Starter_Scaffold\toktickit-lab3-specification\output\docs\evidence-20261001-step4\capture-evidence.mjs:33:110)
+    at async file:///C:/Users/Jitvoottikrai/OneDrive/%E0%B9%80%E0%B8%94%E0%B8%AA%E0%B8%81%E0%B9%8C%E0%B8%97%E0%B9%87%E0%B8%AD%E0%B8%9B/SoftwareEn/LAB1/Lab1_Starter_Scaffold/toktickit-lab3-specification/output/docs/evidence-20261001-step4/capture-evidence.mjs:65:3 {
+  log: [
+    '  - taking page screenshot',
+    '  - waiting for fonts to load...',
+    '  - fonts loaded'
+  ],
+  name: 'Error'
+}
+
+Node.js v24.14.0

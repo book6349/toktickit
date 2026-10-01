@@ -2,6 +2,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import App from "../../src/App.js";
 import * as api from "../../src/api.js";
+import { StaffTicketDetail } from "../../src/staff.js";
 
 const staffUser = {
   id: 7,
@@ -49,6 +50,23 @@ describe("Lab 3 Staff Ticket Detail", () => {
   });
 
   afterEach(() => vi.restoreAllMocks());
+
+  it.each([staffUser, adminUser])("shows a Requester resolution indication without changing formal status for $role", async (user) => {
+    vi.mocked(api.getStaffTicket).mockResolvedValue({ ...ticket, requesterResolutionIndicatedAt: "2026-09-19T11:30:00.000Z" });
+    const updateStatus = vi.spyOn(api, "updateStaffStatus");
+    render(<StaffTicketDetail ticketId={10} user={user} canOperate={user.role === "IT_STAFF"} onBack={vi.fn()} />);
+    expect(await screen.findByRole("heading", { name: "Requester resolution indication" })).toBeInTheDocument();
+    expect(screen.getByText("Requester indicates that the problem appears resolved.")).toBeInTheDocument();
+    expect(screen.getByText(/Formal ticket status is still OPEN/)).toBeInTheDocument();
+    expect(updateStatus).not.toHaveBeenCalled();
+  });
+
+  it.each([staffUser, adminUser])("does not show an indication when none exists for $role", async (user) => {
+    vi.mocked(api.getStaffTicket).mockResolvedValue({ ...ticket, requesterResolutionIndicatedAt: null });
+    render(<StaffTicketDetail ticketId={10} user={user} canOperate={user.role === "IT_STAFF"} onBack={vi.fn()} />);
+    await screen.findByRole("heading", { name: "VPN access request" });
+    expect(screen.queryByRole("heading", { name: "Requester resolution indication" })).not.toBeInTheDocument();
+  });
 
   it("keeps public comments and Internal Notes separate and supports staff operations", async () => {
     vi.spyOn(api, "getCurrentUser").mockResolvedValue({ user: staffUser, mustChangePassword: false });

@@ -1,0 +1,88 @@
+ M .gitignore
+ M artifacts/lab-03/screenshots/accessibility/requester-navigation-keyboard-focus-1280x900.png
+ M artifacts/lab-03/screenshots/accessibility/staff-detail-keyboard-focus-1280x900.png
+ M artifacts/lab-03/screenshots/authentication/requester-regression/desktop-1280x900-my-tickets.png
+ M artifacts/lab-03/screenshots/authentication/requester-regression/mobile-390x844-my-tickets.png
+ M artifacts/lab-03/screenshots/authentication/requester-regression/tablet-900x900-my-tickets.png
+ M artifacts/lab-03/screenshots/authentication/requester-resolution-indicated-1280x900.png
+ M artifacts/lab-03/screenshots/authentication/sign-in-success-1280x900.png
+ M artifacts/lab-03/screenshots/staff-queue/desktop-1280x900-queue.png
+ M artifacts/lab-03/screenshots/staff-queue/mobile-390x844-queue.png
+ M artifacts/lab-03/screenshots/staff-queue/pagination-page-2-1280x900.png
+ M artifacts/lab-03/screenshots/staff-queue/tablet-900x900-queue.png
+ M artifacts/lab-03/screenshots/staff-ticket-detail/desktop-1280x900-detail.png
+ M artifacts/lab-03/screenshots/staff-ticket-detail/migration-preservation-operations-1280x900.png
+ M artifacts/lab-03/screenshots/staff-ticket-detail/mobile-390x844-detail.png
+ M artifacts/lab-03/screenshots/staff-ticket-detail/tablet-900x900-detail.png
+ M artifacts/lab-03/screenshots/user-management/desktop-1280x900-list.png
+ M artifacts/lab-03/screenshots/user-management/mobile-390x844-list.png
+ M artifacts/lab-03/screenshots/user-management/reset-success-1280x900.png
+ M artifacts/lab-03/screenshots/user-management/tablet-900x900-list.png
+ M client/tests/lab-01/App.test.tsx
+ M client/tests/lab-02/AttachmentSection.test.tsx
+ M client/tests/lab-02/CreateTicket.test.tsx
+ M client/tests/lab-02/MyTickets.test.tsx
+ M client/tests/lab-02/RequesterContext.test.tsx
+ M client/tests/lab-02/RequesterTicketDetail.test.tsx
+ M client/tests/lab-02/ui-style.test.tsx
+ M client/tests/lab-03/RequesterWorkflow.test.tsx
+ M docs/lab-03/final-report.md
+ M docs/lab-03/github/tracking-plan.md
+ M docs/lab-03/release-evidence.md
+ M docs/lab-03/reviewer.md
+ M docs/lab-03/screenshot-index.md
+ M docs/lab-03/submission-evidence.md
+ M docs/lab-03/tests.md
+ M e2e/lab-03/authentication.spec.ts
+ M e2e/lab-03/fixtures.ts
+ M e2e/lab-03/staff-ticket-flow.spec.ts
+ M e2e/lab-03/user-administration.spec.ts
+ M package.json
+ M playwright.config.ts
+ M server/package.json
+ M server/src/staff-workflow.ts
+ M server/tests/lab-02/attachments.api.test.ts
+ M server/tests/lab-02/create-ticket.api.test.ts
+ M server/tests/lab-02/my-tickets.api.test.ts
+ M server/tests/lab-02/requester-context.api.test.ts
+ M server/tests/lab-02/ticket-detail.api.test.ts
+ M server/tests/lab-03/auth.api.test.ts
+ M server/tests/lab-03/comments-notes.api.test.ts
+ M server/tests/lab-03/staff-queue.api.test.ts
+ M server/tests/lab-03/staff-ticket-detail.api.test.ts
+ M server/tests/lab-03/users-admin.api.test.ts
+?? build_lab3_report.py
+?? client/tests/lab-03/regression-fixtures.ts
+?? e2e/lab-03/README.md
+?? output/docs/Lab3_Audit_Backup_20260929/
+?? output/docs/evidence-20260929/Lab3_Final_Report_Editable_before_link_repair_20260929.docx
+?? output/docs/evidence-20260929/Lab3_Final_Report_Editable_pre-final-update_20260929.docx
+?? output/docs/evidence-20260929/Lab3_Final_Report_before_final_repair_20260929.pdf
+?? output/docs/evidence-20260929/Lab3_Final_Report_pre-final-update_20260929.pdf
+?? output/docs/evidence-20260929/failed-e2e-first-run/
+?? output/docs/evidence-20260929/failed-e2e-operations-locator/
+?? output/docs/evidence-20260929/failed-e2e-recheck/
+?? output/docs/evidence-20260929/failed-e2e-status-casing/
+?? output/docs/evidence-20260929/make_contact_sheets.py
+?? output/docs/evidence-20260929/pre-docker-e2e-20260929/
+?? output/docs/evidence-20260929/pre-e2e-order-fix/
+?? output/docs/evidence-20260929/rendered-final-delivery-20260929/
+?? output/docs/evidence-20260929/rendered-final-publication-20260929/
+?? output/docs/evidence-20260929/rendered-final-recheck-20260929-final/
+?? output/docs/evidence-20260929/rendered-final-recheck-20260929/
+?? output/docs/evidence-20260929/rendered-final-v2/
+?? output/docs/evidence-20260929/rendered-final-v3/
+?? output/docs/evidence-20260929/rendered-final-v4/
+?? output/docs/evidence-20260929/rendered-final-v5/
+?? output/docs/evidence-20260929/rendered-final-v6/
+?? output/docs/evidence-20260929/rendered-final-v7/
+?? output/docs/evidence-20260929/rendered-final-v8/
+?? output/docs/evidence-20260929/rendered-final-v9/
+?? output/docs/evidence-20260929/rendered-final/
+?? output/docs/evidence-20260929/update_report.py
+?? output/docs/evidence-20260930/
+?? output/docs/evidence-20261001-step1-2/
+?? output/docs/evidence-20261001-step3/
+?? server/prisma/prepare-lab3-e2e.ts
+?? server/tests/lab-03/e2e-fixtures.unit.test.ts
+?? server/tests/lab-03/regression-fixtures.ts

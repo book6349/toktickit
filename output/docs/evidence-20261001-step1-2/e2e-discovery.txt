@@ -1,0 +1,17 @@
+Listing tests:
+  [chromium] › lab-03\authentication.spec.ts:15:3 › Lab 3 authentication and Requester regression › valid login, first-login change, role shell, logout, and direct blocking
+  [chromium] › lab-03\authentication.spec.ts:33:3 › Lab 3 authentication and Requester regression › invalid and inactive accounts receive safe sign-in failure
+  [chromium] › lab-03\authentication.spec.ts:50:3 › Lab 3 authentication and Requester regression › Requester can create, open, comment, and indicate resolution
+  [chromium] › lab-03\authentication.spec.ts:73:3 › Lab 3 authentication and Requester regression › Requester shell is captured at required responsive sizes
+  [chromium] › lab-03\staff-ticket-flow.spec.ts:5:3 › Lab 3 IT Staff Queue and Ticket Detail › IT Staff can search Queue, open Detail, and see separate comments and notes
+  [chromium] › lab-03\staff-ticket-flow.spec.ts:23:3 › Lab 3 IT Staff Queue and Ticket Detail › IT Staff Queue and Detail are captured at required responsive sizes
+  [chromium] › lab-03\staff-ticket-flow.spec.ts:30:3 › Lab 3 IT Staff Queue and Ticket Detail › IT Staff can advance to a populated second Queue page
+  [chromium] › lab-03\staff-ticket-flow.spec.ts:46:3 › Lab 3 IT Staff Queue and Ticket Detail › preserves migrated Attachment and verifies reassignment, priority, and status operations
+  [chromium] › lab-03\user-administration.spec.ts:5:3 › Lab 3 Administrator User Management › Administrator can list, search, create, edit, reset, and require the new initial password at next login
+  [chromium] › lab-03\user-administration.spec.ts:60:3 › Lab 3 Administrator User Management › Administrator navigation excludes Queue and direct Ticket Detail remains explicit
+  [chromium] › lab-03\user-administration.spec.ts:70:3 › Lab 3 Administrator User Management › Administrator User Management is captured at required responsive sizes
+  [chromium] › lab-03\z-accessibility-evidence.spec.ts:24:3 › Lab 3 accessibility and transient-state evidence › captures the visible sign-in busy state and successful destination
+  [chromium] › lab-03\z-accessibility-evidence.spec.ts:40:3 › Lab 3 accessibility and transient-state evidence › completes a keyboard-only sign-in and reaches requester navigation
+  [chromium] › lab-03\z-accessibility-evidence.spec.ts:55:3 › Lab 3 accessibility and transient-state evidence › traverses the IT Staff Queue and opens Ticket Detail with the keyboard
+  [chromium] › lab-03\z-accessibility-evidence.spec.ts:67:3 › Lab 3 accessibility and transient-state evidence › traverses Administrator User Management and opens Create User with the keyboard
+Total: 15 tests in 4 files

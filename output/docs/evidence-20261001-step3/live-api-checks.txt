@@ -1,0 +1,8 @@
+Executed live API checks: 2026-09-30T18:22:22.628Z database: toktickit_lab3_e2e_20261001_run1
+Own Administrator removal rejected: {"isActive":false} 403 {"error":{"code":"FORBIDDEN","message":"You cannot deactivate or demote your own Administrator account.","fields":{"isActive":"Keep your own Administrator account active."}}}
+Own Administrator removal rejected: {"role":"IT_STAFF"} 403 {"error":{"code":"FORBIDDEN","message":"You cannot deactivate or demote your own Administrator account.","fields":{"isActive":"Keep your own Administrator account active."}}}
+Last-active-Administrator invariant retained in real database. These requests execute the self-protection guard, not the separate LAST_ADMINISTRATOR branch.
+Non-Administrator User Management denial: ariya.somchai@example.com 403 {"error":{"code":"FORBIDDEN","message":"You do not have permission to perform this action."}}
+Migrated Attachment download: 200 17 bytes; SHA256: cc7098632c30d31ed81ff5936a75a027f3136024cb96efd35e8fe3f9b4d3cfaf
+Non-Administrator User Management denial: somchai.staff@example.com 403 {"error":{"code":"FORBIDDEN","message":"You do not have permission to perform this action."}}
+All live assertions passed. No pre-existing application database was used.

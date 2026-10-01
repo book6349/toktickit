@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { captureRequiredViewports, changedPassword, signInAndUnlock, staffEmail } from "./fixtures";
+import { captureRequiredViewports, changedPassword, getE2EFixtures, signInAndUnlock, staffEmail } from "./fixtures";
 
 test.describe("Lab 3 IT Staff Queue and Ticket Detail", () => {
   test("IT Staff can search Queue, open Detail, and see separate comments and notes", async ({ page }) => {
@@ -30,11 +30,12 @@ test.describe("Lab 3 IT Staff Queue and Ticket Detail", () => {
   test("IT Staff can advance to a populated second Queue page", async ({ page }) => {
     await signInAndUnlock(page, staffEmail, changedPassword);
     await expect(page.getByRole("heading", { name: "Ticket Queue" })).toBeVisible();
-    await expect(page.getByText("Page 1 of 3")).toBeVisible();
+    await expect(page.getByText(/^Page 1 of \d+$/)).toBeVisible();
+    await expect(page.getByRole("button", { name: "Next", exact: true })).toBeEnabled();
     const firstPageTicket = await page.locator(".staff-ticket-row").first().innerText();
 
     await page.getByRole("button", { name: "Next", exact: true }).click();
-    await expect(page.getByText("Page 2 of 3")).toBeVisible();
+    await expect(page.getByText(/^Page 2 of \d+$/)).toBeVisible();
     await expect(page.locator(".staff-ticket-row").first()).not.toHaveText(firstPageTicket);
     await page.screenshot({
       path: "artifacts/lab-03/screenshots/staff-queue/pagination-page-2-1280x900.png",
@@ -52,7 +53,7 @@ test.describe("Lab 3 IT Staff Queue and Ticket Detail", () => {
     await expect(page.locator('section[aria-labelledby="staff-detail-heading"]')).toBeVisible();
     await expect(page.getByText("baseline.txt", { exact: true })).toBeVisible();
 
-    await page.getByLabel("Assign owner ID").fill("7");
+    await page.getByLabel("Assign owner ID").fill(String(getE2EFixtures().reassignmentOwnerId));
     await page.getByRole("button", { name: "Assign owner" }).click();
     await expect(page.getByRole("status")).toContainText("Ownership updated.");
     await expect(page.locator(".detail-grid")).toContainText("Kanya Staff");
@@ -70,5 +71,15 @@ test.describe("Lab 3 IT Staff Queue and Ticket Detail", () => {
       path: "artifacts/lab-03/screenshots/staff-ticket-detail/migration-preservation-operations-1280x900.png",
       fullPage: true,
     });
+  });
+  test("Staff sees the Requester resolution indication without a formal status change", async ({ page }) => {
+    await signInAndUnlock(page, staffEmail, changedPassword);
+    await page.getByLabel("Search tickets").fill("E2E request");
+    await page.getByRole("button", { name: "Apply filters" }).click();
+    await expect(page.locator(".staff-ticket-row")).toHaveCount(1);
+    await page.getByRole("button", { name: "Open Detail" }).click();
+    await expect(page.getByRole("region", { name: "Requester resolution indication" })).toContainText("Formal ticket status is still NEW");
+    await expect(page.getByText("Requester indicates that the problem appears resolved.")).toBeVisible();
+    await captureRequiredViewports(page, "staff-ticket-detail/requester-resolution", "indication");
   });
 });

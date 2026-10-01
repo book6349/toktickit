@@ -2,6 +2,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import App from "../../src/App.js";
 import * as api from "../../src/api.js";
+import { mockRequesterSession } from "../lab-03/regression-fixtures.js";
 
 const ticket = {
   id: 10,
@@ -33,18 +34,13 @@ const ticketPage = (page: number, totalPages: number, items = [ticket]) => ({
 
 async function enterDesk() {
   render(<App />);
-  await waitFor(() => expect(screen.getByRole("option", { name: /Ariya Somchai/i })).toBeInTheDocument());
-  fireEvent.change(screen.getByLabelText("Requester"), { target: { value: "1" } });
-  fireEvent.click(screen.getByRole("button", { name: "Continue" }));
   await waitFor(() => expect(screen.getByRole("heading", { name: "My tickets" })).toBeInTheDocument());
 }
 
 describe("Lab 2 My Tickets", () => {
   beforeEach(() => {
     window.sessionStorage.clear();
-    vi.spyOn(api, "getActiveRequesters").mockResolvedValue([
-      { id: 1, name: "Ariya Somchai", email: "ariya@example.com" },
-    ]);
+    mockRequesterSession();
     vi.spyOn(api, "getReferenceData").mockResolvedValue({
       categories: [{ id: 2, name: "Hardware" }],
       relatedSystems: [{ id: 3, name: "VPN" }],
@@ -59,7 +55,7 @@ describe("Lab 2 My Tickets", () => {
     const listTickets = vi.spyOn(api, "listTickets").mockResolvedValue(ticketPage(1, 1));
     await enterDesk();
 
-    await waitFor(() => expect(listTickets).toHaveBeenCalledWith(1, expect.objectContaining({
+    await waitFor(() => expect(listTickets).toHaveBeenCalledWith(expect.objectContaining({
       search: "",
       status: "",
       sortBy: "updatedAt",
@@ -77,7 +73,7 @@ describe("Lab 2 My Tickets", () => {
     fireEvent.change(screen.getByLabelText("Tickets per page"), { target: { value: "20" } });
     fireEvent.click(screen.getByRole("button", { name: "Apply filters" }));
 
-    await waitFor(() => expect(listTickets).toHaveBeenLastCalledWith(1, {
+    await waitFor(() => expect(listTickets).toHaveBeenLastCalledWith({
       search: "VPN",
       categoryId: 2,
       requestedPriority: "HIGH",
@@ -92,7 +88,7 @@ describe("Lab 2 My Tickets", () => {
 
   it("supports pagination and distinguishes a filtered no-results state", async () => {
     const secondTicket = { ...ticket, id: 11, ticketNumber: "TT-20260824-000011" };
-    const listTickets = vi.spyOn(api, "listTickets").mockImplementation(async (_requesterId, params = {}) => {
+    const listTickets = vi.spyOn(api, "listTickets").mockImplementation(async (params: any = {}) => {
       if (params.page === 2) return ticketPage(2, 2, [secondTicket]);
       if (params.search) return ticketPage(1, 0, []);
       return ticketPage(1, 2);
@@ -101,7 +97,7 @@ describe("Lab 2 My Tickets", () => {
 
     await waitFor(() => expect(screen.getByRole("button", { name: "Next" })).toBeEnabled());
     fireEvent.click(screen.getByRole("button", { name: "Next" }));
-    await waitFor(() => expect(listTickets).toHaveBeenLastCalledWith(1, expect.objectContaining({ page: 2 })));
+    await waitFor(() => expect(listTickets).toHaveBeenLastCalledWith(expect.objectContaining({ page: 2 })));
     expect(screen.getByText(secondTicket.ticketNumber)).toBeInTheDocument();
 
     fireEvent.change(screen.getByLabelText("Search tickets"), { target: { value: "does-not-exist" } });
@@ -109,6 +105,6 @@ describe("Lab 2 My Tickets", () => {
     await waitFor(() => expect(screen.getByText("No matching tickets")).toBeInTheDocument());
     fireEvent.click(screen.getByRole("button", { name: "Clear filters" }));
     await waitFor(() => expect(screen.getByText(ticket.ticketNumber)).toBeInTheDocument());
-    expect(listTickets).toHaveBeenLastCalledWith(1, expect.objectContaining({ search: "", page: 1 }));
+    expect(listTickets).toHaveBeenLastCalledWith(expect.objectContaining({ search: "", page: 1 }));
   });
 });

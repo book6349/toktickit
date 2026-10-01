@@ -1,13 +1,25 @@
 # Lab 3 GitHub Tracking Plan
 
-Status: Historical plan for the approved five-unit Lab 3 workflow. Issues
-#36-#40, feature PRs #41-#45, and release PR #46 were created and completed.
-See `../reviewer.md` for the observed GitHub record. The files in this folder
-remain copy-ready templates; their placeholders are not evidence of Issues,
-PRs, reviews, approvals, merges, or board changes. A post-audit correction now
-uses existing Issue #40; PR #47 is open to `lab3-staging` and pending Punge089's
-review. No additional Issue was created, and the follow-up release PR is not
-open.
+## Authorized final audit follow-up 2026-10-01
+
+The user authorized publication of the local audit repairs after step 5.
+Reuse `feature/lab3-submission-corrections` for one follow-up PR into
+`lab3-staging`, request Punge089 review, and link existing Issue #40 through
+Development metadata. Do not create another Issue or open the release early.
+The reviewer, not the author, approves and merges. Only then prepare the
+reviewed `lab3-staging` to `main` release and run clean-main verification.
+The original five-unit history and closed Issue states remain historical;
+this follow-up does not claim that new reviews, merges or final-main passes
+have occurred. PR numbers will be recorded only after actual creation.
+
+Status: The approved five-unit Lab 3 workflow, post-audit PR #47, and release
+PR #48 are complete. Issues #36-#40 are closed; Issue #40 is `Done` on the
+project board. PR #47 merged to `lab3-staging` as `7d8ee7a`; PR #48 promoted
+`lab3-staging` to `main` as `0353a40`. See `../reviewer.md` for observed
+GitHub review, reply, approval, merge, and board records. The files in this
+folder remain copy-ready templates; placeholders are not evidence of GitHub
+events. No additional Issue is planned; the authorized follow-up above is
+separate from this completed historical record.
 
 ## Five approved units
 
@@ -17,24 +29,25 @@ open.
 | 2. Authentication and Requester regression | #37 | `feature/lab3-auth-requester` | #42 | `lab3-staging` | Merged |
 | 3. IT Staff workflow | #38 | `feature/lab3-staff-workflow` | #43 | `lab3-staging` | Merged |
 | 4. Administrator user management | #39 | `feature/lab3-admin-users` | #44 | `lab3-staging` | Merged |
-| 5. E2E, visual evidence, and integration | #40 | `feature/lab3-integration-evidence` | #45 | `lab3-staging` | PR #45 and release PR #46 to `main` merged |
+| 5. E2E, visual evidence, and integration | #40 | `feature/lab3-integration-evidence` | #45 | `lab3-staging` | PR #45, follow-up #47, and release PR #48 merged; Issue #40 Done / closed |
 
 At planning time, the first PR was documentation-only and the remaining PRs
 were held until dependencies were ready. All five units have since completed;
 the actual review and merge events are recorded in `../reviewer.md`.
 
-## Post-audit follow-up (existing Issue #40)
+## Completed post-audit follow-up (existing Issue #40)
 
-- [PR #47](https://github.com/book6349/toktickit/pull/47) uses
-  `feature/lab3-submission-corrections` and targets `lab3-staging`.
-- GitHub's Development panel links PR #47 to [Issue #40](https://github.com/book6349/toktickit/issues/40).
-- Issue #40 is open and its board status is `PR Review`; Punge089's review is
-  requested and pending.
-- Do not merge PR #47 as the author. The reviewer must review, receive replies
-  to any comments, approve, and merge it. Only afterward prepare and review the
-  follow-up release PR from `lab3-staging` to `main`.
-- Keep Issue #40 open until the follow-up release is reviewed and merged and
-  the documented workflow permits closure.
+- [PR #47](https://github.com/book6349/toktickit/pull/47) used
+  `feature/lab3-submission-corrections`, targeted `lab3-staging`, and linked to
+  [Issue #40](https://github.com/book6349/toktickit/issues/40) through GitHub's
+  Development panel. Punge089 reviewed, received the author's reply, approved,
+  and merged it as `7d8ee7acb09c76e06ca1bec5b1f5410452b8f2d7`.
+- [PR #48](https://github.com/book6349/toktickit/pull/48) promoted
+  `lab3-staging` to `main`, linked to Issue #40, and was reviewed, replied to,
+  approved, and merged by Punge089 as
+  `0353a4052c4a6d7ead9ddfb9b7c682d3e7958d02`.
+- Issue #40 is closed and its board status is `Done`. No extra Issue was
+  created. No additional GitHub action is implied by this historical plan.
 
 ## Approved posting order (historical)
 
