@@ -1,5 +1,23 @@
 # Lab 3 Reviewer and Workflow Evidence
 
+## Current follow-up PR 2026-10-01
+
+[PR #49](https://github.com/book6349/toktickit/pull/49) is open from
+`feature/lab3-submission-corrections` to `lab3-staging`, containing the audit
+repair commit `1b4840789be603f079e6fa74c571b351f9f21b13`. Existing Issue #40
+was linked using the Development picker and visibly confirmed in the PR
+sidebar. [Punge089's review was requested](https://github.com/book6349/toktickit/pull/49#event-32219868430).
+No review comment, author reply, approval or merge is yet recorded for #49.
+There were no merge conflicts when the PR was opened. GitHub shows zero CI
+checks; local test output must not be described as a GitHub CI pass.
+
+No new Issue, board change or release PR was created. Existing Issue #40
+remains historically closed/Done. Await the designated reviewer and keep any
+requested fixes in #49. After reviewed staging integration, prepare the
+reviewed staging-to-main release and run clean-main verification.
+The integration collaborator-permission endpoint returned 403; actual reviewer
+access is not asserted solely from the successful review request.
+
 ## Current local verification 2026-10-01
 
 The approved local repairs now pass 190 server tests, 36 client tests, both

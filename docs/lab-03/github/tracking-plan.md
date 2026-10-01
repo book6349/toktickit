@@ -6,6 +6,8 @@ The user authorized publication of the local audit repairs after step 5.
 Reuse `feature/lab3-submission-corrections` for one follow-up PR into
 `lab3-staging`, request Punge089 review, and link existing Issue #40 through
 Development metadata. Do not create another Issue or open the release early.
+PR #49 is now open at https://github.com/book6349/toktickit/pull/49, with
+Punge089 review requested and Issue #40 linked through Development.
 The reviewer, not the author, approves and merges. Only then prepare the
 reviewed `lab3-staging` to `main` release and run clean-main verification.
 The original five-unit history and closed Issue states remain historical;
