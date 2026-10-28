@@ -1,6 +1,16 @@
 # Lab 3 GitHub Tracking Plan
 
-## Authorized final audit follow-up 2026-10-01
+## Current completed workflow, verified 2026-10-28
+
+The original five Lab 3 Issues (#36–#40), feature PRs #41–#45, correction PRs #47/#49, and release PRs #46/#48/#50 are complete. PR #49 merged to lab3-staging at c90ab97c2ba91a22240654f23c8007559070f5ca; reviewed PR #50 promoted that release to main at 1345e53589f1bede7acb7742ba6f8f36b88e59cc. Punge089 approved and merged both release steps.
+
+Issue #40 is closed and its project status is Done; the issue page and project field were freshly inspected on 2026-10-28. Issues #36–#39 were last card-by-card verified closed/Done on 2026-10-01. The project is Public; an unauthenticated access check on 2026-10-28 returned HTTP 200. Public visibility is separate from each card’s status.
+
+Final-main verification at 1345e53589f1bede7acb7742ba6f8f36b88e59cc passed 190 server tests, 36 client tests, 16 Chromium E2E scenarios, both builds, Prisma validation, migration preservation, and seed-twice checks. See reviewer.md, release-evidence.md, tests.md, and screenshot-index.md for dated evidence and limitations. These historical records do not claim that the Lab 4 documentation change has changed or re-tested application source.
+
+The sections below are dated records. Headings that say “historical” or “before review” describe the state at that time, not current blockers.
+
+## Historical authorization and PR opening record 2026-10-01
 
 The user authorized publication of the local audit repairs after step 5.
 Reuse `feature/lab3-submission-corrections` for one follow-up PR into
@@ -14,7 +24,7 @@ The original five-unit history and closed Issue states remain historical;
 this follow-up does not claim that new reviews, merges or final-main passes
 have occurred. PR numbers will be recorded only after actual creation.
 
-Status: The approved five-unit Lab 3 workflow, post-audit PR #47, and release
+Historical status after PR #48: The approved five-unit Lab 3 workflow, post-audit PR #47, and release
 PR #48 are complete. Issues #36-#40 are closed; Issue #40 is `Done` on the
 project board. PR #47 merged to `lab3-staging` as `7d8ee7a`; PR #48 promoted
 `lab3-staging` to `main` as `0353a40`. See `../reviewer.md` for observed
