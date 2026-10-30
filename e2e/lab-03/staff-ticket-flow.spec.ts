@@ -17,7 +17,7 @@ test.describe("Lab 3 IT Staff Queue and Ticket Detail", () => {
     await expect(page.getByLabel("Add a public comment")).toBeVisible();
     await expect(page.getByLabel("Add an Internal Note")).toBeVisible();
     await page.getByRole("button", { name: "Claim as me" }).click();
-    await expect(page.getByRole("status")).toContainText("Ticket claimed");
+    await expect(page.getByText("Ticket claimed.", { exact: true })).toBeVisible();
   });
 
   test("IT Staff Queue and Detail are captured at required responsive sizes", async ({ page }) => {
@@ -55,17 +55,17 @@ test.describe("Lab 3 IT Staff Queue and Ticket Detail", () => {
 
     await page.getByLabel("Assign owner ID").fill(String(getE2EFixtures().reassignmentOwnerId));
     await page.getByRole("button", { name: "Assign owner" }).click();
-    await expect(page.getByRole("status")).toContainText("Ownership updated.");
+    await expect(page.getByText("Ownership updated.", { exact: true })).toBeVisible();
     await expect(page.locator(".detail-grid")).toContainText("Kanya Staff");
 
     await page.getByLabel("IT Priority", { exact: true }).selectOption("LOW");
     await page.getByRole("button", { name: "Save IT Priority" }).click();
-    await expect(page.getByRole("status")).toContainText("IT Priority updated.");
+    await expect(page.getByText("IT Priority updated.", { exact: true })).toBeVisible();
     await expect(page.locator(".detail-grid").getByText("LOW", { exact: true })).toBeVisible();
 
     await page.getByLabel("Next status").selectOption("OPEN");
     await page.getByRole("button", { name: "Update status" }).click();
-    await expect(page.getByRole("status")).toContainText("Status updated.");
+    await expect(page.getByText("Status updated.", { exact: true })).toBeVisible();
     await expect(page.locator('section[aria-labelledby="staff-detail-heading"] .status-pill').first()).toHaveText("OPEN");
     await page.screenshot({
       path: "artifacts/lab-03/screenshots/staff-ticket-detail/migration-preservation-operations-1280x900.png",

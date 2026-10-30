@@ -62,6 +62,48 @@ export interface Ticket {
   attachments: Attachment[];
 }
 
+export type ActionStatus = "PLANNED" | "IN_PROGRESS" | "COMPLETED" | "CANCELLED";
+
+export interface ActionPerson {
+  id: number;
+  name: string;
+}
+
+export interface ActionTaken {
+  id: number;
+  ticketId: number;
+  actionDateTime: string;
+  description: string;
+  result: string;
+  performedBy: ActionPerson;
+  assignee: ActionPerson;
+  status: ActionStatus;
+  followUpRequired: boolean;
+  followUpNote: string | null;
+  attachmentNotes: string | null;
+  version: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ActionTakenInput {
+  actionDateTime: string;
+  description: string;
+  result: string;
+  assigneeId: number;
+  status: ActionStatus;
+  followUpRequired: boolean;
+  followUpNote: string | null;
+  attachmentNotes: string | null;
+}
+
+export type ActionTakenEdit = Omit<ActionTakenInput, "status">;
+
+export interface ActionAssignee {
+  id: number;
+  name: string;
+}
+
 export interface PublicComment {
   id: number;
   ticketId: number;
@@ -331,6 +373,39 @@ export async function getTicket(first: number, second?: number): Promise<Ticket>
   const ticketId = second ?? first;
   const data = await request<{ ticket: Ticket }>("/api/tickets/" + ticketId);
   return data.ticket;
+}
+
+export async function getActionsTaken(ticketId: number): Promise<{ items: ActionTaken[]; ticketId: number; readOnly: boolean }> {
+  return request<{ items: ActionTaken[]; ticketId: number; readOnly: boolean }>(`/api/tickets/${ticketId}/actions`);
+}
+
+export async function getActionAssignees(ticketId: number): Promise<ActionAssignee[]> {
+  const data = await request<{ items: ActionAssignee[] }>(`/api/tickets/${ticketId}/action-assignees`);
+  return data.items;
+}
+
+export async function createActionTaken(ticketId: number, payload: ActionTakenInput, idempotencyKey: string): Promise<ActionTaken> {
+  return request<ActionTaken>(`/api/tickets/${ticketId}/actions`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "Idempotency-Key": idempotencyKey },
+    body: JSON.stringify(payload),
+  });
+}
+
+export async function updateActionTaken(ticketId: number, actionId: number, expectedVersion: number, payload: ActionTakenEdit): Promise<ActionTaken> {
+  return request<ActionTaken>(`/api/tickets/${ticketId}/actions/${actionId}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ expectedVersion, ...payload }),
+  });
+}
+
+export async function changeActionTakenStatus(ticketId: number, actionId: number, expectedVersion: number, status: ActionStatus): Promise<ActionTaken> {
+  return request<ActionTaken>(`/api/tickets/${ticketId}/actions/${actionId}/status`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ expectedVersion, status }),
+  });
 }
 
 export async function uploadAttachments(ticketId: number, files: File[]): Promise<Attachment[]>;

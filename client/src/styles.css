@@ -132,6 +132,31 @@ textarea { resize: vertical; line-height: 1.5; }
 .inline-reset-form { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto; gap: .75rem; align-items: end; }
 .inline-reset-form label { grid-column: 1 / -1; }
 
+.actions-taken-panel { margin: 0; background: #fcfffd; }
+.actions-heading { align-items: center; }
+.actions-list { list-style: none; padding: 0; margin: 1rem 0 0; display: grid; gap: .8rem; }
+.action-card { min-width: 0; padding: 1rem; border: 1px solid var(--line); border-radius: 12px; background: #fff; }
+.action-card-heading { display: flex; justify-content: space-between; align-items: start; gap: 1rem; }
+.action-card-heading h4 { margin: 0; color: var(--zen-green-950); overflow-wrap: anywhere; }
+.action-card-heading .eyebrow { letter-spacing: .02em; }
+.action-status { flex: 0 0 auto; }
+.action-result { margin: .75rem 0; color: #375049; white-space: pre-wrap; overflow-wrap: anywhere; }
+.action-meta { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem 1rem; margin: 0; }
+.action-meta dt { color: var(--muted); font-size: .8rem; }
+.action-meta dd { margin: .15rem 0 0; font-weight: 650; overflow-wrap: anywhere; white-space: pre-wrap; }
+.action-meta-wide { grid-column: 1 / -1; }
+.action-controls { align-items: center; margin-top: 1rem; padding-top: .8rem; border-top: 1px solid var(--line); }
+.action-transition-label { font-size: .9rem; }
+.action-controls select { width: auto; min-width: 12rem; }
+.actions-form { display: grid; gap: 1rem; margin-top: 1rem; padding: 1rem; border: 1px solid var(--line); border-radius: 12px; background: #f9fcfa; }
+.actions-form h4 { margin: 0; color: var(--zen-green-950); }
+.actions-form .notice { margin: 0; }
+.actions-form .notice ul { margin-bottom: 0; }
+.action-form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+.action-field-wide { grid-column: 1 / -1; }
+.actions-form-actions { gap: .75rem; }
+.actions-form-actions .primary-button { min-width: 9rem; }
+
 @media (max-width: 700px) {
   .gate-card { margin-top: 1rem; padding: 1.4rem; }
   .topbar { align-items: start; flex-direction: column; }
@@ -152,4 +177,11 @@ textarea { resize: vertical; line-height: 1.5; }
   .inline-reset-form { grid-template-columns: 1fr; }
   .inline-reset-form label { grid-column: auto; }
   .inline-reset-form .secondary-button { width: 100%; }
+  .action-form-grid, .action-meta { grid-template-columns: 1fr; }
+  .action-field-wide, .action-meta-wide { grid-column: auto; }
+  .action-card-heading { align-items: start; flex-direction: column; }
+  .action-controls { align-items: stretch; flex-direction: column; }
+  .action-controls select, .action-controls .secondary-button { width: 100%; }
+  .actions-form-actions { flex-direction: column-reverse; }
+  .actions-form-actions button { width: 100%; }
 }
