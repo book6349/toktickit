@@ -15,6 +15,7 @@ import {
   updateStaffStatus,
   User,
 } from "./api.js";
+import { ActionsTakenPanel } from "./ActionsTaken.js";
 
 type AsyncStatus = "idle" | "loading" | "ready" | "error";
 type Priority = "LOW" | "MEDIUM" | "HIGH";
@@ -270,6 +271,7 @@ export function StaffTicketDetail(props: { ticketId: number; user: User; canOper
         {actionMessage && <div className="notice success" role="status">{actionMessage}</div>}
         <dl className="detail-grid"><div><dt>Requester</dt><dd>{personLabel(ticket.requester)}</dd></div><div><dt>Category</dt><dd>{ticket.category?.name || "—"}</dd></div><div><dt>Related system</dt><dd>{ticket.relatedSystem?.name || "—"}</dd></div><div><dt>Created</dt><dd>{formatDate(ticket.createdAt)}</dd></div><div><dt>Updated</dt><dd>{formatDate(ticket.updatedAt)}</dd></div><div><dt>Requested priority</dt><dd><span className={`priority ${ticket.requestedPriority.toLowerCase()}`}>{ticket.requestedPriority}</span></dd></div><div><dt>IT priority</dt><dd><span className={`priority ${(ticket.itPriority || ticket.requestedPriority).toLowerCase()}`}>{ticket.itPriority || ticket.requestedPriority}</span></dd></div><div><dt>Owner</dt><dd>{personLabel(ticket.owner)}</dd></div></dl>
         <div className="description-block"><h3>Description</h3><p>{ticket.description}</p></div>
+        <ActionsTakenPanel ticketId={props.ticketId} role={props.user.role} />
         {ticket.requesterResolutionIndicatedAt && <section className="description-block resolution-panel" aria-labelledby="requester-resolution-heading">
           <h3 id="requester-resolution-heading">Requester resolution indication</h3>
           <p>Requester indicates that the problem appears resolved.</p>

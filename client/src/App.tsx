@@ -22,6 +22,7 @@ import {
 } from "./api.js";
 import { AdminDirectDetail, StaffWorkspace } from "./staff.js";
 import { AdminWorkspace } from "./admin.js";
+import { ActionsTakenPanel } from "./ActionsTaken.js";
 
 type View = "list" | "create" | "detail";
 type AsyncStatus = "idle" | "loading" | "ready" | "error";
@@ -617,6 +618,7 @@ function TicketDetailView(props: { ticketId: number; onBack: () => void }) {
           <div className="section-heading"><div><p className="eyebrow">{ticket.ticketNumber}</p><h2 id="detail-heading">{ticket.summary}</h2></div><span className="status-pill">{ticket.status}</span></div>
           <dl className="detail-grid"><div><dt>Category</dt><dd>{ticket.category?.name || "—"}</dd></div><div><dt>Related system</dt><dd>{ticket.relatedSystem?.name || "—"}</dd></div><div><dt>Priority</dt><dd><span className={"priority " + ticket.requestedPriority.toLowerCase()}>{ticket.requestedPriority}</span></dd></div><div><dt>Submitted</dt><dd>{formatDate(ticket.createdAt)}</dd></div></dl>
           <div className="description-block"><h3>Description</h3><p>{ticket.description}</p></div>
+          <ActionsTakenPanel ticketId={props.ticketId} role="REQUESTER" />
           <div className="comments-block description-block"><div className="section-heading compact"><div><h3>Public comments</h3><p className="field-help">Comments are visible to the service desk team.</p></div><span className="status-pill">{comments.length}</span></div><ul className="file-list">{comments.map((comment) => <li key={comment.id}><span><strong>{comment.author.name}</strong> · {formatDate(comment.createdAt)}<br />{comment.content}</span></li>)}</ul><form className="requester-form" onSubmit={(event) => void submitComment(event)}><label htmlFor="public-comment">Add a public comment</label><textarea id="public-comment" value={commentContent} onChange={(event) => setCommentContent(event.target.value)} maxLength={4000} rows={4} required /><button className="secondary-button" type="submit" disabled={commentStatus === "loading"}>{commentStatus === "loading" ? "Adding…" : "Add comment"}</button></form><div className="resolution-panel"><p><strong>Problem appears resolved?</strong> This does not change the formal ticket status.</p><button className="secondary-button" type="button" onClick={() => void toggleResolution()}>{resolvedStatus ? "Clear resolved indication" : "Mark as appears resolved"}</button>{resolvedStatus && <span className="field-help" role="status">Marked as appears resolved.</span>}</div></div>
           <div className="attachments-block"><div className="section-heading compact"><div><h3>Attachments</h3><p className="field-help">Active files can be downloaded or removed.</p></div><label className="secondary-button upload-label" htmlFor="detail-upload">Add files<input id="detail-upload" type="file" multiple accept=".jpg,.jpeg,.png,.webp,.pdf,image/jpeg,image/png,image/webp,application/pdf" onChange={chooseUpload} /></label></div>
             {uploadStatus === "loading" && <div className="notice info">Uploading…</div>}
