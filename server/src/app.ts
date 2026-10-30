@@ -4,6 +4,7 @@ import { registerLab2Routes } from "./lab2.js";
 import { registerAuthRoutes } from "./auth.js";
 import { registerRequesterRegressionRoutes } from "./requester-regression.js";
 import { registerStaffWorkflowRoutes } from "./staff-workflow.js";
+import { registerActionsTakenRoutes } from "./actions-taken.js";
 import { registerAdminUserRoutes } from "./admin-users.js";
 
 // The Express app is exported separately from app.listen() (see index.ts) so
@@ -28,5 +29,6 @@ registerLab2Routes(app);
 registerRequesterRegressionRoutes(app);
 registerStaffWorkflowRoutes(app);
 registerAdminUserRoutes(app);
+registerActionsTakenRoutes(app);
 
 export default app;

@@ -19,34 +19,38 @@ model Category {
 }
 
 model User {
-  id                  Int              @id @default(autoincrement())
-  name                String
-  email               String           @unique
-  passwordHash        String           @default("")
-  role                UserRole         @default(REQUESTER)
-  isActive            Boolean          @default(true)
-  mustChangePassword  Boolean          @default(true)
-  createdAt           DateTime         @default(now())
-  updatedAt           DateTime         @updatedAt
-  tickets             Ticket[]         @relation("RequesterTickets")
-  ownedTickets        Ticket[]         @relation("TicketOwners")
-  removedAttachments  Attachment[]     @relation("RemovedByRequester")
-  comments            PublicComment[]  @relation("CommentAuthors")
-  notes               InternalNote[]   @relation("NoteAuthors")
-  sessions            Session[]
+  id                 Int                   @id @default(autoincrement())
+  name               String
+  email              String                @unique
+  passwordHash       String                @default("")
+  role               UserRole              @default(REQUESTER)
+  isActive           Boolean               @default(true)
+  mustChangePassword Boolean               @default(true)
+  createdAt          DateTime              @default(now())
+  updatedAt          DateTime              @updatedAt
+  tickets            Ticket[]              @relation("RequesterTickets")
+  ownedTickets       Ticket[]              @relation("TicketOwners")
+  removedAttachments Attachment[]          @relation("RemovedByRequester")
+  comments           PublicComment[]       @relation("CommentAuthors")
+  notes              InternalNote[]        @relation("NoteAuthors")
+  sessions           Session[]
+  actionsPerformed   ActionTaken[]         @relation("ActionPerformers")
+  actionsAssigned    ActionTaken[]         @relation("ActionAssignees")
+  actionEvents       ActionTakenEvent[]    @relation("ActionEventActors")
+  actionRequests     ActionCreateRequest[] @relation("ActionRequestActors")
 
-  @@map("RequesterUser")
   @@index([role, isActive])
+  @@map("RequesterUser")
 }
 
 model Session {
-  id         Int       @id @default(autoincrement())
-  tokenHash  String    @unique
-  userId     Int
-  createdAt  DateTime  @default(now())
-  expiresAt  DateTime
-  revokedAt  DateTime?
-  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id        Int       @id @default(autoincrement())
+  tokenHash String    @unique
+  userId    Int
+  createdAt DateTime  @default(now())
+  expiresAt DateTime
+  revokedAt DateTime?
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId, revokedAt])
   @@index([expiresAt])
@@ -84,28 +88,31 @@ enum TicketStatus {
 }
 
 model Ticket {
-  id                Int              @id @default(autoincrement())
-  ticketNumber      String           @unique
-  ticketDate        DateTime         @default(now())
-  requesterId       Int
-  ownerId           Int?
-  categoryId        Int
-  relatedSystemId   Int
-  requestedPriority RequestedPriority
-  itPriority        RequestedPriority
-  status            TicketStatus     @default(NEW)
-  summary           String
-  description       String
+  id                             Int                   @id @default(autoincrement())
+  ticketNumber                   String                @unique
+  ticketDate                     DateTime              @default(now())
+  requesterId                    Int
+  ownerId                        Int?
+  categoryId                     Int
+  relatedSystemId                Int
+  requestedPriority              RequestedPriority
+  itPriority                     RequestedPriority
+  status                         TicketStatus          @default(NEW)
+  summary                        String
+  description                    String
   requesterResolutionIndicatedAt DateTime?
-  createdAt         DateTime         @default(now())
-  updatedAt         DateTime         @updatedAt
-  requester         User             @relation("RequesterTickets", fields: [requesterId], references: [id], onDelete: Restrict)
-  owner             User?            @relation("TicketOwners", fields: [ownerId], references: [id], onDelete: SetNull)
-  category          Category         @relation(fields: [categoryId], references: [id], onDelete: Restrict)
-  relatedSystem     RelatedSystem    @relation(fields: [relatedSystemId], references: [id], onDelete: Restrict)
-  attachments       Attachment[]
-  comments          PublicComment[]
-  notes             InternalNote[]
+  createdAt                      DateTime              @default(now())
+  updatedAt                      DateTime              @updatedAt
+  requester                      User                  @relation("RequesterTickets", fields: [requesterId], references: [id], onDelete: Restrict)
+  owner                          User?                 @relation("TicketOwners", fields: [ownerId], references: [id], onDelete: SetNull)
+  category                       Category              @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  relatedSystem                  RelatedSystem         @relation(fields: [relatedSystemId], references: [id], onDelete: Restrict)
+  attachments                    Attachment[]
+  comments                       PublicComment[]
+  notes                          InternalNote[]
+  actions                        ActionTaken[]
+  actionRequests                 ActionCreateRequest[]
+  workflowVersion                Int                   @default(1)
 
   @@index([requesterId, updatedAt])
   @@index([ownerId, updatedAt])
@@ -116,18 +123,18 @@ model Ticket {
 }
 
 model Attachment {
-  id                  Int           @id @default(autoincrement())
-  ticketId            Int
-  originalFilename    String
-  storageKey          String        @unique
-  mimeType            String
-  sizeBytes           Int
-  uploadedAt          DateTime      @default(now())
-  removedAt           DateTime?
-  removalReason       String?
+  id                   Int       @id @default(autoincrement())
+  ticketId             Int
+  originalFilename     String
+  storageKey           String    @unique
+  mimeType             String
+  sizeBytes            Int
+  uploadedAt           DateTime  @default(now())
+  removedAt            DateTime?
+  removalReason        String?
   removedByRequesterId Int?
-  ticket              Ticket        @relation(fields: [ticketId], references: [id], onDelete: Cascade)
-  removedByRequester   User?         @relation("RemovedByRequester", fields: [removedByRequesterId], references: [id], onDelete: SetNull)
+  ticket               Ticket    @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  removedByRequester   User?     @relation("RemovedByRequester", fields: [removedByRequesterId], references: [id], onDelete: SetNull)
 
   @@index([ticketId, removedAt])
 }
@@ -154,4 +161,76 @@ model InternalNote {
   author    User     @relation("NoteAuthors", fields: [authorId], references: [id], onDelete: Restrict)
 
   @@index([ticketId, createdAt])
+}
+
+enum ActionTakenStatus {
+  PLANNED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+enum ActionTakenEventKind {
+  CREATED
+  UPDATED
+  STATUS_CHANGED
+}
+
+model ActionTaken {
+  id               Int                  @id @default(autoincrement())
+  ticketId         Int
+  actionDateTime   DateTime             @db.Timestamptz(3)
+  description      String
+  result           String
+  performedById    Int
+  assigneeId       Int
+  status           ActionTakenStatus
+  followUpRequired Boolean
+  followUpNote     String?
+  attachmentNotes  String?
+  version          Int                  @default(1)
+  seedKey          String?              @unique
+  createdAt        DateTime             @default(now()) @db.Timestamptz(3)
+  updatedAt        DateTime             @updatedAt @db.Timestamptz(3)
+  ticket           Ticket               @relation(fields: [ticketId], references: [id], onDelete: Restrict)
+  performedBy      User                 @relation("ActionPerformers", fields: [performedById], references: [id], onDelete: Restrict)
+  assignee         User                 @relation("ActionAssignees", fields: [assigneeId], references: [id], onDelete: Restrict)
+  events           ActionTakenEvent[]
+  createRequest    ActionCreateRequest?
+
+  @@index([ticketId, actionDateTime, id])
+  @@index([assigneeId, status])
+}
+
+model ActionTakenEvent {
+  id            Int                  @id @default(autoincrement())
+  actionId      Int
+  actorId       Int
+  kind          ActionTakenEventKind
+  fromStatus    ActionTakenStatus?
+  toStatus      ActionTakenStatus?
+  version       Int
+  changedFields String[]
+  createdAt     DateTime             @default(now()) @db.Timestamptz(3)
+  action        ActionTaken          @relation(fields: [actionId], references: [id], onDelete: Restrict)
+  actor         User                 @relation("ActionEventActors", fields: [actorId], references: [id], onDelete: Restrict)
+
+  @@unique([actionId, version])
+  @@index([actionId, createdAt, id])
+}
+
+model ActionCreateRequest {
+  id           Int         @id @default(autoincrement())
+  ticketId     Int
+  actorId      Int
+  keyHash      String      @db.Char(64)
+  requestHash  String      @db.Char(64)
+  actionId     Int         @unique
+  responseJson Json
+  createdAt    DateTime    @default(now()) @db.Timestamptz(3)
+  ticket       Ticket      @relation(fields: [ticketId], references: [id], onDelete: Restrict)
+  actor        User        @relation("ActionRequestActors", fields: [actorId], references: [id], onDelete: Restrict)
+  action       ActionTaken @relation(fields: [actionId], references: [id], onDelete: Restrict)
+
+  @@unique([actorId, ticketId, keyHash])
 }
