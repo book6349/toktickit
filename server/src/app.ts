@@ -6,6 +6,7 @@ import { registerRequesterRegressionRoutes } from "./requester-regression.js";
 import { registerStaffWorkflowRoutes } from "./staff-workflow.js";
 import { registerActionsTakenRoutes } from "./actions-taken.js";
 import { registerAdminUserRoutes } from "./admin-users.js";
+import { registerDashboardRoutes } from "./dashboards.js";
 
 // The Express app is exported separately from app.listen() (see index.ts) so
 // Supertest can import `app` without opening a port. Do not merge these files.
@@ -30,5 +31,6 @@ registerRequesterRegressionRoutes(app);
 registerStaffWorkflowRoutes(app);
 registerAdminUserRoutes(app);
 registerActionsTakenRoutes(app);
+registerDashboardRoutes(app);
 
 export default app;

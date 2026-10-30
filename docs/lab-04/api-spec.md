@@ -57,11 +57,11 @@ Allowed to roles that can read the Ticket. Returns current status, workflowVersi
 
 ### GET /api/requester/dashboard?asOf=...
 
-Allowed to Requester. `asOf` is optional ISO 8601 timestamp; default is server UTC now. Returns `asOfUtc`, metric definitions and values, and item arrays for drill-down.
+Allowed to Requester. `asOf` is an optional ISO 8601 timestamp with a timezone; default is server UTC now. Returns `asOfUtc` and `metrics`: `openTickets.count`, `waitingForRequester.count`, `recentlyUpdated.count/items`, and `recentlyResolved.count/items`. Counts cover all matching owned Tickets; recent arrays contain at most five rows. The linked Ticket list accepts the same ownership-safe `statusGroup`, `updatedFrom/updatedTo` and `resolvedFrom/resolvedTo` filters and remains paginated.
 
 ### GET /api/staff/dashboard?asOf=...
 
-Allowed to IT Staff and Administrator. Returns the same envelope with role-specific metrics. Counts are calculated over all authorized records, never a paginated subset. Every list item includes an id and a stable link target; paginated details use server pagination.
+Allowed to IT Staff and Administrator. Returns `asOfUtc` and `metrics`: `unassignedActive.count`, `myActiveTickets.count`, `activeByStatus[]`, `activeByItPriority[]`, `recentlyUpdatedActive.count/items`, and `myActiveActionsTaken.count/items`. Counts cover all matching records, never a paginated subset. Recent Ticket and Action Taken arrays each contain at most five items. Each Ticket summary includes its id and stable detail target. The paginated `GET /api/staff/dashboard/tickets` drill-down is also available to Staff and Administrators; its server-built scope always includes active statuses, then applies the selected status, IT priority, unassigned/assigned-to-me and time-window filters.
 
 Requester metrics and Staff metrics, exact rolling windows and filters are defined in [UI contract](ui-spec.md#4-dashboards). Boundary comparisons are inclusive: a timestamp exactly equal to `asOfUtc - window` is included; future timestamps are excluded.
 

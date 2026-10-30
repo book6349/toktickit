@@ -18,6 +18,7 @@ import {
   User,
 } from "./api.js";
 import { ActionsTakenPanel } from "./ActionsTaken.js";
+import { StaffDashboard } from "./Dashboard.js";
 
 type AsyncStatus = "idle" | "loading" | "ready" | "error";
 type Priority = "LOW" | "MEDIUM" | "HIGH";
@@ -64,6 +65,7 @@ function personLabel(person: { name: string; email?: string } | null | undefined
 
 export function StaffWorkspace(props: { user: User; onLogout: () => void }) {
   const [detailId, setDetailId] = useState<number | null>(null);
+  const [section, setSection] = useState<"dashboard" | "queue">("queue");
 
   return (
     <>
@@ -72,9 +74,10 @@ export function StaffWorkspace(props: { user: User; onLogout: () => void }) {
         <div className="requester-chip"><span>{props.user.name} · {props.user.role}</span><button type="button" className="link-button" onClick={props.onLogout}>Log out</button></div>
       </header>
       <nav className="main-nav" aria-label="Main navigation">
-        <button type="button" className={detailId === null ? "nav-link active" : "nav-link"} onClick={() => setDetailId(null)}>Ticket Queue</button>
+        <button type="button" className={section === "dashboard" ? "nav-link active" : "nav-link"} onClick={() => { setSection("dashboard"); setDetailId(null); }}>Dashboard</button>
+        <button type="button" className={section === "queue" ? "nav-link active" : "nav-link"} onClick={() => { setSection("queue"); setDetailId(null); }}>Ticket Queue</button>
       </nav>
-      {detailId === null ? <StaffQueue onOpenTicket={setDetailId} /> : <StaffTicketDetail ticketId={detailId} user={props.user} canOperate onBack={() => setDetailId(null)} />}
+      {detailId !== null ? <StaffTicketDetail ticketId={detailId} user={props.user} canOperate onBack={() => setDetailId(null)} /> : section === "dashboard" ? <StaffDashboard user={props.user} onOpenTicket={setDetailId} /> : <StaffQueue onOpenTicket={setDetailId} />}
     </>
   );
 }

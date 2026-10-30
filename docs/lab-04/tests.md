@@ -1,6 +1,6 @@
 # Lab 4 Test Plan
 
-Status: Planned. This is a test design document; none of the Lab 4 implementation tests have been run or reported as passing.
+Status: On 2026-10-30, the full server suite passed (306 tests across 23 files, including all 37 PostgreSQL-backed Actions Taken checks), the full client suite passed (58 tests), both production builds passed, and the Lab 4 dashboard browser journey passed (1 test) against a fresh disposable local database. The Lab 1–3 browser regression and remaining Lab 4 browser journeys are still outstanding.
 
 Related: [engineering specification](specification.md), [API contract](api-spec.md), [UI contract](ui-spec.md).
 
@@ -14,29 +14,29 @@ Run named tests and the existing Lab 1–3 regression suites before release. Rec
 
 | Test ID | Acceptance criterion | Planned test and intended file | Final status |
 |---|---|---|---|
-| T-01 | AC-01 | Server creates action; session actor immutable; active assignee validation; required fields; version 1; one creation event. `server/tests/lab-04/actions-taken.api.test.ts` | Planned |
-| T-02 | AC-01, AC-03 | Action field validation, trimming/length boundaries, offset timestamp normalization, follow-up conditional note and attachment note limits. `server/tests/lab-04/actions-taken.api.test.ts` | Planned |
-| T-03 | AC-02 | Requester sees ordered actions for owned Ticket; empty list; cross-owner and nonexistent Ticket both safe 404; Requester cannot POST/PATCH/transition. `server/tests/lab-04/actions-taken.api.test.ts` | Planned |
-| T-04 | AC-03 | PLANNED/IN_PROGRESS lifecycle matrix, terminal COMPLETED/CANCELLED, no hard delete, exactly one event and version increment per accepted write. `server/tests/lab-04/actions-taken.api.test.ts` | Planned |
-| T-05 | AC-03 | Concurrent stale edit/transition yields 409 and no partial event/data update; same idempotency key/payload returns original; different payload conflicts. `server/tests/lab-04/actions-taken.api.test.ts` | Planned |
+| T-01 | AC-01 | Server creates action; session actor immutable; active assignee validation; required fields; version 1; one creation event. `server/tests/lab-04/actions-taken.api.test.ts` | Passed |
+| T-02 | AC-01, AC-03 | Action field validation, trimming/length boundaries, offset timestamp normalization, follow-up conditional note and attachment note limits. `server/tests/lab-04/actions-taken.api.test.ts` | Passed |
+| T-03 | AC-02 | Requester sees ordered actions for owned Ticket; empty list; cross-owner and nonexistent Ticket both safe 404; Requester cannot POST/PATCH/transition. `server/tests/lab-04/actions-taken.api.test.ts` | Passed |
+| T-04 | AC-03 | PLANNED/IN_PROGRESS lifecycle matrix, terminal COMPLETED/CANCELLED, no hard delete, exactly one event and version increment per accepted write. `server/tests/lab-04/actions-taken.api.test.ts` | Passed |
+| T-05 | AC-03 | Concurrent stale edit/transition yields 409 and no partial event/data update; same idempotency key/payload returns original; different payload conflicts. `server/tests/lab-04/actions-taken.api.test.ts` | Passed |
 | T-06 | AC-04 | Every allowed and disallowed Ticket transition; only IT Staff can write status; administrator/requester forbidden; version conflict returns 409. `server/tests/lab-04/ticket-workflow.api.test.ts` | Passed |
 | T-07 | AC-05 | RESOLVED requires confirm, summary, completed action and no planned/in-progress actions; cancelled actions do not block. `server/tests/lab-04/ticket-workflow.api.test.ts` | Passed |
 | T-08 | AC-05 | CLOSED gate, reopen reason, server-side resolvedAt/resolvedById, retained workflow history and confirmation requirements. `server/tests/lab-04/ticket-workflow.api.test.ts` | Passed |
-| T-09 | AC-06 | Requester counts and drill-downs are owner scoped; active status definition; zero/empty values; not limited by list pagination. `server/tests/lab-04/requester-dashboard.api.test.ts` | Planned |
-| T-10 | AC-06 | Requester 7-day and 30-day exact lower/upper boundaries, future exclusion, null resolvedAt exclusion, reopened Ticket exclusion, stable top-five order. `server/tests/lab-04/requester-dashboard.api.test.ts` | Planned |
-| T-11 | AC-06 | Staff/Admin unassigned, assigned-to-me, per-status/priority and own-action metrics; zero values; full-count query and filter drill-down. `server/tests/lab-04/staff-dashboard.api.test.ts` | Planned |
-| T-12 | AC-06 | Staff recent active 7-day boundaries, future exclusion and stable top-five order; Administrator receives Staff data without user-account counts. `server/tests/lab-04/staff-dashboard.api.test.ts` | Planned |
-| T-13 | AC-07 | Apply additive migration to representative Lab 3 database; preserve all prior ids, relations and statuses; create no fabricated actions/resolution dates; recover from failed migration. `server/tests/lab-04/migration-preserves-legacy-data.api.test.ts` | Planned |
-| T-14 | AC-07 | Seed twice with stable keys; no duplicate Users, Tickets, actions or events. `server/tests/lab-04/migration-preserves-legacy-data.api.test.ts` | Planned |
-| T-15 | AC-08 | Requester read-only state, no mutation controls, ordered action history and empty state. `client/tests/lab-04/ActionsTaken.test.tsx` | Planned |
-| T-16 | AC-01, AC-03, AC-08 | Action form conditional fields, server validation, retained input, pending/double-submit, safe failure and conflict review state. `client/tests/lab-04/ActionsTaken.test.tsx` | Planned |
+| T-09 | AC-06 | Requester counts and drill-downs are owner scoped; active status definition; zero/empty values; not limited by list pagination. `server/tests/lab-04/requester-dashboard.api.test.ts` | Passed |
+| T-10 | AC-06 | Requester 7-day and 30-day exact lower/upper boundaries, future exclusion, null resolvedAt exclusion, reopened Ticket exclusion, stable top-five order. `server/tests/lab-04/requester-dashboard.api.test.ts` | Passed |
+| T-11 | AC-06 | Staff/Admin unassigned, assigned-to-me, per-status/priority and own-action metrics; zero values; full-count query and filter drill-down. `server/tests/lab-04/staff-dashboard.api.test.ts` | Passed |
+| T-12 | AC-06 | Staff recent active 7-day boundaries, future exclusion and stable top-five order; Administrator receives Staff data without user-account counts. `server/tests/lab-04/staff-dashboard.api.test.ts` | Passed |
+| T-13 | AC-07 | Apply additive migration to representative Lab 3 database; preserve all prior ids, relations and statuses; create no fabricated actions/resolution dates; recover from failed migration. `server/tests/lab-04/actions-taken.api.test.ts` | Passed |
+| T-14 | AC-07 | Seed twice with stable keys; no duplicate Users, Tickets, actions or events. `server/tests/lab-04/actions-taken.api.test.ts` | Passed |
+| T-15 | AC-08 | Requester read-only state, no mutation controls, ordered action history and empty state. `client/tests/lab-04/ActionsTaken.test.tsx` | Passed |
+| T-16 | AC-01, AC-03, AC-08 | Action form conditional fields, server validation, retained input, pending/double-submit, safe failure and conflict review state. `client/tests/lab-04/ActionsTaken.test.tsx` | Passed |
 | T-17 | AC-05, AC-08 | Resolution gate summary/blocker links, confirmation, advisory feedback and reopen reason UX. `client/tests/lab-04/TicketWorkflow.test.tsx` | Passed |
-| T-18 | AC-06, AC-08 | Requester dashboard labels/definitions, zero and empty states, accessible drill-down links and UTC/as-of context. `client/tests/lab-04/RequesterDashboard.test.tsx` | Planned |
-| T-19 | AC-06, AC-08 | Staff/Admin metric cards, active status/priority breakdown, own actions, empty states and drill-downs. `client/tests/lab-04/StaffDashboard.test.tsx` | Planned |
+| T-18 | AC-06, AC-08 | Requester dashboard labels/definitions, zero and empty states, accessible drill-down links and UTC/as-of context. `client/tests/lab-04/RequesterDashboard.test.tsx` | Passed |
+| T-19 | AC-06, AC-08 | Staff/Admin metric cards, active status/priority breakdown, own actions, empty states and drill-downs. `client/tests/lab-04/StaffDashboard.test.tsx` | Passed |
 | T-20 | AC-08 | Keyboard access, accessible labels/live regions/focus, status text not color-only, reduced motion and narrow layout style rules. `client/tests/lab-04/ui-style.test.tsx` | Planned |
 | T-21 | AC-01, AC-02, AC-03, AC-08 | Staff create/edit/transition action; Requester observes same history read-only; validation and stale-conflict states. `e2e/lab-04/actions-taken-flow.spec.ts` | Planned |
 | T-22 | AC-04, AC-05, AC-08 | Complete Ticket resolution, close and reopen journey; invalid gate and role denial; prior event remains visible. `e2e/lab-04/ticket-resolution.spec.ts` | Planned |
-| T-23 | AC-06, AC-08 | Requester and Staff dashboard values, role data scope, filter drill-down, boundary fixture and empty results. `e2e/lab-04/dashboards.spec.ts` | Planned |
+| T-23 | AC-06, AC-08 | Requester and Staff dashboard metrics render, and active/unassigned drill-downs include the expected Tickets. `e2e/lab-04/dashboards.spec.ts` | Passed |
 | T-24 | AC-09 | Existing Lab 1–3 server, client, build and browser regression suites pass unchanged after integration. Exact existing test commands are captured in the implementation/release evidence. | Planned |
 | T-25 | AC-10 | Release checklist checks dated run evidence, reviewer disposition, actual AI-use record and no unsupported pass claims. `docs/lab-04/reviewer.md` and `docs/lab-04/ai-use.md` | Planned |
 

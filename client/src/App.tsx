@@ -25,11 +25,12 @@ import {
 import { AdminDirectDetail, StaffWorkspace } from "./staff.js";
 import { AdminWorkspace } from "./admin.js";
 import { ActionsTakenPanel } from "./ActionsTaken.js";
+import { RequesterDashboard } from "./Dashboard.js";
 
-type View = "list" | "create" | "detail";
+type View = "dashboard" | "list" | "create" | "detail";
 type AsyncStatus = "idle" | "loading" | "ready" | "error";
 type Priority = "LOW" | "MEDIUM" | "HIGH";
-type TicketSortField = "updatedAt" | "createdAt" | "ticketNumber" | "requestedPriority";
+type TicketSortField = "updatedAt" | "resolvedAt" | "createdAt" | "ticketNumber" | "requestedPriority";
 type TicketFilters = {
   search: string;
   categoryId: string;
@@ -81,6 +82,7 @@ function App() {
   const [referenceStatus, setReferenceStatus] = useState<AsyncStatus>("idle");
   const [referenceError, setReferenceError] = useState("");
   const [view, setView] = useState<View>("list");
+  const [detailReturnView, setDetailReturnView] = useState<View>("list");
   const [detailId, setDetailId] = useState<number | null>(null);
 
   async function loadReferences() {
@@ -187,6 +189,8 @@ function App() {
             setView={setView}
             detailId={detailId}
             setDetailId={setDetailId}
+            detailReturnView={detailReturnView}
+            setDetailReturnView={setDetailReturnView}
             references={references}
             referenceStatus={referenceStatus}
             referenceError={referenceError}
@@ -261,6 +265,8 @@ function ServiceDesk(props: {
   setView: (view: View) => void;
   detailId: number | null;
   setDetailId: (id: number | null) => void;
+  detailReturnView: View;
+  setDetailReturnView: (view: View) => void;
   references: { categories: Category[]; relatedSystems: RelatedSystem[] };
   referenceStatus: AsyncStatus;
   referenceError: string;
@@ -268,6 +274,7 @@ function ServiceDesk(props: {
   onLogout: () => void;
 }) {
   function openDetail(id: number) {
+    props.setDetailReturnView(props.view === "dashboard" ? "dashboard" : "list");
     props.setDetailId(id);
     props.setView("detail");
   }
@@ -285,8 +292,10 @@ function ServiceDesk(props: {
       </header>
       <nav className="main-nav" aria-label="Main navigation">
         <button type="button" className={props.view === "list" ? "nav-link active" : "nav-link"} onClick={() => props.setView("list")}>My Tickets</button>
+        <button type="button" className={props.view === "dashboard" ? "nav-link active" : "nav-link"} onClick={() => props.setView("dashboard")}>Dashboard</button>
         <button type="button" className={props.view === "create" ? "nav-link active" : "nav-link"} onClick={() => props.setView("create")}>Create Ticket</button>
       </nav>
+      {props.view === "dashboard" && <RequesterDashboard user={props.user} onOpenTicket={openDetail} />}
       {props.view === "create" && (
         <CreateTicketView
           categories={props.references.categories}
@@ -306,7 +315,7 @@ function ServiceDesk(props: {
       {props.view === "detail" && props.detailId !== null && (
         <TicketDetailView
           ticketId={props.detailId}
-          onBack={() => props.setView("list")}
+          onBack={() => props.setView(props.detailReturnView)}
         />
       )}
     </>
@@ -489,7 +498,7 @@ function TicketListView(props: { categories: Category[]; onOpenTicket: (id: numb
         <label className="visually-hidden" htmlFor="ticket-status">Status</label>
         <select id="ticket-status" value={filters.status} onChange={(event) => setFilters({ ...filters, status: event.target.value })}><option value="">All statuses</option><option value="NEW">New</option></select>
         <label className="visually-hidden" htmlFor="ticket-sort">Sort by</label>
-        <select id="ticket-sort" value={filters.sortBy} onChange={(event) => setFilters({ ...filters, sortBy: event.target.value as TicketSortField })}><option value="updatedAt">Recently updated</option><option value="createdAt">Date created</option><option value="ticketNumber">Ticket number</option><option value="requestedPriority">Priority</option></select>
+        <select id="ticket-sort" value={filters.sortBy} onChange={(event) => setFilters({ ...filters, sortBy: event.target.value as TicketSortField })}><option value="updatedAt">Recently updated</option><option value="resolvedAt">Resolution date</option><option value="createdAt">Date created</option><option value="ticketNumber">Ticket number</option><option value="requestedPriority">Priority</option></select>
         <label className="visually-hidden" htmlFor="ticket-sort-direction">Sort direction</label>
         <select id="ticket-sort-direction" value={filters.sortDirection} onChange={(event) => setFilters({ ...filters, sortDirection: event.target.value as "asc" | "desc" })}><option value="desc">Descending</option><option value="asc">Ascending</option></select>
         <label className="visually-hidden" htmlFor="ticket-page-size">Tickets per page</label>
