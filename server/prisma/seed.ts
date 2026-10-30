@@ -1,3 +1,4 @@
+import { seedLab4Actions } from "./lab4-seed.js";
 import { hashPassword } from "../src/auth.js";
 import { getPrisma } from "../src/prisma.js";
 
@@ -81,6 +82,7 @@ async function main() {
     const note = { ticketId: ticket.id, authorId: owner?.id ?? userByEmail.get("somchai.staff@example.com").id, content: "Seeded internal triage note for local development." };
     if (!(await prisma.internalNote.findFirst({ where: note }))) await prisma.internalNote.create({ data: note });
   }
+  await seedLab4Actions(prisma, userByEmail);
   console.log(`Seeding completed successfully: ${users.length} users and ${seededTickets.length} tickets.`);
 }
 
