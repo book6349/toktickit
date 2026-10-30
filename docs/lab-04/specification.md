@@ -60,7 +60,7 @@ List order is actionDateTime ascending, then id ascending. This is chronological
 
 ### 5.2 Audit and concurrency records
 
-ActionTakenEvent is append-only and records action id, event time, authenticated actor, event kind, prior/new status when relevant, resulting version and changed field names. It does not duplicate sensitive field values. Ticket.workflowVersion supports compare-and-set workflow writes. TicketWorkflowEvent records Ticket id, actor, event time, from/to status and resulting version. Ticket resolution adds nullable resolutionSummary, resolvedAt and resolvedById. Client actor ids and attribution timestamps are never authoritative.
+ActionTakenEvent is append-only and records action id, event time, authenticated actor, event kind, prior/new status when relevant, resulting version and changed field names. It does not duplicate sensitive field values. Ticket.workflowVersion supports compare-and-set workflow writes. TicketWorkflowEvent records Ticket id, actor, event time, from/to status and resulting version. Resolution and resolved-by snapshots are retained in history after reopening; reopening reasons are returned to staff and administrators only. Ticket resolution adds nullable resolutionSummary, resolvedAt and resolvedById. Client actor ids and attribution timestamps are never authoritative.
 ### 5.3 Ticket workflow and migration
 
 Ticket gains workflowVersion (integer, starts at 1), nullable resolutionSummary (trimmed, 1–2,000 characters when resolved), resolvedAt and resolvedById. TicketWorkflowEvent is append-only. Existing Ticket ids, owners, assignees, comments, attachments and statuses remain intact. The additive migration creates no ActionTaken rows and invents no resolution timestamps. Existing resolved/closed Tickets without resolvedAt remain visible; they are excluded from time-window resolved metrics until a real transition records the timestamp.
@@ -96,7 +96,7 @@ An unspecified transition is rejected. The server re-reads the Ticket and checks
 - Only IT Staff may change formal Ticket status in this increment. Requesters cannot resolve a Ticket; Administrators retain read-only status access.
 - RESOLVED requires explicit confirmation, a non-empty resolutionSummary, at least one COMPLETED action, and no PLANNED or IN_PROGRESS action. CANCELLED actions do not block resolution.
 - CLOSED is allowed only from RESOLVED, with confirmation and the existing resolution summary retained.
-- Reopening from RESOLVED, CLOSED or CANCELLED requires a valid reason in the workflow event. Reopened Tickets follow the REOPENED transitions above.
+- Reopening from RESOLVED, CLOSED or CANCELLED requires a trimmed 1–1,000 character reason in the workflow event. Reopened Tickets follow the REOPENED transitions above.
 - Resolution feedback from a Requester is advisory and does not transition status.
 - followUpRequired describes recorded work only. It does not itself change Ticket status or send a notification.
 

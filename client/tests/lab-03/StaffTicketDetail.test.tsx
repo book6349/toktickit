@@ -47,6 +47,12 @@ describe("Lab 3 Staff Ticket Detail", () => {
     vi.spyOn(api, "listStaffTickets").mockResolvedValue(queueResult);
     vi.spyOn(api, "getStaffTicket").mockResolvedValue(ticket);
     vi.spyOn(api, "getStaffNotes").mockResolvedValue(ticket.notes);
+    vi.spyOn(api, "getTicketWorkflow").mockResolvedValue({
+      ticketId: ticket.id, status: "OPEN", workflowVersion: 1,
+      resolution: { summary: null, resolvedAt: null, resolvedBy: null },
+      permittedNextStatuses: ["IN_PROGRESS", "RESOLVED", "CANCELLED"],
+      resolutionGate: { completedActionCount: 0, blockingActionCount: 0 }, events: [],
+    });
   });
 
   afterEach(() => vi.restoreAllMocks());
@@ -86,7 +92,7 @@ describe("Lab 3 Staff Ticket Detail", () => {
     await waitFor(() => expect(owner).toHaveBeenCalledWith(10, 7));
     fireEvent.change(screen.getByLabelText("Next status"), { target: { value: "IN_PROGRESS" } });
     fireEvent.click(screen.getByRole("button", { name: "Update status" }));
-    await waitFor(() => expect(updateStatus).toHaveBeenCalledWith(10, "IN_PROGRESS", false));
+    await waitFor(() => expect(updateStatus).toHaveBeenCalledWith(10, "IN_PROGRESS", { expectedVersion: 1, confirm: false }));
   });
 
   it("keeps Administrators out of the Queue and exposes only direct read-only detail", async () => {

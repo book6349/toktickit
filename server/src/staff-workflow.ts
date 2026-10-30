@@ -37,6 +37,12 @@ const detailInclude = {
   notes: { include: { author: { select: personSelect } }, orderBy: { createdAt: "asc" as const } },
 } as const;
 
+class WorkflowFailure extends Error {
+  constructor(public status: number, public code: string, message: string, public fields?: Record<string, string>) {
+    super(message);
+  }
+}
+
 function positiveInt(value: unknown): number | null {
   const text = String(value ?? "");
   if (!/^[1-9]\d*$/.test(text)) return null;
@@ -109,6 +115,9 @@ function ticketJson(ticket: any, includePrivate = true) {
     requester: personJson(ticket.requester), category: ticket.category, relatedSystem: ticket.relatedSystem,
     summary: ticket.summary, description: ticket.description,
     requesterResolutionIndicatedAt: ticket.requesterResolutionIndicatedAt ?? null,
+    workflowVersion: ticket.workflowVersion ?? 1,
+    resolutionSummary: ticket.resolutionSummary ?? null,
+    resolvedAt: ticket.resolvedAt ?? null,
     createdAt: ticket.createdAt, updatedAt: ticket.updatedAt,
     attachments: Array.isArray(ticket.attachments) ? ticket.attachments.map(attachmentJson) : [],
     comments: Array.isArray(ticket.comments) ? ticket.comments.map(commentJson) : [],
@@ -196,6 +205,61 @@ export function registerStaffWorkflowRoutes(app: Express) {
     }
   });
 
+  app.get("/api/tickets/:ticketId/workflow", async (req: Request, res: Response) => {
+    const context = await requireRole(req, res, ["REQUESTER", "IT_STAFF", "ADMINISTRATOR"]);
+    if (!context) return;
+    const id = ticketId(req.params.ticketId);
+    if (id === null) return fail(res, 404, "RESOURCE_NOT_FOUND", "Ticket not found.");
+    try {
+      const prisma = getPrisma();
+      const ticket = await prisma.ticket.findFirst({
+        where: { id, ...(context.user.role === "REQUESTER" ? { requesterId: context.user.id } : {}) },
+        include: { resolvedBy: { select: { id: true, name: true } } },
+      });
+      if (!ticket) return fail(res, 404, "RESOURCE_NOT_FOUND", "Ticket not found.");
+      const [events, actions] = await Promise.all([
+        prisma.ticketWorkflowEvent.findMany({
+          where: { ticketId: id },
+          include: {
+            actor: { select: { id: true, name: true } },
+            resolvedBy: { select: { id: true, name: true } },
+          },
+          orderBy: [{ createdAt: "asc" }, { id: "asc" }],
+        }),
+        prisma.actionTaken.findMany({ where: { ticketId: id }, select: { status: true } }),
+      ]);
+      const completedActionCount = actions.filter((action: any) => action.status === "COMPLETED").length;
+      const blockingActionCount = actions.filter((action: any) => ["PLANNED", "IN_PROGRESS"].includes(action.status)).length;
+      const isStaff = context.user.role === "IT_STAFF";
+      return res.json({
+        ticketId: ticket.id,
+        status: ticket.status,
+        workflowVersion: ticket.workflowVersion,
+        resolution: {
+          summary: ticket.resolutionSummary ?? null,
+          resolvedAt: ticket.resolvedAt ?? null,
+          resolvedBy: ticket.resolvedBy ? { id: ticket.resolvedBy.id, name: ticket.resolvedBy.name } : null,
+        },
+        permittedNextStatuses: isStaff ? [...(transitions[ticket.status] ?? [])] : [],
+        resolutionGate: { completedActionCount, blockingActionCount },
+        events: events.map((event: any) => ({
+          id: event.id,
+          fromStatus: event.fromStatus,
+          toStatus: event.toStatus,
+          version: event.version,
+          createdAt: event.createdAt,
+          actor: { id: event.actor.id, name: event.actor.name },
+          resolutionSummary: event.resolutionSummary ?? null,
+          resolvedAt: event.resolvedAt ?? null,
+          resolvedBy: event.resolvedBy ? { id: event.resolvedBy.id, name: event.resolvedBy.name } : null,
+          ...(context.user.role === "REQUESTER" || !event.reason ? {} : { reason: event.reason }),
+        })),
+      });
+    } catch {
+      return fail(res, 500, "INTERNAL_ERROR", "Unable to load Ticket workflow.");
+    }
+  });
+
   app.patch("/api/staff/tickets/:ticketId/owner", async (req: Request, res: Response) => {
     const context = await requireStaff(req, res);
     if (!context) return;
@@ -249,18 +313,78 @@ export function registerStaffWorkflowRoutes(app: Express) {
     const id = ticketId(req.params.ticketId);
     if (id === null) return fail(res, 404, "RESOURCE_NOT_FOUND", "Ticket not found.");
     const target = String(req.body?.status ?? "").trim().toUpperCase();
-    if (!TICKET_STATUSES.has(target)) return fail(res, 400, "VALIDATION_ERROR", "Choose a valid Ticket status.");
+    if (!TICKET_STATUSES.has(target)) return fail(res, 422, "VALIDATION_ERROR", "Choose a valid Ticket status.");
+    const expectedVersion = req.body?.expectedVersion;
+    if (typeof expectedVersion !== "number" || !Number.isSafeInteger(expectedVersion) || expectedVersion < 1) {
+      return fail(res, 422, "VALIDATION_ERROR", "Refresh the Ticket before changing its status.", { expectedVersion: "A positive workflow version is required." });
+    }
+    const resolutionSummary = typeof req.body?.resolutionSummary === "string" ? req.body.resolutionSummary.trim() : "";
+    const reason = typeof req.body?.reason === "string" ? req.body.reason.trim() : "";
     try {
       const prisma = getPrisma();
-      const currentTicket = await prisma.ticket.findUnique({ where: { id }, select: { id: true, status: true } });
-      if (!currentTicket) return fail(res, 404, "RESOURCE_NOT_FOUND", "Ticket not found.");
-      if (!transitions[currentTicket.status]?.has(target)) return fail(res, 400, "INVALID_TRANSITION", "That status transition is not permitted.");
-      if (confirmationTargets.has(target) && req.body?.confirm !== true) return fail(res, 400, "INVALID_TRANSITION", "This status change requires explicit confirmation.");
-      const result = await prisma.ticket.updateMany({ where: { id, status: currentTicket.status }, data: { status: target } });
-      if (!result?.count) return fail(res, 409, "CONFLICT", "The Ticket changed before the status update.");
+      await prisma.$transaction(async (tx: any) => {
+        const currentTicket = await tx.ticket.findUnique({
+          where: { id },
+          select: { id: true, status: true, workflowVersion: true, resolutionSummary: true, resolvedAt: true, resolvedById: true },
+        });
+        if (!currentTicket) throw new WorkflowFailure(404, "RESOURCE_NOT_FOUND", "Ticket not found.");
+        if (currentTicket.workflowVersion !== expectedVersion) {
+          throw new WorkflowFailure(409, "VERSION_CONFLICT", "The Ticket changed. Refresh it and review your entries before retrying.");
+        }
+        if (!transitions[currentTicket.status]?.has(target)) {
+          throw new WorkflowFailure(422, "INVALID_TRANSITION", "That status transition is not permitted.");
+        }
+        if (confirmationTargets.has(target) && req.body?.confirm !== true) {
+          const code = target === "RESOLVED" ? "RESOLUTION_GATE_FAILED" : "CONFIRMATION_REQUIRED";
+          throw new WorkflowFailure(422, code, "Confirm this status change before continuing.", { confirm: "Explicit confirmation is required." });
+        }
+        if (target === "RESOLVED") {
+          if (resolutionSummary.length < 1 || resolutionSummary.length > 2000) {
+            throw new WorkflowFailure(422, "RESOLUTION_GATE_FAILED", "Add a resolution summary of 1–2,000 characters.", { resolutionSummary: "Enter a resolution summary of 1–2,000 characters." });
+          }
+          const actions = await tx.actionTaken.findMany({ where: { ticketId: id }, select: { status: true } });
+          const completed = actions.filter((action: any) => action.status === "COMPLETED").length;
+          const blockers = actions.filter((action: any) => ["PLANNED", "IN_PROGRESS"].includes(action.status)).length;
+          if (completed < 1 || blockers > 0) {
+            throw new WorkflowFailure(422, "RESOLUTION_GATE_FAILED", "Complete at least one action and finish or cancel all pending actions before resolving.", {
+              completedActions: completed < 1 ? "At least one completed action is required." : "",
+              pendingActions: blockers > 0 ? "Planned or in-progress actions must be completed or cancelled." : "",
+            });
+          }
+        }
+        if (target === "CLOSED" && !currentTicket.resolutionSummary) {
+          throw new WorkflowFailure(422, "RESOLUTION_GATE_FAILED", "This Ticket has no recorded resolution summary to close.", { resolutionSummary: "Resolve the Ticket with a summary before closing it." });
+        }
+        if (target === "REOPENED" && (reason.length < 1 || reason.length > 1000)) {
+          throw new WorkflowFailure(422, "RESOLUTION_GATE_FAILED", "Add a reopening reason of 1–1,000 characters.", { reason: "Enter a reopening reason of 1–1,000 characters." });
+        }
+        const resolvedAt = target === "RESOLVED" ? new Date() : currentTicket.resolvedAt;
+        const updateData: Record<string, any> = { status: target, workflowVersion: { increment: 1 } };
+        if (target === "RESOLVED") Object.assign(updateData, { resolutionSummary, resolvedAt, resolvedById: context.user.id });
+        if (target === "REOPENED") Object.assign(updateData, { resolutionSummary: null, resolvedAt: null, resolvedById: null });
+        const changed = await tx.ticket.updateMany({
+          where: { id, status: currentTicket.status, workflowVersion: currentTicket.workflowVersion },
+          data: updateData,
+        });
+        if (changed.count !== 1) throw new WorkflowFailure(409, "VERSION_CONFLICT", "The Ticket changed. Refresh it and review your entries before retrying.");
+        await tx.ticketWorkflowEvent.create({
+          data: {
+            ticketId: id,
+            actorId: context.user.id,
+            fromStatus: currentTicket.status,
+            toStatus: target,
+            version: currentTicket.workflowVersion + 1,
+            reason: target === "REOPENED" ? reason : null,
+            resolutionSummary: target === "RESOLVED" ? resolutionSummary : currentTicket.resolutionSummary,
+            resolvedAt: target === "RESOLVED" ? resolvedAt : currentTicket.resolvedAt,
+            resolvedById: target === "RESOLVED" ? context.user.id : currentTicket.resolvedById,
+          },
+        });
+      });
       const updated = await findDetail(id);
       return res.json({ ticket: ticketJson(updated) });
-    } catch {
+    } catch (error) {
+      if (error instanceof WorkflowFailure) return fail(res, error.status, error.code, error.message, error.fields);
       return fail(res, 500, "INTERNAL_ERROR", "Unable to update Ticket status.");
     }
   });
