@@ -1,6 +1,13 @@
 # Lab 3 Screenshot and Visual Evidence Index
 
-## Current local verification 2026-10-01
+## Current final-main visual evidence, source verified 2026-10-01 and document reconciled 2026-10-28
+
+The verified source is merged main 1345e53589f1bede7acb7742ba6f8f36b88e59cc. The passing 16-scenario E2E run wrote 24 images, and the supplemental real-browser harness captured 55. Actual Login, mandatory Change Password, Requester, Queue, Detail, and Administrator views cover 1280x900, 900x900, and 390x844. The final report uses readable native mobile viewport sections and Page-2 top/bottom/control regions; captures show real API data. The Staff Requester-resolution display is repaired and tested on this main.
+
+The full final capture inventory, original manifests, and images remain in the local evidence archive at output/docs/final-main-20261001 in the original Lab 3 worktree. They are not included in this six-document correction. The committed screenshot links below retain their original provenance and are not relabelled as final-main captures.
+
+The final 2026-10-01 PDF has 128 pages. All pages were rendered; 11 changed or new pages were visually inspected and 117 were pixel-identical to reviewed pages. Figures 1–51 are sequential, and the final report’s original screenshots were preserved. This documentation-only reconciliation does not rebuild or modify that PDF. See the current release evidence at release-evidence.md#current-final-main-verification-2026-10-01.
+## Historical local verification 2026-10-01 before final-main rerun
 
 The approved local repairs now pass 190 server tests, 36 client tests, both
 builds, Prisma validation, and 16 integrated E2E scenarios. Migration
@@ -17,7 +24,7 @@ clean-main reruns remain required. The older dated records below are retained
 as history; earlier Docker-unavailable and missing-indicator statements do
 not describe this new local run.
 
-## Current local capture audit — 2026-10-01
+## Historical local capture audit — 2026-10-01 before final-main rerun
 
 Post-fix step 5 adds real Staff resolution-indicator screenshots at all three
 viewports, native browser regions and refreshed desktop/tablet viewports in
@@ -46,7 +53,7 @@ Controlled mocked empty/failure responses and delayed loading states are
 explicitly labelled in the index. Native browser section captures overlap by
 100px where applicable and do not generate or alter application content.
 
-**UNRESOLVED IMPLEMENTATION GAP:** Staff Detail does not render the populated
+**HISTORICAL GAP, SINCE FIXED IN PR #49:** Staff Detail did not render the populated
 `requesterResolutionIndicatedAt` API field. Requester-side indication works,
 but Staff-side display is not Passed. The diagnostic output and screenshot
 are retained in the current evidence folder. Code repair, regression checks,
@@ -55,7 +62,7 @@ and replacement Staff captures are required before claiming full compliance.
 The final PDF/DOCX are unchanged. Report figure replacement, final numbering,
 and every-page PDF inspection remain later steps.
 
-Status: The corrected local Playwright suite passed 15 tests on 2026-09-29
+Historical status: The corrected local Playwright suite passed 15 tests on 2026-09-29
 against a task-created disposable Docker database. It captured the required
 Requester, Queue, Ticket Detail, and User Management views at desktop, tablet,
 and mobile sizes, asserted no horizontal overflow in those views, and passed
@@ -103,7 +110,7 @@ Required viewport sizes:
 - Tablet: 900 x 900
 - Mobile: 390 x 844
 
-## Required captures
+## Historical required captures
 
 | Figure | File | Viewport | Scenario/caption | Status / boundary |
 |---|---|---:|---|---|
@@ -120,7 +127,7 @@ Required viewport sizes:
 | 11 | [tablet user-management capture](../../artifacts/lab-03/screenshots/user-management/tablet-900x900-list.png) | 900 x 900 | Administrator User Management at tablet width | Fresh local E2E capture; viewport assertion passed |
 | 12 | [mobile user-management capture](../../artifacts/lab-03/screenshots/user-management/mobile-390x844-list.png) | 390 x 844 | Administrator User Management at mobile width | Fresh full-page E2E capture; readable sections follow |
 
-## Authentication gate responsive captures (Figures 34-39)
+## Historical authentication gate responsive captures (Figures 34-39)
 
 Captured on 2026-09-29 from the running React/Vite client. A Playwright
 visual-only harness mocked `/api/auth/me`, `/api/auth/csrf`, and `/api/auth/login`
@@ -137,7 +144,7 @@ password-change, authorization, or session behavior.
 | 38 | `authentication/responsive-auth-gates/change-password-tablet-900x900.png` | 900 x 900 | Mandatory Change Password gate, tablet | Captured from actual app; mocked API; layout only |
 | 39 | `authentication/responsive-auth-gates/change-password-mobile-390x844.png` | 390 x 844 | Mandatory Change Password gate, mobile | Captured from actual app; mocked API; layout only |
 
-## Readable mobile report sections
+## Historical readable mobile report sections
 
 These are lossless crops from the existing browser-captured full-page PNGs.
 No application content was generated, painted, or upscaled. The source PNGs
@@ -165,7 +172,7 @@ evidence.
 | 32 | `admin-users-mobile-section-04-of-05.png` | same source, y=2326–3102 | Administrator mobile, section 4/5: account rows and status labels |
 | 33 | `admin-users-mobile-section-05-of-05.png` | same source, y=3102–3878 | Administrator mobile, section 5/5: remaining accounts |
 
-## Additional state captures
+## Historical additional state captures
 
 The status column identifies current local E2E captures separately from
 controlled API-state images. The latter use mocked responses and are not
@@ -200,7 +207,7 @@ not historical or final-main captures.
 | Figure 41: `staff-ticket-detail/migration-preservation-operations-1280x900.png` | Migrated Attachment visible after reassignment, LOW priority, and NEW-to-OPEN update | Live database-backed E2E flow | Passed locally; dirty tree |
 | Figure 42: `authentication/requester-resolution-indicated-1280x900.png` | Requester sees the separate resolved indication and can clear it | Live database-backed E2E flow | Passed locally; dirty tree |
 
-## Visual checklist
+## Historical visual checklist
 
 | Check | Evidence source | Current audit status |
 |---|---|---|

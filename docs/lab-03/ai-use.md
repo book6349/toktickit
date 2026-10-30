@@ -1,6 +1,16 @@
 # Lab 3 AI Use and Reflection
 
-## Current audit reflection 2026-10-01
+## Current final-main reflection 2026-10-01
+
+Punge089 reviewed, approved and merged the corrections in PR #49 and the
+release in PR #50. Fresh-install verification then passed 190 server tests,
+36 client tests and 16 integrated E2E scenarios on main
+`1345e53589f1bede7acb7742ba6f8f36b88e59cc`, with real disposable PostgreSQL
+migration preservation and seed-twice checks. Earlier local runs remain
+separate historical evidence; peer approval is not replaced by agent output.
+This reflection records the 2026-10-01 final-main verification; it does not change or infer the historical model identifier. Codex is identified, but the exact historical model was not recorded.
+
+## Historical audit reflection before reviewed integration 2026-10-01
 
 The same Codex assistant supported the local audit. The exact model used for
 earlier implementation was not recorded, so it is not guessed. The seven
@@ -20,7 +30,7 @@ Human approval and peer review remain separate from agent assistance. Local
 results now include 190 server, 36 client and 16 E2E passes; they are not
 committed-main results and do not replace the reviewer approval/merge process.
 
-Status: Updated 2026-09-29 for the submission audit. The Codex assistant
+Historical status from 2026-09-29: The Codex assistant
 supported the project; the exact model identifier used for earlier project
 work was not recorded in the available source/history and is intentionally
 not guessed.
@@ -36,7 +46,9 @@ the real GitHub record.
 
 The Lab 3 handouts and workflow guide were treated as requirements and
 reference material, not as new user messages. Lab 2 was kept as a completed
-baseline and was not intentionally modified.
+baseline. The original Lab 2 worktree/report were preserved; after explicit
+permission, legacy regression tests were minimally adapted in the Lab 3
+worktree to use the authenticated session flow.
 
 ## 2. Representative prompts used
 
@@ -56,7 +68,7 @@ baseline and was not intentionally modified.
    feature branch per unit, link PRs, obtain the friend review, prepare
    copy-ready replies, and merge only after approval.
 
-## 3. Reflection
+## 3. My Reflection
 
 The most useful AI contribution was maintaining traceability between the
 specification, API/UI contracts, test matrix, implementation files, and the
