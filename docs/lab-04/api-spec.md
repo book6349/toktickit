@@ -43,15 +43,15 @@ Allowed: IT Staff and Administrator. JSON: `{ "expectedVersion": 3, "status": "I
 
 ## 3. Ticket workflow
 
-### POST /api/staff/tickets/:ticketId/status
+### PATCH /api/staff/tickets/:ticketId/status
 
-Preserves the existing status route. Only IT Staff can change formal status in this increment. JSON includes `expectedVersion, status`; include `confirm: true` for RESOLVED, CLOSED or CANCELLED and `resolutionSummary` for RESOLVED. Reopening a resolved, closed or cancelled Ticket requires a trimmed reason.
+Only IT Staff can change formal status in this increment. JSON includes `expectedVersion` and `status`; include `confirm: true` for RESOLVED, CLOSED or CANCELLED and `resolutionSummary` for RESOLVED. Reopening a resolved, closed or cancelled Ticket requires a trimmed `reason` (1–1,000 characters).
 
 The server checks the exact matrix in [specification §6](specification.md#6-ticket-workflow), role, transition prerequisites and current workflowVersion in one transaction. Resolving sets server `resolvedAt` and `resolvedById`; reopening clears current resolution fields but retains the prior event; closing preserves the resolution. Return the Ticket status, workflowVersion and current resolution fields. Illegal transition returns 422 `INVALID_TRANSITION`; unmet resolution gate returns 422 `RESOLUTION_GATE_FAILED`; stale version returns 409 `VERSION_CONFLICT`.
 
 ### GET /api/tickets/:ticketId/workflow
 
-Allowed to roles that can read the Ticket. Returns current status, workflowVersion, resolution data, permitted next statuses for the role, and a chronological workflow event list. The server filters event data to safe display fields.
+Allowed to roles that can read the Ticket. Returns current status, workflowVersion, resolution data, permitted next statuses for the role, current resolution-gate counts, and a chronological workflow event list. Requesters can read this data only for their own Tickets; they receive no staff status controls or reopening reasons.
 
 ## 4. Dashboards
 

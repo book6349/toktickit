@@ -108,7 +108,7 @@ function actionFieldId(ticketId: number, field: keyof FormValues) {
   return `action-${ticketId}-${field}`;
 }
 
-export function ActionsTakenPanel(props: { ticketId: number; role: UserRole }) {
+export function ActionsTakenPanel(props: { ticketId: number; role: UserRole; onChange?: () => void }) {
   const canManage = props.role === "IT_STAFF" || props.role === "ADMINISTRATOR";
   const [items, setItems] = useState<ActionTaken[]>([]);
   const [readOnly, setReadOnly] = useState(!canManage);
@@ -283,6 +283,7 @@ export function ActionsTakenPanel(props: { ticketId: number; role: UserRole }) {
         setMode(null);
         setEditingId(null);
       }
+      props.onChange?.();
       setSaveStatus("idle");
     } catch (reason) {
       const error = reason as ApiFailure;
@@ -303,6 +304,7 @@ export function ActionsTakenPanel(props: { ticketId: number; role: UserRole }) {
       setItems((current) => orderActions(current.map((item) => item.id === updated.id ? updated : item)));
       setNextStatus((current) => ({ ...current, [action.id]: "" }));
       setSuccess(`Action marked ${status.toLowerCase()}.`);
+      props.onChange?.();
       setSaveStatus("idle");
     } catch (reason) {
       setSaveError(errorMessage(reason as ApiFailure));

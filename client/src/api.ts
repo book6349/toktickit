@@ -40,6 +40,8 @@ export interface Attachment {
   isRemoved: boolean;
 }
 
+export type TicketStatus = "NEW" | "OPEN" | "IN_PROGRESS" | "WAITING_FOR_REQUESTER" | "RESOLVED" | "CLOSED" | "REOPENED" | "CANCELLED";
+
 export interface Ticket {
   id: number;
   ticketNumber: string;
@@ -49,9 +51,12 @@ export interface Ticket {
   relatedSystemId: number;
   requestedPriority: "LOW" | "MEDIUM" | "HIGH";
   itPriority?: "LOW" | "MEDIUM" | "HIGH";
-  status: "NEW" | "OPEN" | "IN_PROGRESS" | "WAITING_FOR_REQUESTER" | "RESOLVED" | "CLOSED" | "REOPENED" | "CANCELLED";
+  status: TicketStatus;
   ownerId?: number | null;
   requesterResolutionIndicatedAt?: string | null;
+  workflowVersion?: number;
+  resolutionSummary?: string | null;
+  resolvedAt?: string | null;
   summary: string;
   description: string;
   createdAt: string;
@@ -132,6 +137,33 @@ export interface StaffTicket extends Ticket {
   owner?: StaffPerson | null;
   comments: PublicComment[];
   notes: InternalNote[];
+}
+
+export interface TicketWorkflowEvent {
+  id: number;
+  fromStatus: TicketStatus;
+  toStatus: TicketStatus;
+  version: number;
+  createdAt: string;
+  actor: { id: number; name: string };
+  resolutionSummary: string | null;
+  resolvedAt: string | null;
+  resolvedBy: { id: number; name: string } | null;
+  reason?: string;
+}
+
+export interface TicketWorkflow {
+  ticketId: number;
+  status: TicketStatus;
+  workflowVersion: number;
+  resolution: {
+    summary: string | null;
+    resolvedAt: string | null;
+    resolvedBy: { id: number; name: string } | null;
+  };
+  permittedNextStatuses: TicketStatus[];
+  resolutionGate: { completedActionCount: number; blockingActionCount: number };
+  events: TicketWorkflowEvent[];
 }
 
 export interface Pagination {
@@ -375,6 +407,10 @@ export async function getTicket(first: number, second?: number): Promise<Ticket>
   return data.ticket;
 }
 
+export async function getTicketWorkflow(ticketId: number): Promise<TicketWorkflow> {
+  return request<TicketWorkflow>(`/api/tickets/${ticketId}/workflow`);
+}
+
 export async function getActionsTaken(ticketId: number): Promise<{ items: ActionTaken[]; ticketId: number; readOnly: boolean }> {
   return request<{ items: ActionTaken[]; ticketId: number; readOnly: boolean }>(`/api/tickets/${ticketId}/actions`);
 }
@@ -518,11 +554,15 @@ export async function updateStaffPriority(ticketId: number, itPriority: "LOW" | 
   return data.ticket;
 }
 
-export async function updateStaffStatus(ticketId: number, status: Ticket["status"], confirm = false): Promise<StaffTicket> {
+export async function updateStaffStatus(
+  ticketId: number,
+  status: TicketStatus,
+  payload: { expectedVersion: number; confirm?: boolean; resolutionSummary?: string; reason?: string },
+): Promise<StaffTicket> {
   const data = await request<{ ticket: StaffTicket }>(`/api/staff/tickets/${ticketId}/status`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ status, confirm }),
+    body: JSON.stringify({ status, ...payload }),
   });
   return data.ticket;
 }

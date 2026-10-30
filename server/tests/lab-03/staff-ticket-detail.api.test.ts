@@ -31,27 +31,62 @@ const confirmedCases = Object.entries(approvedTransitions).flatMap(([from, targe
 );
 const mutationCookie = "toktickit_session=staff-token; toktickit_csrf=csrf-token";
 
+function workflowDb(status = "OPEN", updateCount = 1) {
+  const current = { id: 44, status, workflowVersion: 1, resolutionSummary: ["RESOLVED", "CLOSED"].includes(status) ? "VPN access restored." : null,
+    resolvedAt: ["RESOLVED", "CLOSED"].includes(status) ? new Date("2026-10-30T09:00:00.000Z") : null,
+    resolvedById: ["RESOLVED", "CLOSED"].includes(status) ? 7 : null };
+  const updated = { ...detail, ...current };
+  const tx = {
+    ticket: {
+      findUnique: vi.fn().mockResolvedValue(current),
+      updateMany: vi.fn(async ({ data }: any) => {
+        if (updateCount === 1) {
+          updated.status = data.status;
+          updated.workflowVersion = 2;
+          Object.assign(updated, data);
+          updated.workflowVersion = 2;
+        }
+        return { count: updateCount };
+      }),
+    },
+    actionTaken: { findMany: vi.fn().mockResolvedValue([{ status: "COMPLETED" }]) },
+    ticketWorkflowEvent: { create: vi.fn().mockResolvedValue({ id: 1 }) },
+  };
+  const db = {
+    session: { findUnique: vi.fn().mockResolvedValue(session) },
+    ticket: { findUnique: vi.fn().mockResolvedValue(updated) },
+    $transaction: vi.fn((callback: (value: any) => unknown) => callback(tx)),
+  };
+  return { db, tx, updated };
+}
+
+function workflowBody(to: string) {
+  return { status: to, expectedVersion: 1,
+    ...(["RESOLVED", "CLOSED", "CANCELLED"].includes(to) ? { confirm: true } : {}),
+    ...(to === "RESOLVED" ? { resolutionSummary: "VPN access restored." } : {}),
+    ...(to === "REOPENED" ? { reason: "The issue returned." } : {}),
+  };
+}
+
 describe("Lab 3 IT Staff Ticket Detail", () => {
   beforeEach(() => vi.restoreAllMocks());
   afterEach(() => vi.restoreAllMocks());
 
   it("requires the approved confirmation and transition matrix on the backend", async () => {
-    const findUnique = vi.fn().mockResolvedValue({ id: 44, status: "OPEN" });
-    const updateMany = vi.fn();
-    vi.spyOn(prismaModule, "getPrisma").mockReturnValue({ session: { findUnique: vi.fn().mockResolvedValue(session) }, ticket: { findUnique, updateMany } } as any);
-    const response = await request(app).patch("/api/staff/tickets/44/status").set("Cookie", "toktickit_session=staff-token; toktickit_csrf=csrf-token").set("X-CSRF-Token", "csrf-token").send({ status: "RESOLVED", confirm: false });
-    expect(response.status).toBe(400);
-    expect(response.body.error.code).toBe("INVALID_TRANSITION");
-    expect(updateMany).not.toHaveBeenCalled();
+    const { db, tx } = workflowDb("OPEN");
+    vi.spyOn(prismaModule, "getPrisma").mockReturnValue(db as any);
+    const response = await request(app).patch("/api/staff/tickets/44/status").set("Cookie", mutationCookie).set("X-CSRF-Token", "csrf-token").send({ status: "RESOLVED", expectedVersion: 1, confirm: false });
+    expect(response.status).toBe(422);
+    expect(response.body.error.code).toBe("RESOLUTION_GATE_FAILED");
+    expect(tx.ticket.updateMany).not.toHaveBeenCalled();
   });
 
   it("updates a permitted status only when the current state still matches", async () => {
-    const findUnique = vi.fn().mockResolvedValueOnce({ id: 44, status: "OPEN" }).mockResolvedValueOnce({ ...detail, status: "RESOLVED" });
-    const updateMany = vi.fn().mockResolvedValue({ count: 1 });
-    vi.spyOn(prismaModule, "getPrisma").mockReturnValue({ session: { findUnique: vi.fn().mockResolvedValue(session) }, ticket: { findUnique, updateMany } } as any);
-    const response = await request(app).patch("/api/staff/tickets/44/status").set("Cookie", "toktickit_session=staff-token; toktickit_csrf=csrf-token").set("X-CSRF-Token", "csrf-token").send({ status: "RESOLVED", confirm: true });
+    const { db, tx } = workflowDb("OPEN");
+    vi.spyOn(prismaModule, "getPrisma").mockReturnValue(db as any);
+    const response = await request(app).patch("/api/staff/tickets/44/status").set("Cookie", mutationCookie).set("X-CSRF-Token", "csrf-token").send({ status: "RESOLVED", expectedVersion: 1, confirm: true, resolutionSummary: "VPN access restored." });
     expect(response.status).toBe(200);
-    expect(updateMany).toHaveBeenCalledWith({ where: { id: 44, status: "OPEN" }, data: { status: "RESOLVED" } });
+    expect(tx.ticket.updateMany).toHaveBeenCalledWith(expect.objectContaining({ where: { id: 44, status: "OPEN", workflowVersion: 1 }, data: expect.objectContaining({ status: "RESOLVED", workflowVersion: { increment: 1 }, resolutionSummary: "VPN access restored.", resolvedById: 7 }) }));
     expect(response.body.ticket.status).toBe("RESOLVED");
   });
 
@@ -71,50 +106,42 @@ describe("Lab 3 IT Staff Ticket Detail", () => {
   });
 
   it.each(statusCases)("enforces $from -> $to (allowed=$allowed) from the approved matrix", async ({ from, to, allowed }) => {
-    const findUnique = vi.fn().mockResolvedValueOnce({ id: 44, status: from }).mockResolvedValueOnce({ ...detail, status: to });
-    const updateMany = vi.fn().mockResolvedValue({ count: 1 });
-    vi.spyOn(prismaModule, "getPrisma").mockReturnValue({
-      session: { findUnique: vi.fn().mockResolvedValue(session) }, ticket: { findUnique, updateMany },
-    } as any);
+    const { db, tx } = workflowDb(from);
+    vi.spyOn(prismaModule, "getPrisma").mockReturnValue(db as any);
     const response = await request(app).patch("/api/staff/tickets/44/status")
-      .set("Cookie", mutationCookie).set("X-CSRF-Token", "csrf-token").send({ status: to, confirm: true });
+      .set("Cookie", mutationCookie).set("X-CSRF-Token", "csrf-token").send(workflowBody(to));
     if (allowed) {
       expect(response.status).toBe(200);
       expect(response.body.ticket.status).toBe(to);
-      expect(updateMany).toHaveBeenCalledWith({ where: { id: 44, status: from }, data: { status: to } });
+      expect(tx.ticket.updateMany).toHaveBeenCalledWith(expect.objectContaining({ where: { id: 44, status: from, workflowVersion: 1 }, data: expect.objectContaining({ status: to, workflowVersion: { increment: 1 } }) }));
     } else {
-      expect(response.status).toBe(400);
+      expect(response.status).toBe(422);
       expect(response.body.error.code).toBe("INVALID_TRANSITION");
-      expect(updateMany).not.toHaveBeenCalled();
+      expect(tx.ticket.updateMany).not.toHaveBeenCalled();
     }
   });
 
   it.each(confirmedCases)("requires explicit confirmation for $from -> $to", async ({ from, to }) => {
-    const updateMany = vi.fn();
-    vi.spyOn(prismaModule, "getPrisma").mockReturnValue({
-      session: { findUnique: vi.fn().mockResolvedValue(session) },
-      ticket: { findUnique: vi.fn().mockResolvedValue({ id: 44, status: from }), updateMany },
-    } as any);
+    const { db, tx } = workflowDb(from);
+    vi.spyOn(prismaModule, "getPrisma").mockReturnValue(db as any);
     for (const confirm of [undefined, false, "true"]) {
       const response = await request(app).patch("/api/staff/tickets/44/status")
-        .set("Cookie", mutationCookie).set("X-CSRF-Token", "csrf-token").send({ status: to, confirm });
-      expect(response.status).toBe(400);
-      expect(response.body.error.code).toBe("INVALID_TRANSITION");
+        .set("Cookie", mutationCookie).set("X-CSRF-Token", "csrf-token").send({ status: to, expectedVersion: 1, confirm });
+      expect(response.status).toBe(422);
+      expect(response.body.error.code).toBe(to === "RESOLVED" ? "RESOLUTION_GATE_FAILED" : "CONFIRMATION_REQUIRED");
     }
-    expect(updateMany).not.toHaveBeenCalled();
+    expect(tx.ticket.updateMany).not.toHaveBeenCalled();
   });
 
   it("returns a safe conflict when the Ticket status changes before persistence", async () => {
-    const findUnique = vi.fn().mockResolvedValue({ id: 44, status: "OPEN" });
-    const updateMany = vi.fn().mockResolvedValue({ count: 0 });
-    vi.spyOn(prismaModule, "getPrisma").mockReturnValue({
-      session: { findUnique: vi.fn().mockResolvedValue(session) }, ticket: { findUnique, updateMany },
-    } as any);
+    const { db, tx } = workflowDb("OPEN", 0);
+    vi.spyOn(prismaModule, "getPrisma").mockReturnValue(db as any);
     const response = await request(app).patch("/api/staff/tickets/44/status")
-      .set("Cookie", mutationCookie).set("X-CSRF-Token", "csrf-token").send({ status: "IN_PROGRESS" });
+      .set("Cookie", mutationCookie).set("X-CSRF-Token", "csrf-token").send({ status: "IN_PROGRESS", expectedVersion: 1 });
     expect(response.status).toBe(409);
-    expect(response.body.error.code).toBe("CONFLICT");
-    expect(findUnique).toHaveBeenCalledTimes(1);
+    expect(response.body.error.code).toBe("VERSION_CONFLICT");
+    expect(tx.ticket.findUnique).toHaveBeenCalledTimes(1);
+    expect(tx.ticketWorkflowEvent.create).not.toHaveBeenCalled();
   });
 
   it.each([
