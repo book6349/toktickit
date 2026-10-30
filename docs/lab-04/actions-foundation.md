@@ -1,8 +1,8 @@
-# Actions Taken foundation preparation
+# Actions Taken foundation
 
-Prepared locally on 2026-10-30 for the second Lab 4 feature PR, linked to Issue #52.
-Base: PR #57 head fd390c3d0a462bcaccd28e46e52b5ea65ffc72e8.
-This work awaits the contract review and merge. Reconcile review changes before publishing.
+This implementation follows the reviewed Lab 4 contract and completes Issue #52.
+PR #57 was approved and merged to `lab4-staging` on 2026-10-30 as merge commit
+`41a3ad567355457be7d4838dadd6f810dfa35aea`. This branch was rebased onto that staging tip.
 
 ## Implementation
 
@@ -18,7 +18,7 @@ Keys are scoped to authenticated actor and Ticket and stored as SHA-256 hashes.
 Matching normalized payloads replay the original saved response, including after later edits.
 A different payload with the same key returns 409. Unknown/client attribution fields are ignored.
 GET /api/tickets/:ticketId/action-assignees supplies id/name choices for active Staff/Admin only,
-and requires Staff/Admin access to the Ticket. This small API addition supports the upcoming UI.
+and requires Staff/Admin access to the Ticket. This endpoint supports the Actions Taken UI in Issue #53.
 
 The additive migration creates ActionTaken, ActionTakenEvent and ActionCreateRequest, plus
 Ticket.workflowVersion. Resolution fields and formal Ticket workflow remain in the later workflow unit.
@@ -65,9 +65,9 @@ verify row/relationship snapshots, and run the prior application revision agains
 Preserve the failed rollout database and reconcile any writes made after the backup before switching.
 Do not drop new tables or pretend a reverse migration preserves post-deployment actions.
 
-## Next PR workflow
+## PR handoff
 
-After the friend reviews and merges PR #57, reconcile this branch with the actual lab4-staging tip.
-Keep only the second unit's implementation changes in its PR. Confirm the Development relationship
-to Issue #52 explicitly, since closing keywords alone may not link staging-targeted PRs.
-Author replies and fixes stay on this branch/PR; the friend approves and merges.
+Base: `lab4-staging` at `41a3ad5`.
+This PR targets `lab4-staging` and should list Issue #52 under Development. Verify that relationship
+after opening the PR; closing keywords alone may not create it for a non-default target branch.
+Review replies and fixes stay on this branch and PR; an independent peer approves and merges.
