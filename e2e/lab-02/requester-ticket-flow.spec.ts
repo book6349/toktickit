@@ -1,13 +1,12 @@
 import { test, expect } from "@playwright/test";
 import fs from "node:fs/promises";
 import path from "node:path";
+import { logOutAndWait, requesterEmail, signInAndUnlock } from "../lab-03/fixtures";
 
 const screenshotRoot = path.resolve("artifacts/lab-02/screenshots");
 
-async function chooseRequester(page: import("@playwright/test").Page, requesterId: string) {
-  await page.goto("/");
-  await page.locator("#requester").selectOption(requesterId);
-  await page.getByRole("button", { name: "Continue" }).click();
+async function chooseRequester(page: import("@playwright/test").Page, email = requesterEmail) {
+  await signInAndUnlock(page, email);
   await expect(page.getByRole("heading", { name: "My tickets" })).toBeVisible();
 }
 
@@ -23,7 +22,7 @@ test.describe.configure({ mode: "serial" });
 
 test.describe("Lab 2 requester ticket flow", () => {
   test("creates, lists, inspects, and manages an owned ticket", async ({ page }) => {
-    await chooseRequester(page, "1");
+    await chooseRequester(page);
     await page.getByRole("button", { name: "Create Ticket" }).click();
     await page.locator("#categoryId").selectOption("1");
     await page.locator("#relatedSystemId").selectOption("1");
@@ -72,25 +71,13 @@ test.describe("Lab 2 requester ticket flow", () => {
     await capture(page, "ticket-detail", "tablet-900x900", 900, 900);
     await capture(page, "ticket-detail", "mobile-390x844", 390, 844);
 
-    await page.getByRole("button", { name: "Change requester" }).click();
-    await page.locator("#requester").selectOption("2");
-    await page.getByRole("button", { name: "Continue" }).click();
-    await expect(page.getByRole("heading", { name: "My tickets" })).toBeVisible();
+    await logOutAndWait(page);
+    await chooseRequester(page, "narin.kittisak@example.com");
     await expect(page.getByText(ticketNumber!, { exact: true })).toHaveCount(0);
   });
 
-  test("supports keyboard traversal across the requester gate, filters, detail, and attachment controls", async ({ page }) => {
-    await page.goto("/");
-    await expect(page.locator("#requester")).toBeVisible();
-    await page.locator("#requester").focus();
-    await expect(page.locator("#requester")).toBeFocused();
-    await page.keyboard.press("Tab");
-    await expect(page.getByRole("button", { name: "Continue" })).toBeFocused();
-    await page.keyboard.press("Tab");
-    await expect(page.getByRole("button", { name: "Check System" })).toBeFocused();
-
-    await page.locator("#requester").selectOption("1");
-    await page.getByRole("button", { name: "Continue" }).click();
+  test("supports keyboard traversal across authenticated requester controls", async ({ page }) => {
+    await chooseRequester(page);
     await expect(page.getByRole("heading", { name: "My tickets" })).toBeVisible();
     await page.getByRole("button", { name: "Create Ticket" }).click();
     const controls = ["#categoryId", "#relatedSystemId", "#requestedPriority", "#summary", "#description", "#attachments"];

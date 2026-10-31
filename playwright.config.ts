@@ -6,7 +6,7 @@ export default defineConfig({
   expect: { timeout: 10_000 },
   fullyParallel: false,
   workers: 1,
-  reporter: [["list"], ["html", { outputFolder: "artifacts/lab-03/playwright-report", open: "never" }]],
+  reporter: [["list"], ["html", { outputFolder: "artifacts/lab-04/playwright-report", open: "never" }]],
   use: {
     baseURL: process.env.E2E_BASE_URL ?? "http://localhost:5173",
     acceptDownloads: true,
@@ -33,6 +33,8 @@ export default defineConfig({
         },
       ],
   projects: [
-    { name: "chromium", use: { ...devices["Desktop Chrome"] } },
+    { name: "lab-03", testDir: "./e2e/lab-03", use: { ...devices["Desktop Chrome"] } },
+    { name: "lab-02", testDir: "./e2e/lab-02", dependencies: ["lab-03"], use: { ...devices["Desktop Chrome"] } },
+    { name: "lab-04", testDir: "./e2e/lab-04", dependencies: ["lab-02"], use: { ...devices["Desktop Chrome"] } },
   ],
 });

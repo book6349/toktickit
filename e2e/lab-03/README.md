@@ -4,7 +4,7 @@ Run from the repository root with dependencies installed and local PostgreSQL av
 
 1. Set the explicit database URL in the current shell. Use a unique name for every full run.
 2. Ensure the application ports 3000 and 5173 are free. The default configuration refuses to reuse existing servers.
-3. Run `npm run test:e2e`. This first runs `npm run test:e2e:prepare`, then Playwright.
+3. Run `npm run test:e2e`. This first runs `npm run test:e2e:prepare`, then the Lab 2, Lab 3, and Lab 4 Playwright suites. The HTML report is written to `artifacts/lab-04/playwright-report/`; failure attachments and traces go to `test-results/`, preserving prior Lab 3 evidence.
 4. Retain complete output, exit code, source SHA, dirty status, date, browser report, traces, and screenshots. Test discovery alone is not an executed E2E pass.
 
 Preparation refuses existing databases and never drops or resets them. It creates a synthetic Lab 2 baseline using the actual migration, inserts a Ticket and Attachment, deploys Lab 3, compares baseline fields and relationships, runs the seed twice, and asserts counts, ownership, authorship, and attachment bytes. These checks are evidence only after successful execution; unit tests of the preparer are not database evidence.

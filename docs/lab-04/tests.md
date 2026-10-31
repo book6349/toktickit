@@ -1,6 +1,6 @@
 # Lab 4 Test Plan
 
-Status: On 2026-10-30, the full server suite passed (306 tests across 23 files, including all 37 PostgreSQL-backed Actions Taken checks), the full client suite passed (58 tests), both production builds passed, and the Lab 4 dashboard browser journey passed (1 test) against a fresh disposable local database. The Lab 1–3 browser regression and remaining Lab 4 browser journeys are still outstanding.
+Status: On 2026-10-31, the final regression passed on the PR6 branch. The server suite passed 306 tests across 23 files, including all 37 PostgreSQL-backed Actions Taken checks; the client suite passed 58 tests; both production builds and Prisma validation passed; and all 21 Lab 2–4 Playwright tests passed against a fresh disposable PostgreSQL database. The built server start command returned a successful health response. GitHub CI and verification on `main` remain pending until review and merge.
 
 Related: [engineering specification](specification.md), [API contract](api-spec.md), [UI contract](ui-spec.md).
 
@@ -33,12 +33,13 @@ Run named tests and the existing Lab 1–3 regression suites before release. Rec
 | T-17 | AC-05, AC-08 | Resolution gate summary/blocker links, confirmation, advisory feedback and reopen reason UX. `client/tests/lab-04/TicketWorkflow.test.tsx` | Passed |
 | T-18 | AC-06, AC-08 | Requester dashboard labels/definitions, zero and empty states, accessible drill-down links and UTC/as-of context. `client/tests/lab-04/RequesterDashboard.test.tsx` | Passed |
 | T-19 | AC-06, AC-08 | Staff/Admin metric cards, active status/priority breakdown, own actions, empty states and drill-downs. `client/tests/lab-04/StaffDashboard.test.tsx` | Passed |
-| T-20 | AC-08 | Keyboard access, accessible labels/live regions/focus, status text not color-only, reduced motion and narrow layout style rules. `client/tests/lab-04/ui-style.test.tsx` | Planned |
-| T-21 | AC-01, AC-02, AC-03, AC-08 | Staff create/edit/transition action; Requester observes same history read-only; validation and stale-conflict states. `e2e/lab-04/actions-taken-flow.spec.ts` | Planned |
-| T-22 | AC-04, AC-05, AC-08 | Complete Ticket resolution, close and reopen journey; invalid gate and role denial; prior event remains visible. `e2e/lab-04/ticket-resolution.spec.ts` | Planned |
+| T-20 | AC-08 | Keyboard access, accessible labels/live regions/focus, status text not color-only, reduced motion and narrow layout style rules. `client/tests/lab-04/ui-style.test.tsx` | Passed |
+| T-21 | AC-01, AC-02, AC-03, AC-08 | Staff records multiple actions; Requester sees the same history read-only; responsive widths are checked and desktop/tablet/mobile evidence is captured. `e2e/lab-04/actions-taken-flow.spec.ts` | Passed |
+| T-22 | AC-04, AC-05, AC-08 | Complete Ticket resolution, close and reopen journey; blocked resolution, retained public history, and Requester write denial. `e2e/lab-04/ticket-resolution.spec.ts` | Passed |
 | T-23 | AC-06, AC-08 | Requester and Staff dashboard metrics render, and active/unassigned drill-downs include the expected Tickets. `e2e/lab-04/dashboards.spec.ts` | Passed |
-| T-24 | AC-09 | Existing Lab 1–3 server, client, build and browser regression suites pass unchanged after integration. Exact existing test commands are captured in the implementation/release evidence. | Planned |
+| T-24 | AC-09 | Lab 1–3 server/client suites, both builds, and ordered Lab 2–4 browser regression pass after integration. Exact output is retained in `output/evidence/lab4-pr6-validation-final.log` and `output/evidence/lab4-pr6-e2e-final.log`; browser database: `toktickit_lab3_e2e_pr6_20261031_195735`. | Passed |
 | T-25 | AC-10 | Release checklist checks dated run evidence, reviewer disposition, actual AI-use record and no unsupported pass claims. `docs/lab-04/reviewer.md` and `docs/lab-04/ai-use.md` | Planned |
+| T-26 | AC-09 | `npm start` launches the compiled server entrypoint and `GET /api/health` returns `{"status":"ok","service":"TokTickIT API"}` using a fresh local database initialized by the documented setup. | Passed |
 
 ## 3. Coverage notes
 
@@ -48,7 +49,8 @@ Run named tests and the existing Lab 1–3 regression suites before release. Rec
 - For every dashboard metric, compare returned counts to fixture rows and verify that detail filters use the same predicates.
 - For timestamp tests, freeze `asOfUtc` and cover the exact inclusive boundary, one instant before, one instant after and future dates.
 - Migration tests must begin with realistic prior-schema data, including resolved/closed Tickets with no real resolution timestamp.
-- Browser tests use deterministic seeded fixtures and clean up safely; no shared account data is mutated.
+- Browser tests use deterministic synthetic fixtures in a new local database. Preparation refuses an existing database and leaves the created database available for evidence review; it never resets a shared database.
+- The PR6 regression captured 24 real Lab 4 screenshots: eight screen states at desktop, tablet and mobile sizes. See [the screenshot index](screenshots.md).
 
 ## 4. Status vocabulary
 
