@@ -82,7 +82,7 @@ describe("Lab 4 Requester dashboard UI", () => {
     vi.spyOn(api, "getRequesterDashboard").mockResolvedValue(dashboard);
     let reject!: (reason: Error) => void;
     const pending = new Promise<any>((_, fail) => { reject = fail; });
-    const request = vi.spyOn(api, "listTickets").mockReturnValueOnce(pending).mockResolvedValue({ items: [summary], pagination });
+    const request = vi.spyOn(api, "listTickets").mockReturnValueOnce(pending).mockResolvedValue({ items: [{ ...summary, ticketDate: asOfUtc, requesterId: requester.id, categoryId: 1, relatedSystemId: 1, description: "VPN access request", createdAt: asOfUtc, attachments: [] }], pagination });
     render(<RequesterDashboard user={requester} onOpenTicket={vi.fn()} />);
     fireEvent.click(await screen.findByRole("button", { name: /Open Tickets: 12/ }));
     expect(screen.getByRole("status")).toHaveTextContent("Loading matching Tickets");
