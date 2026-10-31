@@ -1,0 +1,4 @@
+GET /api/health
+HTTP 200
+{"status":"ok","service":"TokTickIT API"}
+Exit code: 0

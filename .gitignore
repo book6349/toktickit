@@ -19,4 +19,6 @@ artifacts/lab-04/playwright-report/
 artifacts/lab-04/runtime/
 # logs & OS
 *.log
+# Keep verified Lab 4 main-branch run evidence
+!output/evidence/lab4-main-*.log
 .DS_Store

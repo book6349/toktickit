@@ -1,6 +1,6 @@
 # Lab 4 Test Plan
 
-Status: On 2026-10-31, the final regression passed on the PR6 branch. The server suite passed 306 tests across 23 files, including all 37 PostgreSQL-backed Actions Taken checks; the client suite passed 58 tests; both production builds and Prisma validation passed; and all 21 Lab 2–4 Playwright tests passed against a fresh disposable PostgreSQL database. The built server start command returned a successful health response. GitHub CI and verification on `main` remain pending until review and merge.
+Status: On 2026-10-31 (+07:00), local regression passed on merged main commit 6e66c2cf187c0a83e6ea36c4a6c6711f886c0866: 306 server tests, 58 client tests, and 21 browser tests; both production builds, Prisma validation, and the compiled-server health check passed. GitHub returned no status checks. T-20 remains Planned, and the project-board Done state has not been verified.
 
 Related: [engineering specification](specification.md), [API contract](api-spec.md), [UI contract](ui-spec.md).
 
@@ -37,11 +37,26 @@ Run named tests and the existing Lab 1–3 regression suites before release. Rec
 | T-21 | AC-01, AC-02, AC-03, AC-08 | Staff records multiple actions; Requester sees the same history read-only; responsive widths are checked and desktop/tablet/mobile evidence is captured. `e2e/lab-04/actions-taken-flow.spec.ts` | Passed |
 | T-22 | AC-04, AC-05, AC-08 | Complete Ticket resolution, close and reopen journey; blocked resolution, retained public history, and Requester write denial. `e2e/lab-04/ticket-resolution.spec.ts` | Passed |
 | T-23 | AC-06, AC-08 | Requester and Staff dashboard metrics render, and active/unassigned drill-downs include the expected Tickets. `e2e/lab-04/dashboards.spec.ts` | Passed |
-| T-24 | AC-09 | Lab 1–3 server/client suites, both builds, and ordered Lab 2–4 browser regression pass after integration. Exact output is retained in `output/evidence/lab4-pr6-validation-final.log` and `output/evidence/lab4-pr6-e2e-final.log`; browser database: `toktickit_lab3_e2e_pr6_20261031_195735`. | Passed |
-| T-25 | AC-10 | Release checklist checks dated run evidence, reviewer disposition, actual AI-use record and no unsupported pass claims. `docs/lab-04/reviewer.md` and `docs/lab-04/ai-use.md` | Planned |
-| T-26 | AC-09 | `npm start` launches the compiled server entrypoint and `GET /api/health` returns `{"status":"ok","service":"TokTickIT API"}` using a fresh local database initialized by the documented setup. | Passed |
+| T-24 | AC-09 | Run the Lab 1–4 server, client, and browser regression, production builds, Prisma validation, and health check after promotion to main. Full output is retained under output/evidence/lab4-main-*.log on revision 6e66c2c. | Passed |
+| T-25 | AC-10 | Dated run evidence, the PR #57–#63 reviewer disposition, actual AI-use excerpts, and limitations are recorded without unsupported pass claims. Files: reviewer.md, ai-use.md, and output/evidence. | Passed |
+| T-26 | AC-09 | Production start and GET /api/health on merged main; full response is in output/evidence/lab4-main-health.log. | Passed |
 
-## 3. Coverage notes
+## 3. Post-merge verification on main
+
+The release was promoted by [PR #63](https://github.com/book6349/toktickit/pull/63) to main at commit `6e66c2cf187c0a83e6ea36c4a6c6711f886c0866` on 2026-10-31. PR #62 was reviewed and merged into lab4-staging first. The local runs below used this exact main revision on 2026-10-31 (Bangkok time, UTC+07:00).
+
+| Check | Exact command and environment | Observed result | Complete output |
+|---|---|---|---|
+| Server and PostgreSQL suite | In server/: `npm test -- --reporter=dot`; LAB4_DB_TEST=1; local PostgreSQL test service | 23 files and 306 tests passed, including 37 PostgreSQL checks; started 22:31:48 | [Server log](../../output/evidence/lab4-main-server-tests.log) |
+| Client suite | In client/: `npm test -- --reporter=dot` | 18 files and 58 tests passed; started 22:32:12 | [Client log](../../output/evidence/lab4-main-client-tests.log) |
+| Browser regression | From repository root: `npm run test:e2e`; fresh database toktickit_lab3_e2e_main_20261031222922; one worker | 21 Lab 2–4 Playwright tests passed; exit code 0 | [Browser log](../../output/evidence/lab4-main-e2e-final.log) |
+| Server build | In server/: `npm run build` | Passed; exit code 0 | [Server build log](../../output/evidence/lab4-main-server-build.log) |
+| Prisma schema | In server/: `npx prisma validate` | Schema valid; exit code 0 | [Prisma log](../../output/evidence/lab4-main-prisma-validate.log) |
+| Client build | In client/: `npm run build` | TypeScript and Vite production build passed; exit code 0 | [Client build log](../../output/evidence/lab4-main-client-build.log) |
+| Production health | In server/: `npm start`, then GET http://localhost:3000/api/health | HTTP 200; `{"status":"ok","service":"TokTickIT API"}`; exit code 0 | [Health log](../../output/evidence/lab4-main-health.log) |
+
+The main commit has no GitHub status checks, so these results are local verification and are not described as GitHub CI. Issues #51–#56 are closed. The project-board columns were not inspected. T-20 remains Planned for dedicated Lab 4 keyboard, ARIA, reduced-motion, and 320px evidence; the 24 screenshots start at 390px. Keep this report marked as a draft until that check and the project-board state are resolved.
+## 4. Coverage notes
 
 - AC-01 through AC-10 each map to one or more test rows above.
 - For every role-protected route, include unauthenticated, unauthorized and valid-role cases.
@@ -50,8 +65,8 @@ Run named tests and the existing Lab 1–3 regression suites before release. Rec
 - For timestamp tests, freeze `asOfUtc` and cover the exact inclusive boundary, one instant before, one instant after and future dates.
 - Migration tests must begin with realistic prior-schema data, including resolved/closed Tickets with no real resolution timestamp.
 - Browser tests use deterministic synthetic fixtures in a new local database. Preparation refuses an existing database and leaves the created database available for evidence review; it never resets a shared database.
-- The PR6 regression captured 24 real Lab 4 screenshots: eight screen states at desktop, tablet and mobile sizes. See [the screenshot index](screenshots.md).
+- The report retains 24 real Lab 4 screenshots across eight states and three viewports. They were captured on code candidate a988031; client, server, and E2E sources have no differences through main. See [the screenshot index](screenshots.md).
 
-## 4. Status vocabulary
+## 5. Status vocabulary
 
 `Planned` = not yet run. `Passed` or `Failed` requires an observed run and recorded revision. `Blocked` requires the blocker and evidence to be documented. Do not mark this plan complete while required rows are Planned, Failed or Blocked.

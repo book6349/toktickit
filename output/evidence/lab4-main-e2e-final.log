@@ -1,0 +1,125 @@
+
+> toktickit-lab3-integration@1.0.0 test:e2e
+> npm run test:e2e:prepare && playwright test
+
+
+> toktickit-lab3-integration@1.0.0 test:e2e:prepare
+> npm --prefix server run test:e2e:prepare
+
+
+> toktickit-server@1.0.0 test:e2e:prepare
+> tsx prisma/prepare-lab3-e2e.ts
+
+New disposable database: toktickit_lab3_e2e_main_20261031222922
+server: npx --no-install prisma db execute --schema prisma/schema.prisma --stdin
+Script executed successfully.
+Synthetic pre-Lab-3 snapshot: {"requesters":[{"id":1,"name":"Ariya Somchai","email":"ariya.somchai@example.com","isActive":true,"createdAt":"2026-10-31T15:29:28.486Z"}],"tickets":[{"id":1,"ticketNumber":"TT-DOCKER-PRELAB3-001","requesterId":1,"categoryId":1,"relatedSystemId":1,"requestedPriority":"HIGH","status":"NEW","summary":"Pre-Lab 3 preservation fixture","description":"Synthetic migration fixture for local verification."}],"attachments":[{"id":1,"ticketId":1,"originalFilename":"baseline.txt","storageKey":"toktickit_lab3_e2e_main_20261031222922-baseline.txt","mimeType":"text/plain","sizeBytes":17,"removedAt":null}],"categories":[{"id":1,"name":"Hardware","isActive":true,"createdAt":"2026-10-31T15:29:28.486Z"}],"systems":[{"id":1,"name":"Corporate Laptop","isActive":true,"createdAt":"2026-10-31T15:29:28.486Z"}]}
+server: npx --no-install prisma migrate resolve --applied 20260824000000_lab2_foundation
+Prisma schema loaded from prisma\schema.prisma
+Datasource "db": PostgreSQL database "toktickit_lab3_e2e_main_20261031222922", schema "public" at "localhost:5432"
+
+Migration 20260824000000_lab2_foundation marked as applied.
+
+server: npx --no-install prisma migrate deploy
+Prisma schema loaded from prisma\schema.prisma
+Datasource "db": PostgreSQL database "toktickit_lab3_e2e_main_20261031222922", schema "public" at "localhost:5432"
+
+4 migrations found in prisma/migrations
+
+Applying migration `20260919000000_lab3_auth_requester`
+Applying migration `20261030000000_lab4_actions_foundation`
+Applying migration `20261030100000_lab4_ticket_workflow`
+
+The following migration(s) have been applied:
+
+migrations/
+  └─ 20260919000000_lab3_auth_requester/
+    └─ migration.sql
+  └─ 20261030000000_lab4_actions_foundation/
+    └─ migration.sql
+  └─ 20261030100000_lab4_ticket_workflow/
+    └─ migration.sql
+      
+All migrations have been successfully applied.
+┌─────────────────────────────────────────────────────────┐
+│  Update available 5.22.0 -> 8.0.0-rc.29                 │
+│                                                         │
+│  This is a major update - please follow the guide at    │
+│  https://pris.ly/d/major-version-upgrade                │
+│                                                         │
+│  Run the following to update                            │
+│    npm i -g prisma@latest                               │
+│    npm i @prisma/client@latest                          │
+└─────────────────────────────────────────────────────────┘
+server: npx --no-install prisma migrate status
+Prisma schema loaded from prisma\schema.prisma
+Datasource "db": PostgreSQL database "toktickit_lab3_e2e_main_20261031222922", schema "public" at "localhost:5432"
+
+4 migrations found in prisma/migrations
+
+Database schema is up to date!
+┌─────────────────────────────────────────────────────────┐
+│  Update available 5.22.0 -> 8.0.0-rc.29                 │
+│                                                         │
+│  This is a major update - please follow the guide at    │
+│  https://pris.ly/d/major-version-upgrade                │
+│                                                         │
+│  Run the following to update                            │
+│    npm i -g prisma@latest                               │
+│    npm i @prisma/client@latest                          │
+└─────────────────────────────────────────────────────────┘
+Post-migration snapshot: {"requesters":[{"id":1,"name":"Ariya Somchai","email":"ariya.somchai@example.com","isActive":true,"createdAt":"2026-10-31T15:29:28.486Z"}],"tickets":[{"id":1,"ticketNumber":"TT-DOCKER-PRELAB3-001","requesterId":1,"categoryId":1,"relatedSystemId":1,"requestedPriority":"HIGH","status":"NEW","summary":"Pre-Lab 3 preservation fixture","description":"Synthetic migration fixture for local verification."}],"attachments":[{"id":1,"ticketId":1,"originalFilename":"baseline.txt","storageKey":"toktickit_lab3_e2e_main_20261031222922-baseline.txt","mimeType":"text/plain","sizeBytes":17,"removedAt":null}],"categories":[{"id":1,"name":"Hardware","isActive":true,"createdAt":"2026-10-31T15:29:28.486Z"}],"systems":[{"id":1,"name":"Corporate Laptop","isActive":true,"createdAt":"2026-10-31T15:29:28.486Z"}]}
+server: npm run prisma:seed (run 1)
+
+> toktickit-server@1.0.0 prisma:seed
+> tsx prisma/seed.ts
+
+Seeding completed successfully: 10 users and 3 tickets.
+Seed 1 assertions: {"users":10,"tickets":4,"attachments":1,"comments":3,"notes":3,"activeRequesters":4,"inactiveRequesters":1,"activeStaff":3,"inactiveStaff":1,"activeAdmins":1,"seededRequesterOwnership":3,"seededStaffOwnership":2,"commentAuthors":3,"noteAuthors":3,"baselineAttachment":1}
+server: npm run prisma:seed (run 2)
+
+> toktickit-server@1.0.0 prisma:seed
+> tsx prisma/seed.ts
+
+Seeding completed successfully: 10 users and 3 tickets.
+Seed 2 assertions: {"users":10,"tickets":4,"attachments":1,"comments":3,"notes":3,"activeRequesters":4,"inactiveRequesters":1,"activeStaff":3,"inactiveStaff":1,"activeAdmins":1,"seededRequesterOwnership":3,"seededStaffOwnership":2,"commentAuthors":3,"noteAuthors":3,"baselineAttachment":1}
+Baseline attachment SHA256: cc7098632c30d31ed81ff5936a75a027f3136024cb96efd35e8fe3f9b4d3cfaf
+Prepared E2E fixture IDs/count: {"databaseName":"toktickit_lab3_e2e_main_20261031222922","baselineTicketId":1,"reassignmentOwnerId":8,"queueTotal":20}
+[WebServer] (node:18840) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:9860) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:17100) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 21 tests using 1 worker
+
+(node:30308) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  1 [lab-03] › e2e\lab-03\authentication.spec.ts:15:3 › Lab 3 authentication and Requester regression › valid login, first-login change, role shell, logout, and direct blocking (1.2s)
+  ok  2 [lab-03] › e2e\lab-03\authentication.spec.ts:33:3 › Lab 3 authentication and Requester regression › invalid and inactive accounts receive safe sign-in failure (637ms)
+  ok  3 [lab-03] › e2e\lab-03\authentication.spec.ts:50:3 › Lab 3 authentication and Requester regression › Requester can create, open, comment, and indicate resolution (996ms)
+  ok  4 [lab-03] › e2e\lab-03\authentication.spec.ts:73:3 › Lab 3 authentication and Requester regression › Requester shell is captured at required responsive sizes (840ms)
+  ok  5 [lab-03] › e2e\lab-03\staff-ticket-flow.spec.ts:5:3 › Lab 3 IT Staff Queue and Ticket Detail › IT Staff can search Queue, open Detail, and see separate comments and notes (1.1s)
+  ok  6 [lab-03] › e2e\lab-03\staff-ticket-flow.spec.ts:23:3 › Lab 3 IT Staff Queue and Ticket Detail › IT Staff Queue and Detail are captured at required responsive sizes (1.6s)
+  ok  7 [lab-03] › e2e\lab-03\staff-ticket-flow.spec.ts:30:3 › Lab 3 IT Staff Queue and Ticket Detail › IT Staff can advance to a populated second Queue page (778ms)
+  ok  8 [lab-03] › e2e\lab-03\staff-ticket-flow.spec.ts:46:3 › Lab 3 IT Staff Queue and Ticket Detail › preserves migrated Attachment and verifies reassignment, priority, and status operations (1.2s)
+  ok  9 [lab-03] › e2e\lab-03\staff-ticket-flow.spec.ts:75:3 › Lab 3 IT Staff Queue and Ticket Detail › Staff sees the Requester resolution indication without a formal status change (1.2s)
+  ok 10 [lab-03] › e2e\lab-03\user-administration.spec.ts:5:3 › Lab 3 Administrator User Management › Administrator can list, search, create, edit, reset, and require the new initial password at next login (2.8s)
+  ok 11 [lab-03] › e2e\lab-03\user-administration.spec.ts:60:3 › Lab 3 Administrator User Management › Administrator navigation excludes Queue and direct Ticket Detail remains explicit (674ms)
+  ok 12 [lab-03] › e2e\lab-03\user-administration.spec.ts:70:3 › Lab 3 Administrator User Management › Administrator User Management is captured at required responsive sizes (1.1s)
+  ok 13 [lab-03] › e2e\lab-03\z-accessibility-evidence.spec.ts:24:3 › Lab 3 accessibility and transient-state evidence › captures the visible sign-in busy state and successful destination (2.0s)
+  ok 14 [lab-03] › e2e\lab-03\z-accessibility-evidence.spec.ts:40:3 › Lab 3 accessibility and transient-state evidence › completes a keyboard-only sign-in and reaches requester navigation (793ms)
+  ok 15 [lab-03] › e2e\lab-03\z-accessibility-evidence.spec.ts:57:3 › Lab 3 accessibility and transient-state evidence › traverses the IT Staff Queue and opens Ticket Detail with the keyboard (1.1s)
+  ok 16 [lab-03] › e2e\lab-03\z-accessibility-evidence.spec.ts:69:3 › Lab 3 accessibility and transient-state evidence › traverses Administrator User Management and opens Create User with the keyboard (851ms)
+(node:12628) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 17 [lab-02] › e2e\lab-02\requester-ticket-flow.spec.ts:24:3 › Lab 2 requester ticket flow › creates, lists, inspects, and manages an owned ticket (2.8s)
+  ok 18 [lab-02] › e2e\lab-02\requester-ticket-flow.spec.ts:79:3 › Lab 2 requester ticket flow › supports keyboard traversal across authenticated requester controls (1.3s)
+(node:18188) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 19 [lab-04] › e2e\lab-04\actions-taken-flow.spec.ts:27:3 › Lab 4 Actions Taken Ticket Detail › Staff records two actions on one Ticket and its Requester sees both read-only (3.3s)
+  ok 20 [lab-04] › e2e\lab-04\dashboards.spec.ts:6:3 › Lab 4 role dashboards › shows Requester and Staff metrics and opens the matching paginated Ticket lists (2.5s)
+  ok 21 [lab-04] › e2e\lab-04\ticket-resolution.spec.ts:6:3 › Lab 4 Ticket resolution workflow › resolves, closes, and reopens a Ticket with a Requester-readable history (3.5s)
+
+  21 passed (40.6s)
