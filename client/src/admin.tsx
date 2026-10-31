@@ -8,6 +8,7 @@ import {
   UserRole,
 } from "./api.js";
 import { StaffTicketDetail } from "./staff.js";
+import { StaffDashboard } from "./Dashboard.js";
 
 const roles: UserRole[] = ["REQUESTER", "IT_STAFF", "ADMINISTRATOR"];
 const roleLabels: Record<UserRole, string> = {
@@ -37,6 +38,7 @@ export function AdminWorkspace(props: { user: User; onLogout: () => void }) {
   const [mode, setMode] = useState<FormMode | null>(null);
   const [selected, setSelected] = useState<User | null>(null);
   const [directTicketId, setDirectTicketId] = useState<number | null>(null);
+  const [section, setSection] = useState<"dashboard" | "users">("users");
 
   async function load() {
     setStatus("loading");
@@ -87,7 +89,11 @@ export function AdminWorkspace(props: { user: User; onLogout: () => void }) {
         <div><p className="eyebrow">TOKTICKIT</p><h1>IT Service Desk</h1></div>
         <div className="requester-chip"><span>{props.user.name} · {roleLabel(props.user.role)}</span><button type="button" className="link-button" onClick={props.onLogout}>Log out</button></div>
       </header>
-      <nav className="main-nav" aria-label="Main navigation"><span className="nav-link active">User Management</span></nav>
+      <nav className="main-nav" aria-label="Main navigation">
+        <button type="button" className={section === "dashboard" ? "nav-link active" : "nav-link"} onClick={() => { setSection("dashboard"); setDirectTicketId(null); setMode(null); }}>Dashboard</button>
+        <button type="button" className={section === "users" ? "nav-link active" : "nav-link"} onClick={() => { setSection("users"); setDirectTicketId(null); }}>User Management</button>
+      </nav>
+      {section === "dashboard" && directTicketId === null && <StaffDashboard user={props.user} onOpenTicket={setDirectTicketId} />}
       {directTicketId === null && !mode && <AdminDirectDetailLauncher onOpen={setDirectTicketId} />}
       {mode && (
         <AdminUserForm
@@ -100,7 +106,7 @@ export function AdminWorkspace(props: { user: User; onLogout: () => void }) {
         />
       )}
       {directTicketId !== null && <StaffTicketDetail ticketId={directTicketId} user={props.user} canOperate={false} onBack={() => setDirectTicketId(null)} />}
-      {!mode && directTicketId === null && (
+      {section === "users" && !mode && directTicketId === null && (
         <section className="content-card user-management-card" aria-labelledby="users-heading">
           <div className="section-heading"><div><p className="eyebrow">ADMINISTRATOR</p><h2 id="users-heading">User Management</h2></div><button type="button" className="primary-button" onClick={startCreate}>Create user</button></div>
           <p className="lead-copy">Manage the minimum account fields required by Lab 3. Password reset is a separate action and requires a change at the user’s next login.</p>

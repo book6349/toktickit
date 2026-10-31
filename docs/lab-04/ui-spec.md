@@ -42,7 +42,7 @@ Requesters may provide resolution feedback, clearly labelled as advisory. It doe
 
 All metrics show a short definition or accessible help text. The page displays the backend-provided `asOfUtc` in the viewer's local time with the source UTC value available to assist verification. Counts are links to filtered lists; no count or list is computed from currently loaded pages only. Zero values remain visible and lead to an explicit empty state.
 
-Window definitions use an inclusive rolling interval: `[asOfUtc - duration, asOfUtc]`. A row exactly on the lower boundary is included; future dates are excluded. The server returns the count and top-five rows separately. Dashboard rows sort by updatedAt descending then Ticket id ascending, unless otherwise specified.
+Window definitions use an inclusive rolling interval: `[asOfUtc - duration, asOfUtc]`. A row exactly on the lower boundary is included; future dates are excluded. The server returns the count and top-five rows separately. Recently updated dashboard rows sort by `updatedAt` descending then Ticket id ascending. Recently resolved rows sort by `resolvedAt` descending then Ticket id ascending. Staff action rows sort by `actionDateTime` ascending then action id ascending and show at most five while the count covers every active action assigned to the signed-in user.
 
 ### 4.1 Requester dashboard
 
@@ -66,9 +66,9 @@ Show operational Ticket metrics within the signed-in Staff/Admin user's authoriz
 | Unassigned active | Count of active Tickets with no assignee |
 | My active Tickets | Count of active Tickets assigned to the signed-in user |
 | Active by status | Count for every active status, including zero; opens that status filter |
-| Active by priority | Count for every configured priority, including zero; opens that priority filter |
+| Active by IT priority | Count for every configured IT triage priority, including zero; opens that priority filter |
 | Recently updated active | Top five active Tickets updated in inclusive 7-day window; opens the full matching list |
-| My active Actions Taken | Count and list of PLANNED or IN_PROGRESS actions assigned to the signed-in user |
+| My active Actions Taken | Count of all PLANNED or IN_PROGRESS actions assigned to the signed-in user and a list of up to five, earliest scheduled first; action performer and assignee are labelled separately |
 
 Active Ticket statuses are NEW, OPEN, IN_PROGRESS, WAITING_FOR_REQUESTER and REOPENED. Administrator receives this Staff dashboard without user-account counts. Action performers and assignees remain separate labels.
 

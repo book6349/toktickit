@@ -23,7 +23,7 @@ describe.skipIf(!enabled)("Lab 4 Actions Taken with disposable PostgreSQL", () =
   function snapshot(target = name) {
     return sql(`SELECT jsonb_build_object(
       'users',(SELECT jsonb_agg(to_jsonb(t) ORDER BY id) FROM "RequesterUser" t),
-      'tickets',(SELECT jsonb_agg(to_jsonb(t)-'workflowVersion' ORDER BY id) FROM "Ticket" t),
+      'tickets',(SELECT jsonb_agg(to_jsonb(t)-'workflowVersion'-'resolutionSummary'-'resolvedAt'-'resolvedById' ORDER BY id) FROM "Ticket" t),
       'attachments',(SELECT jsonb_agg(to_jsonb(t) ORDER BY id) FROM "Attachment" t),
       'comments',(SELECT jsonb_agg(to_jsonb(t) ORDER BY id) FROM "PublicComment" t),
       'notes',(SELECT jsonb_agg(to_jsonb(t) ORDER BY id) FROM "InternalNote" t));`,target);
@@ -73,6 +73,9 @@ describe.skipIf(!enabled)("Lab 4 Actions Taken with disposable PostgreSQL", () =
     expect(snapshot()).toBe(before);
     expect(sql('SELECT count(*) FROM "ActionTaken";')).toBe("0");
     preserved = true;
+    const workflowMigration = readFileSync(path.join(root, "prisma/migrations/20261030100000_lab4_ticket_workflow/migration.sql"), "utf8");
+    sql(workflowMigration);
+    expect(snapshot()).toBe(before);
     const url = `postgresql://${encodeURIComponent(pgUser)}:${encodeURIComponent(env.POSTGRES_PASSWORD)}@localhost:5432/${name}`;
     db = new PrismaClient({ datasources: { db: { url } } });
     const seed = () => execFileSync(process.execPath, [path.join(root,"node_modules/tsx/dist/cli.mjs"),"prisma/seed.ts"], {
@@ -85,6 +88,8 @@ describe.skipIf(!enabled)("Lab 4 Actions Taken with disposable PostgreSQL", () =
     expect(await counts()).toEqual(first);
     expect(first.slice(2)).toEqual([4,4]);
     expect(await db.ticket.findUnique({where:{ticketNumber:"TT-LEGACY"},include:{actions:true}})).toMatchObject({status:"RESOLVED",actions:[]});
+    expect(await db.ticket.findUnique({where:{ticketNumber:"TT-LEGACY"},select:{resolutionSummary:true,resolvedAt:true,resolvedById:true}})).toEqual({resolutionSummary:null,resolvedAt:null,resolvedById:null});
+    expect(await db.ticketWorkflowEvent.count({where:{ticket:{ticketNumber:"TT-LEGACY"}}})).toBe(0);
     await db.user.updateMany({data:{mustChangePassword:false}});
     const get = (email: string) => db.user.findUniqueOrThrow({where:{email}});
     [owner,other,staff,admin,inactive] = await Promise.all([
@@ -98,7 +103,13 @@ describe.skipIf(!enabled)("Lab 4 Actions Taken with disposable PostgreSQL", () =
     }});
     vi.spyOn(database,"getPrisma").mockReturnValue(db);
   },120000);
-  afterAll(async()=>{vi.restoreAllMocks();await db?.$disconnect();});
+  afterAll(async()=>{
+    vi.restoreAllMocks();
+    await db?.$disconnect();
+    if (!/^toktickit_lab4_prep_[0-9]+$/.test(name)) throw Error("Unsafe disposable database cleanup target");
+    sql(`DROP DATABASE IF EXISTS "${name}_recovery";`, "postgres");
+    sql(`DROP DATABASE IF EXISTS "${name}";`, "postgres");
+  });
 
   it("preserves legacy records, rolls back a failed rollout, and seeds twice without duplicates",()=>{expect(preserved && recovered).toBe(true);});
   it("records immutable actor, independent assignee, UTC timestamp and one creation event",async()=>{

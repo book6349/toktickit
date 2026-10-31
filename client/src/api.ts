@@ -185,6 +185,59 @@ export interface StaffTicketList {
   pagination: Pagination;
 }
 
+export interface DashboardTicketSummary {
+  id: number;
+  ticketNumber: string;
+  status: TicketStatus;
+  summary: string;
+  updatedAt: string;
+  resolvedAt: string | null;
+  requestedPriority: "LOW" | "MEDIUM" | "HIGH";
+  itPriority: "LOW" | "MEDIUM" | "HIGH";
+  ownerId: number | null;
+  owner: { id: number; name: string } | null;
+}
+
+export interface RequesterDashboardData {
+  asOfUtc: string;
+  metrics: {
+    openTickets: { count: number };
+    waitingForRequester: { count: number };
+    recentlyUpdated: { count: number; items: DashboardTicketSummary[] };
+    recentlyResolved: { count: number; items: DashboardTicketSummary[] };
+  };
+}
+
+export interface StaffDashboardData {
+  asOfUtc: string;
+  metrics: {
+    unassignedActive: { count: number };
+    myActiveTickets: { count: number };
+    activeByStatus: Array<{ value: TicketStatus; count: number }>;
+    activeByItPriority: Array<{ value: "LOW" | "MEDIUM" | "HIGH"; count: number }>;
+    recentlyUpdatedActive: { count: number; items: DashboardTicketSummary[] };
+    myActiveActionsTaken: {
+      count: number;
+      items: Array<{
+        id: number;
+        ticketId: number;
+        actionDateTime: string;
+        description: string;
+        result: string;
+        status: ActionStatus;
+        performedBy: ActionPerson;
+        assignee: ActionPerson;
+        ticket: Pick<DashboardTicketSummary, "id" | "ticketNumber" | "summary" | "status">;
+      }>;
+    };
+  };
+}
+
+export interface DashboardTicketList {
+  items: DashboardTicketSummary[];
+  pagination: Pagination;
+}
+
 export interface ApiErrorShape {
   error?: {
     code?: string;
@@ -376,11 +429,16 @@ export async function createTicket(first: number | TicketPayload, second?: Ticke
   return data.ticket;
 }
 
-type TicketParams = {
+export type TicketParams = {
     search?: string;
     categoryId?: number | "";
     requestedPriority?: string;
     status?: string;
+    statusGroup?: "active" | "resolved";
+    updatedFrom?: string;
+    updatedTo?: string;
+    resolvedFrom?: string;
+    resolvedTo?: string;
     sortBy?: string;
     sortDirection?: "asc" | "desc";
     page?: number;
@@ -397,6 +455,36 @@ export async function listTickets(first: number | TicketParams = {}, second: Tic
   });
   const suffix = query.toString() ? "?" + query.toString() : "";
   return request<TicketList>("/api/tickets" + suffix);
+}
+
+export async function getRequesterDashboard(asOf?: string): Promise<RequesterDashboardData> {
+  const query = asOf ? "?asOf=" + encodeURIComponent(asOf) : "";
+  return request<RequesterDashboardData>("/api/requester/dashboard" + query);
+}
+
+export async function getStaffDashboard(asOf?: string): Promise<StaffDashboardData> {
+  const query = asOf ? "?asOf=" + encodeURIComponent(asOf) : "";
+  return request<StaffDashboardData>("/api/staff/dashboard" + query);
+}
+
+export type StaffDashboardTicketParams = {
+  status?: TicketStatus | "";
+  itPriority?: "LOW" | "MEDIUM" | "HIGH" | "";
+  ownership?: "unassigned" | "";
+  ownerScope?: "me" | "";
+  updatedFrom?: string;
+  updatedTo?: string;
+  page?: number;
+  pageSize?: number;
+};
+
+export async function listStaffDashboardTickets(params: StaffDashboardTicketParams = {}): Promise<DashboardTicketList> {
+  const query = new URLSearchParams();
+  Object.entries(params).forEach(([key, value]) => {
+    if (value !== undefined && value !== "") query.set(key, String(value));
+  });
+  const suffix = query.toString() ? "?" + query.toString() : "";
+  return request<DashboardTicketList>("/api/staff/dashboard/tickets" + suffix);
 }
 
 export async function getTicket(ticketId: number): Promise<Ticket>;
