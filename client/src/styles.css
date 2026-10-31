@@ -38,7 +38,7 @@ h3 { color: var(--zen-green-950); margin-bottom: .35rem; }
 .field, .requester-form { display: grid; gap: .4rem; }
 label { font-weight: 750; color: var(--ink); }
 input, select, textarea { width: 100%; border: 1px solid #bdd0c9; border-radius: 10px; background: #fff; color: var(--ink); padding: .72rem .8rem; }
-input:focus, select:focus, textarea:focus, button:focus-visible { outline: 3px solid rgba(47, 143, 119, .25); outline-offset: 2px; border-color: var(--zen-green-600); }
+input:focus, select:focus, textarea:focus, button:focus-visible, button.nav-link:focus-visible, a:focus-visible { outline: 3px solid var(--zen-green-600); outline-offset: 2px; border-color: var(--zen-green-600); }
 textarea { resize: vertical; line-height: 1.5; }
 .primary-button, .secondary-button, .danger-button { border-radius: 10px; padding: .7rem 1.1rem; font-weight: 750; border: 1px solid transparent; }
 .primary-button { background: var(--zen-green-800); color: #fff; }

@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import * as api from "../../src/api.js";
 import { StaffDashboard } from "../../src/Dashboard.js";
 
@@ -53,4 +53,43 @@ describe("Lab 4 Staff dashboard UI", () => {
     fireEvent.click(action);
     await waitFor(() => expect(openTicket).toHaveBeenCalledWith(10));
   });
+  it.each(["Network request failed.", "Forbidden."])("announces initial failure %s and recovers through Retry", async (message) => {
+    const request = vi.spyOn(api, "getStaffDashboard").mockRejectedValueOnce(new Error(message)).mockResolvedValue(dashboard);
+    render(<StaffDashboard user={staff} onOpenTicket={vi.fn()} />);
+    expect(await screen.findByRole("alert")).toHaveTextContent(message);
+    expect(screen.queryByRole("button", { name: /Unassigned active: 3/ })).not.toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: "Retry" }));
+    expect(await screen.findByRole("button", { name: /Unassigned active: 3/ })).toBeInTheDocument();
+    expect(request).toHaveBeenCalledTimes(2);
+  });
+
+  it("announces initial loading and keeps the last metrics after a failed refresh", async () => {
+    let resolve!: (value: typeof dashboard) => void;
+    const pending = new Promise<typeof dashboard>((done) => { resolve = done; });
+    vi.spyOn(api, "getStaffDashboard").mockReturnValueOnce(pending).mockRejectedValueOnce(new Error("Refresh failed."));
+    render(<StaffDashboard user={staff} onOpenTicket={vi.fn()} />);
+    expect(screen.getByRole("status")).toHaveTextContent("Loading dashboard");
+    await act(async () => resolve(dashboard));
+    fireEvent.click(screen.getByRole("button", { name: "Refresh" }));
+    expect(await screen.findByRole("alert")).toHaveTextContent("Refresh failed.");
+    expect(screen.getByRole("button", { name: /Unassigned active: 3/ })).toBeInTheDocument();
+  });
+
+  it("announces drill-down loading and retries the same filter after failure", async () => {
+    vi.spyOn(api, "getStaffDashboard").mockResolvedValue(dashboard);
+    let reject!: (reason: Error) => void;
+    const pending = new Promise<any>((_, fail) => { reject = fail; });
+    const request = vi.spyOn(api, "listStaffDashboardTickets").mockReturnValueOnce(pending).mockResolvedValue({ items: [summary], pagination });
+    render(<StaffDashboard user={staff} onOpenTicket={vi.fn()} />);
+    fireEvent.click(await screen.findByRole("button", { name: /Unassigned active: 3/ }));
+    expect(screen.getByRole("status")).toHaveTextContent("Loading matching Tickets");
+    await act(async () => reject(new Error("Unable to load matching Tickets.")));
+    expect(await screen.findByRole("alert")).toHaveTextContent("Unable to load matching Tickets.");
+    expect(screen.queryByRole("button", { name: /Open Ticket TT-10/ })).not.toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: "Retry" }));
+    expect(await screen.findByRole("button", { name: /Open Ticket TT-10/ })).toBeInTheDocument();
+    expect(request).toHaveBeenNthCalledWith(1, { ownership: "unassigned", page: 1, pageSize: 10 });
+    expect(request).toHaveBeenNthCalledWith(2, { ownership: "unassigned", page: 1, pageSize: 10 });
+  });
+
 });
