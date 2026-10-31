@@ -1,6 +1,46 @@
 # Lab 3 Test Plan, Traceability, and Results
 
-## Current supplemental acceptance evidence
+## Current final-main verification 2026-10-01
+
+Verified application source is merged main
+`1345e53589f1bede7acb7742ba6f8f36b88e59cc`, after reviewed PR #49/#50.
+Fresh `npm ci` ran at root, server and client. The isolated detached checkout
+was clean before execution; only generated tracked screenshot PNGs changed
+afterward, with no application-source edits. Canonical-path checks ran
+11:01:23-11:02:27 UTC on 2026-10-01. Node 24.19.0, npm 11.9.0.
+
+| Directory | Executed command | Final-main result | Complete output |
+|---|---|---|---|
+| server | `npm test -- --reporter=verbose` | Exit 0; 190 tests / 19 files | server-tests.txt (local evidence archive; not included in this repository change) |
+| client | `npm test -- --reporter=verbose` | Exit 0; 36 tests / 14 files | client-tests.txt (local evidence archive; not included in this repository change) |
+| server/client | `npm run build` | Both exit 0 | server-build.txt (local evidence archive), client-build.txt (local evidence archive) |
+| server | `npx --no-install prisma generate`; `npx --no-install prisma validate` | Both exit 0 | prisma-generate.txt (local evidence archive), prisma-validation.txt (local evidence archive) |
+| root | `npm run test:e2e:prepare` | Exit 0; real migration preservation and seed twice | database.txt (local evidence archive) |
+| root | `npx --no-install playwright test e2e/lab-03 --output <absolute evidence directory>/browser-results` | Exit 0; 16 Chromium scenarios | e2e.txt (local evidence archive) |
+
+The absolute evidence directory was
+`C:/Users/Jitvoottikrai/OneDrive/เดสก์ท็อป/SoftwareEn/LAB1/Lab1_Starter_Scaffold/toktickit-lab3-specification/output/docs/final-main-20261001`.
+The run manifest is retained in the local evidence archive. preserves exact
+working directories, timestamps, exit codes, SHA and status. The capture
+command's original manifest omits its script path; the corrected actual
+invocation is documented in [release evidence](release-evidence.md#current-final-main-verification-2026-10-01),
+without rewriting the original manifest.
+
+The final-main unfiltered suites include Requester regression and the
+supplemental assertions below. STYLE-01 uses the actual
+`client/tests/lab-03/ui-style.test.tsx`; UI-03 uses
+`client/tests/lab-03/RequesterWorkflow.test.tsx`, not Login tests.
+Real PostgreSQL snapshots and seed assertions provide migration proof beyond
+the static source checks. AC-26 is evidenced for controlled synthetic fixtures;
+AC-27 has executed responsive/keyboard journeys and actual captures, not a
+universal accessibility certification. The last-active-Administrator branch
+is API-tested with mocked database delegates, not separate live-database proof.
+
+These are actual committed-main results, not promotions of earlier dirty-tree
+results. Earlier failures and runs below retain their original provenance.
+The test results above are historical final-main evidence. The documentation reconciliation does not change or re-run that application source.
+
+## Supplemental acceptance evidence before final-main rerun
 
 | ID | Type | Requirement / AC | Actual assertion and path | Current result |
 |---|---|---|---|---|
@@ -14,7 +54,7 @@
 | UI-07 | UI and E2E | AC-10, AC-13 | Indication shown for Staff/Admin when present, absent when null, no status mutation; `client/tests/lab-03/StaffTicketDetail.test.tsx`; real Staff browser case `e2e/lab-03/staff-ticket-flow.spec.ts` | Added before fix: 2 failed; after fix full client 36 passed and E2E 16 passed |
 | STYLE-03 | UI style/visual | AC-27 | Actual `client/tests/lab-03/ui-style.test.tsx`; role/viewport/browser checks plus real Login/Change Password captures | Passed within asserted/captured states; not universal accessibility certification |
 
-## Current local verification 2026-10-01
+## Historical local verification 2026-10-01 before final-main rerun
 
 The approved local repairs now pass 190 server tests, 36 client tests, both
 builds, Prisma validation, and 16 integrated E2E scenarios. Migration
@@ -31,7 +71,7 @@ clean-main reruns remain required. The older dated records below are retained
 as history; earlier Docker-unavailable and missing-indicator statements do
 not describe this new local run.
 
-Status: Test DD created before Lab 3 implementation. This revision audits each
+Historical status after PR #48: Test DD created before Lab 3 implementation. This revision audits each
 matrix row against the actual assertion and path. Section 7 records verification
 on the merged `main` commit `0353a4052c4a6d7ead9ddfb9b7c682d3e7958d02` on
 2026-09-30: the focused Lab 3 server/client suites passed (26 and 16 tests),
@@ -253,7 +293,7 @@ exact accessible control/status text. The final clean-database run passed all
 - Do not call a dirty-tree test result final-main; after reviewed integration,
   rerun against the committed `main` revision and retain complete output.
 
-## 7. Final-main verification (2026-09-30)
+## 7. Historical final-main verification (2026-09-30)
 
 Commit: `0353a4052c4a6d7ead9ddfb9b7c682d3e7958d02` (`origin/main`, detached
 HEAD). Verification ran in the isolated checkout
@@ -396,7 +436,7 @@ data-preservation assertion, seed-twice run, or Playwright E2E run was made.
 The passing 2026-09-29 disposable-database/E2E run remains historical dirty-
 tree evidence, not a pass for this commit.
 
-### Current final-main criterion boundary
+### Historical criterion boundary for main 0353a40
 
 Direct Lab 3 unit/API/client assertions represented by the 42 focused tests
 passed on `0353a40`. AC01-AC25 therefore have relevant direct-test coverage on
@@ -430,7 +470,7 @@ The full baseline failures and subsequent reruns are retained under
 `output/docs/evidence-20261001-step1-2/`. Final execution status will be added
 after the corresponding commands finish. Browser and database results from
 earlier commits remain separately identified.
-## Local repair verification — 2026-10-01
+## Historical local repair verification — 2026-10-01 before database rerun
 
 These results are from a dirty local working tree based on `1fb8df040eb12ac443bb4246a314babfde1564e9`, not final committed main evidence. Full output is retained under `output/docs/evidence-20261001-step1-2/`.
 

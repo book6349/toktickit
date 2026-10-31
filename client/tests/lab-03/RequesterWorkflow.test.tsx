@@ -42,6 +42,11 @@ describe("Lab 3 Requester ticket regression", () => {
     vi.spyOn(api, "listTickets").mockResolvedValue({ items: [ticket], pagination });
     vi.spyOn(api, "getTicket").mockResolvedValue(ticket);
     vi.spyOn(api, "getComments").mockResolvedValue([]);
+    vi.spyOn(api, "getTicketWorkflow").mockResolvedValue({
+      ticketId: ticket.id, status: "OPEN", workflowVersion: 1,
+      resolution: { summary: null, resolvedAt: null, resolvedBy: null }, permittedNextStatuses: [],
+      resolutionGate: { completedActionCount: 0, blockingActionCount: 0 }, events: [],
+    });
   });
 
   afterEach(() => vi.restoreAllMocks());

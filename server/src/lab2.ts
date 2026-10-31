@@ -22,6 +22,7 @@ const ALLOWED_MIME_TYPES = new Set([
 const PRIORITIES = new Set(["LOW", "MEDIUM", "HIGH"]);
 const SORT_FIELDS = new Set([
   "updatedAt",
+  "resolvedAt",
   "createdAt",
   "ticketNumber",
   "requestedPriority",
@@ -38,6 +39,8 @@ const TICKET_STATUSES = new Set([
   "REOPENED",
   "CANCELLED",
 ]);
+const DASHBOARD_ACTIVE_STATUSES = ["NEW", "OPEN", "IN_PROGRESS", "WAITING_FOR_REQUESTER", "REOPENED"];
+const DASHBOARD_RESOLVED_STATUSES = ["RESOLVED", "CLOSED"];
 
 type UploadedFile = {
   filepath: string;
@@ -321,18 +324,44 @@ function queryParams(req: Request) {
   const sortDirectionRaw = String(query.sortDirection ?? "desc").toLowerCase();
   const sortDirection = sortDirectionRaw === "asc" ? "asc" : "desc";
   const categoryRaw = String(query.categoryId ?? "");
+  const status = String(query.status ?? "").trim().toUpperCase();
+  const statusGroup = String(query.statusGroup ?? "").trim().toLowerCase();
+  const updatedFromRaw = String(query.updatedFrom ?? "");
+  const updatedToRaw = String(query.updatedTo ?? "");
+  const resolvedFromRaw = String(query.resolvedFrom ?? "");
+  const resolvedToRaw = String(query.resolvedTo ?? "");
+  const dateValue = (raw: string) => {
+    if (!raw) return undefined;
+    if (!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/i.test(raw)) return null;
+    const date = new Date(raw);
+    return Number.isFinite(date.getTime()) ? date : null;
+  };
+  const updatedFrom = dateValue(updatedFromRaw);
+  const updatedTo = dateValue(updatedToRaw);
+  const resolvedFrom = dateValue(resolvedFromRaw);
+  const resolvedTo = dateValue(resolvedToRaw);
   const invalid =
     pageCandidate === null ||
     pageSizeCandidate === null ||
     !PAGE_SIZES.has(safePageSizeCandidate) ||
     !SORT_FIELDS.has(sortByRaw) ||
     !["asc", "desc"].includes(sortDirectionRaw) ||
-    (categoryRaw !== "" && positiveInt(categoryRaw) === null);
+    (categoryRaw !== "" && positiveInt(categoryRaw) === null) ||
+    (statusGroup !== "" && !["active", "resolved"].includes(statusGroup)) ||
+    updatedFrom === null || updatedTo === null || resolvedFrom === null || resolvedTo === null ||
+    (updatedFrom instanceof Date && updatedTo instanceof Date && updatedFrom > updatedTo) ||
+    (resolvedFrom instanceof Date && resolvedTo instanceof Date && resolvedFrom > resolvedTo) ||
+    (status !== "" && statusGroup !== "");
   return {
     search: String(query.search ?? "").trim(),
     categoryId: positiveInt(categoryRaw),
     requestedPriority: String(query.requestedPriority ?? "").trim().toUpperCase(),
-    status: String(query.status ?? "").trim().toUpperCase(),
+    status,
+    statusGroup,
+    updatedFrom: updatedFrom instanceof Date ? updatedFrom : undefined,
+    updatedTo: updatedTo instanceof Date ? updatedTo : undefined,
+    resolvedFrom: resolvedFrom instanceof Date ? resolvedFrom : undefined,
+    resolvedTo: resolvedTo instanceof Date ? resolvedTo : undefined,
     sortBy,
     sortDirection,
     page,
@@ -494,13 +523,24 @@ export function registerLab2Routes(app: Express) {
       if (params.categoryId !== null) where.categoryId = params.categoryId;
       if (params.requestedPriority) where.requestedPriority = params.requestedPriority;
       if (params.status) where.status = params.status;
+      if (params.statusGroup === "active") where.status = { in: DASHBOARD_ACTIVE_STATUSES };
+      if (params.statusGroup === "resolved") where.status = { in: DASHBOARD_RESOLVED_STATUSES };
+      if (params.updatedFrom || params.updatedTo) where.updatedAt = {
+        ...(params.updatedFrom ? { gte: params.updatedFrom } : {}),
+        ...(params.updatedTo ? { lte: params.updatedTo } : {}),
+      };
+      if (params.resolvedFrom || params.resolvedTo) where.resolvedAt = {
+        ...(params.resolvedFrom ? { gte: params.resolvedFrom } : {}),
+        ...(params.resolvedTo ? { lte: params.resolvedTo } : {}),
+      };
       const prisma = getPrisma();
+      const dashboardFilter = Boolean(params.statusGroup || params.updatedFrom || params.updatedTo || params.resolvedFrom || params.resolvedTo);
       const [total, tickets] = await Promise.all([
         prisma.ticket.count({ where }),
         prisma.ticket.findMany({
           where,
           include: ticketInclude,
-          orderBy: [{ [params.sortBy]: params.sortDirection }, { id: "desc" }],
+          orderBy: [{ [params.sortBy]: params.sortDirection }, { id: dashboardFilter ? "asc" : "desc" }],
           skip: (params.page - 1) * params.pageSize,
           take: params.pageSize,
         }),

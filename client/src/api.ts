@@ -40,6 +40,8 @@ export interface Attachment {
   isRemoved: boolean;
 }
 
+export type TicketStatus = "NEW" | "OPEN" | "IN_PROGRESS" | "WAITING_FOR_REQUESTER" | "RESOLVED" | "CLOSED" | "REOPENED" | "CANCELLED";
+
 export interface Ticket {
   id: number;
   ticketNumber: string;
@@ -49,9 +51,12 @@ export interface Ticket {
   relatedSystemId: number;
   requestedPriority: "LOW" | "MEDIUM" | "HIGH";
   itPriority?: "LOW" | "MEDIUM" | "HIGH";
-  status: "NEW" | "OPEN" | "IN_PROGRESS" | "WAITING_FOR_REQUESTER" | "RESOLVED" | "CLOSED" | "REOPENED" | "CANCELLED";
+  status: TicketStatus;
   ownerId?: number | null;
   requesterResolutionIndicatedAt?: string | null;
+  workflowVersion?: number;
+  resolutionSummary?: string | null;
+  resolvedAt?: string | null;
   summary: string;
   description: string;
   createdAt: string;
@@ -60,6 +65,48 @@ export interface Ticket {
   category?: Category;
   relatedSystem?: RelatedSystem;
   attachments: Attachment[];
+}
+
+export type ActionStatus = "PLANNED" | "IN_PROGRESS" | "COMPLETED" | "CANCELLED";
+
+export interface ActionPerson {
+  id: number;
+  name: string;
+}
+
+export interface ActionTaken {
+  id: number;
+  ticketId: number;
+  actionDateTime: string;
+  description: string;
+  result: string;
+  performedBy: ActionPerson;
+  assignee: ActionPerson;
+  status: ActionStatus;
+  followUpRequired: boolean;
+  followUpNote: string | null;
+  attachmentNotes: string | null;
+  version: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ActionTakenInput {
+  actionDateTime: string;
+  description: string;
+  result: string;
+  assigneeId: number;
+  status: ActionStatus;
+  followUpRequired: boolean;
+  followUpNote: string | null;
+  attachmentNotes: string | null;
+}
+
+export type ActionTakenEdit = Omit<ActionTakenInput, "status">;
+
+export interface ActionAssignee {
+  id: number;
+  name: string;
 }
 
 export interface PublicComment {
@@ -92,6 +139,33 @@ export interface StaffTicket extends Ticket {
   notes: InternalNote[];
 }
 
+export interface TicketWorkflowEvent {
+  id: number;
+  fromStatus: TicketStatus;
+  toStatus: TicketStatus;
+  version: number;
+  createdAt: string;
+  actor: { id: number; name: string };
+  resolutionSummary: string | null;
+  resolvedAt: string | null;
+  resolvedBy: { id: number; name: string } | null;
+  reason?: string;
+}
+
+export interface TicketWorkflow {
+  ticketId: number;
+  status: TicketStatus;
+  workflowVersion: number;
+  resolution: {
+    summary: string | null;
+    resolvedAt: string | null;
+    resolvedBy: { id: number; name: string } | null;
+  };
+  permittedNextStatuses: TicketStatus[];
+  resolutionGate: { completedActionCount: number; blockingActionCount: number };
+  events: TicketWorkflowEvent[];
+}
+
 export interface Pagination {
   page: number;
   pageSize: number;
@@ -108,6 +182,59 @@ export interface TicketList {
 
 export interface StaffTicketList {
   items: StaffTicket[];
+  pagination: Pagination;
+}
+
+export interface DashboardTicketSummary {
+  id: number;
+  ticketNumber: string;
+  status: TicketStatus;
+  summary: string;
+  updatedAt: string;
+  resolvedAt: string | null;
+  requestedPriority: "LOW" | "MEDIUM" | "HIGH";
+  itPriority: "LOW" | "MEDIUM" | "HIGH";
+  ownerId: number | null;
+  owner: { id: number; name: string } | null;
+}
+
+export interface RequesterDashboardData {
+  asOfUtc: string;
+  metrics: {
+    openTickets: { count: number };
+    waitingForRequester: { count: number };
+    recentlyUpdated: { count: number; items: DashboardTicketSummary[] };
+    recentlyResolved: { count: number; items: DashboardTicketSummary[] };
+  };
+}
+
+export interface StaffDashboardData {
+  asOfUtc: string;
+  metrics: {
+    unassignedActive: { count: number };
+    myActiveTickets: { count: number };
+    activeByStatus: Array<{ value: TicketStatus; count: number }>;
+    activeByItPriority: Array<{ value: "LOW" | "MEDIUM" | "HIGH"; count: number }>;
+    recentlyUpdatedActive: { count: number; items: DashboardTicketSummary[] };
+    myActiveActionsTaken: {
+      count: number;
+      items: Array<{
+        id: number;
+        ticketId: number;
+        actionDateTime: string;
+        description: string;
+        result: string;
+        status: ActionStatus;
+        performedBy: ActionPerson;
+        assignee: ActionPerson;
+        ticket: Pick<DashboardTicketSummary, "id" | "ticketNumber" | "summary" | "status">;
+      }>;
+    };
+  };
+}
+
+export interface DashboardTicketList {
+  items: DashboardTicketSummary[];
   pagination: Pagination;
 }
 
@@ -302,11 +429,16 @@ export async function createTicket(first: number | TicketPayload, second?: Ticke
   return data.ticket;
 }
 
-type TicketParams = {
+export type TicketParams = {
     search?: string;
     categoryId?: number | "";
     requestedPriority?: string;
     status?: string;
+    statusGroup?: "active" | "resolved";
+    updatedFrom?: string;
+    updatedTo?: string;
+    resolvedFrom?: string;
+    resolvedTo?: string;
     sortBy?: string;
     sortDirection?: "asc" | "desc";
     page?: number;
@@ -325,12 +457,79 @@ export async function listTickets(first: number | TicketParams = {}, second: Tic
   return request<TicketList>("/api/tickets" + suffix);
 }
 
+export async function getRequesterDashboard(asOf?: string): Promise<RequesterDashboardData> {
+  const query = asOf ? "?asOf=" + encodeURIComponent(asOf) : "";
+  return request<RequesterDashboardData>("/api/requester/dashboard" + query);
+}
+
+export async function getStaffDashboard(asOf?: string): Promise<StaffDashboardData> {
+  const query = asOf ? "?asOf=" + encodeURIComponent(asOf) : "";
+  return request<StaffDashboardData>("/api/staff/dashboard" + query);
+}
+
+export type StaffDashboardTicketParams = {
+  status?: TicketStatus | "";
+  itPriority?: "LOW" | "MEDIUM" | "HIGH" | "";
+  ownership?: "unassigned" | "";
+  ownerScope?: "me" | "";
+  updatedFrom?: string;
+  updatedTo?: string;
+  page?: number;
+  pageSize?: number;
+};
+
+export async function listStaffDashboardTickets(params: StaffDashboardTicketParams = {}): Promise<DashboardTicketList> {
+  const query = new URLSearchParams();
+  Object.entries(params).forEach(([key, value]) => {
+    if (value !== undefined && value !== "") query.set(key, String(value));
+  });
+  const suffix = query.toString() ? "?" + query.toString() : "";
+  return request<DashboardTicketList>("/api/staff/dashboard/tickets" + suffix);
+}
+
 export async function getTicket(ticketId: number): Promise<Ticket>;
 export async function getTicket(_requesterId: number, ticketId: number): Promise<Ticket>;
 export async function getTicket(first: number, second?: number): Promise<Ticket> {
   const ticketId = second ?? first;
   const data = await request<{ ticket: Ticket }>("/api/tickets/" + ticketId);
   return data.ticket;
+}
+
+export async function getTicketWorkflow(ticketId: number): Promise<TicketWorkflow> {
+  return request<TicketWorkflow>(`/api/tickets/${ticketId}/workflow`);
+}
+
+export async function getActionsTaken(ticketId: number): Promise<{ items: ActionTaken[]; ticketId: number; readOnly: boolean }> {
+  return request<{ items: ActionTaken[]; ticketId: number; readOnly: boolean }>(`/api/tickets/${ticketId}/actions`);
+}
+
+export async function getActionAssignees(ticketId: number): Promise<ActionAssignee[]> {
+  const data = await request<{ items: ActionAssignee[] }>(`/api/tickets/${ticketId}/action-assignees`);
+  return data.items;
+}
+
+export async function createActionTaken(ticketId: number, payload: ActionTakenInput, idempotencyKey: string): Promise<ActionTaken> {
+  return request<ActionTaken>(`/api/tickets/${ticketId}/actions`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "Idempotency-Key": idempotencyKey },
+    body: JSON.stringify(payload),
+  });
+}
+
+export async function updateActionTaken(ticketId: number, actionId: number, expectedVersion: number, payload: ActionTakenEdit): Promise<ActionTaken> {
+  return request<ActionTaken>(`/api/tickets/${ticketId}/actions/${actionId}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ expectedVersion, ...payload }),
+  });
+}
+
+export async function changeActionTakenStatus(ticketId: number, actionId: number, expectedVersion: number, status: ActionStatus): Promise<ActionTaken> {
+  return request<ActionTaken>(`/api/tickets/${ticketId}/actions/${actionId}/status`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ expectedVersion, status }),
+  });
 }
 
 export async function uploadAttachments(ticketId: number, files: File[]): Promise<Attachment[]>;
@@ -443,11 +642,15 @@ export async function updateStaffPriority(ticketId: number, itPriority: "LOW" | 
   return data.ticket;
 }
 
-export async function updateStaffStatus(ticketId: number, status: Ticket["status"], confirm = false): Promise<StaffTicket> {
+export async function updateStaffStatus(
+  ticketId: number,
+  status: TicketStatus,
+  payload: { expectedVersion: number; confirm?: boolean; resolutionSummary?: string; reason?: string },
+): Promise<StaffTicket> {
   const data = await request<{ ticket: StaffTicket }>(`/api/staff/tickets/${ticketId}/status`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ status, confirm }),
+    body: JSON.stringify({ status, ...payload }),
   });
   return data.ticket;
 }

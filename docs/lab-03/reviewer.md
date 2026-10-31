@@ -1,6 +1,34 @@
 # Lab 3 Reviewer and Workflow Evidence
 
-## Current follow-up PR 2026-10-01
+## Current verified release 2026-10-01
+
+The five approved units and the follow-up/release PRs #47-#50 are merged.
+[PR #49](https://github.com/book6349/toktickit/pull/49) merged into
+`lab3-staging` as `c90ab97c2ba91a22240654f23c8007559070f5ca` at
+10:13:40 UTC. [PR #50](https://github.com/book6349/toktickit/pull/50)
+merged staging into `main` as
+`1345e53589f1bede7acb7742ba6f8f36b88e59cc` at 10:51:20 UTC.
+Punge089 approved and merged both PRs. GitHub read-only inspection confirmed
+these events and the main SHA on 2026-10-01; local tests are not GitHub CI.
+
+| PR | Review comment | Author reply | Approval | Merge |
+|---|---|---|---|---|
+| #49 | [review](https://github.com/book6349/toktickit/pull/49#pullrequestreview-5377882408) | [reply](https://github.com/book6349/toktickit/pull/49#issuecomment-5929268971) | [approval](https://github.com/book6349/toktickit/pull/49#pullrequestreview-5377914196) | [commit](https://github.com/book6349/toktickit/commit/c90ab97c2ba91a22240654f23c8007559070f5ca) |
+| #50 | [review](https://github.com/book6349/toktickit/pull/50#pullrequestreview-5378239025) | [reply](https://github.com/book6349/toktickit/pull/50#issuecomment-5929821249) | [approval](https://github.com/book6349/toktickit/pull/50#pullrequestreview-5378263980) | [commit](https://github.com/book6349/toktickit/commit/1345e53589f1bede7acb7742ba6f8f36b88e59cc) |
+
+The substantive initial comments above received author replies. PR #50 also
+has a later ready-to-merge acknowledgement; no separate author reply to that
+acknowledgement was observed. Do not claim every discussion entry was replied to.
+Issues #36–#40 are closed. The Issue #40 page and its project field were freshly checked on 2026-10-28 and show Closed / Done. Issues #36–#39 were last card-by-card verified Done on 2026-10-01. The project is Public; the 2026-10-28 unauthenticated access check returned HTTP 200. Reviewer approval records establish the PR review events; the project visibility check is recorded separately from those approvals.
+Fresh-install verification of that committed main passed 190 server tests,
+36 client tests, 16 E2E scenarios, both builds, Prisma validation, actual
+migration preservation and seed-twice assertions. Source was initially clean;
+only generated tracked screenshots changed afterward. See
+[current verification](release-evidence.md#current-final-main-verification-2026-10-01).
+This documentation reconciliation records evidence from the verified main commit; it does not alter or re-run that application source.
+The dated records below remain historical, not current pending work.
+
+## Historical follow-up opening record 2026-10-01 before review
 
 [PR #49](https://github.com/book6349/toktickit/pull/49) is open from
 `feature/lab3-submission-corrections` to `lab3-staging`, containing the audit
@@ -18,7 +46,7 @@ reviewed staging-to-main release and run clean-main verification.
 The integration collaborator-permission endpoint returned 403; actual reviewer
 access is not asserted solely from the successful review request.
 
-## Current local verification 2026-10-01
+## Historical local verification 2026-10-01 before final-main rerun
 
 The approved local repairs now pass 190 server tests, 36 client tests, both
 builds, Prisma validation, and 16 integrated E2E scenarios. Migration
@@ -35,7 +63,7 @@ clean-main reruns remain required. The older dated records below are retained
 as history; earlier Docker-unavailable and missing-indicator statements do
 not describe this new local run.
 
-Status: The original five approved units, post-audit PR #47, and reviewed
+Historical status after PR #48: The original five approved units, post-audit PR #47, and reviewed
 release PR #48 are merged. Issue #40 is closed with the project status `Done`.
 The merged main commit is `0353a4052c4a6d7ead9ddfb9b7c682d3e7958d02`.
 Final-main Lab 3 tests, builds, and Prisma schema validation passed; the full
@@ -97,7 +125,7 @@ updated to `Done` and closed. No extra Issue was created.
 | [#47 post-audit follow-up](https://github.com/book6349/toktickit/pull/47) | [review](https://github.com/book6349/toktickit/pull/47#pullrequestreview-5361902956) | [reply](https://github.com/book6349/toktickit/pull/47#issuecomment-5904847057) | [approval](https://github.com/book6349/toktickit/pull/47#pullrequestreview-5361915030) | [merge commit](https://github.com/book6349/toktickit/commit/7d8ee7acb09c76e06ca1bec5b1f5410452b8f2d7) |
 | [#48 final release](https://github.com/book6349/toktickit/pull/48) | [review](https://github.com/book6349/toktickit/pull/48#pullrequestreview-5368368814) | [reply](https://github.com/book6349/toktickit/pull/48#issuecomment-5914347504) | [approval](https://github.com/book6349/toktickit/pull/48#pullrequestreview-5368393338) | [merge commit](https://github.com/book6349/toktickit/commit/0353a4052c4a6d7ead9ddfb9b7c682d3e7958d02) |
 
-## 4. Release review result
+## 4. Historical release review result for PR #48
 
 Punge089 reviewed PR #48, confirmed the `lab3-staging` to `main` target and
 Issue #40 Development link, received the author's reply, approved, and merged.

@@ -1,6 +1,60 @@
 # Lab 3 Release and Verification Evidence
 
-## Current local verification 2026-10-01
+## Current final-main verification 2026-10-01
+
+Reviewed correction [#49](https://github.com/book6349/toktickit/pull/49)
+merged into staging as `c90ab97c2ba91a22240654f23c8007559070f5ca`;
+reviewed release [#50](https://github.com/book6349/toktickit/pull/50)
+merged into main as `1345e53589f1bede7acb7742ba6f8f36b88e59cc`.
+Punge089 approved and merged both. Main SHA and merged states were reconfirmed
+through read-only GitHub inspection on 2026-10-01.
+
+Fresh-install final-main verification used an initially clean detached
+checkout at `C:/Users/Jitvoottikrai/AppData/Local/Temp/l3-main-1790852310657`.
+`npm ci` at root/server/client passed 10:58:35-10:59:03 UTC; canonical-path
+checks ran 11:01:23-11:02:27 UTC. Node 24.19.0, npm 11.9.0 and capture
+Chromium 153.0.8010.12. Application source was unchanged; 22 generated
+tracked screenshots differed after execution, so final status was not clean.
+
+All commands in the [current Test DD](tests.md#current-final-main-verification-2026-10-01)
+exited 0: 190 server / 19 files, 36 client / 14 files, 16 E2E scenarios,
+both builds, Prisma generate/validate, real migration and seed twice.
+The complete original logs and manifest with hashes are retained in the local evidence bundle at docs/lab-03/evidence/final-main-20261001 and output/docs/final-main-20261001 in the original Lab 3 worktree. Those raw files are not included in this documentation-only change; the dated summaries below preserve the observed results.
+
+`npm run test:e2e:prepare` used only the new disposable database
+`toktickit_lab3_e2e_finalmain_20261001_1790852483089` in the existing Docker
+PostgreSQL container; existing user databases were not reset. Actual
+pre/post-migration rows and relations matched. Both seed assertions produced
+10 users, 4 tickets (3 seeded plus preserved baseline), 1 attachment,
+3 public comments and 3 internal notes; roles were 4 active/1 inactive
+Requesters, 3 active/1 inactive Staff and 1 active Administrator. Ownership
+and authorship assertions passed. Preserved attachment was 17 bytes with
+SHA256 `cc7098632c30d31ed81ff5936a75a027f3136024cb96efd35e8fe3f9b4d3cfaf`.
+Queue fixtures numbered 20 before E2E; Requester creation added one.
+Actual Page 2 of 3 was tested and captured.
+
+55 supplemental actual browser captures plus 24 E2E images are retained under
+`output/docs/final-main-20261001/`. Actual capture command was
+`node <absolute evidence directory>/capture-final-main.mjs`; the original
+manifest recorded only `node ` for this entry and is preserved unmodified.
+The absolute directory is stated in the Test DD. Major report screenshots
+come from this verified source; controlled/historical states remain labelled.
+The editable DOCX and exported PDF were updated from the user's current
+files, retaining backups and all user edits outside targeted corrections.
+
+Windows long-path checkout and short-path Vite setup failures are retained
+as failures, followed by a successful canonical-path rerun without app edits.
+Dependency vulnerabilities remain: server 8 (6 moderate/1 high/1 critical),
+client 5 (3 moderate/1 high/1 critical). Passing tests are not security clearance.
+Separate last-active-Administrator proof uses mocked API database delegates;
+no distinct live-DB guard capture or exact historical AI model is invented.
+
+As of 2026-10-28, the live Issue #40 page shows Closed and the project field shows Done. The project is Public; an unauthenticated access check on 2026-10-28 returned HTTP 200. The 2026-10-01 Started observation was an intermediate state and is superseded by this fresh inspection. These status checks do not change the verified application commit 1345e53589f1bede7acb7742ba6f8f36b88e59cc.
+
+All older dated sections below describe their own runs, not current blockers.
+All older dated sections below describe their own runs, not current blockers.
+
+## Historical local verification 2026-10-01 before final-main rerun
 
 The approved local repairs now pass 190 server tests, 36 client tests, both
 builds, Prisma validation, and 16 integrated E2E scenarios. Migration
@@ -17,7 +71,7 @@ clean-main reruns remain required. The older dated records below are retained
 as history; earlier Docker-unavailable and missing-indicator statements do
 not describe this new local run.
 
-Status: PR #47 merged to `lab3-staging`; reviewed release PR #48 merged to
+Historical status after PR #48: PR #47 merged to `lab3-staging`; reviewed release PR #48 merged to
 `main` at `0353a4052c4a6d7ead9ddfb9b7c682d3e7958d02`. On 2026-09-30, the Lab 3
 server/client suites, production builds, and Prisma schema validation passed
 at that commit. Full unfiltered server/client test commands failed in legacy
@@ -26,7 +80,7 @@ seed-twice, and integrated E2E checks are not verified. Section 2 is the
 historical 2026-09-21 summary; Section 6 preserves the distinct 2026-09-29
 dirty-tree Docker run; Section 8 records this current main verification.
 
-## 1. Release snapshot
+## 1. Historical release snapshot
 
 - Audit date: 2026-09-21 (Asia/Bangkok)
 - Final branch: `main`
@@ -78,7 +132,7 @@ verification on capture commit `4d4f114` is retained as supporting history.
 Complete raw output and pre-migration Lab 2 row identities/counts are not
 retained, so these counts do not establish that preexisting rows survived.
 
-## 3. Visual evidence
+## 3. Historical visual evidence from the 2026-09-29 audit
 
 The current local E2E run captured the required 12 screens at 1280 x 900,
 900 x 900, and 390 x 844 and passed viewport-overflow assertions for Requester,
@@ -109,7 +163,7 @@ shows `Done`; no extra Issue was created.
   not available.
 - No unavailable check is silently converted to Passed.
 
-## 6. Current local audit (2026-09-29)
+## 6. Historical local audit (2026-09-29)
 
 Execution context: branch `main`, HEAD
 `493758be65850504de7b970e50f7a61b846584f0`, dirty worktree. The results below
@@ -167,7 +221,7 @@ recorded in Sections 7 and 8 and linked in `reviewer.md`.
   `0353a4052c4a6d7ead9ddfb9b7c682d3e7958d02`.
 - Issue #40 is closed; the board status is `Done`.
 
-## 8. Final-main verification (2026-09-30)
+## 8. Historical final-main verification (2026-09-30)
 
 Source: clean isolated checkout of `origin/main` at
 `0353a4052c4a6d7ead9ddfb9b7c682d3e7958d02`, detached HEAD. Git status was

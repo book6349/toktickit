@@ -44,6 +44,8 @@ test.describe("Lab 3 accessibility and transient-state evidence", () => {
     await page.keyboard.press("Tab");
     await expect(page.getByRole("button", { name: "My Tickets" })).toBeFocused();
     await page.keyboard.press("Tab");
+    await expect(page.getByRole("button", { name: "Dashboard" })).toBeFocused();
+    await page.keyboard.press("Tab");
     await expect(page.getByRole("button", { name: "Create Ticket" })).toBeFocused();
     await page.screenshot({ path: "artifacts/lab-03/screenshots/accessibility/requester-navigation-keyboard-focus-1280x900.png", fullPage: true });
     await page.keyboard.press("Enter");

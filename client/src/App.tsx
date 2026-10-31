@@ -10,6 +10,7 @@ import {
   getCurrentUser,
   getReferenceData,
   getTicket,
+  getTicketWorkflow,
   listTickets,
   login,
   logout,
@@ -17,16 +18,19 @@ import {
   removeAttachment,
   setResolution,
   Ticket,
+  TicketWorkflow,
   User,
   uploadAttachments,
 } from "./api.js";
 import { AdminDirectDetail, StaffWorkspace } from "./staff.js";
 import { AdminWorkspace } from "./admin.js";
+import { ActionsTakenPanel } from "./ActionsTaken.js";
+import { RequesterDashboard } from "./Dashboard.js";
 
-type View = "list" | "create" | "detail";
+type View = "dashboard" | "list" | "create" | "detail";
 type AsyncStatus = "idle" | "loading" | "ready" | "error";
 type Priority = "LOW" | "MEDIUM" | "HIGH";
-type TicketSortField = "updatedAt" | "createdAt" | "ticketNumber" | "requestedPriority";
+type TicketSortField = "updatedAt" | "resolvedAt" | "createdAt" | "ticketNumber" | "requestedPriority";
 type TicketFilters = {
   search: string;
   categoryId: string;
@@ -78,6 +82,7 @@ function App() {
   const [referenceStatus, setReferenceStatus] = useState<AsyncStatus>("idle");
   const [referenceError, setReferenceError] = useState("");
   const [view, setView] = useState<View>("list");
+  const [detailReturnView, setDetailReturnView] = useState<View>("list");
   const [detailId, setDetailId] = useState<number | null>(null);
 
   async function loadReferences() {
@@ -184,6 +189,8 @@ function App() {
             setView={setView}
             detailId={detailId}
             setDetailId={setDetailId}
+            detailReturnView={detailReturnView}
+            setDetailReturnView={setDetailReturnView}
             references={references}
             referenceStatus={referenceStatus}
             referenceError={referenceError}
@@ -258,6 +265,8 @@ function ServiceDesk(props: {
   setView: (view: View) => void;
   detailId: number | null;
   setDetailId: (id: number | null) => void;
+  detailReturnView: View;
+  setDetailReturnView: (view: View) => void;
   references: { categories: Category[]; relatedSystems: RelatedSystem[] };
   referenceStatus: AsyncStatus;
   referenceError: string;
@@ -265,6 +274,7 @@ function ServiceDesk(props: {
   onLogout: () => void;
 }) {
   function openDetail(id: number) {
+    props.setDetailReturnView(props.view === "dashboard" ? "dashboard" : "list");
     props.setDetailId(id);
     props.setView("detail");
   }
@@ -282,8 +292,10 @@ function ServiceDesk(props: {
       </header>
       <nav className="main-nav" aria-label="Main navigation">
         <button type="button" className={props.view === "list" ? "nav-link active" : "nav-link"} onClick={() => props.setView("list")}>My Tickets</button>
+        <button type="button" className={props.view === "dashboard" ? "nav-link active" : "nav-link"} onClick={() => props.setView("dashboard")}>Dashboard</button>
         <button type="button" className={props.view === "create" ? "nav-link active" : "nav-link"} onClick={() => props.setView("create")}>Create Ticket</button>
       </nav>
+      {props.view === "dashboard" && <RequesterDashboard user={props.user} onOpenTicket={openDetail} />}
       {props.view === "create" && (
         <CreateTicketView
           categories={props.references.categories}
@@ -303,7 +315,7 @@ function ServiceDesk(props: {
       {props.view === "detail" && props.detailId !== null && (
         <TicketDetailView
           ticketId={props.detailId}
-          onBack={() => props.setView("list")}
+          onBack={() => props.setView(props.detailReturnView)}
         />
       )}
     </>
@@ -486,7 +498,7 @@ function TicketListView(props: { categories: Category[]; onOpenTicket: (id: numb
         <label className="visually-hidden" htmlFor="ticket-status">Status</label>
         <select id="ticket-status" value={filters.status} onChange={(event) => setFilters({ ...filters, status: event.target.value })}><option value="">All statuses</option><option value="NEW">New</option></select>
         <label className="visually-hidden" htmlFor="ticket-sort">Sort by</label>
-        <select id="ticket-sort" value={filters.sortBy} onChange={(event) => setFilters({ ...filters, sortBy: event.target.value as TicketSortField })}><option value="updatedAt">Recently updated</option><option value="createdAt">Date created</option><option value="ticketNumber">Ticket number</option><option value="requestedPriority">Priority</option></select>
+        <select id="ticket-sort" value={filters.sortBy} onChange={(event) => setFilters({ ...filters, sortBy: event.target.value as TicketSortField })}><option value="updatedAt">Recently updated</option><option value="resolvedAt">Resolution date</option><option value="createdAt">Date created</option><option value="ticketNumber">Ticket number</option><option value="requestedPriority">Priority</option></select>
         <label className="visually-hidden" htmlFor="ticket-sort-direction">Sort direction</label>
         <select id="ticket-sort-direction" value={filters.sortDirection} onChange={(event) => setFilters({ ...filters, sortDirection: event.target.value as "asc" | "desc" })}><option value="desc">Descending</option><option value="asc">Ascending</option></select>
         <label className="visually-hidden" htmlFor="ticket-page-size">Tickets per page</label>
@@ -507,6 +519,7 @@ function TicketListView(props: { categories: Category[]; onOpenTicket: (id: numb
 
 function TicketDetailView(props: { ticketId: number; onBack: () => void }) {
   const [ticket, setTicket] = useState<Ticket | null>(null);
+  const [workflow, setWorkflow] = useState<TicketWorkflow | null>(null);
   const [status, setStatus] = useState<AsyncStatus>("loading");
   const [error, setError] = useState("");
   const [uploadStatus, setUploadStatus] = useState<AsyncStatus>("idle");
@@ -521,12 +534,14 @@ function TicketDetailView(props: { ticketId: number; onBack: () => void }) {
   async function load() {
     setStatus("loading");
     try {
-      const [loadedTicket, loadedComments] = await Promise.all([
+      const [loadedTicket, loadedComments, loadedWorkflow] = await Promise.all([
         getTicket(props.ticketId),
         getComments(props.ticketId),
+        getTicketWorkflow(props.ticketId),
       ]);
       setTicket(loadedTicket);
       setComments(loadedComments);
+      setWorkflow(loadedWorkflow);
       setResolvedStatus(Boolean(loadedTicket.requesterResolutionIndicatedAt));
       setStatus("ready");
     } catch (error: any) {
@@ -614,9 +629,16 @@ function TicketDetailView(props: { ticketId: number; onBack: () => void }) {
       {status === "error" && <div className="notice error" role="alert">{error}<button type="button" className="link-button" onClick={() => void load()}>Retry</button></div>}
       {status === "ready" && ticket && (
         <>
-          <div className="section-heading"><div><p className="eyebrow">{ticket.ticketNumber}</p><h2 id="detail-heading">{ticket.summary}</h2></div><span className="status-pill">{ticket.status}</span></div>
+          <div className="section-heading"><div><p className="eyebrow">{ticket.ticketNumber}</p><h2 id="detail-heading">{ticket.summary}</h2></div><span className="status-pill">{workflow?.status.replaceAll("_", " ") || ticket.status}</span></div>
           <dl className="detail-grid"><div><dt>Category</dt><dd>{ticket.category?.name || "—"}</dd></div><div><dt>Related system</dt><dd>{ticket.relatedSystem?.name || "—"}</dd></div><div><dt>Priority</dt><dd><span className={"priority " + ticket.requestedPriority.toLowerCase()}>{ticket.requestedPriority}</span></dd></div><div><dt>Submitted</dt><dd>{formatDate(ticket.createdAt)}</dd></div></dl>
           <div className="description-block"><h3>Description</h3><p>{ticket.description}</p></div>
+          <ActionsTakenPanel ticketId={props.ticketId} role="REQUESTER" />
+          {workflow && <section className="description-block formal-resolution-panel" aria-labelledby="formal-resolution-heading">
+            <h3 id="formal-resolution-heading">Formal resolution</h3>
+            <p><strong>Current status:</strong> {workflow.status.replaceAll("_", " ")}</p>
+            {workflow.resolution.summary ? <><p>{workflow.resolution.summary}</p><p className="field-help">Resolved {workflow.resolution.resolvedAt ? formatDate(workflow.resolution.resolvedAt) : "before resolution tracking was added"}{workflow.resolution.resolvedBy ? ` by ${workflow.resolution.resolvedBy.name}` : ""}.</p></> : <p className="field-help">No formal resolution summary is recorded.</p>}
+            {workflow.events.length > 0 && <><h4>Ticket status history</h4><ol className="workflow-event-list">{workflow.events.map((event) => <li key={event.id}><strong>{event.fromStatus.replaceAll("_", " ")} → {event.toStatus.replaceAll("_", " ")}</strong><span>{formatDate(event.createdAt)} · {event.actor.name}</span>{event.resolutionSummary && <p>{event.resolutionSummary}</p>}</li>)}</ol></>}
+          </section>}
           <div className="comments-block description-block"><div className="section-heading compact"><div><h3>Public comments</h3><p className="field-help">Comments are visible to the service desk team.</p></div><span className="status-pill">{comments.length}</span></div><ul className="file-list">{comments.map((comment) => <li key={comment.id}><span><strong>{comment.author.name}</strong> · {formatDate(comment.createdAt)}<br />{comment.content}</span></li>)}</ul><form className="requester-form" onSubmit={(event) => void submitComment(event)}><label htmlFor="public-comment">Add a public comment</label><textarea id="public-comment" value={commentContent} onChange={(event) => setCommentContent(event.target.value)} maxLength={4000} rows={4} required /><button className="secondary-button" type="submit" disabled={commentStatus === "loading"}>{commentStatus === "loading" ? "Adding…" : "Add comment"}</button></form><div className="resolution-panel"><p><strong>Problem appears resolved?</strong> This does not change the formal ticket status.</p><button className="secondary-button" type="button" onClick={() => void toggleResolution()}>{resolvedStatus ? "Clear resolved indication" : "Mark as appears resolved"}</button>{resolvedStatus && <span className="field-help" role="status">Marked as appears resolved.</span>}</div></div>
           <div className="attachments-block"><div className="section-heading compact"><div><h3>Attachments</h3><p className="field-help">Active files can be downloaded or removed.</p></div><label className="secondary-button upload-label" htmlFor="detail-upload">Add files<input id="detail-upload" type="file" multiple accept=".jpg,.jpeg,.png,.webp,.pdf,image/jpeg,image/png,image/webp,application/pdf" onChange={chooseUpload} /></label></div>
             {uploadStatus === "loading" && <div className="notice info">Uploading…</div>}

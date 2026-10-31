@@ -4,17 +4,21 @@ import {
   addStaffNote,
   getStaffNotes,
   getStaffTicket,
+  getTicketWorkflow,
   InternalNote,
   listStaffTickets,
   PublicComment,
   StaffTicket,
   StaffTicketParams,
   Ticket,
+  TicketWorkflow,
   updateStaffOwner,
   updateStaffPriority,
   updateStaffStatus,
   User,
 } from "./api.js";
+import { ActionsTakenPanel } from "./ActionsTaken.js";
+import { StaffDashboard } from "./Dashboard.js";
 
 type AsyncStatus = "idle" | "loading" | "ready" | "error";
 type Priority = "LOW" | "MEDIUM" | "HIGH";
@@ -34,16 +38,6 @@ const statuses: Ticket["status"][] = [
 ];
 const priorities: Priority[] = ["LOW", "MEDIUM", "HIGH"];
 const confirmationStatuses = new Set<Ticket["status"]>(["RESOLVED", "CLOSED", "CANCELLED"]);
-const allowedTransitions: Record<Ticket["status"], Ticket["status"][]> = {
-  NEW: ["OPEN", "CANCELLED"],
-  OPEN: ["IN_PROGRESS", "WAITING_FOR_REQUESTER", "RESOLVED", "CANCELLED"],
-  IN_PROGRESS: ["WAITING_FOR_REQUESTER", "RESOLVED", "CANCELLED"],
-  WAITING_FOR_REQUESTER: ["IN_PROGRESS", "RESOLVED", "CANCELLED"],
-  RESOLVED: ["CLOSED", "REOPENED"],
-  CLOSED: ["REOPENED"],
-  REOPENED: ["IN_PROGRESS", "WAITING_FOR_REQUESTER", "RESOLVED", "CANCELLED"],
-  CANCELLED: ["REOPENED"],
-};
 
 const defaultQueueFilters: QueueFilters = {
   search: "",
@@ -71,6 +65,7 @@ function personLabel(person: { name: string; email?: string } | null | undefined
 
 export function StaffWorkspace(props: { user: User; onLogout: () => void }) {
   const [detailId, setDetailId] = useState<number | null>(null);
+  const [section, setSection] = useState<"dashboard" | "queue">("queue");
 
   return (
     <>
@@ -79,9 +74,10 @@ export function StaffWorkspace(props: { user: User; onLogout: () => void }) {
         <div className="requester-chip"><span>{props.user.name} · {props.user.role}</span><button type="button" className="link-button" onClick={props.onLogout}>Log out</button></div>
       </header>
       <nav className="main-nav" aria-label="Main navigation">
-        <button type="button" className={detailId === null ? "nav-link active" : "nav-link"} onClick={() => setDetailId(null)}>Ticket Queue</button>
+        <button type="button" className={section === "dashboard" ? "nav-link active" : "nav-link"} onClick={() => { setSection("dashboard"); setDetailId(null); }}>Dashboard</button>
+        <button type="button" className={section === "queue" ? "nav-link active" : "nav-link"} onClick={() => { setSection("queue"); setDetailId(null); }}>Ticket Queue</button>
       </nav>
-      {detailId === null ? <StaffQueue onOpenTicket={setDetailId} /> : <StaffTicketDetail ticketId={detailId} user={props.user} canOperate onBack={() => setDetailId(null)} />}
+      {detailId !== null ? <StaffTicketDetail ticketId={detailId} user={props.user} canOperate onBack={() => setDetailId(null)} /> : section === "dashboard" ? <StaffDashboard user={props.user} onOpenTicket={setDetailId} /> : <StaffQueue onOpenTicket={setDetailId} />}
     </>
   );
 }
@@ -163,28 +159,35 @@ function StaffQueue(props: { onOpenTicket: (ticketId: number) => void }) {
 
 export function StaffTicketDetail(props: { ticketId: number; user: User; canOperate: boolean; onBack: () => void }) {
   const [ticket, setTicket] = useState<StaffTicket | null>(null);
+  const [workflow, setWorkflow] = useState<TicketWorkflow | null>(null);
   const [notes, setNotes] = useState<InternalNote[]>([]);
   const [status, setStatus] = useState<AsyncStatus>("loading");
   const [error, setError] = useState("");
   const [actionStatus, setActionStatus] = useState<AsyncStatus>("idle");
   const [actionError, setActionError] = useState("");
+  const [actionErrorCode, setActionErrorCode] = useState("");
   const [actionMessage, setActionMessage] = useState("");
   const [ownerId, setOwnerId] = useState("");
   const [itPriority, setItPriority] = useState<Priority>("MEDIUM");
   const [statusTarget, setStatusTarget] = useState<Ticket["status"] | "">("");
+  const [resolutionSummary, setResolutionSummary] = useState("");
+  const [reopenReason, setReopenReason] = useState("");
   const [commentContent, setCommentContent] = useState("");
   const [noteContent, setNoteContent] = useState("");
 
-  async function load() {
+  async function load(preserveStatusForm = false) {
     setStatus("loading");
     setError("");
     try {
-      const [loadedTicket, loadedNotes] = await Promise.all([getStaffTicket(props.ticketId), getStaffNotes(props.ticketId)]);
+      const [loadedTicket, loadedNotes, loadedWorkflow] = await Promise.all([
+        getStaffTicket(props.ticketId), getStaffNotes(props.ticketId), getTicketWorkflow(props.ticketId),
+      ]);
       setTicket(loadedTicket);
       setNotes(loadedNotes);
+      setWorkflow(loadedWorkflow);
       setOwnerId(loadedTicket.owner ? String(loadedTicket.owner.id) : "");
       setItPriority(loadedTicket.itPriority || loadedTicket.requestedPriority);
-      setStatusTarget("");
+      if (!preserveStatusForm) setStatusTarget("");
       setStatus("ready");
     } catch (reason: any) {
       setError(reason?.message || "Unable to load Ticket Detail.");
@@ -197,6 +200,7 @@ export function StaffTicketDetail(props: { ticketId: number; user: User; canOper
   async function perform(label: string, operation: () => Promise<unknown>) {
     setActionStatus("loading");
     setActionError("");
+    setActionErrorCode("");
     setActionMessage("");
     try {
       await operation();
@@ -205,6 +209,7 @@ export function StaffTicketDetail(props: { ticketId: number; user: User; canOper
       setActionStatus("ready");
     } catch (reason: any) {
       setActionError(reason?.message || "Unable to save the Ticket change.");
+      setActionErrorCode(reason?.code || "");
       setActionStatus("error");
     }
   }
@@ -220,9 +225,56 @@ export function StaffTicketDetail(props: { ticketId: number; user: User; canOper
   }
 
   function updateStatus() {
-    if (!statusTarget) return;
+    if (!statusTarget || !workflow) return;
+    if (statusTarget === "RESOLVED" && !resolutionSummary.trim()) {
+      setActionError("Add a resolution summary before resolving this Ticket.");
+      setActionStatus("error");
+      return;
+    }
+    if (statusTarget === "REOPENED" && !reopenReason.trim()) {
+      setActionError("Add a reason before reopening this Ticket.");
+      setActionStatus("error");
+      return;
+    }
     if (confirmationStatuses.has(statusTarget) && !window.confirm(`Confirm changing this Ticket to ${formatStatus(statusTarget)}?`)) return;
-    void perform("Status updated.", () => updateStaffStatus(props.ticketId, statusTarget, confirmationStatuses.has(statusTarget)));
+    void perform("Status updated.", () => updateStaffStatus(props.ticketId, statusTarget, {
+      expectedVersion: workflow.workflowVersion,
+      confirm: confirmationStatuses.has(statusTarget),
+      ...(statusTarget === "RESOLVED" ? { resolutionSummary: resolutionSummary.trim() } : {}),
+      ...(statusTarget === "REOPENED" ? { reason: reopenReason.trim() } : {}),
+    }));
+  }
+
+  async function refreshWorkflow() {
+    try {
+      const [latestTicket, latestWorkflow] = await Promise.all([
+        getStaffTicket(props.ticketId), getTicketWorkflow(props.ticketId),
+      ]);
+      setTicket(latestTicket);
+      setWorkflow(latestWorkflow);
+    } catch (reason: any) {
+      setActionError(reason?.message || "Unable to refresh the Ticket workflow.");
+      setActionErrorCode(reason?.code || "");
+    }
+  }
+
+  async function refreshAfterConflict() {
+    try {
+      const [loadedTicket, loadedNotes, loadedWorkflow] = await Promise.all([
+        getStaffTicket(props.ticketId), getStaffNotes(props.ticketId), getTicketWorkflow(props.ticketId),
+      ]);
+      setTicket(loadedTicket);
+      setNotes(loadedNotes);
+      setWorkflow(loadedWorkflow);
+      setOwnerId(loadedTicket.owner ? String(loadedTicket.owner.id) : "");
+      setItPriority(loadedTicket.itPriority || loadedTicket.requestedPriority);
+      setActionError("");
+      setActionErrorCode("");
+      setActionMessage("Ticket refreshed. Review the current status; your resolution entries are still here.");
+      setActionStatus("ready");
+    } catch (reason: any) {
+      setActionError(reason?.message || "Unable to refresh the Ticket. Your resolution entries are still here.");
+    }
   }
 
   async function submitComment(event: FormEvent) {
@@ -259,6 +311,13 @@ export function StaffTicketDetail(props: { ticketId: number; user: User; canOper
     }
   }
 
+  const resolutionGateBlocked = !workflow ||
+    workflow.resolutionGate.completedActionCount < 1 || workflow.resolutionGate.blockingActionCount > 0 || !resolutionSummary.trim();
+  const statusUpdateBlocked = !statusTarget || !workflow || actionStatus === "loading" ||
+    (statusTarget === "RESOLVED" && resolutionGateBlocked) ||
+    (statusTarget === "CLOSED" && !workflow.resolution.summary) ||
+    (statusTarget === "REOPENED" && !reopenReason.trim());
+
   return (
     <section className="content-card staff-detail-card" aria-labelledby="staff-detail-heading">
       <button type="button" className="back-link" onClick={props.onBack}>← Back to {props.user.role === "ADMINISTRATOR" ? "Administrator workspace" : "Ticket Queue"}</button>
@@ -266,10 +325,18 @@ export function StaffTicketDetail(props: { ticketId: number; user: User; canOper
       {status === "error" && <div className="notice error" role="alert">{error}<button type="button" className="link-button" onClick={() => void load()}>Retry</button></div>}
       {status === "ready" && ticket && <>
         <div className="section-heading"><div><p className="eyebrow">{ticket.ticketNumber}</p><h2 id="staff-detail-heading">{ticket.summary}</h2></div><span className="status-pill">{formatStatus(ticket.status)}</span></div>
-        {actionError && <div className="notice error" role="alert">{actionError}</div>}
+        {actionError && <div className="notice error" role="alert">{actionError}{actionErrorCode === "VERSION_CONFLICT" && <button type="button" className="link-button" onClick={() => void refreshAfterConflict()}>Refresh Ticket and keep my entries</button>}</div>}
         {actionMessage && <div className="notice success" role="status">{actionMessage}</div>}
         <dl className="detail-grid"><div><dt>Requester</dt><dd>{personLabel(ticket.requester)}</dd></div><div><dt>Category</dt><dd>{ticket.category?.name || "—"}</dd></div><div><dt>Related system</dt><dd>{ticket.relatedSystem?.name || "—"}</dd></div><div><dt>Created</dt><dd>{formatDate(ticket.createdAt)}</dd></div><div><dt>Updated</dt><dd>{formatDate(ticket.updatedAt)}</dd></div><div><dt>Requested priority</dt><dd><span className={`priority ${ticket.requestedPriority.toLowerCase()}`}>{ticket.requestedPriority}</span></dd></div><div><dt>IT priority</dt><dd><span className={`priority ${(ticket.itPriority || ticket.requestedPriority).toLowerCase()}`}>{ticket.itPriority || ticket.requestedPriority}</span></dd></div><div><dt>Owner</dt><dd>{personLabel(ticket.owner)}</dd></div></dl>
         <div className="description-block"><h3>Description</h3><p>{ticket.description}</p></div>
+        <ActionsTakenPanel ticketId={props.ticketId} role={props.user.role} onChange={() => void refreshWorkflow()} />
+        {workflow && <section className="description-block formal-resolution-panel" aria-labelledby="formal-resolution-heading">
+          <h3 id="formal-resolution-heading">Formal resolution</h3>
+          <p><strong>Current status:</strong> {formatStatus(workflow.status)}</p>
+          {workflow.resolution.summary ? <><p>{workflow.resolution.summary}</p><p className="field-help">Resolved {workflow.resolution.resolvedAt ? formatDate(workflow.resolution.resolvedAt) : "before resolution tracking was added"}{workflow.resolution.resolvedBy ? ` by ${workflow.resolution.resolvedBy.name}` : ""}.</p></> : <p className="field-help">No formal resolution summary is recorded.</p>}
+          <h4>Ticket status history</h4>
+          {workflow.events.length === 0 ? <p className="muted">No status changes recorded yet.</p> : <ol className="workflow-event-list">{workflow.events.map((event) => <li key={event.id}><strong>{formatStatus(event.fromStatus)} → {formatStatus(event.toStatus)}</strong><span>{formatDate(event.createdAt)} · {event.actor.name}</span>{event.resolutionSummary && <p>{event.resolutionSummary}</p>}{event.reason && <p className="field-help">Reopened because: {event.reason}</p>}</li>)}</ol>}
+        </section>}
         {ticket.requesterResolutionIndicatedAt && <section className="description-block resolution-panel" aria-labelledby="requester-resolution-heading">
           <h3 id="requester-resolution-heading">Requester resolution indication</h3>
           <p>Requester indicates that the problem appears resolved.</p>
@@ -277,7 +344,21 @@ export function StaffTicketDetail(props: { ticketId: number; user: User; canOper
         </section>}
         <div className="staff-control-grid">
           <section className="operation-panel" aria-labelledby="ownership-heading"><h3 id="ownership-heading">Ownership</h3><p className="field-help">Only active IT Staff or Administrators may own a Ticket.</p>{props.canOperate ? <><div className="inline-actions"><button className="secondary-button" type="button" disabled={actionStatus === "loading"} onClick={() => { setOwnerId(String(props.user.id)); void perform("Ticket claimed.", () => updateStaffOwner(props.ticketId, props.user.id)); }}>Claim as me</button><button className="secondary-button" type="button" disabled={actionStatus === "loading"} onClick={() => void perform("Ticket unassigned.", () => updateStaffOwner(props.ticketId, null))}>Unassign</button></div><div className="field"><label htmlFor="staff-owner-id">Assign owner ID</label><input id="staff-owner-id" type="number" min="1" value={ownerId} onChange={(event) => setOwnerId(event.target.value)} /><button className="secondary-button" type="button" disabled={actionStatus === "loading"} onClick={assignOwner}>Assign owner</button></div></> : <p className="muted">Administrator access is read-only. Current owner: {personLabel(ticket.owner)}.</p>}</section>
-          <section className="operation-panel" aria-labelledby="priority-heading"><h3 id="priority-heading">IT Priority and status</h3><div className="field"><label htmlFor="staff-it-priority-detail">IT Priority</label><select id="staff-it-priority-detail" disabled={!props.canOperate || actionStatus === "loading"} value={itPriority} onChange={(event) => setItPriority(event.target.value as Priority)}>{priorities.map((value) => <option key={value} value={value}>{value}</option>)}</select></div>{props.canOperate && <button className="secondary-button" type="button" disabled={actionStatus === "loading"} onClick={() => void perform("IT Priority updated.", () => updateStaffPriority(props.ticketId, itPriority))}>Save IT Priority</button>}<div className="field"><label htmlFor="staff-next-status">Next status</label><select id="staff-next-status" disabled={!props.canOperate || actionStatus === "loading"} value={statusTarget} onChange={(event) => setStatusTarget(event.target.value as Ticket["status"] | "")}><option value="">Choose a permitted transition</option>{allowedTransitions[ticket.status].map((value) => <option key={value} value={value}>{formatStatus(value)}</option>)}</select></div>{props.canOperate && <button className="secondary-button" type="button" disabled={!statusTarget || actionStatus === "loading"} onClick={updateStatus}>Update status</button>}</section>
+          <section className="operation-panel" aria-labelledby="priority-heading">
+            <h3 id="priority-heading">IT Priority and status</h3>
+            <div className="field"><label htmlFor="staff-it-priority-detail">IT Priority</label><select id="staff-it-priority-detail" disabled={!props.canOperate || actionStatus === "loading"} value={itPriority} onChange={(event) => setItPriority(event.target.value as Priority)}>{priorities.map((value) => <option key={value} value={value}>{value}</option>)}</select></div>
+            {props.canOperate && <button className="secondary-button" type="button" disabled={actionStatus === "loading"} onClick={() => void perform("IT Priority updated.", () => updateStaffPriority(props.ticketId, itPriority))}>Save IT Priority</button>}
+            <div className="field"><label htmlFor="staff-next-status">Next status</label><select id="staff-next-status" disabled={!props.canOperate || actionStatus === "loading" || !workflow} value={statusTarget} onChange={(event) => setStatusTarget(event.target.value as Ticket["status"] | "")}><option value="">Choose a permitted transition</option>{(workflow?.permittedNextStatuses ?? []).map((value) => <option key={value} value={value}>{formatStatus(value)}</option>)}</select></div>
+            {statusTarget === "RESOLVED" && <div className="resolution-form-block">
+              <div className="field"><label htmlFor={`resolution-summary-${props.ticketId}`}>Resolution summary</label><textarea id={`resolution-summary-${props.ticketId}`} value={resolutionSummary} onChange={(event) => setResolutionSummary(event.target.value)} maxLength={2000} rows={3} required /></div>
+              <p className="field-help">Completed actions: {workflow?.resolutionGate.completedActionCount ?? 0}. Pending actions: {workflow?.resolutionGate.blockingActionCount ?? 0}.</p>
+              {workflow && (workflow.resolutionGate.completedActionCount < 1 || workflow.resolutionGate.blockingActionCount > 0) && <p className="notice info">Resolution is blocked until at least one action is completed and all planned or in-progress actions are completed or cancelled. <a href={`#actions-taken-heading-${props.ticketId}`}>Review Actions Taken</a>.</p>}
+            </div>}
+            {statusTarget === "REOPENED" && <div className="field"><label htmlFor={`reopen-reason-${props.ticketId}`}>Reason for reopening</label><textarea id={`reopen-reason-${props.ticketId}`} value={reopenReason} onChange={(event) => setReopenReason(event.target.value)} maxLength={1000} rows={3} required /></div>}
+            {statusTarget === "CLOSED" && workflow && !workflow.resolution.summary && <p className="notice info">A resolution summary must be recorded before this Ticket can be closed.</p>}
+            {props.canOperate && <button className="secondary-button" type="button" disabled={statusUpdateBlocked} onClick={updateStatus}>Update status</button>}
+            {!props.canOperate && <p className="muted">Administrator access is read-only for formal Ticket status.</p>}
+          </section>
         </div>
         <div className="attachments-block"><div className="section-heading compact"><div><h3>Attachments</h3><p className="field-help">Existing Ticket files.</p></div></div>{ticket.attachments.length === 0 ? <p className="muted">No attachments.</p> : <ul className="attachment-list">{ticket.attachments.map((attachment) => <li key={attachment.id} className={attachment.isRemoved ? "removed" : ""}><div><strong>{attachment.originalFilename}</strong><span>{attachment.isRemoved ? "Removed" : `Uploaded ${formatDate(attachment.uploadedAt)}`}</span></div></li>)}</ul>}</div>
         <section className="description-block public-panel" aria-labelledby="public-comments-heading"><div className="section-heading compact"><div><h3 id="public-comments-heading">Public Comments</h3><p className="field-help">Visible to Requesters, IT Staff, and Administrators.</p></div><span className="status-pill">{ticket.comments.length}</span></div><ul className="comment-list">{ticket.comments.length === 0 && <li className="muted">No public comments.</li>}{ticket.comments.map((comment: PublicComment) => <li key={comment.id}><strong>{comment.author.name}</strong><span>{formatDate(comment.createdAt)}</span><p>{comment.content}</p></li>)}</ul>{props.canOperate && <form className="requester-form" onSubmit={submitComment}><label htmlFor="staff-public-comment">Add a public comment</label><textarea id="staff-public-comment" rows={4} maxLength={4000} value={commentContent} onChange={(event) => setCommentContent(event.target.value)} required /><button className="secondary-button" type="submit" disabled={actionStatus === "loading"}>Add public comment</button></form>}</section>

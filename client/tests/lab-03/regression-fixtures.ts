@@ -15,4 +15,13 @@ export const regressionRequester: api.User = {
 export function mockRequesterSession() {
   vi.spyOn(api, "getCurrentUser").mockResolvedValue({ user: regressionRequester, mustChangePassword: false });
   vi.spyOn(api, "getComments").mockResolvedValue([]);
+  vi.spyOn(api, "getTicketWorkflow").mockResolvedValue({
+    ticketId: 0,
+    status: "NEW",
+    workflowVersion: 1,
+    resolution: { summary: null, resolvedAt: null, resolvedBy: null },
+    permittedNextStatuses: [],
+    resolutionGate: { completedActionCount: 0, blockingActionCount: 0 },
+    events: [],
+  });
 }
