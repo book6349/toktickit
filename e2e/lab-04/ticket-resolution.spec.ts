@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test";
-import { apiBaseURL, changedPassword, requesterEmail, signInAndUnlock, staffEmail } from "../lab-03/fixtures";
+import { apiBaseURL, changedPassword, logOutAndWait, requesterEmail, signInAndUnlock, staffEmail } from "../lab-03/fixtures";
+import { captureLab4Evidence } from "./evidence";
 
 test.describe("Lab 4 Ticket resolution workflow", () => {
   test("resolves, closes, and reopens a Ticket with a Requester-readable history", async ({ page }) => {
@@ -17,7 +18,7 @@ test.describe("Lab 4 Ticket resolution workflow", () => {
     expect(createResponse.ok()).toBe(true);
     const created = (await createResponse.json()).ticket as { id: number };
     expect(created.id).toBeGreaterThan(0);
-    await page.getByRole("button", { name: "Log out" }).click();
+    await logOutAndWait(page);
 
     await signInAndUnlock(page, staffEmail, changedPassword);
     await page.getByLabel("Search tickets").fill(summary);
@@ -34,6 +35,7 @@ test.describe("Lab 4 Ticket resolution workflow", () => {
     await expect(page.getByText(/Completed actions: 0\. Pending actions: 0\./)).toBeVisible();
     await expect(page.getByRole("button", { name: "Update status" })).toBeDisabled();
     await expect(page.getByRole("link", { name: "Review Actions Taken" })).toBeVisible();
+    await captureLab4Evidence(page, "ticket-workflow", "resolution-blocked-no-completed-actions", page.getByText(/Resolution is blocked until/));
 
     await page.getByRole("button", { name: "Add Action" }).click();
     await page.getByLabel("Description").fill("Restore the wireless adapter configuration");
@@ -49,7 +51,7 @@ test.describe("Lab 4 Ticket resolution workflow", () => {
     page.once("dialog", (dialog) => dialog.accept());
     await page.getByRole("button", { name: "Update status" }).click();
     await expect(page.getByText("Status updated.", { exact: true })).toBeVisible();
-    await expect(page.getByText("Wireless access restored and verified with the Requester.", { exact: true })).toBeVisible();
+    await expect(page.getByText("Wireless access restored and verified with the Requester.", { exact: true })).toHaveCount(2);
 
     await page.getByLabel("Next status").selectOption("CLOSED");
     page.once("dialog", (dialog) => dialog.accept());
@@ -60,7 +62,8 @@ test.describe("Lab 4 Ticket resolution workflow", () => {
     await page.getByLabel("Reason for reopening").fill("The wireless connection dropped again during follow-up.");
     await page.getByRole("button", { name: "Update status" }).click();
     await expect(page.locator('section[aria-labelledby="staff-detail-heading"] .status-pill').first()).toHaveText("REOPENED");
-    await page.getByRole("button", { name: "Log out" }).click();
+    await captureLab4Evidence(page, "ticket-workflow", "staff-reopened-ticket", page.getByRole("heading", { name: "Formal resolution" }));
+    await logOutAndWait(page);
 
     await signInAndUnlock(page, requesterEmail, changedPassword);
     await page.getByLabel("Search tickets").fill(summary);
@@ -72,6 +75,7 @@ test.describe("Lab 4 Ticket resolution workflow", () => {
     await expect(page.locator(".workflow-event-list")).toContainText("Wireless access restored and verified with the Requester.");
     await expect(page.getByText("The wireless connection dropped again during follow-up.")).toHaveCount(0);
     await expect(page.getByLabel("Next status")).toHaveCount(0);
+    await captureLab4Evidence(page, "ticket-workflow", "requester-resolution-history", page.getByRole("heading", { name: "Formal resolution" }));
 
     const forbiddenWrite = await page.evaluate(async ({ apiBaseURL, ticketId }) => {
       const csrfResponse = await fetch(`${apiBaseURL}/api/auth/csrf`, { credentials: "include" });

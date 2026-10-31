@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test";
-import { changedPassword, completeInitialPasswordChange, initialPassword, requesterEmail, staffEmail } from "../lab-03/fixtures";
+import { changedPassword, completeInitialPasswordChange, initialPassword, logOutAndWait, requesterEmail, staffEmail } from "../lab-03/fixtures";
+import { captureLab4Evidence } from "./evidence";
 
 async function signInForActionsFlow(page: import("@playwright/test").Page, email: string) {
   const shell = page.getByRole("heading", { name: /My tickets|Ticket Queue/ });
@@ -33,6 +34,10 @@ test.describe("Lab 4 Actions Taken Ticket Detail", () => {
     await expect(baseline).toBeVisible();
     await baseline.getByRole("button", { name: "Open Detail" }).click();
     await expect(page.getByRole("heading", { name: "Actions Taken" })).toBeVisible();
+    await page.getByRole("button", { name: "Add Action" }).click();
+    await expect(page.getByLabel("Description")).toBeVisible();
+    await captureLab4Evidence(page, "actions-taken", "staff-add-action", page.getByRole("heading", { name: "Record an action" }));
+    await page.getByRole("button", { name: "Cancel" }).click();
 
     const descriptions = ["Inspect the laptop power connector", "Replace the damaged power adapter"];
     for (const [index, description] of descriptions.entries()) {
@@ -50,7 +55,8 @@ test.describe("Lab 4 Actions Taken Ticket Detail", () => {
     }
 
     await expect(page.locator(".actions-list .action-card")).toHaveCount(2);
-    await page.getByRole("button", { name: "Log out" }).click();
+    await captureLab4Evidence(page, "actions-taken", "staff-history", page.getByRole("heading", { name: "Actions Taken" }));
+    await logOutAndWait(page);
     await signInForActionsFlow(page, requesterEmail);
     await expect(page.getByRole("heading", { name: "My tickets" })).toBeVisible();
     await page.getByLabel("Search tickets").fill("Synthetic migration fixture");
@@ -68,6 +74,7 @@ test.describe("Lab 4 Actions Taken Ticket Detail", () => {
     await expect(page.getByRole("button", { name: "Add Action" })).toHaveCount(0);
     await expect(page.getByRole("button", { name: "Edit action" })).toHaveCount(0);
     await expect(page.getByRole("heading", { name: "Internal Notes" })).toHaveCount(0);
+    await captureLab4Evidence(page, "actions-taken", "requester-read-only-history", page.getByRole("heading", { name: "Actions Taken" }));
 
     for (const viewport of [
       { width: 1280, height: 900 },

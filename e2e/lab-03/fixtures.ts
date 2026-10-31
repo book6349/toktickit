@@ -47,8 +47,27 @@ export async function completeInitialPasswordChange(page: Page, nextPassword = c
 }
 
 export async function signInAndUnlock(page: Page, email: string, password = initialPassword) {
-  await signIn(page, email, password);
-  await completeInitialPasswordChange(page, changedPassword, password);
+  let currentPassword = password;
+  await signIn(page, email, currentPassword);
+
+  const changeHeading = page.getByRole("heading", { name: "Change your password" });
+  const roleShellHeading = page.getByRole("heading", { name: /My tickets|Ticket Queue|User Management/ });
+  const alert = page.getByRole("alert");
+  await expect(changeHeading.or(roleShellHeading).or(alert)).toBeVisible();
+
+  // Full regression runs reuse seeded accounts after the first-login suite has changed their passwords.
+  if (await alert.isVisible().catch(() => false)) {
+    currentPassword = currentPassword === initialPassword ? changedPassword : initialPassword;
+    await signIn(page, email, currentPassword);
+    await expect(changeHeading.or(roleShellHeading)).toBeVisible();
+  }
+
+  await completeInitialPasswordChange(page, changedPassword, currentPassword);
+}
+
+export async function logOutAndWait(page: Page) {
+  await page.getByRole("button", { name: "Log out" }).click();
+  await expect(page.getByRole("heading", { name: /TokTickIT.*Sign in/i })).toBeVisible();
 }
 
 export async function captureRequiredViewports(page: Page, relativePath: string, name: string) {

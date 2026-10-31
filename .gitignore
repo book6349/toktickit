@@ -15,6 +15,8 @@ server/storage/
 test-results/
 artifacts/lab-03/playwright-report/
 artifacts/lab-03/runtime/
+artifacts/lab-04/playwright-report/
+artifacts/lab-04/runtime/
 # logs & OS
 *.log
 .DS_Store
