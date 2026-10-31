@@ -1,6 +1,6 @@
 # Lab 4 Peer Review Record
 
-Status: PRs #57–#61 were reviewed and merged. The final regression and evidence PR is pending submission and peer review.
+Status: PRs #57–#61 were reviewed and merged. [PR #62 — Final Regression, Hardening and Evidence](https://github.com/book6349/toktickit/pull/62) is open for peer review.
 
 ## Completed reviews
 
@@ -16,8 +16,8 @@ The source of each review, reply and approval is the linked GitHub PR. The revie
 
 ## Final regression PR
 
-- PR: Pending creation from `feature/lab4-final-hardening` to `lab4-staging`.
-- Reviewer request: User will add the reviewer.
+- PR: [#62 — Final Regression, Hardening and Evidence](https://github.com/book6349/toktickit/pull/62), from `feature/lab4-final-hardening` to `lab4-staging`.
+- Issue link and reviewer request: User will add these.
 - Review comments, author replies and reviewer approval: Pending.
 - Merge and release to `main`: Pending; do not treat this staging review as final release approval.
 
