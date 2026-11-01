@@ -1,15 +1,21 @@
-# Lab 4 release evidence checklist
+# Lab 4 release evidence
 
-Checked on 31 October 2026 in Asia/Bangkok. T-20 and T-25 are Passed for the recorded checks. The implementation tested is 3ddd3930b2c83d3193164257d3bf7dd3bcfb14e9, based on merged main 43ed5984962ee8f8b4f29c72931b7fbe64037d3e. Later evidence/report commits do not change application or test behavior. This follow-up requires human peer review and merge before it becomes final-main evidence. Local runs are not GitHub CI; the main combined-status response contains no checks.
+## Final-main status
+
+T-20 accessibility and 320px checks and T-25 release checklist are complete on main. PR #65 merged on 2026-11-01 (Asia/Bangkok, UTC+07:00) at commit 58b0a7a5556a689ca75c47f9797ebfe84c9cdb3a. The tested tree 65731368fb2ad8c27e86da34248906a1a5881ee6 matches PR #65 head 20b4e0a7698d3eb5527cd9eb85d36e2ce8c9daeb.
+
+All 306 server tests in 23 files passed, including 37 PostgreSQL-backed checks. All 66 client tests in 18 files passed. All 22 Playwright tests passed on one worker: 16 Lab 3, 2 Lab 2, and 4 Lab 4. Server and client production builds, Prisma schema validation, migration/seed assertions, and compiled-server health passed. Exact full output is in the linked logs below.
+
+GitHub returned no status checks for the merged revision; no CI pass is claimed. This record does not claim a full WCAG audit, manual screen-reader evaluation, standalone axe scan, or performance benchmark.
 
 ## T-20 accessibility and 320px evidence
 
-- [x] Keyboard Tab/Enter reaches both role dashboards and their drill-down/back controls, with a visible outline of at least 2px.
-- [x] Staff can open and cancel Actions Taken using the keyboard. The form has an accessible name, each checked field has its associated label, validation is announced through role=alert, and focus moves to an aria-invalid field.
+- [x] Keyboard Tab/Enter reaches both role dashboards and their drill-down/back controls, with a visible focus outline.
+- [x] Staff can open and cancel Actions Taken using the keyboard. The form has an accessible name, checked fields have labels, validation is announced through role=alert, and focus moves to an aria-invalid field.
 - [x] Reduced-motion emulation removes dashboard-card transition and hover transform.
-- [x] All eight Lab 4 screen states have no horizontal page overflow at 320x800, in addition to the three existing widths.
-- [x] Four dedicated 320px keyboard/validation captures are retained and embedded in the editable report. Source: e2e/lab-04/zz-accessibility.spec.ts; viewport helper: e2e/lab-04/evidence.ts.
-- [x] The new journey found a missing navigation focus outline caused by the Bootstrap selector. The specific focus-visible rule now overrides it with a solid green outline.
+- [x] All eight Lab 4 screen states have no horizontal page overflow at 320×800, in addition to the three existing widths.
+- [x] Four dedicated 320px keyboard/validation captures are retained and embedded in the report. Source: e2e/lab-04/zz-accessibility.spec.ts; viewport helper: e2e/lab-04/evidence.ts.
+- [x] The focus-visible rule overrides the Bootstrap selector with a solid green outline.
 
 Scope: these are focused browser assertions, not a full WCAG audit or a manual screen-reader evaluation. No standalone axe scan or performance benchmark is claimed.
 
@@ -17,32 +23,38 @@ Scope: these are focused browser assertions, not a full WCAG audit or a manual s
 
 | Check | Observed evidence | Result |
 |---|---|---|
-| Source identity | Tested implementation 3ddd3930b2c83d3193164257d3bf7dd3bcfb14e9; base main 43ed5984962ee8f8b4f29c72931b7fbe64037d3e; date and commands retained in logs | Passed |
-| Server/API/authorization/workflow/migration regression | 306 tests in 23 files, including 37 PostgreSQL-backed Actions Taken checks | Passed |
-| Client regression and dashboard failure recovery | 66 tests in 18 files; initial loading, safe network/forbidden errors, retry, retained metrics after failed refresh, drill-down loading and filter-preserving retry | Passed |
-| Browser regression | 22 Lab 2–4 tests in a new disposable PostgreSQL database; includes T-20 | Passed |
+| Source identity | Main merge 58b0a7a5556a689ca75c47f9797ebfe84c9cdb3a; tree 65731368fb2ad8c27e86da34248906a1a5881ee6 equals tested PR #65 head 20b4e0a7698d3eb5527cd9eb85d36e2ce8c9daeb; run date 2026-11-01 (+07:00) | Passed |
+| Server/API/authorization/workflow/migration regression | 306 tests in 23 files, including 37 PostgreSQL-backed checks | Passed |
+| Client regression and dashboard recovery | 66 tests in 18 files; loading, safe network/forbidden errors, retry, retained metrics, and filter-preserving drill-down retry | Passed |
+| Browser regression | 22 Playwright tests on one worker in a fresh isolated PostgreSQL database; includes T-20 | Passed |
 | Build and schema | Server and client production builds; npx prisma validate | Passed |
-| Production health | Built entrypoint node dist/src/index.js; GET /api/health returned HTTP 200 and status=ok | Passed |
-| Specification before implementation | Contract fd390c3 was reviewed in PR #57 before feature PRs; rendered specification and test matrix remain in report | Passed |
-| Reviewer disposition | PRs #57–#64 have recorded peer review; Punge089 commented and approved, book6349 replied; #64 merged to main at 43ed5984962ee8f8b4f29c72931b7fbe64037d3e | Passed |
-| Project board and Issues | Read-only board inspection at https://github.com/users/book6349/projects/4/views/1: Issues #51–#56 all in Done; other working columns have zero items; six Issues are closed | Passed |
-| AI-use record | Six actual prompt excerpts, model, and reflection retained in ai-use.md; this record does not fabricate prompts or reviews | Passed |
-| Honest release boundary | No GitHub CI pass claimed; current follow-up peer review/merge remains pending; source revision and initial failures are retained | Passed |
+| Production health | node dist/src/index.js; GET /api/health returned HTTP 200 and status=ok | Passed |
+| Specification before implementation | Contract fd390c3 reviewed in PR #57 before feature PRs; rendered specification and test matrix remain in report | Passed |
+| Reviewer disposition | PRs #57–#65 have recorded peer review; PR #65 comment, author reply, approval, and merge links below | Passed |
+| Project board and Issues | Read-only board inspection: Issues #51–#56 all in Done; all six Issues are closed | Passed |
+| AI-use record | Six actual prompt excerpts, model, and reflection retained in ai-use.md | Passed |
+| Honest release boundary | GitHub reported no status checks; no CI pass is claimed | Passed |
 
-## Exact local commands and output
+## Exact commands and output
 
-All final commands below ran at 3ddd3930b2c83d3193164257d3bf7dd3bcfb14e9 on 31 October 2026 (+07:00).
+Run date: 2026-11-01 (Asia/Bangkok, UTC+07:00). Tested main commit: 58b0a7a5556a689ca75c47f9797ebfe84c9cdb3a; tree: 65731368fb2ad8c27e86da34248906a1a5881ee6.
 
-- In server/: npm test -- --reporter=dot with LAB4_DB_TEST=1 and local PostgreSQL test service.
-- In client/: npm test -- --reporter=dot.
-- npm --prefix server run build; npm --prefix client run build; in server/: npx prisma validate.
-- Repository root: npm run test:e2e. Fresh database: toktickit_lab3_e2e_release_complete_20261031231014. Preparation preserves its migration baseline, seeds twice, refuses existing databases, and retains the synthetic database for audit.
-- In server/: node dist/src/index.js, followed by GET http://localhost:3000/api/health.
+- Server: LAB4_DB_TEST=1 npm test -- --reporter=dot from server/; 306 tests passed, including 37 PostgreSQL-backed checks.
+- Client: npm test -- --reporter=dot from client/; 66 tests passed.
+- E2E: npm run test:e2e from repository root; 22 Playwright tests passed on one worker using fresh isolated database toktickit_lab3_e2e_mainlog_20261101133650179_e47151.
+- Builds: npm --prefix server run build; npm --prefix client run build.
+- Schema: npx prisma validate from server/, with a temporary nonconnecting DATABASE_URL because this checkout has no .env.
+- Health: node dist/src/index.js; GET /api/health returned HTTP 200 and status=ok.
 
-Complete passing output: [validation](../../output/evidence/lab4-release-validation.log), [browser](../../output/evidence/lab4-release-e2e.log), [health](../../output/evidence/lab4-release-health.log). The initial focus failure and the earlier style-pattern/typecheck failures remain in lab4-release-e2e-initial.log, lab4-release-validation-initial.log and lab4-release-validation-typecheck-initial.log as historical diagnostics, not current results.
+Complete output: [validation and build log](../../output/evidence/lab4-main-verification-validation-20261101.log), [browser log](../../output/evidence/lab4-main-verification-e2e-20261101.log), [health log](../../output/evidence/lab4-main-verification-health-20261101.log).
 
-## Review source for PR 64
+The older lab4-release-*.log files document the 31 October candidate run and remain historical. The logs above supersede them for final-main status.
 
-- [Punge089 comment](https://github.com/book6349/toktickit/pull/64#pullrequestreview-5723674774): Please confirm the report matches the tested main revision and clearly lists the remaining gaps.
-- [book6349 reply](https://github.com/book6349/toktickit/pull/64#issuecomment-6545762705): linked commit 993af6a and the main verification logs and remaining evidence gaps.
-- [Punge089 approval](https://github.com/book6349/toktickit/pull/64#pullrequestreview-5723677707): The report matches the recorded results and states its limits clearly. Approved.
+## PR #65 review record
+
+- [PR #65](https://github.com/book6349/toktickit/pull/65) merged to main at [commit 58b0a7a5556a689ca75c47f9797ebfe84c9cdb3a](https://github.com/book6349/toktickit/commit/58b0a7a5556a689ca75c47f9797ebfe84c9cdb3a).
+- [Punge089 reviewer comment](https://github.com/book6349/toktickit/pull/65#pullrequestreview-5726724450): “Please check the keyboard and 320px evidence, recovery cases, and release checklist against the recorded revision.”
+- [book6349 author reply](https://github.com/book6349/toktickit/pull/65#issuecomment-6554388896): “The evidence and verification limits are documented on this branch in the release notes.”
+- [Punge089 approval](https://github.com/book6349/toktickit/pull/65#pullrequestreview-5726780191): “The accessibility evidence and release checks are clear. Approved.”
+
+The prior PR #64 review record remains available in GitHub and reviewer.md. Issues #51–#56 are closed; the project board view was checked read-only and shows all six in Done.
