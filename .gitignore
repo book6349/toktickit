@@ -22,3 +22,6 @@ artifacts/lab-04/runtime/
 # Keep verified Lab 4 main-branch run evidence
 !output/evidence/lab4-main-*.log
 .DS_Store
+
+# Verified Lab 4 accessibility and release evidence
+!output/evidence/lab4-release-*.log
