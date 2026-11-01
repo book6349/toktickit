@@ -1,6 +1,6 @@
 # Lab 4 Test Plan
 
-Status: T-20 and T-25 Passed on 31 October 2026. Candidate 3ddd3930b2c83d3193164257d3bf7dd3bcfb14e9 passed 306 server, 66 client and 22 browser tests, both builds, Prisma validation and production health. The project board shows Issues #51–#56 Done. See release-evidence.md for commands, logs, review history and the pending peer-review/merge boundary of this follow-up.
+Status: T-20 and T-25 Passed on final main, commit 58b0a7a5556a689ca75c47f9797ebfe84c9cdb3a, on 1 November 2026 (+07:00). The merged tree passed 306 server tests (including 37 PostgreSQL checks), 66 client tests, 22 browser tests, both builds, Prisma validation and production health. Issues #51–#56 are Done. GitHub reported no status checks. See release-evidence.md for exact commands, complete logs, review history and limits.
 
 Related: [engineering specification](specification.md), [API contract](api-spec.md), [UI contract](ui-spec.md).
 
@@ -37,9 +37,9 @@ Run named tests and the existing Lab 1–3 regression suites before release. Rec
 | T-21 | AC-01, AC-02, AC-03, AC-08 | Staff records multiple actions; Requester sees the same history read-only; responsive widths are checked and desktop/tablet/mobile evidence is captured. `e2e/lab-04/actions-taken-flow.spec.ts` | Passed |
 | T-22 | AC-04, AC-05, AC-08 | Complete Ticket resolution, close and reopen journey; blocked resolution, retained public history, and Requester write denial. `e2e/lab-04/ticket-resolution.spec.ts` | Passed |
 | T-23 | AC-06, AC-08 | Requester and Staff dashboard metrics render, and active/unassigned drill-downs include the expected Tickets. `e2e/lab-04/dashboards.spec.ts` | Passed |
-| T-24 | AC-09 | Final candidate 3ddd3930b2c83d3193164257d3bf7dd3bcfb14e9: 306 server, 66 client, 22 browser tests, builds, Prisma and health; complete output in output/evidence/lab4-release-*.log. | Passed |
-| T-25 | AC-10 | Release checklist, dated commands/revision, closed Issues and Done board, PR #57–#64 reviewer disposition, actual AI record and honest release limits. docs/lab-04/release-evidence.md | Passed |
-| T-26 | AC-09 | Compiled server at candidate revision: node dist/src/index.js; GET /api/health HTTP 200 and status=ok. output/evidence/lab4-release-health.log | Passed |
+| T-24 | AC-09 | Final main 58b0a7a5556a689ca75c47f9797ebfe84c9cdb3a: 306 server tests (including 37 PostgreSQL checks), 66 client, 22 browser; both builds, Prisma validation and health. Complete output in output/evidence/lab4-main-verification-*.log. | Passed |
+| T-25 | AC-10 | Final-main release checklist, dated commands/revision, Issues #51–#56 Done, PR #57–#65 reviewer disposition, actual AI record, and explicit verification limits. docs/lab-04/release-evidence.md | Passed |
+| T-26 | AC-09 | Compiled server at final main 58b0a7a5556a689ca75c47f9797ebfe84c9cdb3a: node dist/src/index.js; GET /api/health returned HTTP 200 and status=ok. output/evidence/lab4-main-verification-health-20261101.log | Passed |
 
 ## 3. Historical main verification before this follow-up
 
@@ -56,7 +56,11 @@ The release was promoted by [PR #63](https://github.com/book6349/toktickit/pull/
 | Production health | In server/: `npm start`, then GET http://localhost:3000/api/health | HTTP 200; `{"status":"ok","service":"TokTickIT API"}`; exit code 0 | [Health log](../../output/evidence/lab4-main-health.log) |
 
 At that earlier main run, T-20 and board verification were still pending. The release-evidence.md record supersedes that historical limitation: T-20 now passes and the six Lab 4 Issues are verified in Done. GitHub CI still has no reported checks.
-## 4. Coverage notes
+## 4. Final-main verification after PR #65
+
+PR #65 merged on 1 November 2026 at 58b0a7a5556a689ca75c47f9797ebfe84c9cdb3a. The merge tree 65731368fb2ad8c27e86da34248906a1a5881ee6 equals the tested PR #65 head 20b4e0a7698d3eb5527cd9eb85d36e2ce8c9daeb. The exact server/client/browser results, isolated PostgreSQL use, build/schema/health checks, commands, and complete outputs are in release-evidence.md and output/evidence/lab4-main-verification-*.log. GitHub reported no status checks, so CI is not marked Passed.
+
+## 5. Coverage notes
 
 - AC-01 through AC-10 each map to one or more test rows above.
 - For every role-protected route, include unauthenticated, unauthorized and valid-role cases.
@@ -65,12 +69,12 @@ At that earlier main run, T-20 and board verification were still pending. The re
 - For timestamp tests, freeze `asOfUtc` and cover the exact inclusive boundary, one instant before, one instant after and future dates.
 - Migration tests must begin with realistic prior-schema data, including resolved/closed Tickets with no real resolution timestamp.
 - Browser tests use deterministic synthetic fixtures in a new local database. Preparation refuses an existing database and leaves the created database available for evidence review; it never resets a shared database.
-- The report retains 24 real Lab 4 screenshots across eight states and three viewports. They were captured on code candidate a988031; client, server, and E2E sources have no differences through main. See [the screenshot index](screenshots.md).
+- The report retains 24 original Lab 4 screenshots across eight states and three viewports, plus the 320px evidence committed with PR #65. The final-main browser run rechecked the 320px assertions. See [the screenshot index](screenshots.md).
 
-## 5. Status vocabulary
+## 6. Status vocabulary
 
 `Planned` = not yet run. `Passed` or `Failed` requires an observed run and recorded revision. `Blocked` requires the blocker and evidence to be documented. Do not mark this plan complete while required rows are Planned, Failed or Blocked.
 
-## 6. Completed release evidence
+## 7. Completed release evidence
 
-Final implementation 3ddd3930b2c83d3193164257d3bf7dd3bcfb14e9: [release checklist](release-evidence.md), [validation output](../../output/evidence/lab4-release-validation.log), [22-test browser output](../../output/evidence/lab4-release-e2e.log). The follow-up awaits human review and merge; these are candidate results, not a claim that the unmerged code is on main.
+Final main 58b0a7a5556a689ca75c47f9797ebfe84c9cdb3a: [release checklist](release-evidence.md), [validation and build output](../../output/evidence/lab4-main-verification-validation-20261101.log), [22-test browser output](../../output/evidence/lab4-main-verification-e2e-20261101.log), and [health output](../../output/evidence/lab4-main-verification-health-20261101.log). PR #65 is merged; GitHub reported no status checks.

@@ -1,0 +1,6 @@
+Final-main verification: compiled server health, 2026-11-01 Asia/Bangkok
+Revision: 58b0a7a5556a689ca75c47f9797ebfe84c9cdb3a
+Command: node dist/src/index.js; GET /api/health
+HTTP status: 200
+{"status":"ok","service":"TokTickIT API"}
+Health exit code: 0

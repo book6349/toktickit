@@ -1,0 +1,154 @@
+Final-main verification: validation, 2026-11-01 Asia/Bangkok
+Revision: 58b0a7a5556a689ca75c47f9797ebfe84c9cdb3a (merge PR #65)
+Tree: 65731368fb2ad8c27e86da34248906a1a5881ee6
+Source tree compared equal to tested PR #65 tree at 20b4e0a7698d3eb5527cd9eb85d36e2ce8c9daeb.
+
+Command: server: LAB4_DB_TEST=1 npm test -- --reporter=dot
+
+> toktickit-server@1.0.0 test
+> vitest run --reporter=dot
+
+
+ RUN  v2.1.9 C:/Users/Jitvoottikrai/OneDrive/เดสก์ท็อป/SoftwareEn/LAB1/Lab1_Starter_Scaffold/toktickit/LAB4/toktickit-main-verify-6e66c2c/server
+
+ ✓ tests/lab-03/migration-regression.test.ts (2 tests) 12ms
+ ✓ tests/lab-02/validation.unit.test.ts (3 tests) 5ms
+ ✓ tests/lab-03/auth.unit.test.ts (4 tests) 393ms
+ ✓ tests/lab-03/e2e-fixtures.unit.test.ts (11 tests) 625ms
+   ✓ Lab 3 disposable E2E preparation safeguards > uses actual email-based IDs, preserves accounts, and populates stable realistic Queue fixtures 375ms
+ ✓ tests/lab-02/ticket-detail.api.test.ts (2 tests) 63ms
+ ✓ tests/lab-02/requester-context.api.test.ts (2 tests) 70ms
+ ✓ tests/lab-02/my-tickets.api.test.ts (2 tests) 75ms
+ ✓ tests/lab-04/staff-dashboard.api.test.ts (3 tests) 114ms
+ ✓ tests/lab-04/requester-dashboard.api.test.ts (4 tests) 120ms
+ ✓ tests/lab-03/authorization.api.test.ts (3 tests) 145ms
+ ✓ tests/lab-02/create-ticket.api.test.ts (2 tests) 182ms
+ ✓ tests/lab-02/attachments.api.test.ts (3 tests) 162ms
+ ✓ tests/lab-03/comments-notes.api.test.ts (8 tests) 330ms
+ ✓ tests/lab-03/staff-queue.api.test.ts (38 tests) 347ms
+ ✓ tests/lab-02/ticket-number.unit.test.ts (1 test) 5ms
+ ✓ tests/lab-02/reference-data.api.test.ts (2 tests) 49ms
+ ✓ tests/lab-04/ticket-workflow.api.test.ts (72 tests) 837ms
+ ✓ tests/lab-01/categories.test.ts (1 test) 35ms
+ ✓ tests/lab-01/health.test.ts (1 test) 35ms
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts (89 tests) 992ms
+ ✓ tests/lab-03/auth.api.test.ts (7 tests) 1127ms
+   ✓ Lab 3 authentication contract > requires CSRF and returns safe user data on login 384ms
+   ✓ Lab 3 authentication contract > gates normal routes until password change and revokes the old session 387ms
+ ✓ tests/lab-03/users-admin.api.test.ts (9 tests) 2792ms
+   ✓ Lab 3 Administrator User Management API > lists safe users with case-insensitive search and one role filter 381ms
+   ✓ Lab 3 Administrator User Management API > rejects non-Administrators and invalid role filters 512ms
+   ✓ Lab 3 Administrator User Management API > creates an active user with a hashed initial password and forced change 308ms
+   ✓ Lab 3 Administrator User Management API > rejects duplicate email and invalid create input safely 462ms
+   ✓ Lab 3 Administrator User Management API > edits permitted account fields and resets the initial password 328ms
+stdout | tests/lab-04/actions-taken.api.test.ts > Lab 4 Actions Taken with disposable PostgreSQL
+Disposable database: toktickit_lab4_prep_1793514957050
+
+ ✓ tests/lab-04/actions-taken.api.test.ts (37 tests) 10264ms
+   ✓ Lab 4 Actions Taken with disposable PostgreSQL > rolls back action, event and Ticket version when persistence fails 523ms
+
+ Test Files  23 passed (23)
+      Tests  306 passed (306)
+   Start at  13:35:55
+   Duration  12.32s (transform 1.87s, setup 0ms, collect 22.57s, tests 18.78s, environment 6ms, prepare 7.43s)
+
+Server test exit code: 0
+
+Command: client: npm test -- --reporter=dot
+
+> toktickit-client@1.0.0 test
+> vitest run --reporter=dot
+
+
+ RUN  v2.1.9 C:/Users/Jitvoottikrai/OneDrive/เดสก์ท็อป/SoftwareEn/LAB1/Lab1_Starter_Scaffold/toktickit/LAB4/toktickit-main-verify-6e66c2c/client
+
+ ✓ tests/lab-01/App.test.tsx (3 tests) 345ms
+   ✓ App > renders the TokTickIT sign-in heading after checking the session 331ms
+ ✓ tests/lab-03/ui-style.test.tsx (2 tests) 343ms
+   ✓ Lab 3 Zen Green styling and responsive rules > renders accessible sign-in controls with the primary action hierarchy 337ms
+ ✓ tests/lab-02/RequesterContext.test.tsx (1 test) 483ms
+   ✓ Lab 2 requester context > restores the authenticated Requester and ignores stale development-selector state 481ms
+ ✓ tests/lab-03/ChangePassword.test.tsx (2 tests) 940ms
+   ✓ Lab 3 mandatory Change Password > blocks the normal shell until a valid replacement password is saved 841ms
+ ✓ tests/lab-03/Login.test.tsx (3 tests) 1106ms
+   ✓ Lab 3 Login > shows the login form and enters the authenticated Requester shell without a selector 580ms
+ ✓ tests/lab-02/ui-style.test.tsx (2 tests) 1153ms
+   ✓ Lab 2 Zen Green UI conventions > exposes the required theme tokens and visible button hierarchy 858ms
+ ✓ tests/lab-02/AttachmentSection.test.tsx (1 test) 1510ms
+   ✓ Lab 2 AttachmentSection > allows upload and removal for active files while hiding actions for removed files 1501ms
+ ✓ tests/lab-03/StaffTicketQueue.test.tsx (2 tests) 1547ms
+   ✓ Lab 3 IT Staff Ticket Queue > loads the authenticated Staff Queue and sends the documented filters 1209ms
+   ✓ Lab 3 IT Staff Ticket Queue > distinguishes an empty Queue from a filtered no-result state 329ms
+ ✓ tests/lab-04/RequesterDashboard.test.tsx (6 tests) 1654ms
+   ✓ Lab 4 Requester dashboard UI > shows UTC context, full counts, accessible definitions and matching owned-Ticket drill-downs 460ms
+   ✓ Lab 4 Requester dashboard UI > retains visible zero metrics and lets the user return from an empty drill-down 411ms
+ ✓ tests/lab-02/MyTickets.test.tsx (2 tests) 1702ms
+   ✓ Lab 2 My Tickets > sends the selected filters and sort controls to the requester-scoped API 1183ms
+   ✓ Lab 2 My Tickets > supports pagination and distinguishes a filtered no-results state 515ms
+ ✓ tests/lab-03/RequesterWorkflow.test.tsx (3 tests) 2000ms
+   ✓ Lab 3 Requester ticket regression > adds a public comment to the owned ticket and never renders Internal Notes 1206ms
+   ✓ Lab 3 Requester ticket regression > shows the Requester resolution indication after the API confirms it 472ms
+   ✓ Lab 3 Requester ticket regression > renders comment markup as text without creating executable HTML 319ms
+ ✓ tests/lab-04/StaffDashboard.test.tsx (6 tests) 2199ms
+   ✓ Lab 4 Staff dashboard UI > shows all status and IT-priority values and drills down through the dashboard filter API 714ms
+   ✓ Lab 4 Staff dashboard UI > keeps performer and assignee distinct and opens the linked Ticket detail 326ms
+   ✓ Lab 4 Staff dashboard UI > announces initial failure Network request failed. and recovers through Retry 357ms
+   ✓ Lab 4 Staff dashboard UI > announces initial loading and keeps the last metrics after a failed refresh 341ms
+ ✓ tests/lab-02/RequesterTicketDetail.test.tsx (2 tests) 2123ms
+   ✓ Lab 2 owned Ticket Detail > renders an owned detail as read-only and navigates back to My Tickets 1812ms
+   ✓ Lab 2 owned Ticket Detail > shows a safe error when the detail is not owned or no longer exists 307ms
+ ✓ tests/lab-03/UserManagement.test.tsx (3 tests) 2231ms
+   ✓ Lab 3 Administrator User Management > lists users, applies search and role filters, and keeps the direct detail entry point 974ms
+   ✓ Lab 3 Administrator User Management > creates a user with clear initial-password behavior 507ms
+   ✓ Lab 3 Administrator User Management > edits an account and exposes reset initial password as a separate action 747ms
+ ✓ tests/lab-02/CreateTicket.test.tsx (4 tests) 2328ms
+   ✓ Lab 2 Create Ticket > shows field-level validation without calling the API 1060ms
+   ✓ Lab 2 Create Ticket > rejects an invalid attachment in the browser 373ms
+   ✓ Lab 2 Create Ticket > disables duplicate submission and shows the backend ticket number on success 577ms
+   ✓ Lab 2 Create Ticket > keeps entered values after an API failure 313ms
+ ✓ tests/lab-04/ActionsTaken.test.tsx (11 tests) 2592ms
+   ✓ Lab 4 Actions Taken UI > shows multiple actions in order with performer and assignee clearly separated for a Requester 336ms
+   ✓ Lab 4 Actions Taken UI > announces assignee loading and keeps Save disabled until valid choices arrive 406ms
+   ✓ Lab 4 Actions Taken UI > lets IT_STAFF create distinct actions with an offset, conditional follow-up and idempotency key 387ms
+   ✓ Lab 4 Actions Taken UI > lets ADMINISTRATOR create distinct actions with an offset, conditional follow-up and idempotency key 358ms
+   ✓ Lab 4 Actions Taken UI > keeps form values and focuses invalid input after a server validation error 332ms
+ ✓ tests/lab-03/StaffTicketDetail.test.tsx (6 tests) 2524ms
+   ✓ Lab 3 Staff Ticket Detail > shows a Requester resolution indication without changing formal status for 'IT_STAFF' 1025ms
+   ✓ Lab 3 Staff Ticket Detail > keeps public comments and Internal Notes separate and supports staff operations 797ms
+ ✓ tests/lab-04/TicketWorkflow.test.tsx (7 tests) 2752ms
+   ✓ Lab 4 Ticket workflow UI > uses only the permitted transitions returned by the server 538ms
+   ✓ Lab 4 Ticket workflow UI > shows resolution blockers and links to Actions Taken 670ms
+   ✓ Lab 4 Ticket workflow UI > sends the current version, confirmation, and resolution summary 560ms
+   ✓ Lab 4 Ticket workflow UI > requires a reopening reason before enabling the status change 314ms
+
+ Test Files  18 passed (18)
+      Tests  66 passed (66)
+   Start at  13:36:09
+   Duration  12.32s (transform 3.45s, setup 26.11s, collect 30.29s, tests 29.53s, environment 99.71s, prepare 5.92s)
+
+Client test exit code: 0
+
+Command: server npm run build; client npm run build; server npx prisma validate
+
+> toktickit-server@1.0.0 build
+> tsc
+
+Server build exit code: 0
+Prisma schema loaded from prisma\schema.prisma
+The schema at prisma\schema.prisma is valid 🚀
+Prisma validation exit code: 0
+
+> toktickit-client@1.0.0 build
+> tsc && vite build
+
+vite v6.4.3 building for production...
+transforming...
+✓ 33 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.41 kB │ gzip:  0.28 kB
+dist/assets/index-CgOHpO3y.css  246.77 kB │ gzip: 34.38 kB
+dist/assets/index-Bq3yUVKn.js   238.44 kB │ gzip: 66.41 kB
+✓ built in 1.50s
+Client build exit code: 0
+Validation log complete.
