@@ -1,6 +1,6 @@
 # Lab 4 Test Plan
 
-Status: On 2026-10-31 (+07:00), local regression passed on merged main commit 6e66c2cf187c0a83e6ea36c4a6c6711f886c0866: 306 server tests, 58 client tests, and 21 browser tests; both production builds, Prisma validation, and the compiled-server health check passed. GitHub returned no status checks. T-20 remains Planned, and the project-board Done state has not been verified.
+Status: T-20 and T-25 Passed on 31 October 2026. Candidate 3ddd3930b2c83d3193164257d3bf7dd3bcfb14e9 passed 306 server, 66 client and 22 browser tests, both builds, Prisma validation and production health. The project board shows Issues #51–#56 Done. See release-evidence.md for commands, logs, review history and the pending peer-review/merge boundary of this follow-up.
 
 Related: [engineering specification](specification.md), [API contract](api-spec.md), [UI contract](ui-spec.md).
 
@@ -31,17 +31,17 @@ Run named tests and the existing Lab 1–3 regression suites before release. Rec
 | T-15 | AC-08 | Requester read-only state, no mutation controls, ordered action history and empty state. `client/tests/lab-04/ActionsTaken.test.tsx` | Passed |
 | T-16 | AC-01, AC-03, AC-08 | Action form conditional fields, server validation, retained input, pending/double-submit, safe failure and conflict review state. `client/tests/lab-04/ActionsTaken.test.tsx` | Passed |
 | T-17 | AC-05, AC-08 | Resolution gate summary/blocker links, confirmation, advisory feedback and reopen reason UX. `client/tests/lab-04/TicketWorkflow.test.tsx` | Passed |
-| T-18 | AC-06, AC-08 | Requester dashboard labels/definitions, zero and empty states, accessible drill-down links and UTC/as-of context. `client/tests/lab-04/RequesterDashboard.test.tsx` | Passed |
-| T-19 | AC-06, AC-08 | Staff/Admin metric cards, active status/priority breakdown, own actions, empty states and drill-downs. `client/tests/lab-04/StaffDashboard.test.tsx` | Passed |
-| T-20 | AC-08 | Shared style and keyboard checks in Labs 2–3 plus the Lab 4 viewport/no-overflow capture assertion; dedicated Lab 4 keyboard, ARIA, reduced-motion, and 320px viewport evidence remains outstanding. `client/tests/lab-02/ui-style.test.tsx`, `client/tests/lab-03/ui-style.test.tsx`, `e2e/lab-03/z-accessibility-evidence.spec.ts`, `e2e/lab-04/evidence.ts` | Planned |
+| T-18 | AC-06, AC-08 | Requester dashboard metrics, empty/loading/error/forbidden states, failed refresh retains metrics, retry and drill-down filter recovery. client/tests/lab-04/RequesterDashboard.test.tsx | Passed |
+| T-19 | AC-06, AC-08 | Staff dashboard metrics, actor/assignee labels, loading/error/forbidden states, retained metrics and filter-preserving retry. client/tests/lab-04/StaffDashboard.test.tsx | Passed |
+| T-20 | AC-08 | Dedicated keyboard/focus, named regions/forms and labels, alert/aria-invalid validation, reduced motion and 320px overflow checks. e2e/lab-04/zz-accessibility.spec.ts and e2e/lab-04/evidence.ts | Passed |
 | T-21 | AC-01, AC-02, AC-03, AC-08 | Staff records multiple actions; Requester sees the same history read-only; responsive widths are checked and desktop/tablet/mobile evidence is captured. `e2e/lab-04/actions-taken-flow.spec.ts` | Passed |
 | T-22 | AC-04, AC-05, AC-08 | Complete Ticket resolution, close and reopen journey; blocked resolution, retained public history, and Requester write denial. `e2e/lab-04/ticket-resolution.spec.ts` | Passed |
 | T-23 | AC-06, AC-08 | Requester and Staff dashboard metrics render, and active/unassigned drill-downs include the expected Tickets. `e2e/lab-04/dashboards.spec.ts` | Passed |
-| T-24 | AC-09 | Run the Lab 1–4 server, client, and browser regression, production builds, Prisma validation, and health check after promotion to main. Full output is retained under output/evidence/lab4-main-*.log on revision 6e66c2c. | Passed |
-| T-25 | AC-10 | Dated run evidence, the PR #57–#63 reviewer disposition, actual AI-use excerpts, and limitations are recorded without unsupported pass claims. Files: reviewer.md, ai-use.md, and output/evidence. | Passed |
-| T-26 | AC-09 | Production start and GET /api/health on merged main; full response is in output/evidence/lab4-main-health.log. | Passed |
+| T-24 | AC-09 | Final candidate 3ddd3930b2c83d3193164257d3bf7dd3bcfb14e9: 306 server, 66 client, 22 browser tests, builds, Prisma and health; complete output in output/evidence/lab4-release-*.log. | Passed |
+| T-25 | AC-10 | Release checklist, dated commands/revision, closed Issues and Done board, PR #57–#64 reviewer disposition, actual AI record and honest release limits. docs/lab-04/release-evidence.md | Passed |
+| T-26 | AC-09 | Compiled server at candidate revision: node dist/src/index.js; GET /api/health HTTP 200 and status=ok. output/evidence/lab4-release-health.log | Passed |
 
-## 3. Post-merge verification on main
+## 3. Historical main verification before this follow-up
 
 The release was promoted by [PR #63](https://github.com/book6349/toktickit/pull/63) to main at commit `6e66c2cf187c0a83e6ea36c4a6c6711f886c0866` on 2026-10-31. PR #62 was reviewed and merged into lab4-staging first. The local runs below used this exact main revision on 2026-10-31 (Bangkok time, UTC+07:00).
 
@@ -55,7 +55,7 @@ The release was promoted by [PR #63](https://github.com/book6349/toktickit/pull/
 | Client build | In client/: `npm run build` | TypeScript and Vite production build passed; exit code 0 | [Client build log](../../output/evidence/lab4-main-client-build.log) |
 | Production health | In server/: `npm start`, then GET http://localhost:3000/api/health | HTTP 200; `{"status":"ok","service":"TokTickIT API"}`; exit code 0 | [Health log](../../output/evidence/lab4-main-health.log) |
 
-The main commit has no GitHub status checks, so these results are local verification and are not described as GitHub CI. Issues #51–#56 are closed. The project-board columns were not inspected. T-20 remains Planned for dedicated Lab 4 keyboard, ARIA, reduced-motion, and 320px evidence; the 24 screenshots start at 390px. Keep this report marked as a draft until that check and the project-board state are resolved.
+At that earlier main run, T-20 and board verification were still pending. The release-evidence.md record supersedes that historical limitation: T-20 now passes and the six Lab 4 Issues are verified in Done. GitHub CI still has no reported checks.
 ## 4. Coverage notes
 
 - AC-01 through AC-10 each map to one or more test rows above.
@@ -70,3 +70,7 @@ The main commit has no GitHub status checks, so these results are local verifica
 ## 5. Status vocabulary
 
 `Planned` = not yet run. `Passed` or `Failed` requires an observed run and recorded revision. `Blocked` requires the blocker and evidence to be documented. Do not mark this plan complete while required rows are Planned, Failed or Blocked.
+
+## 6. Completed release evidence
+
+Final implementation 3ddd3930b2c83d3193164257d3bf7dd3bcfb14e9: [release checklist](release-evidence.md), [validation output](../../output/evidence/lab4-release-validation.log), [22-test browser output](../../output/evidence/lab4-release-e2e.log). The follow-up awaits human review and merge; these are candidate results, not a claim that the unmerged code is on main.

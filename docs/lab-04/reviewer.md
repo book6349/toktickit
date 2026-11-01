@@ -1,6 +1,6 @@
 # Lab 4 Peer Review Record
 
-Status: PRs #57–#62 were reviewed and merged into lab4-staging. [PR #63 — Promote reviewed staging release to main](https://github.com/book6349/toktickit/pull/63) merged on 2026-10-31 at main commit 6e66c2cf187c0a83e6ea36c4a6c6711f886c0866. Punge089 reviewed and approved both PRs #62 and #63. Local post-merge results are in tests.md; GitHub returned no status checks. Issues #51–#56 are closed, but this record does not verify the project-board columns. T-20 remains Planned.
+Status: PRs #57–#64 were reviewed and merged. Main is 43ed5984962ee8f8b4f29c72931b7fbe64037d3e; this follow-up candidate 3ddd3930b2c83d3193164257d3bf7dd3bcfb14e9 completes the T-20 and T-25 evidence. Punge089 is the reviewer and book6349 the author. The new follow-up awaits its own peer review and merge; no approval is fabricated. See release-evidence.md.
 
 ## Completed reviews
 
@@ -21,7 +21,7 @@ The source of each review, reply and approval is the linked GitHub PR. The revie
 - [PR #62 — Final Regression, Hardening and Evidence](https://github.com/book6349/toktickit/pull/62) merged to lab4-staging at merge commit [6ac3cb9](https://github.com/book6349/toktickit/commit/6ac3cb98d737f764de7858e14c53d7a95ef9192b) on 2026-10-31.
 - [PR #63 — Promote reviewed staging release to main](https://github.com/book6349/toktickit/pull/63) merged lab4-staging into main at merge commit [6e66c2c](https://github.com/book6349/toktickit/commit/6e66c2cf187c0a83e6ea36c4a6c6711f886c0866) on 2026-10-31.
 - The post-merge server, client, browser, build, Prisma, and health results are recorded in [tests.md](tests.md) and output/evidence/lab4-main-*.log. GitHub returned no status checks for the main commit; no CI pass is claimed.
-- Issues #51–#56 are closed. The project board was not inspected, so its Done state is not asserted. T-20 remains Planned for dedicated Lab 4 accessibility and 320px evidence.
+- Issues #51–#56 are closed. The six Lab 4 Issues are now verified in Done; T-20 passes in the recorded follow-up candidate.
 
 ## Review checklist
 
@@ -32,5 +32,14 @@ The source of each review, reply and approval is the linked GitHub PR. The revie
 - [x] Confirm the AI-use record contains actual prompt excerpts and does not claim this peer review occurred in the file.
 - [x] Resolve the PR #62 and #63 review comments on their respective PRs; both approvals and merges are recorded above.
 - [x] Verify the merged main revision and update the post-merge report evidence.
-- [ ] Verify the user-maintained project board shows every Lab 4 Issue as Done.
-- [ ] Complete T-20 dedicated Lab 4 keyboard, ARIA, reduced-motion, and 320px checks before treating the report as submission-ready.
+- [x] Read-only board inspection: all Issues #51–#56 are in Done.
+- [x] T-20 keyboard, focus, labels/ARIA validation, reduced-motion and 320px checks passed; candidate follow-up still requires peer review and merge.
+
+## PR 64 completed review
+
+
+- [Punge089 comment](https://github.com/book6349/toktickit/pull/64#pullrequestreview-5723674774): Please confirm the report matches the tested main revision and clearly lists the remaining gaps.
+- [book6349 reply](https://github.com/book6349/toktickit/pull/64#issuecomment-6545762705): linked commit 993af6a and the main verification logs and remaining evidence gaps.
+- [Punge089 approval](https://github.com/book6349/toktickit/pull/64#pullrequestreview-5723677707): The report matches the recorded results and states its limits clearly. Approved.
+
+PR #64 merged to main at 43ed5984962ee8f8b4f29c72931b7fbe64037d3e. T-25 is Passed for the release checklist in [release-evidence.md](release-evidence.md).

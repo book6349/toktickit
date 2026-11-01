@@ -3,6 +3,7 @@ import { mkdir } from "node:fs/promises";
 import path from "node:path";
 
 const evidenceViewports = [
+  { name: "narrow-320x800", width: 320, height: 800 },
   { name: "desktop-1280x900", width: 1280, height: 900 },
   { name: "tablet-900x900", width: 900, height: 900 },
   { name: "mobile-390x844", width: 390, height: 844 },

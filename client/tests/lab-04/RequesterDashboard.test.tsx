@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 import * as api from "../../src/api.js";
 import { RequesterDashboard } from "../../src/Dashboard.js";
 
@@ -56,4 +56,43 @@ describe("Lab 4 Requester dashboard UI", () => {
     fireEvent.click(screen.getByRole("button", { name: "Back to dashboard" }));
     expect(await screen.findByRole("heading", { name: "My Dashboard" })).toBeInTheDocument();
   });
+  it.each(["Network request failed.", "Forbidden."])("announces initial failure %s and recovers through Retry", async (message) => {
+    const request = vi.spyOn(api, "getRequesterDashboard").mockRejectedValueOnce(new Error(message)).mockResolvedValue(dashboard);
+    render(<RequesterDashboard user={requester} onOpenTicket={vi.fn()} />);
+    expect(await screen.findByRole("alert")).toHaveTextContent(message);
+    expect(screen.queryByRole("button", { name: /Open Tickets: 12/ })).not.toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: "Retry" }));
+    expect(await screen.findByRole("button", { name: /Open Tickets: 12/ })).toBeInTheDocument();
+    expect(request).toHaveBeenCalledTimes(2);
+  });
+
+  it("announces initial loading and keeps the last metrics after a failed refresh", async () => {
+    let resolve!: (value: typeof dashboard) => void;
+    const pending = new Promise<typeof dashboard>((done) => { resolve = done; });
+    vi.spyOn(api, "getRequesterDashboard").mockReturnValueOnce(pending).mockRejectedValueOnce(new Error("Refresh failed."));
+    render(<RequesterDashboard user={requester} onOpenTicket={vi.fn()} />);
+    expect(screen.getByRole("status")).toHaveTextContent("Loading dashboard");
+    await act(async () => resolve(dashboard));
+    fireEvent.click(screen.getByRole("button", { name: "Refresh" }));
+    expect(await screen.findByRole("alert")).toHaveTextContent("Refresh failed.");
+    expect(screen.getByRole("button", { name: /Open Tickets: 12/ })).toBeInTheDocument();
+  });
+
+  it("announces drill-down loading and retries the same filter after failure", async () => {
+    vi.spyOn(api, "getRequesterDashboard").mockResolvedValue(dashboard);
+    let reject!: (reason: Error) => void;
+    const pending = new Promise<any>((_, fail) => { reject = fail; });
+    const request = vi.spyOn(api, "listTickets").mockReturnValueOnce(pending).mockResolvedValue({ items: [{ ...summary, ticketDate: asOfUtc, requesterId: requester.id, categoryId: 1, relatedSystemId: 1, description: "VPN access request", createdAt: asOfUtc, attachments: [] }], pagination });
+    render(<RequesterDashboard user={requester} onOpenTicket={vi.fn()} />);
+    fireEvent.click(await screen.findByRole("button", { name: /Open Tickets: 12/ }));
+    expect(screen.getByRole("status")).toHaveTextContent("Loading matching Tickets");
+    await act(async () => reject(new Error("Unable to load matching Tickets.")));
+    expect(await screen.findByRole("alert")).toHaveTextContent("Unable to load matching Tickets.");
+    expect(screen.queryByRole("button", { name: /Open Ticket TT-10/ })).not.toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: "Retry" }));
+    expect(await screen.findByRole("button", { name: /Open Ticket TT-10/ })).toBeInTheDocument();
+    expect(request).toHaveBeenNthCalledWith(1, { statusGroup: "active", page: 1, pageSize: 10 });
+    expect(request).toHaveBeenNthCalledWith(2, { statusGroup: "active", page: 1, pageSize: 10 });
+  });
+
 });

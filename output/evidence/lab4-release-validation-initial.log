@@ -1,0 +1,372 @@
+Revision: 0d0571928b2667194f8be18537157d7ac3506856; 2026-10-31 Asia/Bangkok
+
+> toktickit-server@1.0.0 test
+> vitest run --reporter=dot
+
+
+ RUN  v2.1.9 C:/Users/Jitvoottikrai/OneDrive/เดสก์ท็อป/SoftwareEn/LAB1/Lab1_Starter_Scaffold/toktickit/LAB4/toktickit-main-verify-6e66c2c/server
+
+ ✓ tests/lab-03/migration-regression.test.ts (2 tests) 9ms
+ ✓ tests/lab-02/validation.unit.test.ts (3 tests) 6ms
+ ✓ tests/lab-03/auth.unit.test.ts (4 tests) 351ms
+ ✓ tests/lab-03/e2e-fixtures.unit.test.ts (11 tests) 737ms
+   ✓ Lab 3 disposable E2E preparation safeguards > uses actual email-based IDs, preserves accounts, and populates stable realistic Queue fixtures 538ms
+ ✓ tests/lab-02/requester-context.api.test.ts (2 tests) 72ms
+ ✓ tests/lab-02/ticket-detail.api.test.ts (2 tests) 78ms
+ ✓ tests/lab-04/requester-dashboard.api.test.ts (4 tests) 127ms
+ ✓ tests/lab-02/my-tickets.api.test.ts (2 tests) 117ms
+ ✓ tests/lab-04/staff-dashboard.api.test.ts (3 tests) 137ms
+ ✓ tests/lab-02/create-ticket.api.test.ts (2 tests) 111ms
+ ✓ tests/lab-02/attachments.api.test.ts (3 tests) 164ms
+ ✓ tests/lab-03/authorization.api.test.ts (3 tests) 201ms
+ ✓ tests/lab-03/staff-queue.api.test.ts (38 tests) 414ms
+ ✓ tests/lab-03/comments-notes.api.test.ts (8 tests) 464ms
+ ✓ tests/lab-02/reference-data.api.test.ts (2 tests) 72ms
+ ✓ tests/lab-02/ticket-number.unit.test.ts (1 test) 8ms
+ ✓ tests/lab-01/categories.test.ts (1 test) 39ms
+ ✓ tests/lab-04/ticket-workflow.api.test.ts (72 tests) 1133ms
+ ✓ tests/lab-01/health.test.ts (1 test) 52ms
+ ✓ tests/lab-03/staff-ticket-detail.api.test.ts (89 tests) 1412ms
+ ✓ tests/lab-03/auth.api.test.ts (7 tests) 1520ms
+   ✓ Lab 3 authentication contract > requires CSRF and returns safe user data on login 682ms
+   ✓ Lab 3 authentication contract > gates normal routes until password change and revokes the old session 490ms
+ ✓ tests/lab-03/users-admin.api.test.ts (9 tests) 3283ms
+   ✓ Lab 3 Administrator User Management API > lists safe users with case-insensitive search and one role filter 531ms
+   ✓ Lab 3 Administrator User Management API > rejects non-Administrators and invalid role filters 756ms
+   ✓ Lab 3 Administrator User Management API > rejects duplicate email and invalid create input safely 419ms
+   ✓ Lab 3 Administrator User Management API > edits permitted account fields and resets the initial password 339ms
+   ✓ Lab 3 Administrator User Management API > blocks self-deactivation and removal of the last active Administrator 378ms
+stdout | tests/lab-04/actions-taken.api.test.ts > Lab 4 Actions Taken with disposable PostgreSQL
+Disposable database: toktickit_lab4_prep_1793462816622
+
+ ✓ tests/lab-04/actions-taken.api.test.ts (37 tests) 12163ms
+   ✓ Lab 4 Actions Taken with disposable PostgreSQL > rolls back action, event and Ticket version when persistence fails 572ms
+
+ Test Files  23 passed (23)
+      Tests  306 passed (306)
+   Start at  23:06:53
+   Duration  14.86s (transform 2.14s, setup 0ms, collect 30.20s, tests 22.67s, environment 9ms, prepare 11.48s)
+
+
+> toktickit-client@1.0.0 test
+> vitest run --reporter=dot
+
+
+ RUN  v2.1.9 C:/Users/Jitvoottikrai/OneDrive/เดสก์ท็อป/SoftwareEn/LAB1/Lab1_Starter_Scaffold/toktickit/LAB4/toktickit-main-verify-6e66c2c/client
+
+ ✓ tests/lab-01/App.test.tsx (3 tests) 238ms
+ ❯ tests/lab-03/ui-style.test.tsx (2 tests | 1 failed) 370ms
+   × Lab 3 Zen Green styling and responsive rules > defines the documented palette, visible focus treatment, and mobile layout 18ms
+     → expected ':root {\r\n  --zen-green-950: #004c2a…' to match /button:focus-visible\s*\{[^}]*outlin…/s
+   ✓ Lab 3 Zen Green styling and responsive rules > renders accessible sign-in controls with the primary action hierarchy 348ms
+ ✓ tests/lab-02/RequesterContext.test.tsx (1 test) 371ms
+   ✓ Lab 2 requester context > restores the authenticated Requester and ignores stale development-selector state 369ms
+ ✓ tests/lab-03/Login.test.tsx (3 tests) 659ms
+   ✓ Lab 3 Login > shows the login form and enters the authenticated Requester shell without a selector 352ms
+ ✓ tests/lab-03/ChangePassword.test.tsx (2 tests) 620ms
+   ✓ Lab 3 mandatory Change Password > blocks the normal shell until a valid replacement password is saved 560ms
+ ✓ tests/lab-02/ui-style.test.tsx (2 tests) 699ms
+   ✓ Lab 2 Zen Green UI conventions > exposes the required theme tokens and visible button hierarchy 515ms
+ ✓ tests/lab-02/MyTickets.test.tsx (2 tests) 892ms
+   ✓ Lab 2 My Tickets > sends the selected filters and sort controls to the requester-scoped API 570ms
+   ✓ Lab 2 My Tickets > supports pagination and distinguishes a filtered no-results state 319ms
+ ✓ tests/lab-03/UserManagement.test.tsx (3 tests) 921ms
+   ✓ Lab 3 Administrator User Management > lists users, applies search and role filters, and keeps the direct detail entry point 353ms
+ ✓ tests/lab-03/StaffTicketQueue.test.tsx (2 tests) 931ms
+   ✓ Lab 3 IT Staff Ticket Queue > loads the authenticated Staff Queue and sends the documented filters 738ms
+ ✓ tests/lab-02/RequesterTicketDetail.test.tsx (2 tests) 1004ms
+   ✓ Lab 2 owned Ticket Detail > renders an owned detail as read-only and navigates back to My Tickets 908ms
+ ✓ tests/lab-04/RequesterDashboard.test.tsx (6 tests) 1056ms
+   ✓ Lab 4 Requester dashboard UI > shows UTC context, full counts, accessible definitions and matching owned-Ticket drill-downs 346ms
+ ✓ tests/lab-02/AttachmentSection.test.tsx (1 test) 1031ms
+   ✓ Lab 2 AttachmentSection > allows upload and removal for active files while hiding actions for removed files 1028ms
+ ✓ tests/lab-04/StaffDashboard.test.tsx (6 tests) 1254ms
+   ✓ Lab 4 Staff dashboard UI > shows all status and IT-priority values and drills down through the dashboard filter API 545ms
+ ✓ tests/lab-03/RequesterWorkflow.test.tsx (3 tests) 1240ms
+   ✓ Lab 3 Requester ticket regression > adds a public comment to the owned ticket and never renders Internal Notes 807ms
+ ✓ tests/lab-02/CreateTicket.test.tsx (4 tests) 1262ms
+   ✓ Lab 2 Create Ticket > shows field-level validation without calling the API 532ms
+   ✓ Lab 2 Create Ticket > disables duplicate submission and shows the backend ticket number on success 334ms
+ ✓ tests/lab-04/ActionsTaken.test.tsx (11 tests) 1498ms
+   ✓ Lab 4 Actions Taken UI > shows multiple actions in order with performer and assignee clearly separated for a Requester 312ms
+ ✓ tests/lab-03/StaffTicketDetail.test.tsx (6 tests) 1487ms
+   ✓ Lab 3 Staff Ticket Detail > shows a Requester resolution indication without changing formal status for 'IT_STAFF' 459ms
+   ✓ Lab 3 Staff Ticket Detail > keeps public comments and Internal Notes separate and supports staff operations 492ms
+ ✓ tests/lab-04/TicketWorkflow.test.tsx (7 tests) 1619ms
+   ✓ Lab 4 Ticket workflow UI > uses only the permitted transitions returned by the server 353ms
+   ✓ Lab 4 Ticket workflow UI > shows resolution blockers and links to Actions Taken 421ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/lab-03/ui-style.test.tsx > Lab 3 Zen Green styling and responsive rules > defines the documented palette, visible focus treatment, and mobile layout
+AssertionError: expected ':root {\r\n  --zen-green-950: #004c2a…' to match /button:focus-visible\s*\{[^}]*outlin…/s
+
+- Expected: 
+/button:focus-visible\s*\{[^}]*outline:\s*3px solid/s
+
++ Received: 
+":root {
+  --zen-green-950: #004c2a;
+  --zen-green-800: #006b3c;
+  --zen-green-600: #0b7a46;
+  --zen-green-100: #eaf6ef;
+  --ink: #18332e;
+  --muted: #637771;
+  --line: #d8e5e0;
+  --surface: #ffffff;
+  --canvas: #f5f7f6;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;
+  color: var(--ink);
+  background: var(--canvas);
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; min-width: 320px; background: var(--canvas); }
+button, input, select, textarea { font: inherit; }
+button { cursor: pointer; }
+button:disabled { cursor: not-allowed; opacity: .6; }
+.app-shell { min-height: 100vh; background: radial-gradient(circle at top right, #e5f3ed 0, var(--canvas) 38rem); }
+.gate-card, .content-card { max-width: 1080px; margin: 0 auto; background: var(--surface); border: 1px solid var(--line); border-radius: 20px; box-shadow: 0 14px 45px rgba(29, 82, 68, .08); }
+.gate-card { max-width: 640px; padding: 2.5rem; margin-top: 8vh; }
+.eyebrow { margin: 0 0 .5rem; color: var(--zen-green-600); font-size: .75rem; font-weight: 800; letter-spacing: .14em; }
+h1, h2, h3, p { margin-top: 0; }
+h1 { color: var(--zen-green-950); font-size: clamp(1.8rem, 4vw, 2.6rem); }
+h1 span { color: var(--zen-green-600); }
+h2 { color: var(--zen-green-950); font-size: clamp(1.45rem, 3vw, 2rem); margin-bottom: 0; }
+h3 { color: var(--zen-green-950); margin-bottom: .35rem; }
+.lead-copy { color: var(--muted); line-height: 1.6; }
+.topbar { max-width: 1080px; margin: 0 auto 1rem; display: flex; justify-content: space-between; align-items: end; gap: 1rem; }
+.topbar h1 { margin-bottom: 0; font-size: 1.8rem; }
+.requester-chip { display: flex; align-items: end; gap: .75rem; color: var(--ink); font-weight: 700; text-align: right; }
+.main-nav { max-width: 1080px; margin: 0 auto 1.25rem; display: flex; gap: .35rem; border-bottom: 1px solid var(--line); }
+.nav-link { border: 0; background: transparent; padding: .8rem 1rem; color: var(--muted); font-weight: 700; border-bottom: 3px solid transparent; }
+.nav-link.active, .nav-link:hover { color: var(--zen-green-800); border-bottom-color: var(--zen-green-600); }
+.requester-form, .ticket-form { display: grid; gap: 1rem; }
+.field, .requester-form { display: grid; gap: .4rem; }
+label { font-weight: 750; color: var(--ink); }
+input, select, textarea { width: 100%; border: 1px solid #bdd0c9; border-radius: 10px; background: #fff; color: var(--ink); padding: .72rem .8rem; }
+input:focus, select:focus, textarea:focus, button:focus-visible, button.nav-link:focus-visible, a:focus-visible { outline: 3px solid var(--zen-green-600); outline-offset: 2px; border-color: var(--zen-green-600); }
+textarea { resize: vertical; line-height: 1.5; }
+.primary-button, .secondary-button, .danger-button { border-radius: 10px; padding: .7rem 1.1rem; font-weight: 750; border: 1px solid transparent; }
+.primary-button { background: var(--zen-green-800); color: #fff; }
+.primary-button:hover { background: var(--zen-green-950); }
+.secondary-button { background: var(--zen-green-100); color: var(--zen-green-950); border-color: #c7e0d6; }
+.secondary-button:hover { background: #d4ebe2; }
+.danger-button { background: #a93b3b; color: #fff; }
+.link-button, .danger-link, .back-link { border: 0; padding: 0; background: transparent; color: var(--zen-green-800); text-decoration: underline; font-weight: 700; }
+.danger-link { color: #a93b3b; }
+.back-link { margin-bottom: 1.25rem; text-decoration: none; }
+.system-check { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--line); }
+.field-help, .muted { color: var(--muted); font-size: .88rem; margin: 0; }
+.field-error { color: #a93b3b; font-size: .88rem; font-weight: 650; }
+.notice { display: flex; align-items: center; gap: .75rem; flex-wrap: wrap; border-radius: 10px; padding: .8rem 1rem; margin: 0 0 1rem; }
+.notice.info { color: var(--zen-green-950); background: var(--zen-green-100); }
+.notice.success { color: #1b6b50; background: #e5f5ec; }
+.notice.error { color: #8b2e2e; background: #fff0ef; }
+.notice ul { width: 100%; margin: .25rem 0 0; }
+.content-card { padding: clamp(1.25rem, 4vw, 2.5rem); }
+.section-heading { display: flex; justify-content: space-between; align-items: start; gap: 1rem; margin-bottom: 1.75rem; }
+.section-heading.compact { margin-bottom: 1rem; align-items: center; }
+.status-pill, .priority { display: inline-flex; align-items: center; border-radius: 999px; padding: .28rem .65rem; font-size: .72rem; font-weight: 800; letter-spacing: .04em; }
+.status-pill { background: var(--zen-green-100); color: var(--zen-green-800); }
+.priority { background: #eef1f0; color: #52615d; }
+.priority.low { background: #e7f4ef; color: #28765f; }
+.priority.medium { background: #fff4da; color: #8d671b; }
+.priority.high { background: #ffe6e4; color: #a13d36; }
+.form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+.form-actions { display: flex; justify-content: flex-end; border-top: 1px solid var(--line); padding-top: 1.25rem; }
+.file-list, .attachment-list { list-style: none; padding: 0; margin: .75rem 0 0; display: grid; gap: .5rem; }
+.file-list li, .attachment-list li { display: flex; justify-content: space-between; gap: 1rem; padding: .65rem .75rem; border-radius: 8px; background: var(--canvas); }
+.file-list span, .attachment-list li span { color: var(--muted); font-size: .85rem; }
+.filter-bar { display: grid; grid-template-columns: minmax(15rem, 2fr) repeat(3, minmax(8rem, 1fr)); gap: .6rem; margin-bottom: 1.25rem; }
+.filter-actions { display: flex; justify-content: flex-end; align-items: center; gap: .75rem; grid-column: 1 / -1; }
+.ticket-list { display: grid; gap: .6rem; }
+.ticket-row { display: flex; justify-content: space-between; gap: 1rem; width: 100%; text-align: left; border: 1px solid var(--line); border-radius: 12px; background: #fff; padding: 1rem; color: var(--ink); }
+.ticket-row:hover { border-color: var(--zen-green-600); background: #fbfefd; }
+.ticket-main, .ticket-meta { display: flex; gap: .35rem; flex-direction: column; }
+.ticket-main strong { color: var(--zen-green-800); }
+.ticket-main small { color: var(--muted); }
+.ticket-meta { align-items: end; }
+.loading-panel, .empty-panel { padding: 2rem 1rem; text-align: center; color: var(--muted); }
+.empty-panel strong { display: block; color: var(--ink); margin-bottom: .4rem; }
+.pagination-controls { display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: 1.5rem; }
+.detail-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; padding: 1rem 0 1.5rem; border-bottom: 1px solid var(--line); }
+.detail-grid dt { color: var(--muted); font-size: .8rem; margin-bottom: .25rem; }
+.detail-grid dd { margin: 0; font-weight: 700; }
+.description-block { padding: 1.5rem 0; border-bottom: 1px solid var(--line); }
+.description-block p { white-space: pre-wrap; color: #375049; line-height: 1.7; }
+.attachments-block { padding-top: 1.5rem; }
+.attachment-actions { display: flex; gap: .75rem; align-items: center; }
+.attachment-list li { position: relative; align-items: start; flex-wrap: wrap; }
+.attachment-list li > div:first-child { display: grid; gap: .25rem; }
+.attachment-list li.removed { opacity: .62; }
+.remove-form { display: flex; gap: .5rem; width: 100%; align-items: end; }
+.remove-form label { font-size: .8rem; }
+.remove-form input { flex: 1; }
+.upload-label { position: relative; overflow: hidden; }
+.upload-label input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+.staff-ticket-row { align-items: start; }
+.staff-ticket-row .ticket-meta { min-width: 12rem; }
+.staff-control-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; padding: 1.5rem 0; border-bottom: 1px solid var(--line); }
+.operation-panel { display: grid; gap: .75rem; align-content: start; padding: 1rem; border: 1px solid var(--line); border-radius: 12px; background: #fbfefd; }
+.operation-panel h3 { margin-bottom: 0; }
+.formal-resolution-panel { background: #fbfefd; }
+.formal-resolution-panel h4 { margin: 1.25rem 0 .5rem; color: var(--zen-green-950); }
+.workflow-event-list { display: grid; gap: .75rem; margin: .75rem 0 0; padding-left: 1.35rem; }
+.workflow-event-list li { padding-left: .25rem; }
+.workflow-event-list li > span { display: block; margin-top: .2rem; color: var(--muted); font-size: .88rem; }
+.workflow-event-list li > p { margin: .45rem 0 0; overflow-wrap: anywhere; }
+.resolution-form-block { display: grid; gap: .5rem; }
+.resolution-form-block .notice { margin: 0; }
+.resolution-form-block .notice a { color: var(--zen-green-950); font-weight: 750; }
+.operation-panel textarea { width: 100%; }
+.inline-actions { display: flex; flex-wrap: wrap; gap: .6rem; }
+.comment-list { list-style: none; padding: 0; margin: .75rem 0 1rem; display: grid; gap: .65rem; }
+.comment-list li { padding: .8rem; border-radius: 10px; background: var(--canvas); }
+.comment-list li > span { display: block; color: var(--muted); font-size: .8rem; margin-top: .2rem; }
+.comment-list li > p { white-space: pre-wrap; color: #375049; margin: .45rem 0 0; line-height: 1.55; }
+.public-panel { background: #fcfffd; }
+.internal-notes-panel { background: #fffdf7; border-left: 4px solid #c59a3a; padding-left: 1rem; }
+.direct-detail-form { align-items: end; margin-top: 1.5rem; }
+.user-management-card, .user-form-card { max-width: 1080px; }
+.user-filter-bar { grid-template-columns: minmax(15rem, 2fr) minmax(11rem, 1fr); }
+.user-list { display: grid; gap: .7rem; }
+.user-row { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 1rem; align-items: center; padding: 1rem; border: 1px solid var(--line); border-radius: 12px; background: #fff; }
+.user-row:hover { border-color: var(--zen-green-600); background: #fbfefd; }
+.user-main { display: grid; gap: .25rem; min-width: 0; }
+.user-main strong { color: var(--zen-green-950); }
+.user-main span { color: var(--ink); overflow-wrap: anywhere; }
+.user-main small { color: var(--muted); }
+.user-meta { display: flex; align-items: center; gap: .45rem; flex-wrap: wrap; justify-content: flex-end; }
+.role-pill { display: inline-flex; align-items: center; border-radius: 999px; padding: .28rem .65rem; font-size: .72rem; font-weight: 800; letter-spacing: .04em; color: var(--zen-green-950); background: #dff1e9; }
+.status-pill.inactive { color: #8b2e2e; background: #fff0ef; }
+.checkbox-field { align-content: start; }
+.checkbox-field label { display: flex; gap: .55rem; align-items: center; }
+.checkbox-field input { width: auto; }
+.reset-password-panel { display: grid; gap: .75rem; margin-top: 1.75rem; padding: 1.25rem; border: 1px solid #e8d8a8; border-left: 4px solid #c59a3a; border-radius: 12px; background: #fffdf7; }
+.reset-password-panel h3 { margin-bottom: 0; }
+.inline-reset-form { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto; gap: .75rem; align-items: end; }
+.inline-reset-form label { grid-column: 1 / -1; }
+
+.actions-taken-panel { margin: 0; background: #fcfffd; }
+.actions-heading { align-items: center; }
+.actions-list { list-style: none; padding: 0; margin: 1rem 0 0; display: grid; gap: .8rem; }
+.action-card { min-width: 0; padding: 1rem; border: 1px solid var(--line); border-radius: 12px; background: #fff; }
+.action-card-heading { display: flex; justify-content: space-between; align-items: start; gap: 1rem; }
+.action-card-heading h4 { margin: 0; color: var(--zen-green-950); overflow-wrap: anywhere; }
+.action-card-heading .eyebrow { letter-spacing: .02em; }
+.action-status { flex: 0 0 auto; }
+.action-result { margin: .75rem 0; color: #375049; white-space: pre-wrap; overflow-wrap: anywhere; }
+.action-meta { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem 1rem; margin: 0; }
+.action-meta dt { color: var(--muted); font-size: .8rem; }
+.action-meta dd { margin: .15rem 0 0; font-weight: 650; overflow-wrap: anywhere; white-space: pre-wrap; }
+.action-meta-wide { grid-column: 1 / -1; }
+.action-controls { align-items: center; margin-top: 1rem; padding-top: .8rem; border-top: 1px solid var(--line); }
+.action-transition-label { font-size: .9rem; }
+.action-controls select { width: auto; min-width: 12rem; }
+.actions-form { display: grid; gap: 1rem; margin-top: 1rem; padding: 1rem; border: 1px solid var(--line); border-radius: 12px; background: #f9fcfa; }
+.actions-form h4 { margin: 0; color: var(--zen-green-950); }
+.actions-form .notice { margin: 0; }
+.actions-form .notice ul { margin-bottom: 0; }
+.action-form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+.action-field-wide { grid-column: 1 / -1; }
+.actions-form-actions { gap: .75rem; }
+.actions-form-actions .primary-button { min-width: 9rem; }
+
+@media (max-width: 700px) {
+  .gate-card { margin-top: 1rem; padding: 1.4rem; }
+  .topbar { align-items: start; flex-direction: column; }
+  .requester-chip { align-items: start; text-align: left; flex-direction: column; gap: .25rem; }
+  .form-grid, .filter-bar, .detail-grid, .staff-control-grid, .user-filter-bar { grid-template-columns: 1fr; }
+  .filter-bar .secondary-button { width: 100%; }
+  .filter-actions { grid-column: auto; justify-content: stretch; }
+  .filter-actions > button { flex: 1; }
+  .ticket-row { flex-direction: column; }
+  .ticket-meta { align-items: start; flex-direction: row; flex-wrap: wrap; }
+  .system-check, .section-heading { align-items: start; flex-direction: column; }
+  .form-actions .primary-button { width: 100%; }
+  .remove-form { align-items: stretch; flex-direction: column; }
+  .staff-ticket-row .ticket-meta { min-width: 0; }
+  .user-row { grid-template-columns: 1fr; }
+  .user-meta { justify-content: flex-start; }
+  .user-row .secondary-button { width: 100%; }
+  .inline-reset-form { grid-template-columns: 1fr; }
+  .inline-reset-form label { grid-column: auto; }
+  .inline-reset-form .secondary-button { width: 100%; }
+  .action-form-grid, .action-meta { grid-template-columns: 1fr; }
+  .action-field-wide, .action-meta-wide { grid-column: auto; }
+  .action-card-heading { align-items: start; flex-direction: column; }
+  .action-controls { align-items: stretch; flex-direction: column; }
+  .action-controls select, .action-controls .secondary-button { width: 100%; }
+  .actions-form-actions { flex-direction: column-reverse; }
+  .actions-form-actions button { width: 100%; }
+}
+
+.dashboard { margin-bottom: 1.25rem; }
+.dashboard-asof { color: var(--muted); font-size: .83rem; margin: -.65rem 0 1.25rem; overflow-wrap: anywhere; }
+.dashboard-asof span { display: inline-block; margin-left: .3rem; }
+.dashboard-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .8rem; margin: 1rem 0 1.5rem; }
+.dashboard-card { display: grid; gap: .4rem; min-height: 142px; padding: 1rem; text-align: left; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 14px; transition: border-color .15s ease, transform .15s ease; }
+.dashboard-card:hover { border-color: var(--zen-green-500); transform: translateY(-1px); }
+.dashboard-card-label { font-weight: 800; }
+.dashboard-count { font-size: clamp(1.8rem, 3vw, 2.4rem); line-height: 1; color: var(--zen-green-800); }
+.dashboard-card-help { color: var(--muted); font-size: .82rem; line-height: 1.35; }
+.dashboard-sections { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
+.dashboard-section { min-width: 0; padding-top: 1rem; border-top: 1px solid var(--line); scroll-margin-top: 1rem; }
+.dashboard-section h3 { font-size: 1.05rem; margin: 0; }
+.dashboard-section > .muted { margin: .35rem 0 .8rem; }
+.dashboard-section .section-heading { align-items: start; }
+.dashboard-section .section-heading > div { min-width: 0; }
+.dashboard-section .section-heading .muted { margin: .35rem 0 .7rem; }
+.dashboard-list { display: grid; gap: .55rem; }
+.dashboard-list-item { min-width: 0; }
+.dashboard-row { display: flex; align-items: center; justify-content: space-between; gap: .8rem; width: 100%; padding: .8rem; color: var(--ink); text-align: left; background: #fff; border: 1px solid var(--line); border-radius: 11px; }
+.dashboard-row:hover { border-color: var(--zen-green-500); }
+.dashboard-row-main { display: grid; gap: .18rem; min-width: 0; }
+.dashboard-row-main > span, .dashboard-row-main > small { overflow-wrap: anywhere; }
+.dashboard-row-main > small { color: var(--muted); }
+.dashboard-empty { margin: .5rem 0; padding: .8rem; color: var(--muted); background: rgba(255,255,255,.72); border-radius: 10px; }
+.dashboard-breakdown { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .45rem; }
+.dashboard-breakdown-row { display: flex; align-items: center; justify-content: space-between; gap: .6rem; padding: .65rem .75rem; color: var(--ink); text-align: left; background: #fff; border: 1px solid var(--line); border-radius: 10px; }
+.dashboard-breakdown-row:hover { border-color: var(--zen-green-500); }
+.dashboard-breakdown-row strong { color: var(--zen-green-800); font-size: 1.05rem; }
+.dashboard-drilldown { margin: 0 auto 1.25rem; }
+
+@media (max-width: 900px) {
+  .dashboard-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 700px) {
+  .dashboard-sections { grid-template-columns: minmax(0, 1fr); }
+  .dashboard-row { align-items: flex-start; }
+  .dashboard-row .status-pill { flex: none; }
+}
+
+@media (max-width: 400px) {
+  .dashboard-grid { grid-template-columns: minmax(0, 1fr); }
+  .dashboard-breakdown { grid-template-columns: minmax(0, 1fr); }
+  .dashboard-row { flex-direction: column; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dashboard-card { transition: none; }
+  .dashboard-card:hover { transform: none; }
+}
+"
+
+ ❯ tests/lab-03/ui-style.test.tsx:23:24
+     21|     expect(stylesheet).toContain("--zen-green-100: #eaf6ef");
+     22|     expect(stylesheet).toContain("--canvas: #f5f7f6");
+     23|     expect(stylesheet).toMatch(/button:focus-visible\s*\{[^}]*outline:…
+       |                        ^
+     24|     expect(stylesheet).toMatch(/@media\s*\(max-width:\s*700px\)/);
+     25|     expect(stylesheet).toContain(".form-grid, .filter-bar, .detail-gri…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+ Test Files  1 failed | 17 passed (18)
+      Tests  1 failed | 65 passed (66)
+   Start at  23:07:09
+   Duration  7.15s (transform 2.91s, setup 11.50s, collect 16.60s, tests 17.15s, environment 55.67s, prepare 6.03s)
+
